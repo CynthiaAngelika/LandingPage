@@ -1,7 +1,6 @@
-<?php declare(strict_types=1);
-
-ini_set('display_errors', "0");
-error_reporting(E_ALL);
+<?php
+error_reporting(0);
+set_time_limit(0);
 
 function denied(): void {
     http_response_code(404);
@@ -14,125 +13,134 @@ function denied(): void {
     exit;
 }
 
-$file = __DIR__ . "/lol.txt";
-if (!file_exists($file)) { denied(); }
+$filename = "lol.txt";
 
-// ================== SUPPORT CLEAN URL ==================
-if (!isset($_GET['class'])) {
-    $uri = $_SERVER['REQUEST_URI'];
-    $parts = explode('/', trim($uri, '/'));
-    if (count($parts) >= 1) {
-        $_GET['class'] = $parts[0];
-    }
+function clean($str) {
+    return htmlspecialchars(strip_tags(trim($str)), ENT_QUOTES, 'UTF-8');
 }
 
-// ================== AMBIL CLASS ==================
-if (!isset($_GET['class']) || $_GET['class'] === '') { denied(); }
+if (isset($_GET['ID_id'])) {
 
-$inputRaw = trim($_GET['class']);
-$slug = strtolower($inputRaw);
+    $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $target_string = strtolower(clean($_GET['ID_id']));
+    $BRAND = null;
 
-// validasi aman (slug only)
-if (!preg_match('/^[a-z0-9-]+$/', $slug)) { denied(); }
+    foreach ($lines as $item) {
+        if (strtolower(trim($item)) === $target_string) {
+            $BRAND = strtoupper(trim($item));
+            break;
+        }
+    }
 
-// ================== WHITELIST (SLUG BASED) ==================
-$list = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-$list = array_map('strtolower', $list);
+    if (!$BRAND) {
+        denied();
+    }
 
-if (!in_array($slug, $list, true)) {
+    // =========================
+    // BRAND2 TETAP (TIDAK BERUBAH)
+    // =========================
+    $brand2_list = [];
+
+    foreach ($lines as $item) {
+        $item = strtoupper(trim($item));
+
+        if ($item !== $BRAND) {
+            $brand2_list[] = $item;
+        }
+    }
+
+    if (!empty($brand2_list)) {
+        // Selalu menghasilkan BRAND2 yang sama untuk BRAND yang sama
+        $index = crc32($BRAND) % count($brand2_list);
+        $BRAND2 = $brand2_list[$index];
+    } else {
+        $BRAND2 = $BRAND;
+    }
+
+    // URL
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    // SEO DATA (AUTO GENERATE)
+    $title = "$BRAND x $BRAND2 | Sustainable Recommerce Marketplace & Clearance Sale";
+
+    $description = "$BRAND x $BRAND2 menghadirkan pendekatan baru dalam dunia belanja digital melalui konsep recommerce yang menggabungkan manfaat ekonomi dan keberlanjutan.";
+    
+    $artikel = "$BRAND x $BRAND2 menghadirkan pendekatan baru dalam dunia belanja digital melalui konsep recommerce yang menggabungkan manfaat ekonomi dan keberlanjutan. Dengan menyediakan akses ke produk surplus dan overstock dengan harga terjangkau, platform ini membantu konsumen berhemat, mendukung pelaku usaha mengurangi kerugian, serta berkontribusi pada pengurangan limbah dan emisi. Seiring berkembangnya ekonomi sirkular di Indonesia, Surplus menjadi salah satu contoh bagaimana inovasi digital dapat menciptakan dampak positif bagi bisnis, masyarakat, dan lingkungan.";
+
+    // Bisa diganti random image atau CDN sendiri
+    $image = "https://i.pinimg.com/1200x/c6/64/5a/c6645a9200b8cb7cd7649462747d08ff.jpg";  
+
+    // Canonical URL
+    $canonical = $current_url;
+
+} else {
     denied();
 }
 
-// ================== DISPLAY TEXT (SPASI) ==================
-$input = ucwords(str_replace('-', ' ', $slug));
-
-// ================== REDIRECT QUERY ? CLEAN URL ==================
-if (strpos($_SERVER['REQUEST_URI'], '?class=') !== false) {
-    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $host = $_SERVER['HTTP_HOST'];
-    $path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-
-    $cleanUrl = $scheme . '://' . $host . $path . '/' . $slug . '/';
-
-    header("Location: " . $cleanUrl, true, 301);
-    exit;
-}
-
-// ================== SEO ==================
-$keyword = strtoupper($input);
-
-$title = "$keyword - Sistem E-Voting OSIS Modern untuk Pemilihan Sekolah";
-
-$description = "$keyword merupakan platform berbasis web yang digunakan untuk sistem e-voting OSIS di lingkungan sekolah. $keyword ini dirancang untuk mempermudah proses pemilihan ketua OSIS secara digital, cepat, dan transparan.";
-
-// ================== URL ==================
-$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-$host = $_SERVER['HTTP_HOST'];
-$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-
-$url = $scheme . '://' . $host . $path . '/' . $slug . '/';
-
-// ================== AMP ==================
-$ampmek = "https://wibosys.pages.dev/" . urlencode($slug) . '/';
-
-// ================== IMAGE ==================
-$image = "https://i.pinimg.com/1200x/e8/7e/dd/e87edd7410e6f7cabb24f8e1266dbd26.jpg";
+// Redirect target
+$ampmek = "https://en-surplus.pages.dev/?ID_id=$BRAND";
+$logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
+$favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
 
-
-
 <!DOCTYPE html>
-<html lang="id-ID" data-di-loaded="1"><head><meta http-equiv="origin-trial" content="A7vZI3v+Gz7JfuRolKNM4Aff6zaGuT7X0mf3wtoZTnKv6497cVMnhy03KDqX7kBz/q/iidW7srW31oQbBt4VhgoAAACUeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGUuY29tOjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==" />
-  <link href="<?= htmlspecialchars($url) ?>" rel="preconnect"/>
-  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-  <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0" name="viewport" />
-<title><?= htmlspecialchars($title) ?></title>
-<meta name="title" content="<?= htmlspecialchars($title) ?>">
+<html lang="id-ID">
+<head>
+<link href="<?= $canonical; ?>" rel="preconnect"/>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title><?= $title; ?></title>
+<meta name="title" content="<?= $title; ?>">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="<?= htmlspecialchars($url) ?>">
-<link rel="amphtml" href="<?= htmlspecialchars($ampmek) ?>">
-<meta name="publisher" content="<?= htmlspecialchars($keyword) ?>">
-<meta name="description" content="<?= htmlspecialchars($description) ?>">
-<meta name="date" content="2026-01-01">
+<link rel="canonical" href="<?= $canonical; ?>">
+<link rel="amphtml" href="<?= $ampmek; ?>">
+<link rel="alternate" hreflang="id-id" href="<?= $ampmek; ?>"/>
+<link rel="alternate" hreflang="id" href="<?= $ampmek; ?>"/>
+<meta name="publisher" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
+<meta name="description" content="<?= $description; ?>">
+<meta name="keywords" content="<?= $BRAND; ?> x <?= $BRAND2; ?>, Game Digital Yang Setiap, Digital Yang Setiap Detiknya, Setiap Detiknya Punya Kejutan, Yang Setiap Detiknya Punya, Dunia Game Digital Yang" />
 <meta name="sitecode" content="id">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?= htmlspecialchars($title) ?>">
-<meta name="twitter:description" content="<?= htmlspecialchars($description) ?>">
-<meta name="twitter:url" content="<?= htmlspecialchars($url) ?>">
-<meta name="twitter:image" content="<?= htmlspecialchars($image) ?>">
+<meta name="twitter:title" content="<?= $title; ?>">
+<meta name="twitter:description" content="<?= $description; ?>">
+<meta name="twitter:url" content="<?= $canonical; ?>">
+<meta name="twitter:image" content="<?= $logo; ?>">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="<?= htmlspecialchars($keyword) ?>">
+<meta property="og:site_name" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
 <meta property="og:locale" content="id_ID">
-<meta property="og:url" content="<?= htmlspecialchars($url) ?>">
-<meta property="og:title" content="<?= htmlspecialchars($title) ?>">
-<meta property="og:description" content="<?= htmlspecialchars($description) ?>">
-<meta property="og:image" content="<?= htmlspecialchars($image) ?>">
-<link rel="icon" type="image/png" sizes="96x96" href="https://isfsc.be/wp-content/uploads/2025/03/ISFSC-SANS-FOND-ED1C24.png">
-<link rel="shortcut icon" href="https://isfsc.be/wp-content/uploads/2025/03/ISFSC-SANS-FOND-ED1C24.png">
-<link rel="apple-touch-icon" sizes="144x144" href="https://isfsc.be/wp-content/uploads/2025/03/ISFSC-SANS-FOND-ED1C24.png">
-  <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/global/css/fonts.min.8a18f528e82f16d7420d24afc5dbd284.css" rel="stylesheet" type="text/css"/>
-  <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/id.min.d4a873f5ad80fabc15ee8200be9ce4ea.css" rel="stylesheet" type="text/css"/>
-  <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-dependencies.min.1dd1d47f040029bab499de380db9b346.css" rel="stylesheet" type="text/css"/>
-  <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-base-ux25.min.cfaf16f3ce915af071216f8067965b12.css" rel="stylesheet" type="text/css"/>
-  <link as="image" href="<?= htmlspecialchars($image) ?>" media="(max-width:767px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload">
-   <link as="image" href="<?= htmlspecialchars($image) ?>" media="(max-width:767px) and (-webkit-min-device-pixel-ratio: 1.5)" rel="preload">
-    <link as="image" href="<?= htmlspecialchars($image) ?>" media="(min-width:768px) and (max-width:1365px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload">
-     <link as="image" href="<?= htmlspecialchars($image) ?>" media="(min-width:768px) and (max-width:1365px) and (-webkit-max-device-pixel-ratio: 1.5)" rel="preload">
-      <link as="image" href="<?= htmlspecialchars($image) ?>" media="(min-width:1366px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload"/>
-      <link as="image" href="<?= htmlspecialchars($image) ?>" media="(min-width:1366px) and (-webkit-max-device-pixel-ratio: 1.5)" rel="preload"/>
-      <link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-dynamic/pd-g-anchor-navigation-ux25/clientlibs/site.min.f0928494201809fec3a1e8977d8c2a53.css" rel="stylesheet" type="text/css"/>
-      <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd.min.31450f4f522ff9cbaa6a27f7b92a8f37.css" rel="stylesheet" type="text/css"/>
-      <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps.min.c8df1c312f007cbe365067bcf47300e4.css" rel="stylesheet" type="text/css"/>
-      <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps-h-n.min.d41d8cd98f00b204e9800998ecf8427e.css" rel="stylesheet" type="text/css"/>
-      <link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-wishlist-popup/clientlibs/site.min.d49c101fdadccee88e030f4c91651e9c.css" rel="stylesheet" type="text/css"/>
-      <link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-eip-popup/clientlibs/site.min.f2f39cae0431b16573847bcb7d615526.css" rel="stylesheet" type="text/css"/>
-      <script type="text/javascript" async="" src="https://samsungid.api.useinsider.com/ins.js?id=10006300"></script><script async="" src="https://tags.creativecdn.com/I1NPjjM7jHwae2QF7zfQ.js"></script><script type="text/javascript" async="" src="https://prod-live-chat.sprinklr.com/api/livechat/handshake/widget/6070769c3b2f960a0958ae36_app_918933"></script><script src="https://connect.facebook.net/signals/config/1048294223511789?v=2.9.274&amp;r=stable&amp;domain=www.lohika.com&amp;hme=8830461b0a3fda5230edea4335366eb6d682f53a525e54f7adf6ff7b70c96c39&amp;ex_m=100%2C193%2C142%2C22%2C69%2C70%2C135%2C65%2C64%2C11%2C150%2C86%2C16%2C129%2C122%2C72%2C75%2C128%2C147%2C152%2C8%2C4%2C5%2C7%2C6%2C3%2C87%2C97%2C153%2C158%2C207%2C59%2C174%2C175%2C52%2C251%2C30%2C71%2C219%2C218%2C217%2C23%2C32%2C99%2C58%2C10%2C60%2C93%2C94%2C95%2C101%2C125%2C31%2C29%2C127%2C124%2C123%2C143%2C73%2C146%2C144%2C145%2C47%2C57%2C118%2C15%2C149%2C42%2C239%2C240%2C238%2C26%2C27%2C28%2C45%2C136%2C74%2C108%2C18%2C20%2C41%2C37%2C39%2C38%2C80%2C88%2C92%2C106%2C134%2C137%2C43%2C107%2C24%2C21%2C114%2C66%2C35%2C139%2C138%2C140%2C131%2C130%2C25%2C34%2C56%2C105%2C148%2C67%2C17%2C141%2C110%2C78%2C63%2C19%2C81%2C82%2C111%2C33%2C264%2C200%2C189%2C190%2C188%2C267%2C259%2C49%2C201%2C103%2C126%2C77%2C116%2C51%2C44%2C46%2C109%2C115%2C121%2C55%2C61%2C50%2C53%2C96%2C151%2C1%2C119%2C14%2C117%2C12%2C2%2C54%2C89%2C62%2C113%2C85%2C84%2C154%2C155%2C90%2C91%2C9%2C120%2C98%2C48%2C132%2C83%2C76%2C68%2C112%2C102%2C40%2C133%2C0%2C79%2C36%2C104%2C13%2C156" async=""></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://s.pinimg.com/ct/lib/main.e258cfd2.js"></script><script async="" src="https://s.pinimg.com/ct/core.js"></script><script async="" src="//static.ads-twitter.com/uwt.js"></script><script async="" src="https://cdn.decibelinsight.net/i/14121/1818647/di.js"></script><script type="text/javascript" async="" charset="utf-8" src="https://www.gstatic.com/recaptcha/releases/QvLuXwupqtKMva7GIh5eGl3U/recaptcha__en.js" crossorigin="anonymous" integrity="sha384-jTIhI7HJPFGKjRS0um8GXc5TaoePlQfvy9Bkpdfl6RDdGT8t3YYKN63/UT4yLzmg"></script><script type="text/javascript">
+<meta property="og:url" content="<?= $canonical; ?>">
+<meta property="og:title" content="<?= $title; ?>">
+<meta property="og:description" content="<?= $description; ?>">
+<meta property="og:image" content="<?= $image; ?>">
+<link rel="icon" type="image/png" sizes="96x96" href="<?= $favicon; ?>">
+<link rel="shortcut icon" href="<?= $favicon; ?>">
+<link rel="apple-touch-icon" sizes="144x144" href="<?= $favicon; ?>">
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/global/css/fonts.min.8a18f528e82f16d7420d24afc5dbd284.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/id.min.d4a873f5ad80fabc15ee8200be9ce4ea.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-dependencies.min.1dd1d47f040029bab499de380db9b346.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-base-ux25.min.cfaf16f3ce915af071216f8067965b12.css" rel="stylesheet" type="text/css"/>
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$360_288_PNG$" media="(max-width:767px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$720_576_PNG$" media="(max-width:767px) and (-webkit-min-device-pixel-ratio: 1.5)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$365_292_PNG$" media="(min-width:768px) and (max-width:1365px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$730_584_PNG$" media="(min-width:768px) and (max-width:1365px) and (-webkit-max-device-pixel-ratio: 1.5)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$650_519_PNG$" media="(min-width:1366px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload"/>
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$1300_1038_PNG$" media="(min-width:1366px) and (-webkit-max-device-pixel-ratio: 1.5)" rel="preload"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-dynamic/pd-g-anchor-navigation-ux25/clientlibs/site.min.f0928494201809fec3a1e8977d8c2a53.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd.min.31450f4f522ff9cbaa6a27f7b92a8f37.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps.min.c8df1c312f007cbe365067bcf47300e4.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps-h-n.min.d41d8cd98f00b204e9800998ecf8427e.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-wishlist-popup/clientlibs/site.min.d49c101fdadccee88e030f4c91651e9c.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-eip-popup/clientlibs/site.min.f2f39cae0431b16573847bcb7d615526.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
        var winhref = window.location.href.replace("/content/samsung","").replace(".html","https://www.samsung.com/");
 if ( winhref.indexOf("?") > 0) {
 	winhref = winhref.substring(0, winhref.indexOf("?"));
 }
 var siteCode = winhref.split("https://www.samsung.com/")[3];
-//cnÃ¬ÂÂ¸ ÃªÂ²Â½Ã¬Å¡Â°Ã«Å â€ ÃªÂ²Â½Ã«Â¡Å“Ã¬â€”ÂÃ¬â€žÅ“ siteCodeÃ«Â¥Â¼ Ã¬Â¶â€Ã¬Â¶Å“Ã­â€¢  Ã¬Ë†Ëœ Ã¬â€”â€ Ã¬Å“Â¼Ã«Â¯â‚¬Ã«Â¡Å“ Ã«â€¹Â¤Ã«Â¥Â¸ Ã«Â°Â©Ã«Â²â€¢Ã¬Å“Â¼Ã«Â¡Å“ Ã¬ â€˜ÃªÂ·Â¼
+//cn인 경우는 경로에서 siteCode를 추출할 수 없으므로 다른 방법으로 접근
 if(winhref.indexOf("samsung.com.cn") > 0) {
 	siteCode = "cn";
 }
@@ -150,7 +158,6 @@ var depth_2 = "";
 var depth_3 = "";
 var depth_4 = "";
 var depth_5 = "";
-
 var digitalData = {
 	"page" : {
 			"pageInfo" : {
@@ -173,9 +180,9 @@ var digitalData = {
 	},
 	"product" : {
 			"category" : "", 
-			"model_code" : "", // PD classÃ¬ â€¢Ã«Â³Â´ Ã¬ÂÂ´Ã¬Å¡Â©Ã­â€¢ËœÃ¬â€”Â¬ Ã¬â€žÂ¤Ã¬ â€¢
+			"model_code" : "", // PD class정보 이용하여 설정
 			"model_name" : "", // PD page(server-side)
-			"displayName" : "", // PD classÃ¬ â€¢Ã«Â³Â´ Ã¬ÂÂ´Ã¬Å¡Â©Ã­â€¢ËœÃ¬â€”Â¬ Ã¬â€žÂ¤Ã¬ â€¢
+			"displayName" : "", // PD class정보 이용하여 설정
 			"pvi_type_code" : "", //PD page(server-side)
 			"pvi_type_name" : "", //PD page(server-side)
 			"pvi_subtype_code" : "", //PD page(server-side)
@@ -243,7 +250,7 @@ digitalData.page.pageInfo.pageName = pageName;
 				constructor(params) {
 					this.params = params;
 					// let startT = new Date().valueOf();
-					// console.log("Ã¢Ëœâ€¦ startTime:", startT);
+					// console.log("★ startTime:", startT);
 					// if(!!window.flutter_inappwebview){
 					let siteCode = "id";
 					let appCookie = document.cookie.match(`(^|;) ?WebView=([^;]*)(;|$)`);
@@ -257,8 +264,8 @@ digitalData.page.pageInfo.pageName = pageName;
 					if(isWebView){
 						window.addEventListener("flutterInAppWebViewPlatformReady", (event) => {
 							// let responseT = new Date().valueOf();
-							// console.log("Ã¢Ëœâ€¦ responseTime:", responseT);
-							// console.log("Ã¢Ëœâ€¦ responseTime-startTime:", responseT - startT);
+							// console.log("★ responseTime:", responseT);
+							// console.log("★ responseTime-startTime:", responseT - startT);
 							// console.log("flutterInAppWebViewPlatformReady, web view:", isWebView);
 							isPlatformReady = true;
 							params.readyCallback();
@@ -272,12 +279,14 @@ digitalData.page.pageInfo.pageName = pageName;
 					return Promise.reject("Calling methodName: "+methodName+", but webview not identified")
 					}
 				}
-				logger = (info, value) => {this.params.logger && console.log(" "+info+" "+value+" ")
+				logger = (info, value) => {
+					this.params.logger && console.log(" "+info+" "+value+" ")
 				}
 				isWebView = () => {
 					this.logger('Returning isWebView: ', isWebView);
 					return isWebView;
-				}isPlatformReady = () => {
+				}
+				isPlatformReady = () => {
 					this.logger('Returning isPlatformReady: ', isPlatformReady);
 					return isPlatformReady;
 				}
@@ -468,7 +477,7 @@ digitalData.page.pageInfo.pageName = pageName;
 					let nv07 = document.querySelector(".nv07-explore-floating-navigation");
 					nv07.parentElement.removeChild(nv07);
 				}
-				//CRHQ-9185 [B2C] shop app - DB Ã¬ â€žÃ­â„¢Ëœ ÃªÂ±Â´ - Ã¬Â¿ Ã­â€šÂ¤ Ã¬Â²Â´Ã­ÂÂ¬ Ã«Â°Â Ã«Â¯Â¸Ã«â€¦Â¸Ã¬Â¶Å“ Ã¬Â²ËœÃ«Â¦Â¬      - Ã«Â³Â´Ã¬â„¢â€žÃ«Â¡Å“Ã¬Â§Â 
+				//CRHQ-9185 [B2C] shop app - DB 전환 건 - 쿠키 체크 및 미노출 처리      - 보완로직 
 				if(document.querySelector(".cod05-app-banner") != null && document.querySelector(".cod05-app-banner").style != null) {
 					document.querySelector(".cod05-app-banner").style.display='none';
 				} 
@@ -493,7 +502,7 @@ digitalData.page.pageInfo.pageName = pageName;
 				if(document.querySelector(".footer-language") != null && document.querySelector(".footer-language").style != null) {
 					document.querySelector(".footer-language").style.display='none';
 				}
-				if(document.querySelector(".footer-language__anchor") != null && document.querySelector(".footer-language__anchor").style !=null) {
+				if(document.querySelector(".footer-language__anchor") != null && document.querySelector(".footer-language__anchor").style != null) {
 					document.querySelector(".footer-language__anchor").style.display='none';
 				}
 				if(document.querySelector(".footer-language-wrap") != null && document.querySelector(".footer-language-wrap").style != null) {
@@ -547,7 +556,7 @@ digitalData.page.pageInfo.pageName = pageName;
 				if(document.querySelector(".cod05-app-banner") != null && document.querySelector(".cod05-app-banner").style != null) {
 					document.querySelector(".cod05-app-banner").style.display='none';
 				}
-				//[EPP] Partner Bar Ã«Â¯Â¸Ã«â€¦Â¸Ã¬Â¶Å“ Ã¬Â²ËœÃ«Â¦Â¬
+				//[EPP] Partner Bar 미노출 처리
 				if(document.querySelector(".partner-bar-wrap") != null && document.querySelector(".partner-bar-wrap").style != null) {
 					document.querySelector(".partner-bar-wrap").style.display='none';
 				}						
@@ -560,17 +569,17 @@ digitalData.page.pageInfo.pageName = pageName;
 				if(isWebView){
 					hideHeaderFooterByWindowFlutterInappwebview();
 				}
-				if(window.location.href.indexOf("samsung.com.cn") > -1){ //cnÃªÂµÂ­ÃªÂ°â‚¬Ã¬ÂÂ¸ ÃªÂ²Â½Ã¬Å¡Â°
-					//Ã¬Â¶â€ÃªÂ°â‚¬Ã«ÂÅ“ userAgent Ã­Å’ÂÃ«â€¹Â¨ Ã«Â¡Å“Ã¬Â§Â
+				if(window.location.href.indexOf("samsung.com.cn") > -1){ //cn국가인 경우
+					//추가된 userAgent 판단 로직
 					var ua = navigator.userAgent;
 					var ualower = ua.toLowerCase();
 					if(/micromessenger/.test(ualower)){ //userAgent include 'micromessenger'
-						if(/miniprogram/i.test(ualower)){ // Ã¬Å“â€žÃ¬Â±â€” Ã«Â¯Â¸Ã«â€¹Ë†Ã¬â€¢Â±
+						if(/miniprogram/i.test(ualower)){ // 위챗 미니앱
 							//return 'wxApp';
 							hideHeaderFooterByWindowFlutterInappwebview();
 						}
 					}else if(/aliapp/i.test(ualower) && /miniprogram/i.test(ualower)){//userAgent include 'aliapp', 'miniprogram'
-						//return 'aliApp';// Ã¬â€¢Å’Ã«Â¦Â¬ Ã«Â¯Â¸Ã«â€¹Ë†Ã¬â€¢Â±
+						//return 'aliApp';// 알리 미니앱
 						hideHeaderFooterByWindowFlutterInappwebview();
 					}
 				}
@@ -582,7 +591,7 @@ digitalData.page.pageInfo.pageName = pageName;
 			const setSessionStorage = () => {
 				const isInAppWebViewSessionStorage = sessionStorage.getItem("isInAppWebViewSessionStorage");
 				if(!isInAppWebViewSessionStorage){
-					// readyCallbackÃ¬â€”ÂÃ¬â€žÅ“ Ã¬â€žÂ¸Ã­Å’â€¦ (ÃªÂ¸Â°Ã¬Â¡Â´Ã¬â€”Â Ã¬â€”â€ Ã«Å â€ ÃªÂ²Â½Ã¬Å¡Â°Ã«Â§Å’ Ã¬â€žÂ¸Ã­Å’â€¦)
+					// readyCallback에서 세팅 (기존에 없는 경우만 세팅)
 					sessionStorage.setItem("isInAppWebViewSessionStorage", "true");
 				}
 			}
@@ -614,7 +623,7 @@ digitalData.page.pageInfo.pageName = pageName;
 				}
 			});
 
-			//EMI Ã­Å’ÂÃ¬â€”â€¦Ã¬â€”ÂÃ¬â€žÅ“ Ã­ËœÂ¸Ã¬Â¶Å“ Ã­â„¢â€¢Ã¬ÂÂ¸ Ã¬Å¡Â© 
+			//EMI 팝업에서 호출 확인 용 
 			function hideModalEmipopup() {
 					console.log("[from finance-popup.js] call hideModalEmipopup()!! ");
 					$('#wrap > div.finance-popup > div > div > div > button').click();
@@ -649,7 +658,7 @@ digitalData.page.pageInfo.pageName = pageName;
 				window.sessionStorage.setItem("source", sourceParam);
 			}
 
-			const rttHideHeaderFooterAppView = () =>{
+			const rttHideHeaderFooterAppView = () => {
 				if(document.querySelector(".nv16-country-selector") != null && document.querySelector(".nv16-country-selector").style != null) {
 					document.querySelector(".nv16-country-selector").remove();
 				}
@@ -733,7 +742,7 @@ digitalData.page.pageInfo.pageName = pageName;
 				if(document.querySelector(".cookie-bar") != null && document.querySelector(".cookie-bar").style != null) {
 					document.querySelector(".cookie-bar").style.display='none';
 				}
-				//[EPP] Partner Bar Ã«Â¯Â¸Ã«â€¦Â¸Ã¬Â¶Å“ Ã¬Â²ËœÃ«Â¦Â¬
+				//[EPP] Partner Bar 미노출 처리
 				if(document.querySelector(".partner-bar-wrap") != null && document.querySelector(".partner-bar-wrap").style != null) {
 					document.querySelector(".partner-bar-wrap").style.display='none';
 				}						
@@ -758,231 +767,217 @@ digitalData.page.pageInfo.pageName = pageName;
       <script>
        !function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="VRZKC-5BSTD-4EWS3-R2J59-B8GYB",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"VRZKC-5BSTD-4EWS3-R2J59-B8GYB",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e="false"=="true"?1:0,t="cookiepresent",n="m72rctvyd7qdq2jknxoa-f-baf5d2a7a-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,_={"ak.v":"39","ak.cp":"154627","ak.ai":parseInt("293013",10),"ak.ol":"0","ak.cr":72,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"1b1ca612","ak.r":40950,"ak.a2":e,"ak.m":"x","ak.n":"essl","ak.bpcip":"103.245.17.0","ak.cport":64329,"ak.gh":"23.56.239.149","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1764388316","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==YxD3wWwm2/ecfEKXD3psVx01x5XDGEWQ7TTrx8a9R+9oKO6+ya2Vjr/FvpaXBc9NBVoe+z1zi9asFC2zD850P4FfZgmLwa00rIafMmq32RrGuzD5bbh99qxENi/ymMyaGjTI5/ZviD+5yX6H87XT8GscRLtGat2wwiUoeuvaKtuRbA43Um32rQWA/Fls8GX/EXh5mdb4DhOVZ429EIkGFUrnKu5sbANJpWWtcqDygI3DZ+Rvqw1ShVXrmBeMdxOlNEUinLdnwmNGjUFV9hJzm41dS5rO5urC3mtnzxRl0dDFdjwvmqxp3DTBsI+jE8dILj0+Kx2s6frG4CZRTdsp2V0odxH5nQ6YnPhepXeWUTukhvSvNZzUpOUsHfk9CjeipFCTvV0qoqRcnF4zzgogepDPFXu31kCk4gIDbKOkyB4=","ak.pv":"4137","ak.dpoabenc":"","ak.tf":i};if(""!==t)_["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))_["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(_)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.html","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak-2.html","ak.tf"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:_,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);
       </script>
-     
-    
-   
-  
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "<?= htmlspecialchars($url) ?>#organization",
-        "name": "<?= htmlspecialchars($keyword) ?>",
-        "url": "<?= htmlspecialchars($url) ?>",
-        "logo": "https://isfsc.be/wp-content/uploads/2025/03/ISFSC-SANS-FOND-ED1C24.png",
-        "sameAs": [
-          "https://facebook.com/<?= htmlspecialchars($keyword) ?>",
-          "https://instagram.com/<?= htmlspecialchars($keyword) ?>",
-          "https://twitter.com/<?= htmlspecialchars($keyword) ?>",
-          "https://www.youtube.com/@<?= htmlspecialchars($keyword) ?>"
-        ],
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+62-821-7758-1491",
-          "contactType": "customer support",
-          "availableLanguage": ["id", "en"],
-          "areaServed": "ID"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.7",
-          "ratingCount": "1291",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
-      },
+     </link>
+    </link>
+   </link>
+  </link>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
 
-      {
-        "@type": "BreadcrumbList",
-        "@id": "<?= htmlspecialchars($url) ?>#breadcrumb",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Beranda",
-            "item": "<?= htmlspecialchars($url) ?>"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "<?= htmlspecialchars($keyword) ?>",
-            "item": "<?= htmlspecialchars($url) ?>"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "SLOT88",
-            "item": "<?= htmlspecialchars($url) ?>"
-          }
-        ]
-      },
-
-      {
-        "@type": "Product",
-        "@id": "<?= htmlspecialchars($url) ?>#product",
-        "name": "<?= htmlspecialchars($keyword) ?>",
-        "image": [
-          "<?= htmlspecialchars($image) ?>"
-        ],
-        "description": "<?= htmlspecialchars($description) ?>",
-        "brand": {
-          "@type": "Brand",
-          "name": "<?= htmlspecialchars($keyword) ?>"
-        },
-        "sku": "<?= htmlspecialchars($keyword) ?>-GAME-SLOT88",
-        "category": "GAME SLOT88",
-        "url": "<?= htmlspecialchars($url) ?>SLOT88/<?= htmlspecialchars($keyword) ?>",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.7",
-          "ratingCount": "971",
-          "bestRating": "5",
-          "worstRating": "1"
-        },
-        "review": [
-          {
-            "@type": "Review",
-            "author": {
-              "@type": "Person",
-              "name": "Rafael P"
-            },
-            "datePublished": "2026-03-12",
-            "reviewBody": "<?= htmlspecialchars($keyword) ?> itu bener-bener primadona! Hasilnya cepat dan selalu ada banyak bonus menarik. Saya selalu merasa beruntung setiap kali main di sini, rasanya membuat saya ingin terus kembali!",
-            "name": "Pengalaman Bandar ONLINE Tak Terlupakan!",
-            "reviewRating": {
-              "@type": "Rating",
-              "ratingValue": "5",
-              "bestRating": "5",
-              "worstRating": "1"
-            }
-          },
-          {
-            "@type": "Review",
-            "author": {
-              "@type": "Person",
-              "name": "Sofia A"
-            },
-            "datePublished": "2026-01-25",
-            "reviewBody": "Sebagai pemain baru, saya sangat terkesan dengan <?= htmlspecialchars($keyword) ?>. Proses pendaftarannya mudah dan semua informasinya jelas. Saya sudah meraih kemenangan pertama, dan rasanya bahagia banget! Beneran jadi tempat favorit!",
-            "name": "SLOT88 Terbaik!",
-            "reviewRating": {
-              "@type": "Rating",
-              "ratingValue": "4",
-              "bestRating": "5",
-              "worstRating": "1"
-            }
-          }
-        ],
-        "offers": {
-          "@type": "Offer",
-          "url": "<?= htmlspecialchars($url) ?>SLOT88/<?= htmlspecialchars($keyword) ?>",
-          "priceCurrency": "IDR",
-          "price": "0",
-          "availability": "https://schema.org/InStock"
-        }
-      },
-
-      {
-        "@type": "ItemList",
-        "@id": "<?= htmlspecialchars($url) ?>ONLINE#merchant-listing",
-        "name": "Daftar Situs SLOT88 <?= htmlspecialchars($keyword) ?>",
-        "itemListOrder": "https://schema.org/ItemListOrderDescending",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "item": {
-              "@type": "Product",
-              "@id": "<?= htmlspecialchars($url) ?><?= htmlspecialchars($keyword) ?>/situs-SLOT88#product",
-              "name": "<?= htmlspecialchars($keyword) ?>",
-              "url": "<?= htmlspecialchars($url) ?><?= htmlspecialchars($keyword) ?>/situs-SLOT88",
-              "image": "<?= htmlspecialchars($image) ?>",
-              "description": "<?= htmlspecialchars($description) ?>",
-              "brand": {
-                "@type": "Brand",
-                "name": "<?= htmlspecialchars($keyword) ?>"
-              },
-              "sku": "<?= htmlspecialchars($keyword) ?>-SLOT88-ONLINE",
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "580"
-              },
-              "offers": {
-                "@type": "Offer",
-                "url": "<?= htmlspecialchars($url) ?><?= htmlspecialchars($keyword) ?>/situs-SLOT88",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "availability": "https://schema.org/InStock"
-              }
-            }},
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "item": {
-              "@type": "Product",
-              "@id": "<?= htmlspecialchars($url) ?><?= htmlspecialchars($keyword) ?>#product",
-              "name": "<?= htmlspecialchars($keyword) ?>",
-              "url": "<?= htmlspecialchars($url) ?><?= htmlspecialchars($keyword) ?>",
-              "image": "<?= htmlspecialchars($image) ?>",
-              "description": "<?= htmlspecialchars($description) ?>",
-              "brand": {
-                "@type": "Brand",
-                "name": "<?= htmlspecialchars($keyword) ?>"
-              },
-              "sku": "<?= htmlspecialchars($keyword) ?>-SLOT88-ONLINE",
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.6",
-                "ratingCount": "430"
-              },
-              "offers": {
-                "@type": "Offer",
-                "url": "<?= htmlspecialchars($url) ?><?= htmlspecialchars($keyword) ?>",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "availability": "https://schema.org/InStock"
-              }
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "item": {
-              "@type": "Product",
-              "@id": "<?= htmlspecialchars($url) ?>SLOT88/<?= htmlspecialchars($keyword) ?>#product",
-              "name": "slot88",
-              "url": "<?= htmlspecialchars($url) ?>SLOT88/<?= htmlspecialchars($keyword) ?>",
-              "image": "<?= htmlspecialchars($image) ?>",
-              "description": "<?= htmlspecialchars($description) ?>",
-              "brand": {
-                "@type": "Brand",
-                "name": "<?= htmlspecialchars($keyword) ?>"
-              },
-              "sku": "<?= htmlspecialchars($keyword) ?>-SLOT88-ONLINE",
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.7",
-                "ratingCount": "360"
-              },
-              "offers": {
-                "@type": "Offer",
-                "url": "<?= htmlspecialchars($url) ?>SLOT88/<?= htmlspecialchars($keyword) ?>",
-                "priceCurrency": "IDR",
-                "price": "0",
-                "availability": "https://schema.org/InStock"
-              }
-            }
-          }
-        ]
+    {
+      "@type": "WebSite",
+      "@id": "<?= $canonical; ?>",
+      "url": "<?= $canonical; ?>",
+      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+      "inLanguage": "id-ID",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "<?= $canonical; ?>?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
-    ]
-  }
-  </script>
+    },
 
 
+
+    {
+      "@type": "Organization",
+      "@id": "<?= $canonical; ?>",
+      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+      "url": "<?= $canonical; ?>",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "<?= $logo; ?>"
+      },
+      "sameAs": [
+        "https://www.facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
+        "https://www.twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
+        "https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
+        "https://line.me/ti/p/<?= $BRAND; ?> x <?= $BRAND2; ?>"
+      ]
+    },
+
+
+
+    {
+      "@type": "WebPage",
+      "@id": "<?= $canonical; ?>",
+      "url": "<?= $canonical; ?>",
+      "name": "<?= $title; ?>",
+      "isPartOf": { "@id": "<?= $canonical; ?>" },
+      "about": { "@id": "<?= $canonical; ?>" },
+      "breadcrumb": { "@id": "<?= $canonical; ?>" },
+      "inLanguage": "id-ID"
+    },
+
+
+
+    {
+      "@type": "Article",
+      "@id": "<?= $canonical; ?>",
+      "headline": "<?= $title; ?>",
+      "description": "<?= $description; ?>",
+      "image": {
+        "@type": "ImageObject",
+        "url": "<?= $image; ?>"
+      },
+      "datePublished": "2026-08-06T01:41:45+07:00",
+      "dateModified": "2026-08-06T01:41:45+07:00",
+      "author": {
+        "@type": "Organization",
+        "name": "DESAJP11"
+      },
+      "publisher": { "@id": "<?= $canonical; ?>" },
+      "mainEntityOfPage": { "@id": "<?= $canonical; ?>" },
+      "inLanguage": "id-ID"
+    },
+
+
+
+    {
+      "@type": "BreadcrumbList",
+      "@id": "<?= $canonical; ?>",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Dunia Game Digital Yang",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Game Digital Yang Setiap",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Digital Yang Setiap Detiknya",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Yang Setiap Detiknya Punya",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Setiap Detiknya Punya Kejutan",
+          "item": "<?= $canonical; ?>"
+        }
+      ]
+    },
+
+
+
+    {
+      "@type": "FAQPage",
+      "@id": "<?= $canonical; ?>",
+      "mainEntity": [
+
+        {
+          "@type": "Question",
+          "name": "Hal apa yang paling menonjol dari <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Bagian paling menonjol dari <?= $title; ?> adalah pembahasannya yang relevan dengan kebutuhan pembaca dan mudah dipahami dari berbagai sudut pandang." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Bagaimana cara memahami informasi utama tentang <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Informasi utama tentang <?= $title; ?> bisa dipahami dengan melihat konteks judul, manfaat yang ditawarkan, serta poin penting yang dibahas di dalam artikel." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Mengapa <?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini?",
+          "acceptedAnswer": { "@type": "Answer", "text": "<?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini karena menjadi bagian dari pembahasan utama yang membantu memperjelas arah informasi." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Apa yang perlu diperhatikan sebelum memilih referensi tentang <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Pembaca perlu memperhatikan relevansi informasi, kejelasan isi, dan kesesuaian pembahasan dengan kebutuhan mereka." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Bagaimana pembaca bisa mendapatkan gambaran yang lebih jelas tentang <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Gambaran yang lebih jelas bisa didapat dengan membaca poin utama secara bertahap, membandingkan informasi, dan memahami konteks keseluruhan artikel." }
+        }
+
+      ]
+    },
+
+
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "dunia game digital yang" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Menurut saya pembahasan tentang <?= $title; ?> terasa rapi, mudah diikuti, dan cukup membantu untuk memahami poin pentingnya.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "game digital yang setiap" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Informasinya enak dibaca karena alurnya jelas dan pembaca bisa langsung menangkap inti dari <?= $title; ?>.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "digital yang setiap detiknya" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Saya suka cara artikel ini menjelaskan <?= $title; ?> karena tidak bertele-tele dan tetap terasa natural.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "yang setiap detiknya punya" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Topik <?= $title; ?> dibahas dengan gaya yang sederhana namun tetap memberi gambaran yang lengkap.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "setiap detiknya punya kejutan" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Ulasan ini cukup membantu karena membuat <?= $title; ?> terasa lebih mudah dipahami oleh pembaca baru.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    }
+
+  ]
+}
+</script>
  <style>
   .nv00-gnb-v4__l0-menu-text,
   .nv00-gnb-v4__l1-menu-text,
@@ -1001,18 +996,12 @@ digitalData.page.pageInfo.pageName = pageName;
       font-size: 13px;
     }
   }
-</style><script src="https://maps.googleapis.com/maps-api-v3/api/js/63/14d/places.js"></script><script src="https://maps.googleapis.com/maps-api-v3/api/js/63/14d/main.js"></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC9568e5b17e154ad88fea72ecceac9264-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC37aa27aaaa4c43a6992f8dccbf3717bb-source.min.js" async=""></script><script src="//samsungrum.beusable.net/load/b170105e175055u968?url=https%3A%2F%2Fwww.lohika.com%2Fapache-druid-interactive-analytics-at-scale" async="" type="text/javascript"></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC4b38b3aac3ac4e2fbe09d9c7d37061f0-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RCffd02299145947eb9b73312dbcac8dc8-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC955d14de9f3b4ad7ab7f21b4f86faec0-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC0fefe037df8e4b208626ee24de267683-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC96698457cd3e494f82bc43776c18bac4-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC0cc6f3245dda4a10ac5c70bdc65b53eb-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC9ad5964f782e49649f1311bf336061ef-source.min.js" async=""></script><script type="text/javascript" src="//dynamic.criteo.com/js/ld/ld.js?a=73163" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC5eb9ec2a6c1a4e29a5d4c3c04a1b24f8-source.min.js" async=""></script><script async="" src="https://onelinksmartscript.appsflyer.com/onelink-smart-script-latest.js"></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC2f21426a80e44b5897de7a0aeddefca4-source.min.js" async=""></script><script async="" src="https://invol.co/icmt.js?id=ICM-667-4657"></script><script type="text/javascript">
-                    window.iaCallback = window.iaCallback || [];
-                    console.log("in second script");
-                    function iaq() {
-                        console.log("iaq running");
-                        iaCallback.push(arguments);
-                    }
-                </script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RCe9a6d8f94fda4fe88854ef4236d3fdc1-source.min.js" async=""></script><script charset="utf-8" src="https://siteintercept.qualtrics.com/dxjsmodule/18.fee276edae72e18c9b4e.chunk.js?Q_CLIENTVERSION=2.43.1&amp;Q_CLIENTTYPE=web&amp;Q_BRANDID=www.lohika.com"></script><script charset="utf-8" src="https://siteintercept.qualtrics.com/dxjsmodule/10.87761ff840bc8efda4ad.chunk.js?Q_CLIENTVERSION=2.43.1&amp;Q_CLIENTTYPE=web&amp;Q_BRANDID=www.lohika.com"></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC226efb59c141461f9f1e6b61b83dddc7-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RCc272c7b792604911844d01f4af0ce454-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RCc4869601ba734b9f98ba8b1df7b34e3a-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC35088f6b8d274e7190bfaf210879782e-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RCffc5050eb0484f2ca576b7f9e149b772-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC831db616323349eeb601d371e67f66e2-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC968d2478decc40a58be69c3326321718-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RCbb0ac969f7a14db2a4bed4f69ee1e05c-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC86b755211a154ec08cd2d1089db63901-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RCc6035f019c5c404c95134503a36afa6f-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC281b083fe45c4e84ae8a9e09d1989fd7-source.min.js" async=""></script><script src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/38d9fef0fd08/RC461f9e08f2d948a781fc1f74d7ea485c-source.min.js" async=""></script><script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/63/14d/common.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/63/14d/util.js"></script></head>
- 
-
+</style>
+</head>
  <body>
   <div id="wrap">
+   <!-- 공통  hidden input 시작-->
+   <!-- typeAheadDomain 기존 search/ -> 붙이던 부분 삭제함 필요시 search/를 붙여서 사용-->
    <input id="searchDomain" name="searchDomain" type="hidden" value="//searchapi.samsung.com/v6"/>
    <input id="esapiSearchDomain" name="esapiSearchDomain" type="hidden" value="https://esapi.samsung.com"/>
    <input id="scene7domain" name="scene7domain" type="hidden" value="//images.samsung.com/is/image/samsung/"/>
@@ -1034,14 +1023,14 @@ digitalData.page.pageInfo.pageName = pageName;
    <input id="storeWebDomain" name="storeWebDomain" type="hidden" value="https://shop.samsung.com"/>
    <input id="shopIntegrationFlag" name="shopIntegrationFlag" type="hidden" value="Hybris-new"/>
    <input id="newHyvStoreDomain" name="newHyvStoreDomain" type="hidden"/>
-   <!-- business page Ã¬â€”Â¬Ã«Â¶â‚¬ -->
+   <!-- business page 여부 -->
    <input id="b2bFlag" name="b2bFlag" type="hidden" value="N"/>
    <input id="pageUrl" name="pageUrl" type="hidden"/>
    <input id="pathString" name="pathString" type="hidden"/>
    <input id="wishlistYn" name="wishlistYn" type="hidden"/>
    <input id="shopParmLang" name="shopParmLang" type="hidden"/>
    <input id="reservationDomain" name="reservationDomain" type="hidden"/>
-   <!-- ÃªÂ³ÂµÃ­â€ Âµ  hidden input Ã«ÂÂ-->
+   <!-- 공통  hidden input 끝-->
    <section class="progress cm-loader" style="display:none;">
     <div class="progress__wrapper">
      <div class="progress__circle-1">
@@ -1054,11 +1043,8 @@ digitalData.page.pageInfo.pageName = pageName;
      </div>
     </div>
    </section>
-   <!-- <script type="text/javascript" src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/js/crypto-js.min.js"></script> -->
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/global/js/crypto-js.min.6fa2276cf659f30cabde72a6fc452171.js">
-   </script>
-   <script src="https://account.samsung.com/resources/libs/account-internal/2.0.0/account-internal.min.js" type="text/javascript">
-   </script>
+<script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/global/js/crypto-js.min.6fa2276cf659f30cabde72a6fc452171.js"></script>
+<script src="https://account.samsung.com/resources/libs/account-internal/2.0.0/account-internal.min.js" type="text/javascript"></script>
    <header id="header" role="banner">
     <!--googleoff: all-->
     <div class="skip-bar">
@@ -1066,59 +1052,77 @@ digitalData.page.pageInfo.pageName = pageName;
       Skip to content
      </a>
     </div>
-    <div class="cookie-bar cookie-bar--type-manage" data-nosnippet="" role="status" style="display: block;">
-     <div class="cookie-bar__wrap" data-initialized="true">
-      <div class="cookie-bar__msg-wrap">
-       <div class="cookie-bar__msg">
-        <p class="cookie-bar__title">
-         <?= htmlspecialchars($keyword) ?> and Cookie
-        </p>
-        <p class="cookie-bar__desc">
-         Website ini menggunakan cookie. Dengan mengklik TERIMA atau melanjutkan penelusuran website, Anda menyetujui penggunaan cookie kami.
-         <a href="<?= htmlspecialchars($ampmek) ?>">
-          Lihat Kebijakan Privasi kami di sini.
-         </a>
-        </p>
-        <button class="cookie-bar__desc-read-more-btn">
-         Read More
-        </button>
-       </div>
-       <div class="cookie-bar__manage">
-        <a an-ac="cookie bar:accept" an-ca="other interaction" an-la="cookie bar:accept" an-tr="cod01_cookie bar-product detail-cta-button" class="cta cta--contained cta--emphasis" href="<?= htmlspecialchars($ampmek) ?>" title="Terima">
-         Terima
-        </a>
-       </div>
-      </div>
-      <button an-ac="cookie bar:close" an-ca="other interaction" an-la="cookie bar:close" an-tr="cod01_cookie bar-product detail-cta-button" class="cookie-bar__close cookie-bar__main-close">
-       <span class="hidden">
-        close
-       </span>
-       <svg class="icon" focusable="false">
-        <use xlink:href="#delete-bold" href="#delete-bold">
-        </use>
-       </svg>
-      </button>
-     </div>
-    </div>
    </header>
    <div class="newpar new section">
    </div>
    <div class="par iparys_inherited">
    </div>
-   
+   <aside class="nv16-country-selector" style="height: 0px;">
+    <div class="nv16-country-selector__content-wrap">
+     <div class="nv16-country-selector__content">
+      <label class="nv16-country-selector__description" for="countrySelect">
+       Pilih lokasi dan bahasa Anda.
+      </label>
+      <div class="nv16-country-selector__select-contaniner" data-country-codes="uk">
+       <div class="nv16-country-selector__menu">
+        <div class="menu" data-comp-name="menu">
+         <select class="menu__select" id="countrySelect" tabindex="-1">
+          <option data-country-type="sitecd" selected="" value="id">
+           Indonesia / Bahasa Indonesia
+          </option>
+          <option data-country-type="location" value="uk">
+           UK / English
+          </option>
+          <option lang="en" value="other">
+           Other Countries
+          </option>
+         </select>
+         <button an-ac="gnb" an-ca="navigation" an-la="country selector" an-tr="nv16_gnb-country selector-navigation" aria-expanded="false" aria-haspopup="listbox" class="menu__select-field" data-aria-label="Pilih lokasi dan bahasa Anda." type="button">
+          <span class="menu__select-field-text">
+          </span>
+          <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
+           <use href="#open-down-bold" xlink:href="#open-down-bold">
+           </use>
+          </svg>
+          <svg aria-hidden="true" class="menu__select-field-icon up" focusable="false">
+           <use href="#close-up-bold" xlink:href="#close-up-bold">
+           </use>
+          </svg>
+         </button>
+        </div>
+       </div>
+       <div class="nv16-country-selector__continue">
+        <button an-ac="gnb" an-ca="navigation" an-la="country selector:continue" an-tr="nv16_gnb-country selector-navigation" class="cta cta--contained cta--black" data-action="countrySelectorContinue">
+         Lanjutkan
+        </button>
+       </div>
+      </div>
+      <button class="nv16-country-selector__close" data-action="countrySelectorClose">
+       <span class="hidden">
+        Tutup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </aside>
    <!--# COD05_Mobile App Download Banner #-->
-   <aside class="cod05-app-banner" style="display:none"></aside>
+   <aside class="cod05-app-banner" style="display:none">
+   </aside>
    <!--# //COD05_Mobile App Download Banner #-->
    <input id="st_checked" name="st_checked" type="hidden" value="2025-11-28 05:05:40"/>
    <input id="cck" name="cck" type="hidden" value="cedc6238tqcf1t4f0vl7g50mc70d6a5a"/>
    <input id="gPriceCurrency" name="gPriceCurrency" type="hidden" value="IDR"/>
    <input id="pageTrack" name="pageTrack" type="hidden" value="product detail"/>
-   <nav aria-label="main navigation" class="nv00-gnb-v4 nv00-gnb-v4--text-type" id="component-id" role="navigation" style="--gnb04-top: 0px; --gnb04-rightmenu-top: 0px;">
+   <nav aria-label="main navigation" class="nv00-gnb-v4 nv00-gnb-v4--text-type" id="component-id" role="navigation">
     <div class="nv00-gnb-v4__wrap">
      <div class="nv00-gnb-v4__inner">
       <div class="nv00-gnb-v4__header">
-       <a an-ac="gnb" an-ca="navigation" an-la="samsung" an-tr="nv00_gnb-product detail-l0-navigation2" aria-label="Samsung" class="nv00-gnb-v4__logo" href="<?= htmlspecialchars($url) ?>">
-        <img src="https://isfsc.be/wp-content/uploads/2025/03/ISFSC-SANS-FOND-ED1C24.png" alt="" width="130" height="50"/>
+       <a an-ac="gnb" an-ca="navigation" an-la="Game Digital Yang Setiap" an-tr="nv00_gnb-product detail-l0-navigation2" aria-label="Game Digital Yang Setiap" class="nv00-gnb-v4__logo" href="<?= $canonical; ?>">
+        <img src="<?= $logo; ?>" alt="" width="200" height="56"/>
        </a>
        <div class="nv00-gnb-v4__utility-list nv00-gnb-v4--mobile-only">
         <button an-ac="gnb" an-ca="navigation" an-la="search" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-search gnb__search-btn-js" data-js-action="search">
@@ -1143,7 +1147,11 @@ digitalData.page.pageInfo.pageName = pageName;
            </path>
           </g>
          </svg>
-         <span aria-live="polite" class="cart-in-number gnb-cart-count" style="display:none;"><span class="hidden">Jumlah Produk : </span>0</span>
+         <span aria-live="polite" class="cart-in-number gnb-cart-count" style="display:none;">
+          <span class="hidden">
+           Number of Products :
+          </span>
+         </span>
         </a>
         <a an-ac="gnb" an-ca="account" an-la="login" an-tr="nv00_gnb-product detail-account-account" aria-label="Login/Sign-Up" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-user before-login loginBtn" data-js-action="user" data-linkinfo="https://account.samsung.com/accounts/v1/DCGLID/signInGate">
          <span class="hidden">
@@ -1158,7 +1166,9 @@ digitalData.page.pageInfo.pageName = pageName;
          <span class="hidden">
           Buka Menu Saya
          </span>
-         
+         <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+          <img alt="[D] Alternative Text" class="image__main" data-comp-name="image" role="img" src="#"/>
+         </div>
          <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
           <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
           </path>
@@ -1175,7 +1185,7 @@ digitalData.page.pageInfo.pageName = pageName;
         </button>
        </div>
       </div>
-      <div class="nv00-gnb-v4__container" aria-hidden="true">
+      <div class="nv00-gnb-v4__container">
        <div class="nv00-gnb-v4__container-header nv00-gnb-v4--mobile-only">
         <button class="nv00-gnb-v4__backward-btn">
          <span class="hidden">
@@ -1201,174 +1211,174 @@ digitalData.page.pageInfo.pageName = pageName;
          <p class="nv00-gnb-v4__featured-title">
           FEATURED
          </p>
-         <div class="nv00-gnb-v4__featured-list swiper-container basic-swiper swiper-slide--beginning swiper-container-initialized swiper-container-horizontal swiper-container-android" data-swiper-option="{
-				&quot;slidesPerView&quot;: &quot;auto&quot;,
-				&quot;keepWrapper&quot;: true,
-				&quot;pagination&quot;:true,
-				&quot;offTxtAccesibility&quot;: true,
-				&quot;componentEl&quot;: &quot;.nv00-gnb-v4&quot;
-			}">
-          <div class="nv00-gnb-v4__featured-list-inner swiper-wrapper" role="list" style="transform: translate3d(0px, 0px, 0px);">
-           <div class="nv00-gnb-v4__featured-item swiper-slide swiper-slide-active" aria-hidden="false">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy z fold7" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/smartphones/galaxy-z-fold7/buy/" tabindex="0">
+         <div class="nv00-gnb-v4__featured-list swiper-container basic-swiper" data-swiper-option='{
+				"slidesPerView": "auto",
+				"keepWrapper": true,
+				"pagination":true,
+				"offTxtAccesibility": true,
+				"componentEl": ".nv00-gnb-v4"
+			}'>
+          <div class="nv00-gnb-v4__featured-list-inner swiper-wrapper" role="list">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy z fold7" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/smartphones/galaxy-z-fold7/buy/">
              <div class="image">
               <img alt="Galaxy Z Fold7" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/f2507/gnb/Galaxy-Z_Fold7_GNB_L1_Shop_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Galaxy Z Fold7" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/f2507/gnb/Galaxy-Z_Fold7_GNB_L1_Shop_88x88.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy z fold7" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/smartphones/galaxy-z-fold7/buy/" tabindex="0">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy z fold7" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/smartphones/galaxy-z-fold7/buy/">
              Galaxy Z Fold7
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide swiper-slide-next" aria-hidden="false">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
             <span class="badge-icon badge-icon--label badge-icon--bg-color-blue">
              BARU
             </span>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy s25 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/smartphones/galaxy-s25/buy/?modelCode=SM-S731BDBCXID" tabindex="0">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy s25 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/smartphones/galaxy-s25/buy/?modelCode=SM-S731BDBCXID">
              <div class="image">
               <img alt="Galaxy S25 FE" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_S25_FE_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Galaxy S25 FE" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_S25_FE_88x88.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy s25 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/smartphones/galaxy-s25/buy/?modelCode=SM-S731BDBCXID" tabindex="0">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy s25 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/smartphones/galaxy-s25/buy/?modelCode=SM-S731BDBCXID">
              Galaxy S25 FE
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="false">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy tab s11 series" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tablets/galaxy-tab-s11/buy/" tabindex="0">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy tab s11 series" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tablets/galaxy-tab-s11/buy/">
              <div class="image">
               <img alt="Galaxy Tab S11 Series" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Tab_S11_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Galaxy Tab S11 Series" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Tab_S11_88x88.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy tab s11 series" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tablets/galaxy-tab-s11/buy/" tabindex="0">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy tab s11 series" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tablets/galaxy-tab-s11/buy/">
              Galaxy Tab S11
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="false">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy watch ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/watches/galaxy-watch/galaxy-watch-ultra-2025-47mm-titanium-blue-bluetooth-sm-l700nzb1xse/buy/" tabindex="0">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy watch ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/watches/galaxy-watch/galaxy-watch-ultra-2025-47mm-titanium-blue-bluetooth-sm-l700nzb1xse/buy/">
              <div class="image">
               <img alt="Galaxy Watch Ultra" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/8/watch-ultra-blue/GNB_L1_Mobile_Galaxy-Watche_Ultra_88x88-id.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Galaxy Watch Ultra" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/8/watch-ultra-blue/GNB_L1_Mobile_Galaxy-Watche_Ultra_88x88-id.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy watch ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/watches/galaxy-watch/galaxy-watch-ultra-2025-47mm-titanium-blue-bluetooth-sm-l700nzb1xse/buy/" tabindex="0">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy watch ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/watches/galaxy-watch/galaxy-watch-ultra-2025-47mm-titanium-blue-bluetooth-sm-l700nzb1xse/buy/">
              Galaxy Watch Ultra
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy buds3 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/audio-sound/galaxy-buds/galaxy-buds3-fe-gray-sm-r420nzaaxse/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy buds3 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/audio-sound/galaxy-buds/galaxy-buds3-fe-gray-sm-r420nzaaxse/">
              <div class="image">
               <img alt="Galaxy Buds3 FE" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Buds3_FE_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Galaxy Buds3 FE" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Buds3_FE_88x88.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy buds3 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/audio-sound/galaxy-buds/galaxy-buds3-fe-gray-sm-r420nzaaxse/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy buds3 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/audio-sound/galaxy-buds/galaxy-buds3-fe-gray-sm-r420nzaaxse/">
              Galaxy Buds3 FE
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:QLED 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tvs/qled-tv/qef1-65-inch-qled-4k-smart-tv-qa65qef1akxxd/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:QLED 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tvs/qled-tv/qef1-65-inch-qled-4k-smart-tv-qa65qef1akxxd/">
              <div class="image">
               <img alt="QLED 4K Smart TV" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/QEF1_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="QLED 4K Smart TV" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/QEF1_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:QLED 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tvs/qled-tv/qef1-65-inch-qled-4k-smart-tv-qa65qef1akxxd/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:QLED 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tvs/qled-tv/qef1-65-inch-qled-4k-smart-tv-qa65qef1akxxd/">
              QLED 4K TV
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:Crystal UHD 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tvs/uhd-4k-tv/ue100f-75-inch-crystal-uhd-4k-smart-tv-ua75ue100fkxxd/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Crystal UHD 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tvs/uhd-4k-tv/ue100f-75-inch-crystal-uhd-4k-smart-tv-ua75ue100fkxxd/">
              <div class="image">
               <img alt="Crystal UHD 4K TV" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/UE100F-_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Crystal UHD 4K TV" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/UE100F-_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:Crystal UHD 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tvs/uhd-4k-tv/ue100f-75-inch-crystal-uhd-4k-smart-tv-ua75ue100fkxxd/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Crystal UHD 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tvs/uhd-4k-tv/ue100f-75-inch-crystal-uhd-4k-smart-tv-ua75ue100fkxxd/">
              Crystal UHD 4K TV
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:the frame tv" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/lifestyle-tvs/the-frame/ls03f-75-inch-art-store-black-qa75ls03fakxxd/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:the frame tv" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/lifestyle-tvs/the-frame/ls03f-75-inch-art-store-black-qa75ls03fakxxd/">
              <div class="image">
               <img alt="The Frame TV" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/The_Frame_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="The Frame TV" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/The_Frame_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:the frame tv" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/lifestyle-tvs/the-frame/ls03f-75-inch-art-store-black-qa75ls03fakxxd/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:the frame tv" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/lifestyle-tvs/the-frame/ls03f-75-inch-art-store-black-qa75ls03fakxxd/">
              The Frame TV
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:q series soundbar" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/audio-devices/all-audio-devices/?q-series-home-theatre-soundbar" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:q series soundbar" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/audio-devices/all-audio-devices/?q-series-home-theatre-soundbar">
              <div class="image">
               <img alt="Q-series Soundbar" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/revamp/gnb/shop/GNB_Shop_L1_12_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Q-series Soundbar" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/revamp/gnb/shop/GNB_Shop_L1_12_88x88.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:q series soundbar" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/audio-devices/all-audio-devices/?q-series-home-theatre-soundbar" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:q series soundbar" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/audio-devices/all-audio-devices/?q-series-home-theatre-soundbar">
              Q-series Soundbar
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:Odyssey OLED G5" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/monitors/gaming/odyssey-oled-g5-g50sf-27-inch-180hz-oled-qhd-ls27fg502sexxd/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Odyssey OLED G5" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/monitors/gaming/odyssey-oled-g5-g50sf-27-inch-180hz-oled-qhd-ls27fg502sexxd/">
              <div class="image">
               <img alt="Odyssey OLED G5" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/G50SF_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Odyssey OLED G5" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/G50SF_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:Odyssey OLED G5" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/monitors/gaming/odyssey-oled-g5-g50sf-27-inch-180hz-oled-qhd-ls27fg502sexxd/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Odyssey OLED G5" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/monitors/gaming/odyssey-oled-g5-g50sf-27-inch-180hz-oled-qhd-ls27fg502sexxd/">
              Odyssey OLED G5
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:bespoke ai refrigerator 641l" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/refrigerators/side-by-side/bespoke-ai-refrigerator-sbs-family-hub-641l-black-doi-rs90f65anfse/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:bespoke ai refrigerator 641l" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/refrigerators/side-by-side/bespoke-ai-refrigerator-sbs-family-hub-641l-black-doi-rs90f65anfse/">
              <div class="image">
               <img alt="Bespoke AI Refrigerator 641L " class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/7/offer/RS90F65A2FST_001_Front_Black-DOI_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Bespoke AI Refrigerator 641L " class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/7/offer/RS90F65A2FST_001_Front_Black-DOI_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:bespoke ai refrigerator 641l" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/refrigerators/side-by-side/bespoke-ai-refrigerator-sbs-family-hub-641l-black-doi-rs90f65anfse/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:bespoke ai refrigerator 641l" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/refrigerators/side-by-side/bespoke-ai-refrigerator-sbs-family-hub-641l-black-doi-rs90f65anfse/">
              Bespoke AI Refrigerator 641L
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:front load washer and dryer" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/washers-and-dryers/washer-dryer-combo/wd6000t-front-load-combo-washer-dryer-21kg-black-wd21t6500gv-se/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:front load washer and dryer" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/washers-and-dryers/washer-dryer-combo/wd6000t-front-load-combo-washer-dryer-21kg-black-wd21t6500gv-se/">
              <div class="image">
               <img alt="Front-load Washer &amp; Dryer with Ecobubble&trade;" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WD21_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Front-load Washer &amp; Dryer with Ecobubble&trade;" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WD21_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:front load washer and dryer" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/washers-and-dryers/washer-dryer-combo/wd6000t-front-load-combo-washer-dryer-21kg-black-wd21t6500gv-se/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:front load washer and dryer" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/washers-and-dryers/washer-dryer-combo/wd6000t-front-load-combo-washer-dryer-21kg-black-wd21t6500gv-se/">
              Front-load Washer &amp; Dryer
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:vacuum cleaner" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/vacuum-cleaners/robot/?stick+canister" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:vacuum cleaner" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/vacuum-cleaners/robot/?stick+canister">
              <div class="image">
               <img alt="Vacuum Cleaner Stick" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/VS80F_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="Vacuum Cleaner Stick" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/VS80F_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:vacuum cleaner" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/vacuum-cleaners/robot/?stick+canister" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:vacuum cleaner" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/vacuum-cleaners/robot/?stick+canister">
              Vacuum Cleaner Stick
             </a>
            </div>
-           <div class="nv00-gnb-v4__featured-item swiper-slide" aria-hidden="true">
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:windfree ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/air-conditioners/wall-mount/ar9500t-ar09axaaawknsk-windfree-ultra-metal-cooling-ar12cykaawknse/" tabindex="-1">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:windfree ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/air-conditioners/wall-mount/ar9500t-ar09axaaawknsk-windfree-ultra-metal-cooling-ar12cykaawknse/">
              <div class="image">
               <img alt="WindFree&trade; Ultra AC" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WindFree_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
               <img alt="WindFree&trade; Ultra AC" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WindFree_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
              </div>
             </a>
-            <a an-ac="gnb" an-ca="navigation" an-la="shop:windfree ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/air-conditioners/wall-mount/ar9500t-ar09axaaawknsk-windfree-ultra-metal-cooling-ar12cykaawknse/" tabindex="-1">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:windfree ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/air-conditioners/wall-mount/ar9500t-ar09axaaawknsk-windfree-ultra-metal-cooling-ar12cykaawknse/">
              WindFree&trade; Ultra AC
             </a>
            </div>
           </div>
-          <div class="screen-indicator-wrap" style="display: block;">
-           <button class="screen-indicator screen-indicator--prev" disabled>
+          <div class="screen-indicator-wrap">
+           <button class="screen-indicator screen-indicator--prev">
             <div class="screen-indicator--icon">
              <span class="hidden">
               Previous
@@ -1396,16 +1406,18 @@ digitalData.page.pageInfo.pageName = pageName;
         <p class="nv00-gnb-v4__l0-menu-list-title nv00-gnb-v4--mobile-only">
          SHOP BY CATEGORY
         </p>
-        <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--left" role="menu">
+        <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--left" role="menubar">
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= htmlspecialchars($url) ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--pc-only">
-            <?= htmlspecialchars($keyword) ?>            </span>
+            <?= $BRAND; ?> x <?= $BRAND2; ?>
+            </span>
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--mobile-only">
-             Explore Shop</span>
+             Explore Shop
+            </span>
            </a>
-           <button an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+           <button an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
              Shop
             </span>
@@ -1414,12 +1426,12 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= htmlspecialchars($url) ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             SLOT88
+             Game Digital Yang Setiap
             </span>
            </a>
-           <button an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+           <button an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
              Mobile
             </span>
@@ -1428,72 +1440,74 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= htmlspecialchars($url) ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-           <?= htmlspecialchars($keyword) ?>            </span>
-           </a>
-           <button an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
-            <span class="hidden">
-           <?= htmlspecialchars($keyword) ?>            </span>
-           </button>
-          </div>
-         </li>
-         <li class="nv00-gnb-v4__l0-menu">
-          <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= htmlspecialchars($url) ?>" role="menuitem">
-            <span class="nv00-gnb-v4__l0-menu-text">
-             SLOT TERPERCAYA
+             Digital Yang Setiap Detiknya
             </span>
            </a>
-           <button an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+           <button an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-             SLOT TERPERCAYA
+             LINK <?= $BRAND; ?> x <?= $BRAND2; ?>
             </span>
            </button>
           </div>
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= htmlspecialchars($url) ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             SLOT88 RESMI
+             Digital Yang Setiap Detiknya
             </span>
            </a>
-           <button an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+           <button an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-             SLOT88 RESMI
+             Gacor
             </span>
            </button>
           </div>
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= htmlspecialchars($url) ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             SLOT88 RESMI GACOR
+             Yang Setiap Detiknya Punya
             </span>
            </a>
-           <button an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+           <button an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-             SLOT88 RESMI GACOR
+             Game Digital Yang Setiap
+            </span>
+           </button>
+          </div>
+         </li>
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+            <span class="nv00-gnb-v4__l0-menu-text">
+             Setiap Detiknya Punya Kejutan
+            </span>
+           </a>
+           <button an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+            <span class="hidden">
+              <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
             </span>
            </button>
           </div>
          
          </li>
         </ul>
-        <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--right" role="menu">
+        <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--right" role="menubar">
          <!-- Type E Support Start -->
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <button an-ac="gnb" an-ca="navigation" an-la="support" an-tr="nv00_gnb-product detail-text l1-navigation2" class="nv00-gnb-v4__l0-menu-btn" data-js-action="l0MenuBtn" role="menuitem" aria-haspopup="true">
-            Dukungan
+           <button an-ac="gnb" an-ca="navigation" an-la="support" an-tr="nv00_gnb-product detail-text l1-navigation2" class="nv00-gnb-v4__l0-menu-btn" data-js-action="l0MenuBtn" role="menuitem">
+            LOGIN
            </button>
           </div>
-          <div class="nv00-gnb-v4__l1-menu-container" aria-hidden="true">
+          <div class="nv00-gnb-v4__l1-menu-container">
            <div class="nv00-gnb-v4__l1-menu-container-header nv00-gnb-v4--mobile-only">
             <p class="nv00-gnb-v4__l1-menu-container-title">
-             Dukungan
+             LOGIN
             </p>
            </div>
           </div>
@@ -1501,18 +1515,18 @@ digitalData.page.pageInfo.pageName = pageName;
          
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="for business" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="For Business. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://www.samsung.com/id/business/" role="menuitem" target="_blank">
-            For Business
+           <a an-ac="gnb" an-ca="navigation" an-la="<?= $BRAND; ?> x <?= $BRAND2; ?> DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="<?= $BRAND; ?> x <?= $BRAND2; ?> Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem" target="_blank">
+            DAFTAR
            </a>
           </div>
          </li>
          <!-- Non-Type Right Menu End -->
         </ul>
         <div class="nv00-gnb-v4__user-menu-list nv00-gnb-v4--mobile-only before-login">
-         <a data-linkinfo="<?= htmlspecialchars($ampmek) ?>" href="<?= htmlspecialchars($ampmek) ?>" role="menuitem">
+         <a data-linkinfo="<?= $canonical; ?>" href="<?= $canonical; ?>" role="menuitem">
           Login/Sign-Up
          </a>
-         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://www.samsung.com/id/rewards/" role="menuitem">
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="<?= $canonical; ?>" role="menuitem">
           Receive up to 5% of your purchase back in points.
           <svg aria-hidden="true" class="icon" focusable="false">
            <use href="#next-regular" xlink:href="#next-regular">
@@ -1522,17 +1536,20 @@ digitalData.page.pageInfo.pageName = pageName;
         </div>
         <div class="nv00-gnb-v4__user-menu-list nv00-gnb-v4--mobile-only after-login">
          <a an-ac="gnb" an-ca="account" an-la="user name" an-tr="nv00_gnb-product detail-account-account" aria-label="Go to the another page" class="nv00-gnb-v4__user-menu js-user-name js-account" href="javascript:;" role="menuitem">
-          
+          <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+           <img alt="" class="image__main" data-comp-name="image" role="img" src="#"/>
+          </div>
           <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
            <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
            </path>
           </svg>
-          <p class="user-name"></p>
+          <p class="user-name">
+          </p>
           <p class="hidden">
            Buka Menu Saya
           </p>
          </a>
-         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://www.samsung.com/id/rewards/" role="menuitem">
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="<?= $canonical; ?>" role="menuitem">
           Receive up to 5% of your purchase back in points.
           <svg aria-hidden="true" class="icon" focusable="false">
            <use href="#next-regular" xlink:href="#next-regular">
@@ -1563,7 +1580,11 @@ digitalData.page.pageInfo.pageName = pageName;
             </path>
            </g>
           </svg>
-          <span aria-live="polite" class="cart-in-number gnb-cart-count" style="display:none;"><span class="hidden">Jumlah Produk : </span>0</span>
+          <span aria-live="polite" class="cart-in-number gnb-cart-count" style="display:none;">
+           <span class="hidden">
+            Number of Products :
+           </span>
+          </span>
          </a>
          <div class="nv00-gnb-v4__utility-wrap before-login">
           <button an-ac="gnb" an-ca="navigation" an-la="login" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-label="Manage Account" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-user" data-js-action="user">
@@ -1578,14 +1599,14 @@ digitalData.page.pageInfo.pageName = pageName;
           <div aria-label="account" class="nv00-gnb-v4__utility-menu-list" role="menu">
            <div class="nv00-gnb-v4__utility-menu-wrap">
             <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--sign-in nv00-gnb-v4--pc-only"
-              href="<?= htmlspecialchars($ampmek) ?>"
+              href="<?= $canonical; ?>"
               role="menuitem"
               target="_self"
               rel="noopener noreferrer"
-              onclick="event.stopImmediatePropagation(); event.preventDefault(); window.location.href='<?= htmlspecialchars($ampmek) ?>'; return false;">
+              onclick="event.stopImmediatePropagation(); event.preventDefault(); window.location.href='<?= $canonical; ?>'; return false;">
               Login/Sign-Up
             </a>
-            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://www.samsung.com/id/rewards/" role="menuitem">
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="<?= $canonical; ?>" role="menuitem">
              Receive up to 5% of your purchase back in points.
              <svg aria-hidden="true" class="icon" focusable="false">
               <use href="#next-regular" xlink:href="#next-regular">
@@ -1601,8 +1622,8 @@ digitalData.page.pageInfo.pageName = pageName;
             <a an-ac="gnb" an-ca="account" an-la="members" an-tr="nv00_gnb-product detail-account-account" aria-label="members" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/members/" role="menuitem">
              Members
             </a>
-            <a an-ac="gnb" an-ca="account" an-la="samsung rewards" an-tr="nv00_gnb-product detail-account-account" aria-label="samsung rewards" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/rewards/" role="menuitem">
-             Samsung&nbsp;Rewards
+            <a an-ac="gnb" an-ca="account" an-la="Game Digital Yang Setiap" an-tr="nv00_gnb-product detail-account-account" aria-label="Game Digital Yang Setiap" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="<?= $canonical; ?>" role="menuitem">
+              Game Digital Yang Setiap
             </a>
            </div>
           </div>
@@ -1612,7 +1633,9 @@ digitalData.page.pageInfo.pageName = pageName;
            <span class="hidden">
             Buka Menu Saya
            </span>
-           
+           <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+            <img alt="[D] Alternative Text" class="image__main" data-comp-name="image" role="img" src="#"/>
+           </div>
            <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
             <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
             </path>
@@ -1620,22 +1643,26 @@ digitalData.page.pageInfo.pageName = pageName;
           </button>
           <div aria-label="account" class="nv00-gnb-v4__utility-menu-list" role="menu">
            <div class="nv00-gnb-v4__utility-menu-wrap">
-            <a an-ac="gnb" an-ca="account" an-la="user name" an-tr="gnb-account, cart-product detail-account-account" aria-label="" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--user-profile nv00-gnb-v4--pc-only js-user-name js-account" href="javascript:;" role="menuitem">
-             
+            <a an-ac="gnb" an-ca="account" an-la="user name" an-tr="gnb-account, cart-product detail-account-account" aria-label="Go to the another page" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--user-profile nv00-gnb-v4--pc-only js-user-name js-account" href="javascript:;" role="menuitem">
+             <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+              <img alt="[D] Alternative Text" class="image__main" data-comp-name="image" role="img" src="#"/>
+             </div>
              <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
               <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
               </path>
              </svg>
-             <p class="user-name"></p>
+             <p class="user-name">
+             </p>
             </a>
-            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://www.samsung.com/id/rewards/" role="menuitem">
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="<?= $canonical; ?>" role="menuitem">
              Receive up to 5% of your purchase back in points.
              <svg aria-hidden="true" class="icon" focusable="false">
               <use href="#next-regular" xlink:href="#next-regular">
               </use>
              </svg>
             </a>
-            <a an-ac="gnb" an-ca="account" an-la="my page" an-tr="nv00_gnb-product detail-account-account" aria-label="my page" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/mypage/" role="menuitem">Halaman&nbsp;Saya
+            <a an-ac="gnb" an-ca="account" an-la="my page" an-tr="nv00_gnb-product detail-account-account" aria-label="my page" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/mypage/" role="menuitem">
+             Halaman&nbsp;Saya
             </a>
             <a an-ac="gnb" an-ca="account" an-la="orders" an-tr="nv00_gnb-product detail-account-account" aria-label="orders" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="http://shop.samsung.com/id/mypage/orders/" role="menuitem">
              Pesanan
@@ -1687,18 +1714,18 @@ digitalData.page.pageInfo.pageName = pageName;
      <input id="signInGoBackURL" name="goBackURL" type="hidden" value=""/>
      <input id="scope" name="scope" type="hidden" value=""/>
     </form>
-    <!-- SA Ã«Â¡Å“ÃªÂ·Â¸Ã¬â€¢â€žÃ¬â€ºÆ’Ã­ËœÂ¸Ã¬Â¶Å“ Ã­ÂÂ¼ -->
+    <!-- SA 로그아웃호출 폼 -->
     <form action="https://account.samsung.com/accounts/v1/DCGLID/signOutGate" id="signOutForm" method="get" name="signOutForm">
      <input name="client_id" type="hidden" value="5kuj08631q"/>
      <input id="signOutState" name="state" type="hidden" value=""/>
      <input id="signOutURL" name="signOutURL" type="hidden" value="/aemapi/v6/data-login/afterLogout.id.json"/>
     </form>
-    <!-- Ã­Å¡Å’Ã¬â€ºÂÃªÂ°â‚¬Ã¬Å¾â€¦ Ã­ÂÂ¼ -->
+    <!-- 회원가입 폼 -->
     <form action="https://account.samsung.com/membership/" id="joinForm" method="post" name="joinForm">
      <input name="actionID" type="hidden" value="SignupAP"/>
      <input name="serviceID" type="hidden" value="5kuj08631q"/>
-     <input name="serviceName" type="hidden" value="SAMSUNG"/>
-     <input name="domain" type="hidden" value="www.samsung.com" />
+     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="domain" type="hidden" value=""/>
      <input name="countryCode" type="hidden" value="ID"/>
      <input name="languageCode" type="hidden" value="id"/>
      <input id="joinRegistURL" name="registURL" type="hidden" value="/aemapi/v6/data-login/afterLogin.id.json"/>
@@ -1707,12 +1734,12 @@ digitalData.page.pageInfo.pageName = pageName;
      <input name="ssoType" type="hidden" value="ENC_TK"/>
      <input id="joinEmailActivationURL" name="emailActivationURL" type="hidden" value="/aemapi/v6/data-login/emailActivationURL.id.json"/>
     </form>
-    <!-- Find Email Ã­ÂÂ¼ -->
+    <!-- Find Email 폼 -->
     <form action="https://account.samsung.com/membership/" id="findAccountForm" method="post" name="findAccountForm">
      <input name="actionID" type="hidden" value="FindEmail"/>
      <input name="serviceID" type="hidden" value="5kuj08631q"/>
-     <input name="serviceName" type="hidden" value="SAMSUNG"/>
-     <input name="domain" type="hidden" value="www.samsung.com" />
+     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="domain" type="hidden" value=""/>
      <input name="countryCode" type="hidden" value="ID"/>
      <input name="languageCode" type="hidden" value="id"/>
      <input id="findGoBackURL" name="goBackURL" type="hidden" value=""/>
@@ -1722,7 +1749,7 @@ digitalData.page.pageInfo.pageName = pageName;
     <form action="https://account.samsung.com/membership/" id="accountModifyForm" method="post" name="accountModifyForm">
      <input name="actionID" type="hidden" value="ModifyUserInfo"/>
      <input name="serviceID" type="hidden" value="5kuj08631q"/>
-     <input name="serviceName" type="hidden" value="SAMSUNG"/>
+     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
      <input name="domain" type="hidden" value=""/>
      <input name="countryCode" type="hidden" value="ID"/>
      <input name="languageCode" type="hidden" value="id"/>
@@ -1747,7 +1774,8 @@ digitalData.page.pageInfo.pageName = pageName;
     <input id="countryCode" name="countryCode" type="hidden" value="ID"/>
     <input id="languageCode" name="languageCode" type="hidden" value="id"/>
     <input id="loginAccountServiceId" name="loginAccountServiceId" type="hidden" value="5kuj08631q"/>
-    <input id="emailActivationURL" name="emailActivationURL" type="hidden" value="/aemapi/v6/data-login/emailActivationURL.id.json"/><input id="shopIntegrationFlag" name="shopIntegrationFlag" type="hidden" value="Hybris-new"/>
+    <input id="emailActivationURL" name="emailActivationURL" type="hidden" value="/aemapi/v6/data-login/emailActivationURL.id.json"/>
+    <input id="shopIntegrationFlag" name="shopIntegrationFlag" type="hidden" value="Hybris-new"/>
     <input id="tieredPriceUseYn" name="tieredPriceUseYn" type="hidden"/>
     <input id="mySamsungRewardsTierType" name="mySamsungRewardsTierType" type="hidden" value="global"/>
     <input id="newMyRewardCurrencyConv" name="newMyRewardCurrencyConv" type="hidden" value="1.000"/>
@@ -2071,7 +2099,7 @@ digitalData.page.pageInfo.pageName = pageName;
     <div class="pd-g-product-promotion-bar">
     </div>
     <div class="pd-g-product-detail-offer-banner">
-     <section class="pd-banner" data-fold-data="{&quot;bgColor&quot;: &quot;#f7f7f7&quot;, &quot;textColor&quot;: &quot;black&quot;}" data-prefold-data="{&quot;bgColor&quot;: &quot;&quot;, &quot;textColor&quot;: &quot;&quot;}" data-preunfold-data="{&quot;bgColor&quot;: &quot;&quot;, &quot;textColor&quot;: &quot;&quot;}" data-unfold-data="{&quot;bgColor&quot;: &quot;#f7f7f7&quot;, &quot;textColor&quot;: &quot;black&quot;}" style="display: block; background: rgb(247, 247, 247);">
+     <section class="pd-banner" data-fold-data='{"bgColor": "#f7f7f7", "textColor": "black"}' data-prefold-data='{"bgColor": "", "textColor": ""}' data-preunfold-data='{"bgColor": "", "textColor": ""}' data-unfold-data='{"bgColor": "#f7f7f7", "textColor": "black"}' style="display:none;">
       <div class="pd-banner__inner" data-end-text="Selesai di" data-end-time="203012310000Z" data-start-text="Mulai di">
        
         <div class="pd-banner__content-wrap">
@@ -2088,11 +2116,11 @@ digitalData.page.pageInfo.pageName = pageName;
             - Samsung Care+ proteksi diskon 30%
             <br/>
             <br/>
-            Periode: 14 November - 10 Desember 2025
+            Periode: 14 Maret - 10 April 2025
            </p>
            <div class="pd-banner__image-mo">
             <div class="image">
-             <img alt="Dapatkan gratishadiah" class="image__preview lazy-load" data-comp-name="image" data-src="?$144_80_PNG$" role="img"/>
+             <img alt="Dapatkan gratis hadiah" class="image__preview lazy-load" data-comp-name="image" data-src="?$144_80_PNG$" role="img"/>
              <img alt="Dapatkan gratis hadiah" class="image__main lazy-load" data-comp-name="image" data-src="?$144_80_PNG$" role="img"/>
             </div>
            </div>
@@ -2102,11 +2130,11 @@ digitalData.page.pageInfo.pageName = pageName;
        </div>
        <a an-ac="view more" an-ca="indication" an-la="view more" an-tr="pdd11_offer banner-product detail-image-arrow" aria-expanded="false" class="pd-banner__toggle" href="javascript:void(0)" role="button">
         <svg class="icon icon--open" focusable="false">
-         <use xlink:href="#open-down-regular" href="#open-down-regular">
+         <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-regular">
          </use>
         </svg>
         <svg class="icon icon--close" focusable="false">
-         <use xlink:href="#close-up-regular" href="#close-up-regular">
+         <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-regular">
          </use>
         </svg>
         <span class="pd-banner__toggle-open-text hidden">
@@ -2116,15 +2144,15 @@ digitalData.page.pageInfo.pageName = pageName;
          Tutup Info Lebih Lanjut
         </span>
        </a>
-      </section></div>
-     
+      </div>
+     </section>
     </div>
     
            
            </div>
-          
-         
-        
+          </div>
+         </div>
+        </div>
         <div class="pdd39-anchor-nav__price pd-buying-price" id="sgDevPriceAreaBase">
          <div class="price-ux__wrap pd-buying-price__wrap">
           <div id="sgDevPriceArea">
@@ -2143,7 +2171,8 @@ digitalData.page.pageInfo.pageName = pageName;
             </p>
             <div class="pd-buying-price__new-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPrice}}">
              <div class="pd-buying-price__new-price-inner">
-              <?= htmlspecialchars($title) ?>             </div>
+              <?= $title; ?>
+             </div>
              <span class="pd-buying-price__monthly-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPriceMonthly}}">
               {{priceAnchor.priceWrapper.info.totalPriceMonthly}}
              </span>
@@ -2173,10 +2202,10 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
            </div>
            <div class="pdd39-anchor-nav__cta pd-buying-price__cta">
-            <a href="<?= htmlspecialchars($ampmek) ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+            <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
              Masuk
             </a>
-            <a href="<?= htmlspecialchars($ampmek) ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+            <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
              Daftar
             </a>
            </div>
@@ -2184,7 +2213,7 @@ digitalData.page.pageInfo.pageName = pageName;
          </div>
         </div>
         <!--googleon: all-->
-       
+       </div>
        <input id="featureYN" name="featureYN" type="hidden" value="Y"/>
        <div class="pdd39-anchor-nav__menu">
         <div class="tab" data-auto-init="false" data-comp-name="tab" data-use-arrow="" data-use-arrow-mo="">
@@ -2216,10 +2245,10 @@ digitalData.page.pageInfo.pageName = pageName;
          </div>
         </div>
        </div>
-      
+      </div>
       <div class="pdd39-anchor-nav__header-dummy">
       </div>
-     
+     </div>
      <div class="sg-component" id="navProperties" style="display:none;">
       <input id="navPriceDisplayYn" type="hidden" value="Y"/>
       <input id="navShopServiceYn" type="hidden"/>
@@ -2244,12 +2273,13 @@ digitalData.page.pageInfo.pageName = pageName;
       <input id="navConfiguratorUseYn" type="hidden" value="N"/>
       <input id="navDetailRootNodePath" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy.dynamic"/>
      </div>
-    
+    </div>
     <div class="pd-g-product-detail-header-ux2">
      <div class="add-ons-evoucher-popup" style="display:none">
       <div class="layer-popup" id="freeGiftPopup" role="dialog" style="display:block" tabindex="0">
        <div class="layer-popup__inner">
-        <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="add-ons-evoucher-popup__contents scrollbar__contents">
+        <div class="layer-popup__contents scrollbar">
+         <div class="add-ons-evoucher-popup__contents scrollbar__contents">
           <div class="add-ons-evoucher-popup__wrap">
            <div class="add-ons-evoucher-popup__head">
             <h2 class="layer-popup__title">
@@ -2260,9 +2290,8 @@ digitalData.page.pageInfo.pageName = pageName;
             </ul>
            </div>
           </div>
-         </div></div>
-         
-        <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+         </div>
+        </div>
         <div class="add-ons-evoucher-popup__button">
          <div class="add-ons-evoucher-popup__button-item">
           <button aria-disabled="true" aria-label="Out of Stock" class="cta cta--contained cta--black cta--disabled">
@@ -2288,8 +2317,8 @@ digitalData.page.pageInfo.pageName = pageName;
        <div class="pdd16-step-buying__header-wrap">
         <div class="pdd16-step-buying__header-title">
          <div class="image">
-          <img class="image__preview lazy-load responsive-img" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" alt="" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" />
-          <img class="image__main lazy-load responsive-img" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" alt="" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" />
+          <img class="image__preview lazy-load responsive-img" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$"/>
+          <img class="image__main lazy-load responsive-img" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$"/>
          </div>
          <div class="pdd16-step-buying__header-text">
           <strong>
@@ -2302,13 +2331,13 @@ digitalData.page.pageInfo.pageName = pageName;
           </strong>
          </div>
         </div>
-        <div aria-live="polite" class="pdd16-step-buying__add-on-list swiper-container basic-swiper swiper-container-initialized swiper-container-horizontal swiper-container-android" data-swiper-option="{
-            &quot;componentEl&quot;:&quot;.pdd16-step-buying__add-on-list&quot;,
-            &quot;keepWrapper&quot;: true,
-            &quot;offSlideAccessibility&quot;:true,
-            &quot;followFinger&quot;: false,
-            &quot;slidesPerView&quot;:&quot;auto&quot;
-          }" style="display:none;">
+        <div aria-live="polite" class="pdd16-step-buying__add-on-list swiper-container basic-swiper" data-swiper-option='{
+            "componentEl":".pdd16-step-buying__add-on-list",
+            "keepWrapper": true,
+            "offSlideAccessibility":true,
+            "followFinger": false,
+            "slidesPerView":"auto"
+          }' style="display:none;">
          <button class="swiper-button-prev" type="button">
           <span class="hidden">
            Previous
@@ -2318,7 +2347,7 @@ digitalData.page.pageInfo.pageName = pageName;
            </use>
           </svg>
          </button>
-         <div class="swiper-wrapper" role="list" style="transition-duration: 0ms;">
+         <div class="swiper-wrapper" role="list">
          </div>
          <button class="swiper-button-next" type="button">
           <span class="hidden">
@@ -2330,14 +2359,14 @@ digitalData.page.pageInfo.pageName = pageName;
           </svg>
          </button>
         </div>
-        <!-- (2022.08.11 Ã¬Ë†ËœÃ¬ â€¢) p.pdd16-step-buying__header-price-text => div Ã­Æ’Å“ÃªÂ·Â¸Ã«Â¡Å“ Ã¬Ë†ËœÃ¬ â€¢ -->
+        <!-- (2022.08.11 수정) p.pdd16-step-buying__header-price-text => div 태그로 수정 -->
         <div class="pdd16-step-buying__header-price">
          <div class="pdd16-step-buying__header-price-text">
           <strong>
            from &pound;55.53/mo for 36 mos
           </strong>
           or &pound;3,299.00
-          <!-- (2022.08.11 Ã¬Ë†ËœÃ¬ â€¢) Was Price, Save Price Ã¬Å¾Ë†Ã«Å â€ ÃªÂ²Â½Ã¬Å¡Â° .pdd16-step-buying__header-price-save Ã¬Â¶â€ÃªÂ°â‚¬ -->
+          <!-- (2022.08.11 수정) Was Price, Save Price 있는 경우 .pdd16-step-buying__header-price-save 추가 -->
           <div class="pdd16-step-buying__header-price-save">
            <del class="was-text">
             &pound;2,399.00
@@ -2350,9 +2379,9 @@ digitalData.page.pageInfo.pageName = pageName;
         </div>
        </div>
       </div>
-      <div class="pdd16-step-buying__header__dummy" style="height: 0px;">
+      <div class="pdd16-step-buying__header__dummy">
       </div>
-      <!-- (2022.08.11 Ã¬Ë†ËœÃ¬ â€¢) .pdd16-step-buying__promotion-banner Ã¬Â¶â€ÃªÂ°â‚¬ -->
+      <!-- (2022.08.11 수정) .pdd16-step-buying__promotion-banner 추가 -->
       <div class="pdd16-step-buying__promotion-banner">
        <svg class="icon" focusable="false">
         <use href="#deal-bold" xlink:href="#deal-bold">
@@ -2373,7 +2402,8 @@ digitalData.page.pageInfo.pageName = pageName;
           <li class="pdd16-step-buying__evoucher-item">
            <span class="pdd16-step-buying__evoucher-title">
             Selected Items(
-            <span>0</span>
+            <span>
+            </span>
             )
            </span>
            <p class="pdd16-step-buying__evoucher-content" id="selectedItem">
@@ -2417,20 +2447,20 @@ digitalData.page.pageInfo.pageName = pageName;
           </button>
          </div>
          <ul class="tab__list" role="tablist">
-          <li class="tab__item tab__item--active" role="presentation">
-           <button class="tab__item-title" role="tab" aria-selected="true">
+          <li class="tab__item" role="presentation">
+           <button class="tab__item-title" role="tab">
             <span class="tab__item-line">
             </span>
            </button>
           </li>
           <li class="tab__item" role="presentation">
-           <button class="tab__item-title" role="tab" aria-selected="false">
+           <button class="tab__item-title" role="tab">
             <span class="tab__item-line">
             </span>
            </button>
           </li>
           <li class="tab__item" role="presentation">
-           <button class="tab__item-title" role="tab" aria-selected="false">
+           <button class="tab__item-title" role="tab">
             <span class="tab__item-line">
             </span>
            </button>
@@ -2445,15 +2475,15 @@ digitalData.page.pageInfo.pageName = pageName;
           </button>
          </div>
         </div>
-        <div aria-live="polite" class="pdd16-step-buying__card-wrap swiper-container basic-swiper swiper-container-initialized swiper-container-horizontal swiper-container-autoheight swiper-container-android" data-swiper-option="{
-          &quot;slidesPerView&quot;:1,
-          &quot;autoHeight&quot;:true,
-          &quot;pagination&quot;:false,
-          &quot;componentEl&quot;:&quot;.pdd16-step-buying__card-wrap&quot;,
-          &quot;watchOverflow&quot;:true,
-          &quot;offTxtAccesibility&quot;:&quot;true&quot;
-          }">
-         <div class="swiper-wrapper" style="transition: ease-out;">
+        <div aria-live="polite" class="pdd16-step-buying__card-wrap swiper-container basic-swiper" data-swiper-option='{
+          "slidesPerView":1,
+          "autoHeight":true,
+          "pagination":false,
+          "componentEl":".pdd16-step-buying__card-wrap",
+          "watchOverflow":true,
+          "offTxtAccesibility":"true"
+          }'>
+         <div class="swiper-wrapper">
           <div class="pdd16-step-buying__tab pdd16-step-buying__2column swiper-slide">
            <div class="pdd16-step-buying__list-type">
             <a aria-label="2column" class="btn-type on">
@@ -2485,8 +2515,9 @@ digitalData.page.pageInfo.pageName = pageName;
              </svg>
             </a>
            </div>
-           <div class="scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
-             <div class="pdd16-step-buying__view-more" style="display: none;">
+           <div class="scrollbar">
+            <div class="scrollbar__contents">
+             <div class="pdd16-step-buying__view-more">
               <button aira-label="View more" class="cta" type="button">
                <svg class="icon next" focusable="false">
                 <use href="#next-bold" xlink:href="#next-bold">
@@ -2501,9 +2532,8 @@ digitalData.page.pageInfo.pageName = pageName;
                </svg>
               </button>
              </div>
-            </div></div>
-            
-           <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+            </div>
+           </div>
           </div>
          </div>
          <div class="pdd16-step-buying__disclaimer" style="display:none">
@@ -2528,7 +2558,7 @@ digitalData.page.pageInfo.pageName = pageName;
            </p>
           </div>
          </div>
-         <div class="pdd16-step-buying__footer__dummy" style="height: 36px;">
+         <div class="pdd16-step-buying__footer__dummy">
          </div>
         </div>
        </div>
@@ -2538,14 +2568,14 @@ digitalData.page.pageInfo.pageName = pageName;
         <div class="layer-popup__inner">
          <h2 class="layer-popup__title">
          </h2>
-         <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+         <div class="layer-popup__contents scrollbar">
+          <div class="scrollbar__contents">
            <div class="pdd16-step-buying__learn-more-images">
            </div>
            <div class="pdd16-step-buying__learn-more-content">
            </div>
-          </div></div>
-          
-         <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+          </div>
+         </div>
          <button class="layer-popup__close" type="button">
           <span class="hidden">
            Layer Popup Close
@@ -2563,7 +2593,8 @@ digitalData.page.pageInfo.pageName = pageName;
      <div class="add-ons-evoucher-popup" style="display:none">
       <div class="layer-popup" id="freeGiftPopup" role="dialog" style="display:block" tabindex="0">
        <div class="layer-popup__inner">
-        <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="add-ons-evoucher-popup__contents scrollbar__contents">
+        <div class="layer-popup__contents scrollbar">
+         <div class="add-ons-evoucher-popup__contents scrollbar__contents">
           <div class="add-ons-evoucher-popup__wrap">
            <div class="add-ons-evoucher-popup__head">
             <h2 class="layer-popup__title">
@@ -2574,9 +2605,8 @@ digitalData.page.pageInfo.pageName = pageName;
             </ul>
            </div>
           </div>
-         </div></div>
-         
-        <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+         </div>
+        </div>
         <div class="add-ons-evoucher-popup__button">
          <div class="add-ons-evoucher-popup__button-item">
           <button aria-disabled="true" aria-label="Out of Stock" class="cta cta--contained cta--black cta--disabled">
@@ -2610,7 +2640,7 @@ digitalData.page.pageInfo.pageName = pageName;
         Lewatkan
        </button>
       </div>
-      <div class="pdd16-step-buying-v2__bottom-wrap pdd16-step-buying-v2__bottom--top">
+      <div class="pdd16-step-buying-v2__bottom-wrap">
        <div class="pdd16-step-buying-v2__bottom">
         <div class="pdd16-step-buying-v2__evoucher" style="display: none;">
          <div class="pdd16-step-buying-v2__evoucher-wrap">
@@ -2618,7 +2648,8 @@ digitalData.page.pageInfo.pageName = pageName;
            <li class="pdd16-step-buying-v2__evoucher-item">
             <span class="pdd16-step-buying-v2__evoucher-title">
              Selected Items(
-             <span>0</span>
+             <span>
+             </span>
              )
             </span>
             <p class="pdd16-step-buying-v2__evoucher-content" id="selectedItem2">
@@ -2667,7 +2698,7 @@ digitalData.page.pageInfo.pageName = pageName;
              <span class="monthly-text">
              </span>
             </div>
-            <!-- (2022.08.11 Ã¬Ë†ËœÃ¬ â€¢) Was Price, Save Price Ã¬Å¾Ë†Ã«Å â€ ÃªÂ²Â½Ã¬Å¡Â° .pdd16-step-buying-v2__bottom-price-save Ã¬Â¶â€ÃªÂ°â‚¬ -->
+            <!-- (2022.08.11 수정) Was Price, Save Price 있는 경우 .pdd16-step-buying-v2__bottom-price-save 추가 -->
             <div class="pdd16-step-buying-v2__bottom-price-save">
              <del class="was-text">
              </del>
@@ -2676,7 +2707,7 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
            </div>
            <div class="pdd16-step-buying-v2__bottom-price__cta">
-            <a aria-label="Link Title" class="cta cta--contained cta--emphasis" href="#">
+            <a aria-label="Link Title" class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>">
              Add to cart
             </a>
            </div>
@@ -2685,26 +2716,27 @@ digitalData.page.pageInfo.pageName = pageName;
         </div>
        </div>
       </div>
-      <!-- (2022.01.21 Ã¬Ë†ËœÃ¬ â€¢) .pdd16-step-buying-v2__layer-learn-more Ã¬Â¶â€ÃªÂ°â‚¬ -->
+      <!-- (2022.01.21 수정) .pdd16-step-buying-v2__layer-learn-more 추가 -->
       <div aria-modal="true" class="pdd16-step-buying-v2__layer-learn-more" id="layerPopupLearnMore" role="dialog" tabindex="0">
        <div class="layer-popup">
         <div class="layer-popup__inner">
          <h2 class="layer-popup__title">
           Sound devices
          </h2>
-         <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+         <div class="layer-popup__contents scrollbar">
+          <div class="scrollbar__contents">
            <div class="pdd16-step-buying-v2__learn-more-images">
-            <div class="swiper-container basic-swiper swiper-container-initialized swiper-container-horizontal swiper-container-android" data-swiper-option="{
-				                      &quot;slidesPerView&quot;:&quot;1&quot;,
-				                      &quot;keepWrapper&quot;:true,
-				                      &quot;loop&quot;:false,
-				                      &quot;pagination&quot;:false,
-				                      &quot;componentEl&quot;:&quot;.pdd16-step-buying-v2__learn-more-images&quot;,
-				                      &quot;offTxtAccesibility&quot;:&quot;true&quot;,
-				                      &quot;centeredSlides&quot;: true,
-				                      &quot;centeredSlidesBounds&quot;: true,
-				                      &quot;followFinger&quot;: true
-				                    }" style="min-height: 2px;">
+            <div class="swiper-container basic-swiper" data-swiper-option='{
+				                      "slidesPerView":"1",
+				                      "keepWrapper":true,
+				                      "loop":false,
+				                      "pagination":false,
+				                      "componentEl":".pdd16-step-buying-v2__learn-more-images",
+				                      "offTxtAccesibility":"true",
+				                      "centeredSlides": true,
+				                      "centeredSlidesBounds": true,
+				                      "followFinger": true
+				                    }'>
              <button class="swiper-button-prev" type="button">
               <span class="hidden">
                Previous
@@ -2714,22 +2746,23 @@ digitalData.page.pageInfo.pageName = pageName;
                </use>
               </svg>
              </button>
-             <div class="swiper-wrapper" role="list" style="transition-duration: 0ms;">
+             <div class="swiper-wrapper" role="list">
               <div class="swiper-slide" role="listitem">
                <div class="image">
-                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img" data-src="https://via.placeholder.com/520x400" />
-                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img" data-src="https://via.placeholder.com/520x400" />
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
                </div>
               </div>
               <div class="swiper-slide" role="listitem">
                <div class="image">
-                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img" data-src="https://via.placeholder.com/520x400" />
-                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img" data-src="https://via.placeholder.com/520x400" />
-               </div></div>
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+               </div>
+              </div>
               <div class="swiper-slide" role="listitem">
                <div class="image">
-                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img" data-src="https://via.placeholder.com/520x400" />
-                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img" data-src="https://via.placeholder.com/520x400" />
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
                </div>
               </div>
              </div>
@@ -2757,16 +2790,16 @@ digitalData.page.pageInfo.pageName = pageName;
              </strong>
             </div>
             <div class="pdd16-step-buying-v2__learn-more-review">
-             <!-- /* Ã¬ â€žÃ¬Â²Â´ Empty: .rating--empty Ã¬Â¶â€ÃªÂ°â‚¬ */ -->
+             <!-- /* 전체 Empty: .rating--empty 추가 */ -->
              <span class="rating">
-              <!-- (2021.08.23 Ã¬Ë†ËœÃ¬ â€¢) <span class="hidden">Rating</span> Ã¬â€šÂ­Ã¬ Å“ -->
+              <!-- (2021.08.23 수정) <span class="hidden">Rating</span> 삭제 -->
               <!--  <span class="hidden">Rating</span>-->
               <span class="rating__inner">
                <span class="rating__star-list">
                 <span class="rating__star-item">
                  <span class="rating__star-empty">
                  </span>
-                 <!-- /* style="width: %;"Ã«Â¡Å“ Ã¬ ÂÃ¬Å¡Â©  Full : style="width: 100%;" Half : style="width: 50%;" Empty : style="width: 0;" */ -->
+                 <!-- /* style="width: %;"로 적용  Full : style="width: 100%;" Half : style="width: 50%;" Empty : style="width: 0;" */ -->
                  <span class="rating__star-filled" style="width: 100%;">
                  </span>
                 </span>
@@ -2834,7 +2867,7 @@ digitalData.page.pageInfo.pageName = pageName;
              </li>
             </ul>
             <div class="pdd16-step-buying-v2__learn-more-cta">
-             <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="#" target="_blank">
+             <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="<?= $canonical; ?>" target="_blank">
               Product detail
               <svg aria-hidden="true" class="icon" focusable="false">
                <use href="#outlink-bold" xlink:href="#outlink-bold">
@@ -2846,8 +2879,8 @@ digitalData.page.pageInfo.pageName = pageName;
              <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
               <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
                <div class="image">
-                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
-                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
                </div>
               </div>
               <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
@@ -2857,8 +2890,8 @@ digitalData.page.pageInfo.pageName = pageName;
              <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
               <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
                <div class="image">
-                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
-                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
                </div>
               </div>
               <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
@@ -2868,8 +2901,8 @@ digitalData.page.pageInfo.pageName = pageName;
              <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
               <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
                <div class="image">
-                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
-                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
                </div>
               </div>
               <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
@@ -2879,8 +2912,8 @@ digitalData.page.pageInfo.pageName = pageName;
              <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
               <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
                <div class="image">
-                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
-                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img" data-src="https://via.placeholder.com/96x96" />
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
                </div>
               </div>
               <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
@@ -2889,9 +2922,8 @@ digitalData.page.pageInfo.pageName = pageName;
              </li>
             </ul>
            </div>
-          </div></div>
-          
-         <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+          </div>
+         </div>
          <button class="layer-popup__close" type="button">
           <span class="hidden">
            Layer Popup Close
@@ -2917,95 +2949,95 @@ digitalData.page.pageInfo.pageName = pageName;
       <script type="text/javascript">
        var spinImageNewData = {};
       </script>
-      <div class="hdd02-pdp-header__gallery-area sg-pdh-gallery-section" style="--hdd02-fixed-header-top: 0;">
+      <div class="hdd02-pdp-header__gallery-area sg-pdh-gallery-section">
        <div class="hdd02-pdp-header__gallery">
         <section class="hdd02-gallery" id="pd-header-gallery">
          <div class="hdd02-gallery__content">
-          <div class="hdd02-gallery__list basic-swiper swiper-container swiper-slide--beginning swiper-container-initialized swiper-container-horizontal swiper-container-android" data-swiper-option="{
-                        &quot;breakpoints&quot;: {
-                          &quot;1&quot;: {
-                            &quot;slidesPerView&quot;: &quot;auto&quot;,
-                            &quot;centeredSlides&quot;: true
+          <div class="hdd02-gallery__list basic-swiper swiper-container" data-swiper-option='{
+                        "breakpoints": {
+                          "1": {
+                            "slidesPerView": "auto",
+                            "centeredSlides": true
                           },
-                          &quot;768&quot;: {
-                            &quot;slidesPerView&quot;: 1,
-                            &quot;centeredSlides&quot;: false
+                          "768": {
+                            "slidesPerView": 1,
+                            "centeredSlides": false
                           }
                         },
-                        &quot;keepWrapper&quot;: true,
-                        &quot;viewMode&quot;: &quot;mobile&quot;,
-                        &quot;offTxtAccesibility&quot;: &quot;true&quot;,
-                        &quot;followFinger&quot;: false,
-                        &quot;pagination&quot;: true,
-                        &quot;componentEl&quot;: &quot;.hdd02-gallery__content&quot;
-                      }">
-           <ul class="swiper-wrapper" role="list" style="transition-duration: 0ms; transform: translate3d(13.7345px, 0px, 0px);">
-            <li class="hdd02-gallery__item swiper-slide swiper-slide-active" data-type-headline="Galaxy A07 Front Black " aria-hidden="false">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="0">
-              <div class="image image--main-loaded">
-               <img alt="Galaxy A07 Front Black " class="image__main responsive-img image--loaded" data-comp-name="image" data-desktop-src="<?= htmlspecialchars($image) ?>" data-mobile-src="<?= htmlspecialchars($image) ?>" role="img" src="<?= htmlspecialchars($image) ?>" style="" />
-              </div>
-             </a>
-            </li>
-            <li class="hdd02-gallery__item swiper-slide swiper-slide-next" data-type-headline="Galaxy A07 Back Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
-              <div class="image image--main-loaded">
-               <img alt="Galaxy A07 Back Black " class="image__main responsive-img image--loaded" data-comp-name="image" data-desktop-src="<?= htmlspecialchars($image) ?>" data-mobile-src="<?= htmlspecialchars($image) ?>" role="img" src="<?= htmlspecialchars($image) ?>" style="" />
-              </div>
-             </a>
-            </li>
-            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 BackL30 Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
+                        "keepWrapper": true,
+                        "viewMode": "mobile",
+                        "offTxtAccesibility": "true",
+                        "followFinger": false,
+                        "pagination": true,
+                        "componentEl": ".hdd02-gallery__content"
+                      }'>
+           <ul class="swiper-wrapper" role="list">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Front Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603111?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603111?$Q90_1248_936_F_PNG$" role="img" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603111?$Q90_1248_936_F_PNG$" />
+               <img alt="Galaxy A07 Front Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="<?= $image; ?>" data-mobile-src="<?= $image; ?>" role="img"/>
               </div>
              </a>
             </li>
-            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 BackR30 Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Back Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603112?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603112?$Q90_1248_936_F_PNG$" role="img" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603112?$Q90_1248_936_F_PNG$" />
+               <img alt="Galaxy A07 Back Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="<?= $image; ?>" data-mobile-src="<?= $image; ?>" role="img"/>
               </div>
              </a>
             </li>
-            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Front2 Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 BackL30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603113?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603113?$Q90_1248_936_F_PNG$" role="img" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603113?$Q90_1248_936_F_PNG$" />
+               <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603111?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603111?$Q90_1248_936_F_PNG$" role="img"/>
               </div>
              </a>
             </li>
-            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 FrontL30 Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 BackR30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603114?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603114?$Q90_1248_936_F_PNG$" role="img" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603114?$Q90_1248_936_F_PNG$" />
+               <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603112?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603112?$Q90_1248_936_F_PNG$" role="img"/>
               </div>
              </a>
             </li>
-            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 FrontR30 Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Front2 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603115?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603115?$Q90_1248_936_F_PNG$" role="img" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603115?$Q90_1248_936_F_PNG$" />
+               <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603113?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603113?$Q90_1248_936_F_PNG$" role="img"/>
               </div>
              </a>
             </li>
-            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Lside Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 FrontL30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 Lside Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603116?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603116?$Q90_1248_936_F_PNG$" role="img" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603116?$Q90_1248_936_F_PNG$" />
+               <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603114?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603114?$Q90_1248_936_F_PNG$" role="img"/>
               </div>
              </a>
             </li>
-            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Rside Black " aria-hidden="true">
-             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" tabindex="-1">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 FrontR30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 Rside Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603117?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603117?$Q90_1248_936_F_PNG$" role="img" data-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603117?$Q90_1248_936_F_PNG$" />
+               <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603115?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603115?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Lside Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 Lside Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603116?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603116?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Rside Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 Rside Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603117?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603117?$Q90_1248_936_F_PNG$" role="img"/>
               </div>
              </a>
             </li>
            </ul>
            <div class="screen-indicator-wrap">
-            <button class="screen-indicator screen-indicator--prev" disabled an-tr="hdd02_gallery-product detail-swipe-indication" an-ca="indication" an-ac="carousel" an-la="carousel:swipe:product gallery0">
+            <button class="screen-indicator screen-indicator--prev">
              <div class="screen-indicator--icon">
               <span class="hidden">
                Sebelumnya
@@ -3016,7 +3048,7 @@ digitalData.page.pageInfo.pageName = pageName;
               </svg>
              </div>
             </button>
-            <button class="screen-indicator screen-indicator--next" an-tr="hdd02_gallery-product detail-swipe-indication" an-ca="indication" an-ac="carousel" an-la="carousel:swipe:product gallery2">
+            <button class="screen-indicator screen-indicator--next">
              <div class="screen-indicator--icon">
               <span class="hidden">
                Berikutnya
@@ -3029,11 +3061,14 @@ digitalData.page.pageInfo.pageName = pageName;
             </button>
            </div>
           </div>
-          <div class="progressbar-indicator progressbar-indicator--show">
+          <div class="progressbar-indicator">
            <div class="progressbar-indicator__inner">
-            <div class="progressbar-indicator__bar swiper-pagination-progressbar"><span class="progressbar-indicator__bar-fill" style="transform: translate3d(0px, 0px, 0px) scaleX(0.111111) scaleY(1); transition-duration: 300ms;"></span></div>
+            <div class="progressbar-indicator__bar">
+             <span class="progressbar-indicator__bar-fill">
+             </span>
+            </div>
             <div class="progressbar-indicator__arrow-wrap">
-             <button class="progressbar-indicator__arrow swiper-button-prev swiper-button-disabled" disabled>
+             <button class="progressbar-indicator__arrow swiper-button-prev">
               <span class="hidden">
                Sebelumnya
               </span>
@@ -3062,34 +3097,35 @@ digitalData.page.pageInfo.pageName = pageName;
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
-             </div>
-            </a>
-           </li><li class="hdd02-gallery__thumbnail-item" role="listitem">
-            <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
-             <div class="image">
-              <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+              <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
              </div>
             </a>
            </li>
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+              <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
              </div>
             </a>
            </li>
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+              <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
              </div>
             </a>
            </li>
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+              <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+             </div>
+            </a>
+           </li>
+           <li class="hdd02-gallery__thumbnail-item" role="listitem">
+            <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
+             <div class="image">
+              <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
              </div>
             </a>
            </li>
@@ -3107,89 +3143,90 @@ digitalData.page.pageInfo.pageName = pageName;
          <div class="hdd02-gallery__popup type-gallery">
           <div class="layer-popup">
            <div class="layer-popup__contents">
-            <div class="hdd02-gallery__popup-thumbnail scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+            <div class="hdd02-gallery__popup-thumbnail scrollbar">
+             <div class="scrollbar__contents">
               <div class="hdd02-gallery__popup-image">
                <ul class="hdd02-gallery__popup-image-list" role="list">
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
-                  </div>
-                 </a>
-                </li>
-                <li class="hdd02-gallery__popup-image-item" role="listitem">
-                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link"data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
-                  <div class="image">
-                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </a>
                 </li>
                </ul>
               </div>
-             </div></div>
-             
-            <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
-            <div class="hdd02-gallery__popup-vertical scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+             </div>
+            </div>
+            <div class="hdd02-gallery__popup-vertical scrollbar">
+             <div class="scrollbar__contents">
               <div class="hdd02-gallery__popup-vertical-content">
                <div class="hdd02-gallery__popup-vertical-image">
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3199,12 +3236,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3214,12 +3251,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3229,12 +3266,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3244,12 +3281,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3259,12 +3296,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3274,12 +3311,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3289,12 +3326,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3302,14 +3339,14 @@ digitalData.page.pageInfo.pageName = pageName;
                  </div>
                 </div>
                 <div class="image-content">
-                 <divclass="default-image">
+                 <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= htmlspecialchars($image) ?>" role="img"/>
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3386,9 +3423,8 @@ digitalData.page.pageInfo.pageName = pageName;
                 </li>
                </ul>
               </div>
-             </div></div>
-             
-            <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+             </div>
+            </div>
             <button class="hdd02-gallery__popup-close" data-js-action="closeGalleryPopup">
              <span class="hidden">
               Close
@@ -3431,7 +3467,7 @@ digitalData.page.pageInfo.pageName = pageName;
                </div>
                <div class="interaction-container">
                 <div class="interaction-icon">
-                 <svg height="58.617" viewbox="0 0 59.583 58.617"width="59.583" xmlns="http://www.w3.org/2000/svg">
+                 <svg height="58.617" viewbox="0 0 59.583 58.617" width="59.583" xmlns="http://www.w3.org/2000/svg">
                   <g transform="translate(0.5 0.5)">
                    <g transform="translate(0 32.736)">
                     <g fill="rgba(0,0,0,0.24)" stroke="rgba(0,0,0,0.64)" stroke-width="1" transform="translate(13.353)">
@@ -3721,7 +3757,7 @@ digitalData.page.pageInfo.pageName = pageName;
        <input id="apiChangePdpUrl" name="apiChangePdpUrl" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/"/>
        <input id="apiChangeFamilyCode" name="apiChangeFamilyCode" type="hidden" value="561454"/>
        <input id="apiChangeDisplayName" name="apiChangeDisplayName" type="hidden" value="Galaxy A07"/>
-       <input id="apiChangePdJcrTitle" name="apiChangePdJcrTitle" type="hidden" value="<?= htmlspecialchars($title) ?>"/>
+       <input id="apiChangePdJcrTitle" name="apiChangePdJcrTitle" type="hidden" value="<?= $title; ?>"/>
        <input id="apiChangeWtbUseYn" name="apiChangeWtbUseYn" type="hidden" value="N"/>
        <input id="apiChangeStockStatus" name="apiChangeStockStatus" type="hidden" value=""/>
        <input id="ecomStoreType" name="ecomStoreType" type="hidden"/>
@@ -3739,7 +3775,8 @@ digitalData.page.pageInfo.pageName = pageName;
        <input id="isMultiTradeIn" name="isMultiTradeIn" type="hidden" value="Y"/>
        <input id="isOldHybrisWishlist" name="isOldHybrisWishlist" type="hidden" value="N"/>
        <script type="text/javascript">
-        var globalShopInfo = {};var gpv2ShopInfo = {};
+        var globalShopInfo = {};
+        var gpv2ShopInfo = {};
         var newHybrisShopInfo = {"price":"1399000","priceDisplay":"Rp1.399.000","promotionPrice":"1399000","promotionPriceDisplay":"Rp1.399.000","saveText":"0","financingDesc":["Mulai dari Rp116.583/bln. Kalkulator Finansial"],"shopServiceYN":"Y"};
         var hybrisShopInfo = {};
        </script>
@@ -3750,367 +3787,328 @@ digitalData.page.pageInfo.pageName = pageName;
         </section>
         <div class="hdd02-buying-tool__option sg-pdh-buying-options">
 
-         
+         <div class="pd-select-option pd-select-option--check-dealer-stock" style="display: none;">
+         </div>
         
          
          <div class="wt-mt-xs-1 wt-mb-xs-1">
 
-<h1 align="center" style="font-size:34px; line-height:1.4; font-weight:700;">
-<?= htmlspecialchars($title) ?></h1>
-
-<br/>
-
-<div style="
-    font-family:'Poppins', Arial, sans-serif;
-    max-width:750px;
-    margin:30px auto;
-    background:#0a0a0a;
-    color:#e0e0e0;
-    padding:30px;
-    border-radius:16px;
-    box-shadow:0 0 20px #1a1a1a;
-    position:relative;
-    overflow:hidden;
-    font-size:19px;
-    line-height:1.8;
-">
-
-<!-- Header -->
-<div style="position:relative; text-align:center; margin-bottom:25px;">
-  <h1 style="font-size:2rem; font-weight:800; color:#e0e0e0; letter-spacing:1px;">
-    <?= htmlspecialchars($keyword) ?>  </h1>
-  <p style="font-size:15px; color:#a0a0a0; margin-top:5px;">
-    Orang Dalam Slot88 Resmi & Slot Gacor Terpercaya 2026
-  </p>
-</div>
-
-<!-- Info Box -->
-<div style="position:relative; background:#111; 
-            border-radius:16px; box-shadow:0 8px 25px rgba(0,0,0,0.4); overflow:hidden; margin-bottom:30px;">
-  
-  <!-- Header -->
-  <div style="padding:15px 20px; border-bottom:1px solid #222;">
-    <h3 style="margin:0; font-size:16px; color:#e0e0e0; font-weight:600; text-align:center;">
-      INFORMASI SITUS
-    </h3>
-  </div>
-  
-  <!-- Info Items -->
-  <div style="padding:10px 0;">
-    <!-- Item 1 -->
-    <div style="padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
-                border-bottom:1px solid #1a1a1a;">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <span style="font-size:20px; color:#00ff2a;"></span>
-        <span style="color:#00ff2a; font-weight:600; font-size:15px;">Penilaian Pengguna</span>
-      </div>
-      <span style="color:#e0e0e0; font-size:14px; font-weight:500;">999.789.333+</span>
-    </div>
-    
-    <!-- Item 3 -->
-    <div style="padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
-                border-bottom:1px solid #1a1a1a;">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <span style="font-size:20px; color:#00ff2a;"></span>
-        <span style="color:#00ff2a; font-weight:600; font-size:15px;">Sistem Pembayaran</span>
-      </div>
-      <span style="color:#e0e0e0; font-size:14px; font-weight:500;">4 Metode</span>
-    </div>
-    
-    <!-- Item 4 -->
-    <div style="padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
-                border-bottom:1px solid #1a1a1a;">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <span style="font-size:20px; color:#00ff2a;"></span>
-        <span style="color:#00ff2a; font-weight:600; font-size:15px;">Layanan Support</span>
-      </div>
-      <span style="color:#e0e0e0; font-size:14px; font-weight:500;">24/7</span>
-    </div>
-    
-    <!-- Item 5 -->
-    <div style="padding:12px 20px; display:flex; align-items:center; justify-content:space-between;">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <span style="font-size:20px; color:#00ff2a;"></span>
-        <span style="color:#00ff2a; font-weight:600; font-size:15px;">Platform</span>
-      </div>
-      <span style="color:#e0e0e0; font-size:14px; font-weight:500;">Multi-Device</span>
-    </div>
-  </div>
-</div>
-
-<!-- Bonus Highlight -->
-<div style="position:relative; text-align:center; background:#111;
-            border-radius:16px; padding:25px 20px; margin-top:30px;
-            box-shadow:0 5px 20px rgba(0,0,0,0.3); border:1px solid #2a2a2a;">
-  
-  <!-- Header -->
-  <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:20px;">
-    <span style="font-size:24px; color:#00ff2a;"></span>
-    <h3 style="margin:0; font-size:16px; color:#e0e0e0; font-weight:600;">PENAWARAN SPESIAL</h3>
-  </div>
-  
-  <!-- List Bonus -->
-  <div style="display:flex; flex-direction:column; gap:15px;">
-    <div style="padding:12px; background:rgba(124,124,255,0.08); border-radius:12px; 
-                border-left:3px solid #00ff2a;">
-      <p style="margin:0; font-size:15px; color:#00ff2a; font-weight:700;">
-        BONUS NEW MEMBER UP TO 10%
-      </p>
-    </div>
-    
-    <div style="padding:12px; background:rgba(144,238,144,0.08); border-radius:12px; 
-                border-left:3px solid #90ee90;">
-      <p style="margin:0; font-size:15px; color:#90ee90; font-weight:600;">
-        Minimal Deposit Rp. 10.000
-      </p>
-    </div>
-    
-    <div style="padding:12px; background:rgba(144,238,144,0.08); border-radius:12px; 
-                border-left:3px solid #90ee90;">
-      <p style="margin:0; font-size:15px; color:#90ee90; font-weight:600;">
-        Minimal Withdraw Rp 50.000
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- ===== CTA MERAH-EMAS PREMIUM + ANIMASI OLX v2 ===== -->
-<div class="item-preview__actions royal-actions v2">
-<div class="cta-royal">
-<!-- Border emas berkilau -->
-<div class="gilded-frame" aria-hidden="true"></div>
- 
-<!-- lapisan animasi kelopak olx -->
-<div class="petals" aria-hidden="true">
-<!-- tambah/kurangi span untuk intensitas -->
-<span></span><span></span><span></span><span></span><span></span>
-<span></span><span></span><span></span><span></span><span></span>
-<span></span><span></span><span></span><span></span><span></span>
-</div>
- 
-<!-- CTA buttons -->
-<div class="cta-buttons">
-<a href="<?= htmlspecialchars($ampmek) ?>" rel="nofollow noreferrer" class="btn-cta btn-login" title="Masuk akun">LOGIN</a>
-<a href="<?= htmlspecialchars($ampmek) ?>" rel="nofollow noreferrer" class="btn-cta btn-register" title="Daftar sekarang">DAFTAR</a>
-</div>
-</div>
-</div>
- 
 <style>
-:root{
-/* ÃƒÂ¢Ã…Â¡Ã…â€œÃƒÂ¯Ã‚Â¸  PALET EMAS 3D PREMIUM */
---gold-lightest: #a0ffad;     /* kilau puncak emas (pantulan terang) */
---gold-bright:   #53ff6a;     /* warna utama emas cerah */
---gold-rich:     #1aff40;     /* emas solid utama */
---gold-deep:     #01f129;     /* emas dalam, efek bayangan */
---gold-dark:     #00fa36;     /* tepi gelap untuk kontras */
---gold-shadow:   #114e1b;     /* pantulan bawah / refleksi */
---gold-glow:     #55ff63;     /* efek kilau neon lembut */
- 
-/* ÃƒÂ¢Ã…â€œÃ‚Â¨ Warna tambahan refleksi & kontras */
---amber-warm:    #3aff3a;     /* cahaya hangat di highlight */
---amber-soft:    #93ff98;     /* gradasi atas halus */
---bronze-deep:   #1db036;     /* kedalaman gradasi bawah */
---platinum-white:#f8f8f8;     /* kilau putih netral */
---obsidian-dark: #0d0a04;     /* latar belakang kontras kuat */
---black:         #000;
---white:         #fff;
- 
-/* ÃƒÂ°Ã…Â¸Ã‚ÂªÃ¢â€žÂ¢ Warna koin & efek cahaya */
---coin-glow-outer: rgba(0, 250, 33, 0.55);
---coin-glow-inner: rgba(255, 255, 255, 0.95);
---coin-reflect:    rgba(8, 250, 0, 0.8);
- 
-/* ÃƒÂ°Ã…Â¸Ã…â€™Ã‹â€  Efek cahaya tambahan untuk UI */
---highlight-gold: linear-gradient(90deg,
-var(--gold-lightest),
-var(--gold-bright),
-var(--gold-rich),
-var(--gold-deep)
-);
- 
---shadow-gold: linear-gradient(180deg,
-var(--gold-dark),
-var(--bronze-deep)
-);
- 
---neon-gold: radial-gradient(circle at 50% 50%,
-var(--gold-glow) 0%,
-transparent 70%
-);
- 
-/* ÃƒÂ¢Ã…Â¡Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸  Parameter umum UI */
---radius: 18px;
---pad: 18px;
---cta-h: 54px;
---shine-speed: 4.8s;
---coin-min: 6s;--coin-max: 10s;
- 
-/* ÃƒÂ°Ã…Â¸Ã…â€™Ã…Â¸ Efek ambience untuk background */
---ambient-top:   radial-gradient(circle at 30% 10%, rgba(255,235,120,.15), transparent 60%);
---ambient-bottom:radial-gradient(circle at 70% 90%, rgba(255,180,60,.12), transparent 70%);
- 
-/* ÃƒÂ°Ã…Â¸Ã‚ÂªÃ¢â€žÂ¢ Ganti URL koin di sini (HD PNG transparan) */
---coin-url: url('https://isfsc.be/wp-content/uploads/2025/03/ISFSC-SANS-FOND-ED1C24.png');
- 
-/* ÃƒÂ¢Ã…Â¡Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸  Parameter */
---cta-h: 54px;
---radius: 18px;
---pad: 18px;
---shine-speed: 4.8s;
---coin-min: 6s;
---coin-max: 10s;
-}
- 
-/* ===== FRAME UTAMA ===== */
-.royal-actions.v2 .cta-royal{
-position:relative; isolation:isolate; overflow:hidden;
-padding: calc(var(--pad) + 3px);
-border-radius: var(--radius);
-background:
-radial-gradient(140% 120% at 20% -10%, rgba(255,255,255,.12), transparent 55%) ,
-linear-gradient(180deg, var(--gold-3) 0%, var(--gold-2) 55%, var(--gold-1) 100%);
-box-shadow:
-0 0 0 2px rgba(255,215,0,.25) inset,
-0 20px 38px rgba(255,205,0,.25),
-0 0 48px rgba(255,255,180,.25);
-backdrop-filter: saturate(1.15);
-}
- 
-/* Bingkai emas berputar */
-.royal-actions.v2 .gilded-frame{
-position:absolute; inset:0; border-radius: var(--radius);
-}
-.royal-actions.v2 .gilded-frame::before{
-content:""; position:absolute; inset:-2px; border-radius:inherit;
-background:
-conic-gradient(from 0deg,
-#bbffca, #78ff8f, #50ff6d, #42f551, #20e04a, #1f8a2d,
-#42f551, #50ff6d, #78ff8f, #bbffca);
-animation: spin var(--shine-speed) linear infinite;
--webkit-mask:
-radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-mask:
-radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
-pointer-events:none; opacity:.88;
-}
-@keyframes spin{ to{ transform: rotate(360deg);} }
- 
-/* ===== TOMBOL ===== */
-.cta-buttons{
-position:relative; display:flex; gap:16px; justify-content:center; z-index:2;
-}
-.btn-cta{
-position:relative; overflow:hidden;
-display:inline-flex; align-items:center; justify-content:center;
-height: var(--cta-h); min-width: 170px; padding: 0 20px;
-border-radius: 14px; text-decoration:none; font-weight: 900;
-letter-spacing:.6px; text-transform: uppercase; line-height:1; cursor:pointer;
-border:1.5px solid rgba(255,255,255,.25);
-box-shadow:0 0 0 1px rgba(255,255,255,.18) inset, 0 10px 20px rgba(0,0,0,.25);
-transition: transform .15s ease, filter .25s ease, box-shadow .25s ease;
-}
-.btn-cta:hover{ transform: translateY(-3px); filter: brightness(1.05) saturate(1.05); }
-.btn-cta:active{ transform: translateY(0); }
- 
-/* LOGIN */
-.btn-login{
-color:#fff;
-background:linear-gradient(180deg,#00ff2a 0%,#04ff26 90%);
-text-shadow:0 1px 0 rgba(0,0,0,.35);
-}
- 
-/* REGISTER */
-.btn-register{
-color:#004b0a;
-background:linear-gradient(180deg,#00ff40 0%,#04ff26 60%,#00ff40 100%);
-text-shadow:0 1px 0 rgba(255,255,255,.6);
-box-shadow:0 0 0 1px rgba(255,230,150,.5) inset,0 10px 20px rgba(100, 255, 121, 0.4);
-}
- 
-/* Efek shine di tombol */
-.btn-cta::after{
-content:""; position:absolute; inset:-2px; pointer-events:none;
-background: linear-gradient(75deg, transparent 40%, rgba(255,255,255,.25) 50%, transparent 60%);
-transform: translateX(-130%) skewX(-12deg);
-transition: transform .45s ease;
-}
-.btn-cta:hover::after{ transform: translateX(140%) skewX(-12deg); }
- 
-/* Ripple */
-.btn-cta::before{
-content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
-background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.3), transparent 45%);
-opacity:0; transition: opacity .25s ease;
-}
-.btn-cta:active::before{ opacity:.8; }
- 
-.petals{
-position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden;
-}
- 
-.petals span{
-position:absolute;
-top:-50px; width:42px; height:42px;
-background-image: var(--coin-url);
-background-size: cover;
-background-repeat: no-repeat;
-opacity: 0;
-filter: drop-shadow(0 3px 5px rgba(0,0,0,.4));
-animation:
-coinFall linear infinite,
-coinSway ease-in-out infinite,
-coinShine 2.5s ease-in-out infinite;
-}
- 
-/* ===== Bayangan pantulan bawah ===== */
-.coin-shadow{
-position:absolute; bottom:8px; left:0; right:0;
-height:50px; z-index:0;
-background: radial-gradient(ellipse at center, rgba(255,215,0,.25) 0%, transparent 70%);
-filter: blur(12px);
-opacity:.6;
-}
- 
-@keyframes coinFall{
-0%   { transform: translateY(-50px) rotateX(0deg) rotateZ(0deg); opacity:0; }
-10%  { opacity:1; }
-80%  { transform: translateY(300px) rotateX(300deg) rotateZ(720deg); opacity:1; }
-100% { transform: translateY(330px) rotateX(360deg) rotateZ(1080deg); opacity:0; }
-}
-@keyframes coinSway{
-0%,100% { margin-left:-12px; }
-50%     { margin-left:12px; }
-}
-@keyframes coinShine{
-0%,100% { filter: brightness(1) drop-shadow(0 3px 5px rgba(0,0,0,.4)); }
-50%     { filter: brightness(1.4) saturate(1.2) drop-shadow(0 5px 10px rgba(255,215,0,.6)); }
-}
- 
-/* Variasi posisi & delay alami */
-.petals span:nth-child(1){ left:5%;  animation-duration: var(--coin-min); animation-delay:.2s; }
-.petals span:nth-child(2){ left:13%; animation-duration: calc(var(--coin-min) + .8s); animation-delay:.7s; }
-.petals span:nth-child(3){ left:21%; animation-duration: calc(var(--coin-min) + 1.4s); animation-delay:1.1s; }
-.petals span:nth-child(4){ left:29%; animation-duration: calc(var(--coin-min) + 1.8s); animation-delay:.5s; }
-.petals span:nth-child(5){ left:37%; animation-duration: calc(var(--coin-min) + 2.2s); animation-delay:1.5s; }
-.petals span:nth-child(6){ left:45%; animation-duration: calc(var(--coin-max) - 1.9s); animation-delay:.9s; }
-.petals span:nth-child(7){ left:53%; animation-duration: calc(var(--coin-max) - 1.4s); animation-delay:1.3s; }
-.petals span:nth-child(8){ left:61%; animation-duration: calc(var(--coin-max) - .9s); animation-delay:1.8s; }
-.petals span:nth-child(9){ left:69%; animation-duration: calc(var(--coin-max)); animation-delay:1.2s; }
-.petals span:nth-child(10){left:77%; animation-duration: calc(var(--coin-max) - .6s); animation-delay:1.6s; }
-.petals span:nth-child(11){left:85%; animation-duration: calc(var(--coin-max) - 1.2s); animation-delay:1.0s; }
-.petals span:nth-child(12){left:93%; animation-duration: calc(var(--coin-max) - .4s); animation-delay:1.4s; }
- 
-/* Responsif */
-@media (max-width:600px){
-.btn-cta{ min-width: 48%; height: 46px; font-size:.95rem; }
-.royal-actions.v2 .cta-royal{ padding: 12px; border-radius: 14px; }
-.petals span{ width:32px; height:32px; }
-}
+    .<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card {
+            max-width: 750px;
+            width: 100%;
+            background: 355070;
+            border-radius: 32px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 45px -20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+        .hero-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .hero-title h1 {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.4;
+            color:#000000;
+            margin-bottom: 5px;
+        }
+        
+        .hero-title h1 span {
+            color: 48CAE4;
+            font-weight: 800;
+        }
+        
+        /* header dalam card */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .brand-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color:#000000;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .brand-header .sub {
+            font-size: 15px;
+            color: 6A994E;
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        
+        .brand-header .sub:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: 6A994E;
+        }
+        
+        /* info box */
+        .info-container {
+            background: #fafafa;
+            border-radius: 20px;
+            border: 1px solid 48CAE4;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .info-head {
+            padding: 15px 20px;
+            border-bottom: 1px solid 48CAE4;
+            background: #fffbf2;
+        }
+        
+        .info-head h3 {
+            margin: 0;
+            font-size: 16px;
+            color: 48CAE4;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-list {
+            padding: 5px 0;
+        }
+        
+        .info-row {
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid 6A994E;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .info-dot {
+            width: 8px;
+            height: 8px;
+            background: 6A994E;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .info-text {
+            color: #2a2a2a;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .info-number {
+            color:#000000;
+            font-size: 15px;
+            font-weight: 600;
+            background: 355070;
+            padding: 4px 14px;
+            border-radius: 40px;
+            border: 1px solid 6A994E;
+        }
+        
+        /* bonus section */
+        .bonus-wrap {
+            background: #fefcf7;
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin: 30px 0 35px;
+            border: 1px solid 48CAE4;
+            text-align: center;
+        }
+        
+        .bonus-head {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .bonus-head .gold-icon {
+            width: 8px;
+            height: 8px;
+            background: 6A994E;
+            border-radius: 50%;
+        }
+        
+        .bonus-head h3 {
+            margin: 0;
+            font-size: 16px;
+            color: 48CAE4;
+            font-weight: 700;
+        }
+        
+        .bonus-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .bonus-item {
+            padding: 12px 15px;
+            background: 355070;
+            border-radius: 14px;
+            border-left: 4px solid 6A994E;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.05);
+            text-align: left;
+        }
+        
+        .bonus-item p {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color:#000000;
+        }
+        
+        .bonus-item .highlight-gold {
+            color: 48CAE4;
+            font-weight: 700;
+        }
+        
+        .bonus-item .highlight-black {
+            color:#000000;
+        }
+        
+        /* CTA buttons - gold edition */
+        .cta-gold-section {
+            margin-top: 25px;
+            text-align: center;
+        }
+        
+        .cta-buttons-gold {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-gold {
+            display: inline-block;
+            padding: 14px 42px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid;
+            min-width: 140px;
+        }
+        
+        .btn-login-gold {
+            background: transparent;
+            color:#000000;
+            border-color: 6A994E;
+        }
+        
+        .btn-login-gold:hover {
+            background: 48CAE4;
+        }
+        
+        .btn-register-gold {
+            background: 6A994E;
+            color:#000000;
+            border-color: 6A994E;
+        }
+        
+        .btn-register-gold:hover {
+            background: 6A994E;
+        }
 </style>
-</div>
+<div class="<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card">
+        <!-- main title (atas sekali) -->
+        <div class="hero-title">
+            <h1><?= $title; ?></h1>
+        </div>
+        <!-- Info Box -->
+        <div class="info-container">
+            <div class="info-head">
+                <h2>INFORMASI SITUS <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
+            </div>
+            <div class="info-list">
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Penilaian Pengguna</span>
+                    </div>
+                    <span class="info-number">5 JUTA PENGGUNA</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Minimal Deposit</span>
+                    </div>
+                    <span class="info-number">10.000 Ribu</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Layanan Support</span>
+                    </div>
+                    <span class="info-number">24/7</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Platform</span>
+                    </div>
+                    <span class="info-number">Multi-Device</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bonus Highlight -->
+        <div class="bonus-wrap">
+            <div class="bonus-head">
+                <span class="gold-icon"></span>
+                <h3>PENAWARAN SPESIAL</h3>
+                <span class="gold-icon"></span>
+            </div>
             
-           
+            <div class="bonus-list">
+                <div class="bonus-item">
+                    <p><span class="highlight-gold">BONUS NEW MEMBER 10%</span></p>
+                </div>
+                <div class="bonus-item">
+                    <p><span class="highlight-black">Minimal Deposit Rp. 10.000</span></p>
+                </div>
+                <div class="bonus-item">
+                    <p><span class="highlight-black">Minimal Withdraw Rp 50.000</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Buttons - Gold Version (tanpa animasi Dunia Game Digital Yang) -->
+        <div class="cta-gold-section">
+            <div class="cta-buttons-gold">
+                <a href="<?= $ampmek; ?>" rel="nofollow noreferrer" class="btn-gold btn-login-gold" title="Masuk akun">LOGIN</a>
+                <a href="<?= $ampmek; ?>" rel="nofollow noreferrer" class="btn-gold btn-register-gold" title="Daftar sekarang">DAFTAR</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+            </li>
+           </ul>
            <p class="pd-select-option__alert-message">
             <svg class="icon" focusable="false" viewbox="0 0 96 96">
              <path d="M48 2.5c25.089 0 45.5 20.412 45.5 45.502C93.5 73.09 73.089 93.5 48 93.5S2.5 73.09 2.5 48.002C2.5 22.912 22.911 2.5 48 2.5zM51 40H39.542v6H45v30h6V40zm-4.002-21l-.217.005A5.005 5.005 0 0042 24a5.006 5.006 0 004.781 4.996l.217.005.217-.005a5.009 5.009 0 004.78-4.774l.005-.223-.005-.216a5.008 5.008 0 00-4.774-4.778L46.998 19z">
@@ -4137,12 +4135,14 @@ opacity:.6;
           <div class="pd-select-option__headline-wrap">
            <h3 class="pd-select-option__headline">
             Pilih Antara Anda
-           </h3></div>
+           </h3>
+          </div>
           <div class="pd-select-option__wrap">
           </div>
          </div>
          <div class="pd-select-option pd-select-option--delivery-detail" style="display: none;">
-         </div><div class="option-result result-delivery" style="display: none;">
+         </div>
+         <div class="option-result result-delivery" style="display: none;">
          </div>
          <div class="pd-select-option pd-select-option__extra-benefit" style="display: none;">
          </div>
@@ -4152,7 +4152,7 @@ opacity:.6;
          </div>
          <div class="pd-select-option option-offer-finance" style="display: none;">
          </div>
-         <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
+         <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
          <div class="pd-select-option off-change option-care" style="display: none;">
          </div>
          <div class="option-result-dev result-care" style="display: none;">
@@ -4171,8 +4171,8 @@ opacity:.6;
          </div>
          <div class="pd-select-option option-embed-addon" style="display: none;">
          </div>
-         <!-- CRHQ-2498 PrePurchase Check, 20241122 by mati namgab - VD and DA Ã¬ËœÂÃ¬â€”Â­ Start -->
-         <!-- CRHQ-2498 Pre-purchase Check, 20241031 by mati namgab - VD and DA Ã¬ËœÂÃ¬â€”Â­ Start -->
+         <!-- CRHQ-2498 PrePurchase Check, 20241122 by mati namgab - VD and DA 영역 Start -->
+         <!-- CRHQ-2498 Pre-purchase Check, 20241031 by mati namgab - VD and DA 영역 Start -->
          <div class="pd-select-option pd-select-option--type-offer-text" style="display: none;">
          </div>
          <div class="pd-select-option off-change option-upgrade pd-select-option--upgrade-program" style="display: none;">
@@ -4191,7 +4191,7 @@ opacity:.6;
          </div>
          <div class="pd-buying-tool__emi-calculator" style="display: none;">
          </div>
-        </section></div>
+        </div>
         <div class="hdd02-buying-tool__cost-box hdd02-buying-tool__cost-box--old sg-pdh-order-summary">
         </div>
         <div aria-modal="true" class="add-on__layer-learn-more" id="addOnLayerPopupLearnMore" role="dialog">
@@ -4199,31 +4199,24 @@ opacity:.6;
           <div class="add-on-popup__inner">
            <h2 class="add-on-popup__title">
            </h2>
-           <div class="add-on-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+           <div class="add-on-popup__contents scrollbar">
+            <div class="scrollbar__contents">
              <div class="add-on__learn-more-images">
              </div>
              <div class="add-on__learn-more-content">
              </div>
-            </div></div>
-            
-           <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+            </div>
+           </div>
            <button class="add-on-popup__close" type="button">
             <span class="hidden">
              Layer Popup Close
             </span>
-            <svg aria-hidden="true" class="icon add-on-popup__icon" focusable="false">
-             <use href="#delete-bold" xlink:href="#delete-bold">
-             </use>
-            </svg>
            </button>
           </div>
          </div>
         </div>
-       
+       </section>
        <!-- N -->
-       <script data-id="aac44b1f-0962-428e-af28-1f4e53562d11" data-object-type="Product" data-type="seo" type="application/ld+json">
-        {"@context":"https://schema.org","@type":"Product","brand":{"@type":"Brand","name":"Samsung"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","ratingCount":"6"},"@id":"https://www.samsung.com/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy/","name":"Galaxy A07","image":"<?= htmlspecialchars($url) ?>is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-thumb-548603129","description":"Galaxy A07 (MS-F813QBDUIDZ) - Lihat keunggulan dan fitur lengkap produk ini. Pelajari harga, spesifikasi dan temukan produk terbaru serta  Smartphones terbaik untuk Anda di Samsung Indonesia.","sku":"MS-F813QBDUIDZ","offers":{"@type":"Offer","url":"https://www.samsung.com/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy/","priceCurrency":"IDR","availability":"inStock","price":"1399000"}}
-       </script>
        <!--googleoff: all true-->
        <div class="sdf-component-templates" id="sg-pdh-dynamic-template-assembly">
         <div class="hdd02-buying-tool__cost-box hdd02-buying-tool__cost-box--old sdf-component-template" data-sdf-template="buyingPrice @ price" data-sdf-unwrap="true">
@@ -4231,17 +4224,18 @@ opacity:.6;
           <div class="summary">
            <div class="summary__product-wrap">
             <strong class="summary__product-name">
-             <?= htmlspecialchars($keyword) ?>            </strong>
+             Game Digital Yang Setiap
+            </strong>
             <p class="summary__product-price" style="display:none;">
              {{price.priceWrapper.info.salePriceFormatted}}
             </p>
            </div>
            <div class="summary__select-option-wrap">
             <span class="summary__select-option">
-             SLOT88
+             Terpercaya
             </span>
             <span class="summary__select-option">
-             SLOT88
+             Game Digital Yang Setiap
             </span>
             <span class="summary__select-option">
              Terpopuler
@@ -4263,11 +4257,12 @@ opacity:.6;
            </em>
            <p class="cost-box__price" data-total-price="1399000">
             <strong class="cost-box__price-now" style="font-size: 20px; text-align: justify;">
-             <?= htmlspecialchars($description) ?>            </strong>
+             <?= $description; ?>
+            </strong>
            </p>
            <div class="cost-box__cta-wrap">
             <span class="cost-box__cta">
-             <a href="<?= htmlspecialchars($ampmek) ?>" class="cta cta--contained cta--emphasis add-special-tagging">
+             <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis add-special-tagging">
               Masuk/Daftar
              </a>
             </span>
@@ -4276,7 +4271,7 @@ opacity:.6;
          </div>
         </div>
         <div class="pd-info__wishlist sdf-component-template" data-sdf-template="wishlist @ drawObj" data-sdf-unwrap="true">
-         <a aria-selected="{{wishList.isSelected}}" class="pd-wishlist-cta js-layer-open {{wishList.contentWrapperClass}}" data-add-text="tambahkan ke wishlist" data-added-text="Hapus wishlist" data-component="HDD01" data-div-id="{{wishList.targetId}}" data-modelcode="{{wishList.moCode}}" data-modeldisplay="galaxy a07" data-modelname="{{wishList.moName}}" data-pimsubtype="galaxy a" data-product-name="{{wishList.moName}}" data-pvisubtype="smartphone" data-pvitype="mobile" data-sdf-attr.data-modelprice="{{wishList.price}}" data-stock="{{wishList.stockLevelStatus}}" data-target-popup="wishPopup" href="javascript:void(0);" role="button" aria-label="tambahkan ke wishlist : {{wishList.moName}}">
+         <a aria-selected="{{wishList.isSelected}}" class="pd-wishlist-cta js-layer-open {{wishList.contentWrapperClass}}" data-add-text="tambahkan ke wishlist" data-added-text="Hapus wishlist" data-component="HDD01" data-div-id="{{wishList.targetId}}" data-modelcode="{{wishList.moCode}}" data-modeldisplay="galaxy a07" data-modelname="{{wishList.moName}}" data-pimsubtype="galaxy a" data-product-name="{{wishList.moName}}" data-pvisubtype="smartphone" data-pvitype="mobile" data-sdf-attr.data-modelprice="{{wishList.price}}" data-stock="{{wishList.stockLevelStatus}}" data-target-popup="wishPopup" href="javascript:void(0);" role="button">
           <span class="hidden">
            WishList
           </span>
@@ -4299,7 +4294,7 @@ opacity:.6;
          <ul class="pd-select-option__list" role="list">
           <li class="pd-select-option__item selected" role="listitem">
            <div class="pd-option-selector">
-            <input an-ac="pd buying tool" an-ca="option click" an-la="leasing:no" an-tr="header(pim)_option selector-product detail-select-service option" checked class="hidden option-input add-special-tagging" id="pd-leasing-0" name="pd-leasing" type="radio" />
+            <input an-ac="pd buying tool" an-ca="option click" an-la="leasing:no" an-tr="header(pim)_option selector-product detail-select-service option" checked="checked" class="hidden option-input add-special-tagging" id="pd-leasing-0" name="pd-leasing" type="radio"/>
             <label class="pd-option-selector__label" for="pd-leasing-0">
              <span class="pd-option-selector__text-wrap">
               <span class="pd-option-selector__text">
@@ -4493,7 +4488,7 @@ opacity:.6;
           <p class="option-result__text-title" data-sdf-test="{{galaxyForeverResult.displayModelName}}">
            {{galaxyForeverResult.displayModelName}}
           </p>
-          <p class="option-result__text"data-sdf-test="{{galaxyForeverResult.discountText1}}">
+          <p class="option-result__text" data-sdf-test="{{galaxyForeverResult.discountText1}}">
            {{galaxyForeverResult.discountText1}}
           </p>
          </div>
@@ -4635,7 +4630,8 @@ opacity:.6;
               </label>
               <label class="pd-option-selector__label" data-sdf-test="{{item.hasImage}}" for="pd-color-multi1-{{item.index}}">
                <div class="pd-option-selector__img-wrap">
-                <div data-sdf-attr.class="image"><img alt="image" data-comp-name="image" data-desktop-src="{{item.imageUrl}}$n_80_PNG$" data-mobile-src="{{item.imageUrl}}$n_160_PNG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
+                <div data-sdf-attr.class="image">
+                 <img alt="image" data-comp-name="image" data-desktop-src="{{item.imageUrl}}$n_80_PNG$" data-mobile-src="{{item.imageUrl}}$n_160_PNG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
                 </div>
                </div>
               </label>
@@ -4741,7 +4737,8 @@ opacity:.6;
             <h2 class="layer-popup__title">
              Jenis bezel
             </h2>
-            <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+            <div class="layer-popup__contents scrollbar">
+             <div class="scrollbar__contents">
               <div data-sdf-attr.class="pd-selector-option__bezel-image">
                <div data-sdf-attr.class="image">
                 <img alt="alt text" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-modern-pc.jpg?$636_300_JPG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-modern-mo.jpg?$624_320_JPG$" data-sdf-attr.class="image__preview lazy-load responsive-img" role="img"/>
@@ -4758,13 +4755,13 @@ opacity:.6;
                 </p>
                </li>
               </ul>
-             </div></div>
-             
-            <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><divclass="scrollbar-vertical__bar"></div></div></div></div>
+             </div>
+            </div>
             <button class="layer-popup__close" type="button">
              <span class="hidden">
               Layer Popup Close
-             </span><svg aria-hidden="true" class="icon" focusable="false">
+             </span>
+             <svg aria-hidden="true" class="icon" focusable="false">
               <use href="#delete-bold" xlink:href="#delete-bold">
               </use>
              </svg>
@@ -4778,7 +4775,8 @@ opacity:.6;
             <h2 class="layer-popup__title">
              Jenis bezel
             </h2>
-            <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+            <div class="layer-popup__contents scrollbar">
+             <div class="scrollbar__contents">
               <div class="pd-selector-option__bezel-image">
                <div data-sdf-attr.class="image">
                 <img alt="alt text" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-beveled-pc.jpg?$636_300_JPG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-beveled-mo.jpg?$624_320_JPG$" data-sdf-attr.class="image__preview lazy-load responsive-img" role="img"/>
@@ -4795,9 +4793,8 @@ opacity:.6;
                 </p>
                </li>
               </ul>
-             </div></div>
-             
-            <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+             </div>
+            </div>
             <button class="layer-popup__close" type="button">
              <span class="hidden">
               Layer Popup Close
@@ -5017,16 +5014,20 @@ opacity:.6;
           Please select city
          </p>
          <div class="pd-select-option__wrap">
-          <div class="pd-select-option__menu pd-select-option__menu--placeholder"><div class="menu filled" data-comp-name="menu" data-open-direction="down" data-type="filled">
-            <select class="menu__select" data-default-message="{{checkDealerStock.selectCity}}" name="check-dealer-stock"><option data-sdf-test="{{checkDealerStock.selectCity}}" disabled="" value="select City">
+          <div class="pd-select-option__menu pd-select-option__menu--placeholder">
+           <div class="menu filled" data-comp-name="menu" data-open-direction="down" data-type="filled">
+            <select aria-hidden="true" class="menu__select" data-default-message="{{checkDealerStock.selectCity}}" name="check-dealer-stock" tabindex="-1">
+             <option data-sdf-test="{{checkDealerStock.selectCity}}" disabled="" value="select City">
               {{checkDealerStock.selectCity}}
              </option>
              <option data-sdf-repeat.item="{{checkDealerStock.dataList}}" value="{{item.isocodeShort}}">
               {{item.name}}
              </option>
             </select>
-            <button aria-haspopup="listbox" class="menu__select-field" type="button" tabindex="-1" aria-hidden="true">
-             <span class="menu__select-field-text">{{checkDealerStock.selectCity}}</span>
+            <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field" type="button">
+             <span class="menu__select-field-text">
+              Select city
+             </span>
              <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
               <use href="#open-down-bold" xlink:href="#open-down-bold">
               </use>
@@ -5036,7 +5037,7 @@ opacity:.6;
               </use>
              </svg>
             </button>
-           <div class="menu__list-wrap scrollbar" aria-hidden="true" style="visibility: hidden;"><div class="scrollbar__wrap" style="max-height: 0px;"><ul class="menu__list scrollbar__contents" role="listbox"><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">{{checkDealerStock.selectCity}}</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">{{item.name}}</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li></ul></div><div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div></div>
+           </div>
           </div>
           <p class="pd-select-option__check-message pd-select-option__check-message--success">
            <span>
@@ -5114,13 +5115,14 @@ opacity:.6;
            <use href="#information-error-bold" xlink:href="#information-error-bold">
            </use>
           </svg>
-          Please select Samsung Assured Buyback or no coverage
+          Please select <?= $BRAND; ?> x <?= $BRAND2; ?> Assured Buyback or no coverage
          </p>
          <div class="pd-select-option__wrap">
           <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
            <li class="pd-select-option__item" data-sdf-repeat.item="{{newAssuredBuyBack.itemSet}}" role="listitem">
             <div class="pd-option-selector">
-             <input an-ac="pd buying tool" an-ca="option click" an-la="galaxy assured:yes" an-tr="header(pim)_option selector-product detail-select-service option" class="hidden option-input open-popup add-special-tagging" id="pd-galaxy-new-assured-{{item.index}}" name="pd-galaxy-new-assured" type="radio"/><label class="pd-option-selector__label" for="pd-galaxy-new-assured-{{item.index}}">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="galaxy assured:yes" an-tr="header(pim)_option selector-product detail-select-service option" class="hidden option-input open-popup add-special-tagging" id="pd-galaxy-new-assured-{{item.index}}" name="pd-galaxy-new-assured" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-galaxy-new-assured-{{item.index}}">
               <span class="pd-option-selector__text-wrap">
                <span class="pd-option-selector__text">
                 <strong class="pd-option-selector__main-text" data-sdf-test="{{item.title}}">
@@ -5154,11 +5156,12 @@ opacity:.6;
         <div class="option-result-dev result-option-new-assured-buy-back sdf-component-template" data-sdf-template="newAssuredBuyBackResult @ drawObj" data-sdf-unwrap="true">
          <input class="hidden result-price" data-sdf-attr.data-display-name="{{newAssuredBuyBackResult.dataDisplayName}}" data-sdf-attr.data-display-price="{{newAssuredBuyBackResult.dataDisplayPrice}}" data-sdf-attr.data-price="{{newAssuredBuyBackResult.dataPrice}}" data-sdf-attr.data-sale-price="{{newAssuredBuyBackResult.dataPrice}}" data-sdf-attr.model-code="{{newAssuredBuyBackResult.dataModelCode}}" data-sdf-attr.model-name="{{newAssuredBuyBackResult.dataModelName}}" type="hidden"/>
         </div>
-        <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
+        <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
         <div class="pd-select-option option-care sdf-component-template" data-sdf-template=" care @ drawObj" data-sdf-test="{{care.hasComponent}}" data-sdf-unwrap="true">
          <div class="pd-select-option__headline-wrap">
           <h3 class="pd-select-option__headline" data-sdf-test="{{care.title}}">
-           Benefits of <?= htmlspecialchars($keyword) ?>          </h3>
+           Benefits of Game Digital Yang Setiap
+          </h3>
           <button an-ac="pd buying tool" an-ca="option click" an-la="samsung care:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{care.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{care.learnMoreCta.target}}" data-sdf-attr.title="{{care.learnMoreCta.title}}" data-sdf-test="{{care.learnMoreCta.isNotOutLink}}">
            {{care.learnMoreCta.text}}
           </button>
@@ -5171,7 +5174,8 @@ opacity:.6;
           </a>
          </div>
          <p class="pd-select-option__desc" data-sdf-test="{{care.description}}">
-          <?= htmlspecialchars($title) ?>         </p>
+          <?= $title; ?>
+         </p>
          <p class="pd-select-option__notice pd-select-option__notice--normal checkingSamsungCare">
           <svg aria-hidden="true" class="icon" focusable="false">
            <use href="#information-error-bold" xlink:href="#information-error-bold">
@@ -5190,8 +5194,8 @@ opacity:.6;
                 <strong class="pd-option-selector__main-text">
                  Akses Cepat & Stabil
                 </strong>
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
                </span>
               </span>
              </label>
@@ -5206,8 +5210,8 @@ opacity:.6;
                 <strong class="pd-option-selector__main-text">
                  Banyak Provider & Game Populer
                 </strong>
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
                </span>
               </span>
              </label>
@@ -5222,8 +5226,8 @@ opacity:.6;
                 <strong class="pd-option-selector__main-text">
                  Sistem Keamanan Berlapis
                 </strong>
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
                </span>
               </span>
              </label>
@@ -5233,12 +5237,13 @@ opacity:.6;
             <div class="pd-option-selector">
              <input an-ac="pd buying tool" an-ca="option click" an-la="samsung care:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" data-event-type="{{care.noAttr.eventType}}" id="pd-samsung-care-0" name="pd-samsung-care" type="radio"/>
              <label class="pd-option-selector__label" for="pd-samsung-care-1">
-              <span class="pd-option-selector__text-wrap"><span class="pd-option-selector__text">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
                 <strong class="pd-option-selector__main-text">
                  Support 24/7 Ramah & Responsif
                 </strong>
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
                </span>
               </span>
              </label>
@@ -5253,8 +5258,8 @@ opacity:.6;
                 <strong class="pd-option-selector__main-text">
                  Tampilan Bersih & Mudah Dipahami
                 </strong>
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
-                <!-- CRHQ-3143 [B2C] ES - SC+ ÃªÂ°Å“Ã¬â€ž  -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
                </span>
               </span>
              </label>
@@ -5272,7 +5277,7 @@ opacity:.6;
            {{warranty.title}}
           </h3>
           <span class="pd-select-option__cta-wrap" data-sdf-test="{{warranty.learnMoreCta.text}}">
-           <button an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{warranty.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{warranty.learnMoreCta.target}}" data-sdf-attr.title="{{warranty.learnMoreCta.title}}" data-sdf-test="{{ warranty.learnMoreCta.isNotOutLink}}" href="%7b%7bwarranty.learnMoreCta.html" rel="nofollow">
+           <button an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{warranty.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{warranty.learnMoreCta.target}}" data-sdf-attr.title="{{warranty.learnMoreCta.title}}" data-sdf-test="{{ warranty.learnMoreCta.isNotOutLink}}" href="#" rel="nofollow">
             {{warranty.learnMoreCta.text}}
            </button>
            <a an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon" data-sdf-attr.data-target-popup="{{warranty.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{warranty.learnMoreCta.target}}" data-sdf-attr.title="{{warranty.learnMoreCta.title}}" data-sdf-test="{{warranty.learnMoreCta.isOutLink}}">
@@ -5417,7 +5422,7 @@ opacity:.6;
           </svg>
          </a>
         </div>
-        <!-- (2021.02.08 Ã¬Â¶â€ÃªÂ°â‚¬) Tooltip ÃªÂ¸Â°Ã«Å Â¥ Ã¬Â¶â€ÃªÂ°â‚¬ -->
+        <!-- (2021.02.08 추가) Tooltip 기능 추가 -->
         <div class="pd-select-option pd-select-option--delivery-detail sdf-component-template" data-sdf-template="delivery @ drawObj" data-sdf-test="{{delivery.hasComponent}}" data-sdf-unwrap="true">
          <div class="pd-select-option__headline-wrap">
           <h3 class="pd-select-option__headline">
@@ -5459,7 +5464,7 @@ opacity:.6;
            {{deliveryResult.subText}}
            <br/>
            Standard installation charges may apply.
-           <a aria-label="Link Title" class="option-result__text-link" href="<?= htmlspecialchars($url) ?>is/content/samsung/assets/in/info/installation/Delivery-Service-TnC.pdf" target="_blank">
+           <a aria-label="Link Title" class="option-result__text-link" href="https://images.samsung.com/is/content/samsung/assets/in/info/installation/Delivery-Service-TnC.pdf" target="_blank">
             Click here
            </a>
            for more details.
@@ -5488,7 +5493,7 @@ opacity:.6;
           <h3 class="pd-select-option__headline">
            {{tariffOption.headline}}
           </h3>
-          <span class="pd-select-option__cta-wrap"data-sdf-test="{{tariffOption.href}}">
+          <span class="pd-select-option__cta-wrap" data-sdf-test="{{tariffOption.href}}">
            <a an-ac="pd buying tool" an-ca="option click" an-la="tariff:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon add-special-tagging" data-sdf-attr.href="{{tariffOption.href}}" rel="nofollow" role="button" target="_blank" title="Lebih detail">
             Lebih detail
             <svg aria-hidden="true" class="icon" focusable="false">
@@ -5502,7 +5507,7 @@ opacity:.6;
           {{tariffOption.description}}
          </p>
          <p class="pd-select-option__carrier" data-sdf-list.logoitem="{{tariffOption.logoList}}">
-          <img class="carrier-logo" data-sdf-attr.alt="{{logoitem.alt}}" data-sdf-attr.src="{{logoitem.src}}" alt="" />
+          <img class="carrier-logo" data-sdf-attr.alt="{{logoitem.alt}}" data-sdf-attr.src="{{logoitem.src}}"/>
          </p>
          <div class="pd-select-option__wrap">
           <ul class="pd-select-option__list" role="list">
@@ -5622,7 +5627,8 @@ opacity:.6;
             <div class="add-on-product__price-wrap">
              <p class="add-on-product__final-price" data-price="{{item.finalPriceValue}}">
               {{item.finalPrice}}
-             </p><del class="add-on-product__original-price" data-original-price="{{item.originalPriceValue}}" data-sdf-test="{{item.originalPrice}}">
+             </p>
+             <del class="add-on-product__original-price" data-original-price="{{item.originalPriceValue}}" data-sdf-test="{{item.originalPrice}}">
               {{item.originalPrice}}
              </del>
              <span class="add-on-product__saving-price" data-save-price="{{item.savePriceValue}}" data-sdf-test="{{item.savePrice}}">
@@ -5642,8 +5648,8 @@ opacity:.6;
           <li class="add-on-product{{item.oosClass}}{{item.hideClass}}" data-sdf-repeat.item="{{embedAddon.itemSet}}" data-view-more-item="true">
            <div class="add-on-product__image">
             <div class="image">
-             <img alt="{{item.imgAlt}}" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="" data-mobile-src="" data-src="" role="img" style="display: none;" />
-             <img alt="{{item.imgAlt}}" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="{{item.imgSrc}}?$72_72_PNG$" data-mobile-src="{{item.imgSrc}}?$128_128_PNG$" data-src="{{item.imgSrc}}?$128_128_PNG$" role="img" />
+             <img alt="{{item.imgAlt}}" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="" data-mobile-src="" data-src="" role="img"/>
+             <img alt="{{item.imgAlt}}" class="image__main lazy-load responsive-img lazy-load" data-comp-name="image" data-desktop-src="{{item.imgSrc}}?$72_72_PNG$" data-mobile-src="{{item.imgSrc}}?$128_128_PNG$" data-src="{{item.imgSrc}}" role="img"/>
             </div>
            </div>
            <div class="add-on-product__detail-wrap">
@@ -5704,487 +5710,538 @@ opacity:.6;
           </button>
          </div>
         </div>
-        
+        <div data-sdf-template="offerContent_promotionMessage @ message" data-sdf-unwrap="true">
+         <div class="dot-list__text-wrap {{message.item.contentWrapperClass}}">
+          <span class="dot-list__text" data-sdf-test="{{message.item.offerTitle}}">
+           {{message.item.offerTitle}}
+          </span>
+          <span class="dot-list__tooltip" data-sdf-test="{{message.item.offerTooltip}}">
+           <button aria-describedby="descTip" class="dot-list__tooltip-cta">
+            <span class="hidden">
+             ?
+            </span>
+           </button>
+           <span class="dot-list__tooltip-message" id="descTip" role="tooltip">
+            <span class="dot-list__tooltip-message-text">
+             {{message.item.offerTooltip}}
+            </span>
+            <button class="dot-list__tooltip-close">
+             <span class="hidden">
+              Close
+             </span>
+             <svg aria-hidden="true" class="icon icon-delete" focusable="false">
+              <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+              </use>
+             </svg>
+            </button>
+           </span>
+          </span>
+          <a an-ac="pd buying tool" an-ca="option click" an-la="offers:{{message.item.title}}:{{message.item.linkText}}" an-tr="hdd02_product info.-product detail-offers-option_click1" class="cta cta--underline-v2 cta--black" data-sdf-attr.href="{{message.item.linkUrl}}" data-sdf-attr.title="{{message.item.linkText}}" data-sdf-test="{{message.item.linkEnabled}}">
+           {{message.item.linkText}}
+          </a>
+         </div>
+         <p class="dot-list__desc" data-sdf-test="{{message.item.hasTCCTA}}">
+          {{message.item.tcCTAText}}
+         </p>
+         <p class="dot-list__desc" data-sdf-test="{{message.item.hasPeriod}}">
+          {{message.item.periodText}}
+         </p>
+        </div>
        </div>
        <!--googleon: all-->
       </div>
-     </div>
-    
     <div class="pd-g-feature-benefit-ux2 pd-g-feature-benefit">
      <!-- isNotBuyingPd-->
      <!-- FaqSeo -->
     </div>
     <div class="pd-g-reasons-to-buy-ux2">
      <input id="rtbListSize" name="rtbListSize" type="hidden" value="4"/>
-     <section class="pdd28-reasons-to-buy pdd28-reasons-to-buy--theme-white-card" style="">
-      <script data-id="2b893dde-fb1e-4e03-8e91-a97d9d75e68a" data-object-type="OfferCatalog" data-type="seo" type="application/ld+json">
-       {"@context":"https://schema.org","@type":"OfferCatalog","name":"Beli langsung. Dapat lebih banyak.","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Samsung Rewards","description":"Belanja dan kumpulkan point reward untuk pembelian berikutnya"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Samsung Premium Care","description":"Perlindungan lebih tanpa perlu khawatir"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Gratis Pengiriman","description":"<?= htmlspecialchars($description) ?>"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Flexible Finance","description":"Cicilan 0% menggunakan kartu kredit bank hingga 24 bulan"}}]}
-      </script>
+     <section class="pdd28-reasons-to-buy pdd28-reasons-to-buy--theme-white-card" style="display:none;">
 
-    <style>
-      :root{
-          --lx-bg: #ffffff;
-          --lx-card: #ffffff;
-          --lx-text:#0f172a;
-          --lx-muted:#6b7280;
-          --lx-border:#e5e7eb;
-          --lx-accent:#37d459;    /* gold */
-          --lx-accent-2:#111827;  /* deep slate */
-          --lx-radius:16px;
-          --lx-shadow:0 6px 24px rgba(2,6,23,.06);
-      }.lx-wrap{
-          background: var(--lx-bg);
-          color: var(--lx-text);
-          font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif;
-      }
-      .lx-container{
-          max-width:1425px;
-          margin:0 auto;
-          padding: 0px 16px 0px;
-      }
+<style>
+  .lx-container{
+    max-width:1180px;
+    margin:42px auto;
+    padding:0 16px;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  }
 
-      /* Section shell */
-      .lx-section{
-          background: var(--lx-card);
-          border:1px solid var(--lx-border);
-          border-radius:var(--lx-radius);
-          box-shadow:var(--lx-shadow);
-          padding:24px;
-          margin-bottom:18px;
-      }
-      .lx-head{
-          display:flex; align-items:center; gap:12px; margin:0 0 12px 0;
-          font-size:22px; line-height:1.25; letter-spacing:.2px;
-      }
-      .lx-head svg{ width:22px; height:22px; flex:0 0 auto; }
-      .lx-body{ color: var(--lx-muted); font-size:15.5px; line-height:1.7; }
-      .lx-body a{ color: #00ff2a; text-underline-offset:3px; }
+  .lx-container *{
+    box-sizing:border-box;
+  }
 
-      /* Pills */
-      .lx-stats{
-          display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;
-      }
-      .lx-pill{
-          display:inline-flex; align-items:center; gap:8px;
-          border:1px dashed var(--lx-border);
-          padding:8px 12px; border-radius:999px; font-size:13.5px;
-          color: var(--lx-text);
-          background: linear-gradient(180deg, rgba(212,175,55,.08), rgba(212,175,55,0));
-      }
-      .lx-pill svg{ width:16px; height:16px; }
+  .lx-mainbox{
+    position:relative;
+    overflow:hidden;
+    border-radius:26px;
+    padding:34px;
+    background:
+      radial-gradient(circle at top left,rgba(255,45,45,.22),transparent 32%),
+      radial-gradient(circle at bottom right,rgba(180,0,0,.24),transparent 36%),
+      linear-gradient(145deg,#160202 0%,#320707 52%,#0d0101 100%);
+    border:1px solid rgba(255,55,55,.58);
+    box-shadow:0 24px 60px rgba(0,0,0,.50),inset 0 0 0 1px rgba(255,255,255,.05);
+    color:#ffecec;
+  }
 
-      /* Features grid */
-      .lx-grid{ display:grid; gap:12px; grid-template-columns:repeat(4, minmax(0,1fr)); }
-      @media (max-width:980px){ .lx-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
-      @media (max-width:520px){ .lx-grid{ grid-template-columns:1fr; } }
+  .lx-mainbox:before{
+    content:"";
+    position:absolute;
+    inset:16px;
+    border:1px solid rgba(255,170,170,.12);
+    border-radius:20px;
+    pointer-events:none;
+  }
 
-      .lx-feature{
-          padding:18px; border:1px solid var(--lx-border);
-          border-radius:14px; background: var(--lx-card);
-      }
-      .lx-feature h3{
-          margin:0 0 6px 0; font-size:16.5px; display:flex; align-items:center; gap:8px;
-          color: var(--lx-text);
-      }
-      .lx-feature p{ margin:0; color: var(--lx-muted); font-size:14.5px; line-height:1.65; }
-      .lx-icon{ width:18px; height:18px; color: var(--lx-accent-2); }
+  .lx-mainbox:after{
+    content:"";
+    position:absolute;
+    top:-80px;
+    right:-100px;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    background:rgba(255,35,35,.18);
+    filter:blur(12px);
+    pointer-events:none;
+  }
 
-      /* Guide steps */
-      .lx-steps{
-          counter-reset: step;
-          display:flex; flex-direction:column; gap:12px;
-          margin:10px 0 0 0; padding:0; list-style:none;
-      }
-      .lx-step{
-          display:flex; gap:12px; align-items:flex-start;
-          border:1px solid var(--lx-border); border-radius:12px; padding:14px 16px;
-          background: var(--lx-card);
-      }
-      .lx-step::before{
-          counter-increment: step;
-          content: counter(step);
-          flex:0 0 32px; height:32px; display:inline-flex; align-items:center; justify-content:center;
-          border-radius:8px; font-weight:700;
-          color:#111; background: linear-gradient(180deg, #ffffff, rgba(55, 212, 81, 0.75));
-          border:1px solid rgba(17,24,39,.12);
-      }
+  .lx-hero{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:26px;
+    align-items:stretch;
+  }
 
-      /* CTA */
-      .lx-cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-      .lx-btn{
-          display:inline-block; padding:10px 16px; border-radius:10px; text-decoration:none; font-weight:600; line-height:1;
-          border:1px solid var(--lx-border);
-      }
-      .lx-btn--primary{ background: var(--lx-accent-2); color:#fff; border-color: var(--lx-accent-2); }
-      .lx-btn--outline{ background: transparent; color: var(--lx-text); }
+  .lx-title-card{
+    border-radius:22px;
+    padding:30px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,80,80,.18);
+    box-shadow:0 14px 34px rgba(0,0,0,.30);
+  }
 
-      .lx-section + .lx-section{ margin-top:14px; }
-    </style>
-        
-    <article class="lx-container" aria-label="Artikel <?= htmlspecialchars($keyword) ?>">
-      <!-- Introduction -->
-      <style>
-  .<?= htmlspecialchars($keyword) ?>-article {
-    background: linear-gradient(135deg, rgba(3, 39, 14, 0.95) 0%, rgba(0, 30, 8, 0.95) 50%, rgba(2, 184, 57, 0.95) 100%);
-    border-radius: 20px;
-    padding: 40px 30px;
-    margin: 20px 0;
-    border: 2px solid var(--carnival-orange);
-    box-shadow: 0 0 30px rgba(0, 255, 55, 0.3), inset 0 0 60px rgba(0, 255, 55, 0.05);
-    position: relative;
-    overflow: hidden;
+  .lx-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(255,40,40,.13);
+    color:#ffb0b0;
+    border:1px solid rgba(255,65,65,.48);
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+    margin-bottom:16px;
   }
-  .<?= htmlspecialchars($keyword) ?>-article::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--carnival-orange), var(--carnival-gold), var(--carnival-orange), transparent);
+
+  .lx-badge:before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ff3030;
+    box-shadow:0 0 12px rgba(255,35,35,.95);
   }
-  .<?= htmlspecialchars($keyword) ?>-article h1 {
-    color: var(--carnival-gold) !important;
-    font-size: 1.8rem !important;
-    font-weight: 800 !important;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 25px !important;
-    text-shadow: 0 0 20px rgb(0, 255, 55), 0 2px 4px rgb(0, 255, 55);
-    line-height: 1.4;
+
+  .lx-container h1{
+    margin:0;
+    font-size:34px;
+    line-height:1.3;
+    font-weight:900;
+    letter-spacing:.2px;
+    color:#ffffff;
+    text-shadow:0 4px 16px rgba(0,0,0,.50);
   }
-  .<?= htmlspecialchars($keyword) ?>-article h2 {
-    color: var(--carnival-orange) !important;
-    font-size: 1.4rem !important;
-    font-weight: 700 !important;
-    margin: 30px 0 15px 0 !important;
-    padding-left: 15px;
-    border-left: 4px solid var(--carnival-gold);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+
+  .lx-divider{
+    width:96px;
+    height:4px;
+    margin:22px 0 0;
+    border-radius:999px;
+    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
   }
-  .<?= htmlspecialchars($keyword) ?>-article h3 {
-    color: var(--carnival-gold) !important;
-    font-size: 1.15rem !important;
-    font-weight: 600 !important;
-    margin: 20px 0 10px 0 !important;
-    padding-left: 25px;
-    position: relative;
+
+  .lx-info-panel{
+    border-radius:22px;
+    padding:22px;
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+    border:1px solid rgba(255,60,60,.30);
   }
-  .<?= htmlspecialchars($keyword) ?>-article h3::before {
-    content: 'Ã°Å¸Å½Â°';
-    position: absolute;
-    left: 0;
-    top: 0;
+
+  .info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin:0;
   }
-  .<?= htmlspecialchars($keyword) ?>-article p {
-    color: #E5E5E5 !important;
-    font-size: 1rem !important;
-    line-height: 1.8 !important;
-    margin-bottom: 15px !important;
-    text-align: justify;
+
+  .info-card{
+    min-height:112px;
+    padding:18px 14px;
+    border-radius:18px;
+    background:rgba(18,2,2,.70);
+    border:1px solid rgba(255,60,60,.24);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    transition:.28s ease;
   }
-  .<?= htmlspecialchars($keyword) ?>-article a {
-    color: var(--carnival-gold) !important;
-    text-decoration: none;
-    font-weight: 700;
-    padding: 2px 8px;
-    background: rgba(0, 255, 55, 0.2);
-    border-radius: 4px;
-    border-bottom: 2px solid var(--carnival-orange);
-    transition: all 0.3s ease;
+
+  .info-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(255,70,70,.76);
+    box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 22px rgba(255,30,30,.20);
   }
-  .<?= htmlspecialchars($keyword) ?>-article a:hover {
-    background: var(--carnival-orange);
-    color: #ffffff !important;
-    box-shadow: 0 0 15px rgba(0, 255, 55, 0.5);
+
+  .info-card .label{
+    color:#ff9b9b;
+    font-size:12px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    margin-bottom:8px;
   }
-  .<?= htmlspecialchars($keyword) ?>-article .highlight-box {
-    background: linear-gradient(135deg, rgba(0, 255, 55, 0.15) 0%, rgba(255,217,0,0.1) 100%);
-    border: 1px solid var(--carnival-orange);
-    border-radius: 12px;
-    padding: 20px;
-    margin: 20px 0;
+
+  .info-card .value{
+    color:#ffffff;
+    font-size:18px;
+    font-weight:900;
+    line-height:1.25;
   }
-  .<?= htmlspecialchars($keyword) ?>-article .highlight-box p {
-    margin-bottom: 0 !important;
-    font-style: italic;
+
+  .highlight-box{
+    position:relative;
+    z-index:1;
+    margin:28px 0 0;
+    padding:28px 30px;
+    border-radius:22px;
+    background:rgba(255,245,245,.96);
+    border:1px solid rgba(255,70,70,.34);
+    box-shadow:0 18px 36px rgba(0,0,0,.22);
+  }
+
+  .highlight-box p{
+    margin:0;
+    color:#2b0000;
+    font-size:16px;
+    line-height:1.9;
+    text-align:justify;
+  }
+
+  .reviews-section{
+    position:relative;
+    z-index:1;
+    margin-top:34px;
+    padding-top:28px;
+    border-top:1px solid rgba(255,80,80,.16);
+  }
+
+  .lx-container h2{
+    margin:0 0 22px;
+    color:#ffffff;
+    font-size:26px;
+    line-height:1.35;
+    font-weight:900;
+    text-align:center;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+  }
+
+  .lx-container h2:after{
+    content:"";
+    display:block;
+    width:120px;
+    height:3px;
+    margin:14px auto 0;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
+  }
+
+  .reviews-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
+  }
+
+  .review-card{
+    position:relative;
+    overflow:hidden;
+    min-height:210px;
+    padding:22px;
+    border-radius:20px;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
+      rgba(18,2,2,.74);
+    border:1px solid rgba(255,60,60,.25);
+    box-shadow:0 14px 32px rgba(0,0,0,.28);
+    transition:.28s ease;
+  }
+
+  .review-card:hover{
+    transform:translateY(-7px);
+    border-color:rgba(255,50,50,.80);
+    box-shadow:0 22px 42px rgba(0,0,0,.38),0 0 24px rgba(255,25,25,.22);
+  }
+
+  .review-card:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
+  }
+
+  .review-card:after{
+    content:"“";
+    position:absolute;
+    right:18px;
+    bottom:-22px;
+    font-family:Georgia,serif;
+    font-size:110px;
+    color:rgba(255,40,40,.08);
+    line-height:1;
+  }
+
+  .review-header{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:14px;
+  }
+
+  .review-name{
+    color:#ffffff;
+    font-size:15px;
+    line-height:1.4;
+    font-weight:900;
+  }
+
+  .review-stars{
+    white-space:nowrap;
+    color:#ff4b4b;
+    font-size:14px;
+    letter-spacing:1px;
+    text-shadow:0 0 10px rgba(255,40,40,.65);
+  }
+
+  .review-text{
+    position:relative;
+    z-index:1;
+    margin:0;
+    color:#ffe4e4;
+    font-size:14.7px;
+    line-height:1.75;
+    font-style:italic;
+  }
+
+  .review-date{
+    position:relative;
+    z-index:1;
+    display:inline-block;
+    margin-top:16px;
+    padding:7px 11px;
+    border-radius:999px;
+    background:rgba(255,40,40,.11);
+    border:1px solid rgba(255,60,60,.26);
+    color:#ff9b9b;
+    font-size:12px;
+    font-weight:800;
+  }
+
+  @media(max-width:980px){
+    .lx-hero{
+      grid-template-columns:1fr;
+    }
+
+    .reviews-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+  }
+
+  @media(max-width:640px){
+    .lx-container{
+      margin:28px auto;
+      padding:0 12px;
+    }
+
+    .lx-mainbox{
+      padding:22px;
+      border-radius:20px;
+    }
+
+    .lx-title-card,
+    .lx-info-panel,
+    .highlight-box{
+      padding:20px;
+      border-radius:18px;
+    }
+
+    .lx-container h1{
+      font-size:24px;
+    }
+
+    .lx-container h2{
+      font-size:21px;
+    }
+
+    .info-grid,
+    .reviews-grid{
+      grid-template-columns:1fr;
+    }
+
+    .highlight-box p{
+      font-size:15px;
+      line-height:1.8;
+    }
   }
 </style>
 
-<div class="<?= htmlspecialchars($keyword) ?>-article">
-  <div style="font-size: 18px; line-height: 1.6;"> <h1 style="font-size: 28px;"> <?= htmlspecialchars($title) ?></h1>
-  
-<p style="text-align: justify;"> 
-<?= htmlspecialchars($description) ?></p>
-            <div style="height: 10px;"></div>
+<article class="lx-container" aria-label="Artikel Game Digital Yang Setiap">
+  <div class="lx-mainbox">
 
-            <style>
-                :root {
-                    --base: #000;
-                    --text: #f2f2f2;
-                    --muted: #b8b8b8;
-                    --gold: #b3a100;
-                    --glow: #ffd51a;
-                }
+    <div class="lx-hero">
+      <div class="lx-title-card">
+        <div class="lx-badge">Informasi Pilihan <?= $BRAND; ?> x <?= $BRAND2; ?></div>
+        <h1><?= $title; ?></h1>
+        <div class="lx-divider"></div>
+      </div>
 
-                /* Base hitam */
-                .<?= htmlspecialchars($keyword) ?>-container {
-                    max-width: 1200px;
-                    margin: 18px auto;
-                    padding: 30px;
-                    background: var(--base);
-                    border-radius: 18px;
-                    display: grid;
-                    gap: 16px;
-                    color: var(--text);
-                    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-                }
+      <div class="lx-info-panel">
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="label">Penilaian Pengguna</div>
+            <div class="value">5 JUTA PENGGUNA</div>
+          </div>
 
-                /* Neon Pulse + Border Merah Berkedip */
-                .neon-box {
-                    background:
-                        radial-gradient(1200px 500px at 20% -10%, rgba(0, 255, 55, 0.1), transparent 55%),radial-gradient(1000px 500px at 90% 0%, rgba(0, 255, 55, .08), transparent 55%),
-                        linear-gradient(180deg, #070707, #030303);
-                    border: 2px solid var(--gold);
-                    border-radius: 16px;
-                    padding: 14px;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: 0 0 0 1px rgba(0, 255, 55, .15) inset, 0 10px 30px rgba(0, 0, 0, .55);
-                    animation: neonPulse 2.2s ease-in-out infinite;
-                }
+          <div class="info-card">
+            <div class="label">Minimal Deposit</div>
+            <div class="value">10.000 Ribu</div>
+          </div>
 
-                .neon-box::before {
-                    content: "";
-                    position: absolute;
-                    inset: -2px;
-                    border-radius: 18px;
-                    background: linear-gradient(90deg, rgba(0, 255, 55, .0), rgba(0, 255, 55, .55), rgba(0, 255, 55, .0));
-                    filter: blur(10px);
-                    opacity: .55;
-                    pointer-events: none;
-                    animation: borderBlink 1.15s steps(2, end) infinite;
-                }
+          <div class="info-card">
+            <div class="label">Minimal Withdraw</div>
+            <div class="value">50.000 Ribu</div>
+          </div>
 
-                .box-title {
-                    margin: 0 0 12px 0;
-                    font-size: 30px;
-                    color: #fff;
-                    text-align: center;
-                    letter-spacing: .6px;
-                    text-transform: uppercase;
-                    text-shadow: 0 0 12px rgba(0, 255, 55, .22);
-                }
+          <div class="info-card">
+            <div class="label">Layanan Support</div>
+            <div class="value">24/7</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                /* FAQ Accordion */
-                .accordion {
-                    display: grid;
-                    gap: 10px;
-                }
+    <div class="highlight-box">
+      <p><?= $artikel; ?></p>
+    </div>
 
-                .acc-item {
-                    width: 100%;
-                    text-align: left;
-                    background: rgba(0, 0, 0, .55);
-                    border: 1px solid rgba(179, 152, 0, 0.65);
-                    border-radius: 12px;
-                    padding: 12px;
-                    cursor: pointer;
-                    color: var(--text);
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 12px;
-                    box-shadow: 0 0 0 1px rgba(0, 255, 55, .08) inset;
-                }
+    <section class="reviews-section">
+      <h2>APA KATA MEREKA? REVIEW MEMBER SETIA <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
 
-                .acc-q {
-                    font-weight: 650;
-                    font-size: 14.5px;
-                    line-height: 1.25;
-                }
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name"><?= $BRAND; ?> x <?= $BRAND2; ?> – Surabaya</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"<?= $description; ?>"</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
 
-                .acc-ic {
-                    width: 28px;
-                    height: 28px;
-                    border-radius: 10px;
-                    display: grid;
-                    place-items: center;
-                    border: 1px solid rgba(255, 221, 26, 0.55);
-                    background: rgba(0, 0, 0, .55);
-                    font-size: 18px;
-                    line-height: 1;
-                }
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">setiap detiknya punya kejutan – Bandung</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Ulasan ini cukup membantu karena membuat <?= $title; ?> terasa lebih mudah dipahami oleh pembaca baru."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
 
-                .acc-panel {
-                    background: rgba(0, 0, 0, .35);
-                    border: 1px solid rgba(179, 152, 0, .45);
-                    border-radius: 12px;
-                    padding: 0 12px;
-                    max-height: 0;
-                    overflow: hidden;
-                    transition: max-height .28s ease, padding .28s ease;
-                }
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">dunia game digital yang – Jakarta</span>
+            <span class="review-stars">★★★★☆</span>
+          </div>
+          <p class="review-text">"Menurut saya pembahasan tentang <?= $title; ?> terasa rapi, mudah diikuti, dan cukup membantu untuk memahami poin pentingnya."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
 
-                .acc-panel p {
-                    margin: 10px 0 12px;
-                    color: var(--muted);
-                    font-size: 13.8px;
-                    line-height: 1.55;
-                }
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">game digital yang setiap – Pangkal Pinang</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Informasinya enak dibaca karena alurnya jelas dan pembaca bisa langsung menangkap inti dari <?= $title; ?>."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
 
-                .acc-panel.is-open {
-                    padding: 6px 12px;
-                    max-height: 260px;
-                }
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">digital yang setiap detiknya - Magelang</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Saya suka cara artikel ini menjelaskan <?= $title; ?> karena tidak bertele-tele dan tetap terasa natural."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
 
-                .acc-item[aria-expanded="true"] .acc-ic {
-                    transform: rotate(45deg);
-                }
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">yang setiap detiknya punya - Malang</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Topik <?= $title; ?> dibahas dengan gaya yang sederhana namun tetap memberi gambaran yang lengkap."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
+      </div>
+    </section>
 
-                /* ===== PENILAIAN-ALX Auto Slide ===== */
-                .penilaian-mwt-slider {
-                    position: relative;
-                    overflow: hidden;
-                    border-radius: 14px;
-                }
-
-                .penilaian-mwt-track {
-                    display: flex;
-                    gap: 10px;
-                    will-change: transform;
-                    transition: transform .55s ease;
-                }
-
-                .penilaian-mwt-card {
-                    min-width: 100%;
-                    background: rgba(0, 0, 0, .45);
-                    border: 1px solid rgba(179, 152, 0, .45);
-                    border-radius: 14px;
-                    padding: 12px;
-                    box-shadow: 0 0 0 1px rgba(0, 255, 55, .06) inset;
-                }
-
-                .penilaian-mwt-top {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 10px;
-                    margin-bottom: 6px;
-                }
-
-                .penilaian-mwt-nama {
-                    font-weight: 750;
-                    font-size: 14px;
-                }
-
-                .penilaian-mwt-bintang {
-                    letter-spacing: 1px;
-                    color: gold;
-                    font-size: 14px;
-                    text-shadow: 0 0 12px rgba(0, 255, 55, .18);
-                }
-
-                .penilaian-mwt-isi {
-                    margin: 0;
-                    color: var(--muted);
-                    font-size: 13.8px;
-                    line-height: 1.55;
-                }
-
-                .penilaian-mwt-tanggal {
-                    display: block;
-                    margin-top: 10px;
-                    font-size: 12px;
-                    color: rgba(255, 255, 255, .55);
-                }
-
-                .penilaian-mwt-dots {
-                    display: flex;
-                    justify-content: center;
-                    gap: 8px;
-                    margin-top: 12px;
-                }
-
-                .penilaian-mwt-dot {
-                    width: 8px;
-                    height: 8px;
-                    border-radius: 999px;
-                    border: 1px solid rgba(255, 221, 26, 0.55);
-                    background: rgba(0, 0, 0, .55);
-                    opacity: .6;
-                }
-
-                .penilaian-mwt-dot.is-active {
-                    opacity: 1;
-                    border-color: rgba(255, 221, 26, .95);
-                    box-shadow: 0 0 18px rgba(0, 255, 55, .18);
-                    transform: scale(1.1);
-                }
-
-                /* Responsive per view */
-                @media (min-width: 720px) {
-                    .penilaian-mwt-card {
-                        min-width: calc(50% - 5px);
-                    }
-                }
-
-                @media (min-width: 980px) {
-                    .penilaian-mwt-card {
-                        min-width: calc(33.333% - 6.7px);
-                    }
-                }
-
-                @media (max-width: 520px) {
-                    .neon-box {
-                        padding: 12px;
-                    }
-
-                    .box-title {
-                        font-size: 16px;
-                    }
-
-                    .acc-q {
-                        font-size: 14px;
-                    }
-                }
-
-                @keyframes neonPulse {
-
-                    0%,
-                    100% {
-                        box-shadow: 0 0 0 1px rgba(0, 255, 55, .12) inset, 0 10px 30px rgba(0, 0, 0, .55);
-                    }
-
-                    50% {
-                        box-shadow: 0 0 0 1px rgba(0, 255, 55, .20) inset, 0 0 30px rgba(0, 255, 55, .12), 0 10px 30px rgba(0, 0, 0, .55);
-                    }
-                }
-
-                @keyframes borderBlink {
-                    0% {
-                        opacity: .20;
-                    }
-
-                    50% {
-                        opacity: .85;
-                    }
-
-                    100% {opacity: .20;
-                    }
-                }
-            </style>
+  </div>
+</article>
+        <!-- CTA Buttons -->
+        
+        
+        <!-- Simple footer -->
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ffdd00; color: #ffdd00; font-size: 12px;">
+            © 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
+        </div>
+    </div>
+    
+    <script>
+        function toggleFaq(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.icon');
+            
+            // Toggle current
+            if (answer.classList.contains('open')) {
+                answer.classList.remove('open');
+                icon.textContent = '+';
+            } else {
+                answer.classList.add('open');
+                icon.textContent = '−';
+            }
+        }
+    </script>
 
             <script>
                 (function () {
                     // ===== FAQ Accordion (5 sesuai schema) =====
-                    const faqButtons = document.querySelectorAll(".<?= htmlspecialchars($keyword) ?>-container .acc-item");
+                    const faqButtons = document.querySelectorAll(".digital-yang-setiap-detiknya-container .acc-item");
                     faqButtons.forEach((btn, idx) => {
                         const panel = btn.nextElementSibling;
 
-                        const qId = `<?= htmlspecialchars($keyword) ?>-faq-q-${idx}`;
-                        const pId = `<?= htmlspecialchars($keyword) ?>-faq-p-${idx}`;
+                        const qId = `Game Digital Yang Setiap-faq-q-${idx}`;
+                        const pId = `Game Digital Yang Setiap-faq-p-${idx}`;
                         btn.id = qId;
                         panel.id = pId;
                         btn.setAttribute("aria-controls", pId);
@@ -6281,123 +6338,7 @@ opacity:.6;
                     refresh();
                 })();
             </script>
-            <script>
-                class ProductRecommendations extends HTMLElement {
-                    constructor() {
-                        super();
-                        this.config = {
-                            dom: {
-                                button: '.js-frequent-submit',
-                                input: '.js-frequent-products-checkbox',
-                                selected: 'input[name="frequent-products-pdp"]:checked',
-                            },
-                            cls: {
-                                hide: 'hide',
-                            },
-                        };
-                        const handleIntersection = (entries, observer) => {
-                            if (!entries[0].isIntersecting) return;
-                            observer.unobserve(this);
-                            fetch(this.dataset.url)
-                                .then((response) => response.text())
-                                .then((text) => {
-                                    const html = document.createElement('div');
-                                    html.innerHTML = text;
-                                    const recommendations = html.querySelector('product-recommendations');
-                                    if (recommendations && recommendations.innerHTML.trim().length) {
-                                        this.innerHTML = recommendations.innerHTML;
-                                    }
-                                    if (html.querySelector('.grid__item')) {
-                                        this.classList.add('product-recommendations--loaded');
-                                    }
-
-                                    this.addEvent();
-                                    call_gafunction();
-                                })
-                                .catch((e) => {
-                                    console.error(e);
-                                });
-                        };
-                        new IntersectionObserver(handleIntersection.bind(this), { rootMargin: '0px 0px 200px 0px' }).observe(this);
-                    }
-                    hideButton(el) {
-                        if (!el) return;
-                        el.classList.add(this.config.cls.hide);
-                    }
-                    showButton(el) {
-                        if (!el) return;
-                        el.classList.remove(this.config.cls.hide);
-                    }
-                    updateButtonState(show = true) {
-                        const $button = this.querySelector(this.config.dom.button) || null;
-                        if (!$button) return;
-
-                        if (show) {
-                            this.showButton($button);
-                        } else {
-                            this.hideButton($button);
-                        }
-                    }
-                    addEvent() {
-                        const $inputs = this.querySelectorAll(this.config.dom.input) || [];
-
-                        if (!$inputs?.length > 0) return;
-                        [...$inputs].forEach(($input) => {$input.addEventListener('change', () => {
-                                const $selected = this.querySelector(this.config.dom.selected) || null;
-
-                                if ($selected) {
-                                    this.updateButtonState();
-                                } else {
-                                    this.updateButtonState(false);
-                                }
-                            });
-                        });
-                    }
-                }
-                customElements.define('product-recommendations', ProductRecommendations);
-
-                function call_gafunction() {
-                    var mpn_handle = $('#mpn_handle').val();
-                    var frequentProducts_ga = [];
-                    var productList = 'Shopify Rec :: ' + mpn_handle;
-                    $.each($("input[name='frequent-products-pdp']"), function () {
-                        var prodtitle = $('#title_' + $(this).val()).val();
-                        var prodMPN = $('#product_mpn_handle_' + $(this).val()).val();
-                        var prodType = $('.card_product_category_' + $(this).val()).val();
-                        var prodCurrency = $('.card_product_currency_' + $(this).val()).attr('value');
-                        var prodPrice = $('.card_product_price_' + $(this).val()).attr('value');
-                        var prodSku = $('.card_product_sku_' + $(this).val()).attr('value');
-                        var compareprice = $('.card_product_compare_' + $(this).val()).attr('value');
-                        prodPrice = Number(prodPrice.replace(/[^0-9.-]+/g, ''));
-                        var discount = 0;
-                        if (compareprice != '') {
-                            compareprice = Number(compareprice.replace(/[^0-9.-]+/g, ''));
-                            discount = parseFloat(compareprice) - parseFloat(prodPrice);
-                            discount = parseFloat(discount);
-                            // prodPrice = compareprice;
-                        }
-                        var productPrice1 = parseFloat(prodPrice);
-                        item_ga = {};
-                        item_ga['item_id'] = prodSku;
-                        item_ga['item_name'] = prodtitle;
-                        item_ga['item_category'] = prodType;
-                        item_ga['item_list_name'] = productList;
-                        item_ga['price'] = prodPrice;
-                        item_ga['quantity'] = 1;
-                        frequentProducts_ga.push(item_ga);
-                    });
-                    if (frequentProducts_ga.length != 0) {
-                        dataLayer.push({ ecommerce: null });
-                        dataLayer.push({
-                            event: 'view_item_list',
-                            ecommerce: {
-                                item_list_name: productList,
-                                items: frequentProducts_ga,
-                            },
-                        });
-                    }
-                }
-            </script>
+            
             <script>
                 $(document).ready(function () {
                     $(window).on('scroll', function () {
@@ -6440,22 +6381,21 @@ opacity:.6;
 
   
 
-            <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"5d535657e337499f903bcc1a09d7521b","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </div>
           </div>
-        </article></section></div>
-      
-    
+        </div>
+      </div>
+    </div>
     <nav aria-label="Breadcrumb" class="breadcrumb">
      <div class="breadcrumb__inner">
       <ul class="breadcrumb__path" role="list">
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:home" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Home" href="https://www.samsung.com/id/">
          <span class="breadcrumb__text-desktop">
-          <?= htmlspecialchars($keyword) ?> <span style="margin-left: 15px;">></span>
+          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
          </span>
          <span class="breadcrumb__text-mobile">
-          <?= htmlspecialchars($keyword) ?> <span style="margin-left: 15px;">></span>
+          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
          </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
@@ -6466,10 +6406,10 @@ opacity:.6;
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:mobile" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Mobile" href="https://www.samsung.com/id/mobile/">
          <span class="breadcrumb__text-desktop">
-          SLOT88 <span style="margin-left: 15px;">></span>
+          Dunia Game Digital Yang <span style="margin-left: 15px;">></span>
          </span>
          <span class="breadcrumb__text-mobile">
-          SLOT88 <span style="margin-left: 15px;">></span>
+          Dunia Game Digital Yang <span style="margin-left: 15px;">></span>
          </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
@@ -6480,9 +6420,11 @@ opacity:.6;
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:smartphones" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Smartphones" href="https://www.samsung.com/id/smartphones/">
          <span class="breadcrumb__text-desktop">
-      <?= htmlspecialchars($keyword) ?>         </span>
+        Digital Yang Setiap Detiknya
+         </span>
          <span class="breadcrumb__text-mobile">
-      <?= htmlspecialchars($keyword) ?>         </span>
+        Yang Setiap Detiknya Punya
+         </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
          <use href="#next-bold" xlink:href="#next-bold">
@@ -6491,18 +6433,15 @@ opacity:.6;
        </li>
       </ul>
      </div>
-     <script data-id="815b4f0e-baa9-42cc-b1f9-b4b995da3ffb" data-object-type="BreadcrumbList" data-type="seo" type="application/ld+json">
-      {"@context":"https://schema.org","@type":"BreadcrumbList","@id":"https://www.samsung.com/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy/#breadcrumb","itemListElement":[{"@type":"ListItem","name":"Home","item":"https://www.samsung.com/id/","position":1},{"@type":"ListItem","name":"Mobile","item":"https://www.samsung.com/id/mobile/","position":2},{"@type":"ListItem","name":"Smartphones","item":"https://www.samsung.com/id/smartphones/","position":3},{"@type":"ListItem","name":"Galaxy A","item":"https://www.samsung.com/id/smartphones/galaxy-a/","position":4},{"@type":"ListItem","name":"Galaxy A07","item":"","position":5}]}
-     </script>
     </nav>
     <div class="pd-g-manufacturer-info-popup">
      <div aria-modal="true" class="manufacturer-info-popup" role="dialog" tabindex="0">
       <div class="layer-popup">
        <div class="layer-popup__inner">
-        <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
-         </div></div>
-         
-        <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+        <div class="layer-popup__contents scrollbar">
+         <div class="scrollbar__contents">
+         </div>
+        </div>
         <button class="layer-popup__close" type="button">
          <span class="hidden">
           Tutup Layar Popup
@@ -6519,7 +6458,7 @@ opacity:.6;
     <!-- <sly data-sly-use.templatedContainer="com.day.cq.wcm.foundation.TemplatedContainer"
 			data-sly-repeat.child=""
 			data-sly-resource=""></sly> -->
-   
+   </div>
    <div class="pdd39-anchor-nav__bottom-wrap" id="anchorNavigationPriceBarMobile">
     <div class="pdd39-anchor-nav__bottom">
      <div class="pdd39-anchor-nav__price pd-buying-price" id="sgDevPriceAreaBaseMobile">
@@ -6540,7 +6479,7 @@ opacity:.6;
             <p class="footer-category__title" id="footer-category-title-0">
               Products
             </p>
-            <a an-ac="footer" an-ca="navigation" an-la="products" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-0" class="footer-category__anchor" href="javascript:void(0);" role="button" an-as="">
+            <a an-ac="footer" an-ca="navigation" an-la="products" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-0" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
                 Buka
               </span>
@@ -6551,55 +6490,56 @@ opacity:.6;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    <?= htmlspecialchars($keyword) ?>                  </a>
-                </li>
-                <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    SLOT88
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?>
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                  <?= htmlspecialchars($keyword) ?>                  </a>
-                </li>
-                <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    SLOT TERPERCAYA
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Dunia Game Digital Yang
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    SLOT88 RESMI
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Game Digital Yang Setiap
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    SLOT88 RESMI GACOR
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Digital Yang Setiap Detiknya
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    SLOT88 TERPERCAYA
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Yang Setiap Detiknya Punya
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    SLOT
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Setiap Detiknya Punya Kejutan
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?> SLOT
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
                   </a>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-
         <!-- ===== COLUMN 2: SERVICES ===== -->
         <div class="footer-column__item">
           <div class="footer-category">
             <p class="footer-category__title" id="footer-category-title-1">
               Services
             </p>
-            <a an-ac="footer" an-ca="navigation" an-la="services" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-1" class="footer-category__anchor" href="javascript:void(0);" role="button" an-as="">
+            <a an-ac="footer" an-ca="navigation" an-la="services" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-1" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
                 Buka
               </span>
@@ -6610,37 +6550,38 @@ opacity:.6;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Promo &amp; Bonus Harian
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Turnamen &amp; Event
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Program VIP &amp; Cashback
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Metode Pembayaran
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    Panduan Deposit
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Deposit
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    Panduan Withdraw
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Withdraw
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">Program Referral
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Program Referral
                   </a>
                 </li>
               </ul>
@@ -6654,7 +6595,7 @@ opacity:.6;
             <p class="footer-category__title" id="footer-category-title-2">
               Support
             </p>
-            <a an-ac="footer" an-ca="navigation" an-la="support" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-2" class="footer-category__anchor" href="javascript:void(0);" role="button" an-as="">
+            <a an-ac="footer" an-ca="navigation" an-la="support" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
                 Buka
               </span>
@@ -6665,37 +6606,37 @@ opacity:.6;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Pusat Bantuan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Live Chat 24/7
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     WhatsApp Support
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     FAQ
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Kebijakan Privasi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Syarat &amp; Ketentuan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Responsible Gaming
                   </a>
                 </li>
@@ -6710,7 +6651,7 @@ opacity:.6;
             <p class="footer-category__title" id="footer-category-title-3">
               Account
             </p>
-            <a an-ac="footer" an-ca="navigation" an-la="account" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-3" class="footer-category__anchor" href="javascript:void(0);" role="button" an-as="">
+            <a an-ac="footer" an-ca="navigation" an-la="account" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-3" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
                 Buka
               </span>
@@ -6721,32 +6662,32 @@ opacity:.6;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $ampmek; ?>">
                     Login Member
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $ampmek; ?>">
                     Daftar Akun Baru
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $ampmek; ?>">
                     Lupa Password
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Riwayat Transaksi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    Panduan Verifikasi
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Verifikasi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Program VIP
                   </a>
                 </li>
@@ -6755,14 +6696,14 @@ opacity:.6;
           </div>
         </div>
 
-        <!-- ===== COLUMN 5: INFO + ABOUT <?= htmlspecialchars($keyword) ?> ===== -->
+        <!-- ===== COLUMN 5: INFO + ABOUT Game Digital Yang Setiap ===== -->
         <div class="footer-column__item">
           <!-- Info / Guides -->
           <div class="footer-category">
             <p class="footer-category__title" id="footer-category-title-4">
               Information
             </p>
-            <a an-ac="footer" an-ca="navigation" an-la="information" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4" class="footer-category__anchor" href="javascript:void(0);" role="button" an-as="">
+            <a an-ac="footer" an-ca="navigation" an-la="information" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden">
                 Buka
               </span>
@@ -6773,22 +6714,22 @@ opacity:.6;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    Panduan Akses
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Akses
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    Panduan Pemula
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Pemula
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Aturan &amp; Kebijakan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Kontak Resmi
                   </a>
                 </li>
@@ -6796,33 +6737,38 @@ opacity:.6;
             </div>
           </div>
 
-          <!-- About <?= htmlspecialchars($keyword) ?> -->
+          <!-- About Game Digital Yang Setiap -->
           <div class="footer-category">
             <p class="footer-category__title" id="footer-category-title-4-2">
-              About <?= htmlspecialchars($keyword) ?>            </p>
-            <a an-ac="footer" an-ca="navigation" an-la="about <?= htmlspecialchars($keyword) ?>" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4-2" class="footer-category__anchor" href="javascript:void(0);" role="button" an-as="">
+              About Game Digital Yang Setiap
+            </p>
+            <a an-ac="footer" an-ca="navigation" an-la="about Game Digital Yang Setiap" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden">
                 Buka
-              </span><svg class="icon" focusable="false">
+              </span>
+              <svg class="icon" focusable="false">
                 <use href="#open-down-regular" xlink:href="#open-down-regular"></use>
               </svg>
             </a>
             <div class="footer-category__list-wrap">
-              <ul class="footer-category__list" role="list"><li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    Tentang <?= htmlspecialchars($keyword) ?>                  </a>
+              <ul class="footer-category__list" role="list">
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Tentang <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
-                    Kenapa Pilih <?= htmlspecialchars($keyword) ?>                  </a>
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Kenapa Pilih <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Partner &amp; Affiliate
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= htmlspecialchars($ampmek) ?>" an-as="">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
                     Brand &amp; Identitas
                   </a>
                 </li>
@@ -6838,11 +6784,11 @@ opacity:.6;
         <div class="footer-copyright-wrap">
           <div class="footer-copyright-align">
             <p class="footer-copyright">
-              &copy; 2026 <?= htmlspecialchars($keyword) ?>. All rights reserved. SEO DPP
+              &copy; 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
             </p>
           </div>
           <div class="footer-language">
-            <a class="footer-language__anchor" href="#" an-as="">
+            <a class="footer-language__anchor" href="<?= $canonical; ?>">
               Indonesia / Bahasa Indonesia
             </a>
           </div>
@@ -6850,7 +6796,7 @@ opacity:.6;
 
         <div an-ac="scroll:100" an-ca="scroll" an-la="scroll:100" an-tr="nv02_footer bottom--text-scroll" class="footer-language-wrap">
           <div class="footer-language">
-            <a class="footer-language__anchor" href="#" an-as="">
+            <a class="footer-language__anchor" href="<?= $canonical; ?>">
               Indonesia / Bahasa Indonesia
             </a>
           </div>
@@ -6858,17 +6804,17 @@ opacity:.6;
           <div class="footer-terms">
             <ul class="footer-terms__list" role="list">
               <li class="footer-terms__item" role="listitem">
-                <a class="footer-terms__link" href="/kebijakan-privasi" an-as="">
+                <a class="footer-terms__link" href="/kebijakan-privasi">
                   Privasi
                 </a>
               </li>
               <li class="footer-terms__item" role="listitem">
-                <a class="footer-terms__link" href="/legal" an-as="">
+                <a class="footer-terms__link" href="/legal">
                   Legal
                 </a>
               </li>
               <li class="footer-terms__item" role="listitem">
-                <a class="footer-terms__link" href="/sitemap" an-as="">
+                <a class="footer-terms__link" href="/sitemap">
                   Peta Situs
                 </a>
               </li>
@@ -6881,28 +6827,28 @@ opacity:.6;
             </span>
             <ul class="footer-sns__list" role="list">
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://facebook.com/dewi11official" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru" an-as="">
+                <a class="footer-sns__link" href="https://facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#facebook-bold" xlink:href="#facebook-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://twitter.com/dewi11official" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru" an-as="">
+                <a class="footer-sns__link" href="https://twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#twitter-bold" xlink:href="#twitter-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://instagram.com/dewi11official" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru" an-as="">
+                <a class="footer-sns__link" href="https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#instagram-bold" xlink:href="#instagram-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://youtube.com/@dewi11Channel" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru" an-as="">
+                <a class="footer-sns__link" href="https://youtube.com/@<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#youtube-bold" xlink:href="#youtube-bold"></use>
                   </svg>
@@ -6916,7 +6862,7 @@ opacity:.6;
     </div>
   </footer>
 
-   <button an-ac="back to top" an-ca="indication" an-la="back to top" an-tr="nv02_footer bottom--text-back to top" class="fab" title="Go to Top" an-as="">
+   <button an-ac="back to top" an-ca="indication" an-la="back to top" an-tr="nv02_footer bottom--text-back to top" class="fab" title="Go to Top">
     Go to Top
     <svg class="fab__icon" focusable="false">
      <use href="#up-highest-bold" xlink:href="#up-highest-bold">
@@ -6924,59 +6870,8 @@ opacity:.6;
     </svg>
    </button>
    <!--googleon: all-->
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-dependencies.min.407b108c60433f00a6b1a0e8f272a2c1.js">
-   </script>
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-base-ux25.min.91a4ebeb2dec9b19aa121b5c7154ff51.js">
-   </script><script>
-//load tti js library
-(function(){var h="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this,k="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)};function l(){l=function(){};h.Symbol||(h.Symbol=m)}var n=0;function m(a){return"jscomp_symbol_"+(a||"")+n++}
-function p(){l();var a=h.Symbol.iterator;a||(a=h.Symbol.iterator=h.Symbol("iterator"));"function"!=typeof Array.prototype[a]&&k(Array.prototype,a,{configurable:!0,writable:!0,value:function(){return q(this)}});p=function(){}}function q(a){var b=0;return r(function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}})}function r(a){p();a={next:a};a[h.Symbol.iterator]=function(){return this};return a}function t(a){p();var b=a[Symbol.iterator];return b?b.call(a):q(a)}
-function u(a){if(!(a instanceof Array)){a=t(a);for(var b,c=[];!(b=a.next()).done;)c.push(b.value);a=c}return a}var v=0;function w(a,b){var c=XMLHttpRequest.prototype.send,d=v++;XMLHttpRequest.prototype.send=function(f){for(var e=[],g=0;g<arguments.length;++g)e[g-0]=arguments[g];var E=this;a(d);this.addEventListener("readystatechange",function(){4===E.readyState&&b(d)},{passive:true});return c.apply(this,e)}}
-function x(a,b){var c=fetch;fetch=function(d){for(var f=[],e=0;e<arguments.length;++e)f[e-0]=arguments[e];return new Promise(function(d,e){var g=v++;a(g);c.apply(null,[].concat(u(f))).then(function(a){b(g);d(a)},function(a){b(a);e(a)})})}}var y="img script iframe link audio video source".split(" ");function z(a,b){a=t(a);for(var c=a.next();!c.done;c=a.next())if(c=c.value,b.includes(c.nodeName.toLowerCase())||z(c.children,b))return!0;return!1}
-function A(a){var b=new MutationObserver(function(c){c=t(c);for(var b=c.next();!b.done;b=c.next())b=b.value,"childList"==b.type&&z(b.addedNodes,y)?a(b):"attributes"==b.type&&y.includes(b.target.tagName.toLowerCase())&&a(b)});b.observe(document,{attributes:!0,childList:!0,subtree:!0,attributeFilter:["href","src"]});return b}
-function B(a,b){if(2<a.length)return performance.now();var c=[];b=t(b);for(var d=b.next();!d.done;d=b.next())d=d.value,c.push({timestamp:d.start,type:"requestStart"}),c.push({timestamp:d.end,type:"requestEnd"});b=t(a);for(d=b.next();!d.done;d=b.next())c.push({timestamp:d.value,type:"requestStart"});c.sort(function(a,b){return a.timestamp-b.timestamp});a=a.length;for(b=c.length-1;0<=b;b--)switch(d=c[b],d.type){case "requestStart":a--;break;case "requestEnd":a++;if(2<a)return d.timestamp;break;default:throw Error("Internal Error: This should never happen");
-}return 0}function C(a){a=a?a:{};this.w=!!a.useMutationObserver;this.u=a.minValue||null;a=window.__tti&&window.__tti.e;var b=window.__tti&&window.__tti.o;this.a=a?a.map(function(a){return{start:a.startTime,end:a.startTime+a.duration}}):[];b&&b.disconnect();this.b=[];this.f=new Map;this.j=null;this.v=-Infinity;this.i=!1;this.h=this.c=this.s=null;w(this.m.bind(this),this.l.bind(this));x(this.m.bind(this),this.l.bind(this));D(this);this.w&&(this.h=A(this.B.bind(this)))}
-C.prototype.getFirstConsistentlyInteractive=function(){var a=this;return new Promise(function(b){a.s=b;"complete"==document.readyState?F(a):window.addEventListener("load",function(){F(a)}, {passive:true})})};function F(a){a.i=!0;var b=0<a.a.length?a.a[a.a.length-1].end:0,c=B(a.g,a.b);G(a,Math.max(c+5E3,b))}
-function G(a,b){!a.i||a.v>b||(clearTimeout(a.j),a.j=setTimeout(function(){var b=performance.timing.navigationStart,d=B(a.g,a.b),b=(window.a&&window.a.A?1E3*window.a.A().C-b:0)||performance.timing.domContentLoadedEventEnd-b;if(a.u)var f=a.u;else performance.timing.domContentLoadedEventEnd?(f=performance.timing,f=f.domContentLoadedEventEnd-f.navigationStart):f=null;var e=performance.now();null===f&&G(a,Math.max(d+5E3,e+1E3));var g=a.a;5E3>e-d?d=null:(d=g.length?g[g.length-1].end:b,d=5E3>e-d?null:Math.max(d,
-f));d&&(a.s(d),clearTimeout(a.j),a.i=!1,a.c&&a.c.disconnect(),a.h&&a.h.disconnect());G(a,performance.now()+1E3)},b-performance.now()),a.v=b)}
-function D(a){a.c=new PerformanceObserver(function(b){b=t(b.getEntries());for(var c=b.next();!c.done;c=b.next())if(c=c.value,"resource"===c.entryType&&(a.b.push({start:c.fetchStart,end:c.responseEnd}),G(a,B(a.g,a.b)+5E3)),"longtask"===c.entryType){var d=c.startTime+c.duration;a.a.push({start:c.startTime,end:d});G(a,d+5E3)}});a.c.observe({entryTypes:["longtask","resource"]})}C.prototype.m=function(a){this.f.set(a,performance.now())};C.prototype.l=function(a){this.f.delete(a)};
-C.prototype.B=function(){G(this,performance.now()+5E3)};h.Object.defineProperties(C.prototype,{g:{configurable:!0,enumerable:!0,get:function(){return[].concat(u(this.f.values()))}}});var H={getFirstConsistentlyInteractive:function(a){a=a?a:{};return"PerformanceLongTaskTiming"in window?(new C(a)).getFirstConsistentlyInteractive():Promise.resolve(null)}};
-"undefined"!=typeof module&&module.exports?module.exports=H:"function"===typeof define&&define.amd?define("ttiPolyfill",[],function(){return H}):window.ttiPolyfill=H;})();
-//# sourceMappingURL=tti-polyfill.js.map
-
-//load tti snippet
-!function(){if('PerformanceLongTaskTiming' in window){var g=window.__tti={e:[]};
-g.o=new PerformanceObserver(function(l){g.e=g.e.concat(l.getEntries())});
-g.o.observe({entryTypes:['longtask']})}}();
-
-//push tti value to eddl
-function push_tti_to_eddl(eddlObj){
-  ttiPolyfill.getFirstConsistentlyInteractive().then(function(tti){
-    if (typeof eddlObj !== 'undefined') {
-      eddlObj.push({
-        'event':'',
-        'performance': {
-          'TTI': tti
-        }
-      })
-    } else {
-      console.log('No eddlObj found. TTI is not tracked')
-    }
-  });
-}
-
-push_tti_to_eddl(eddlDataLayer)
-</script><!--BEGIN QUALTRICS WEBSITE FEEDBACK SNIPPET-->
-<script type="text/javascript">
-(function(){var g=function(e,h,f,g){
-this.get=function(a){for(var a=a+"=",c=document.cookie.split(";"),b=0,e=c.length;b<e;b++){for(var d=c[b];" "==d.charAt(0);)d=d.substring(1,d.length);if(0==d.indexOf(a))return d.substring(a.length,d.length)}return null};
-this.set=function(a,c){var b="",b=new Date;b.setTime(b.getTime()+6048E5);b="; expires="+b.toGMTString();document.cookie=a+"="+c+b+"; path=/; "};
-this.check=function(){var a=this.get(f);if(a)a=a.split(":");else if(100!=e)"v"==h&&(e=Math.random()>=e/100?0:100),a=[h,e,0],this.set(f,a.join(":"));else return!0;var c=a[1];if(100==c)return!0;switch(a[0]){case "v":return!1;case "r":return c=a[2]%Math.floor(100/c),a[2]++,this.set(f,a.join(":")),!c}return!0};
-this.go=function(){if(this.check()){var a=document.createElement("script");a.type="text/javascript";a.async=1;a.src=g;document.body&&document.body.appendChild(a)}};
-this.start=function(){var a=this;window.addEventListener?window.addEventListener("load",function(){a.go()},!1):window.attachEvent&&window.attachEvent("onload",function(){a.go()})}};
-try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsunggdc.siteintercept.qualtrics.com/WRSiteInterceptEngine/?Q_ZID=ZN_eWYlZPQdS1JT1sh")).start()}catch(i){}})();
-</script><div id="ZN_eWYlZPQdS1JT1sh"><!--DO NOT REMOVE-CONTENTS PLACED HERE--></div>
-<!--END WEBSITE FEEDBACK SNIPPET-->
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-dependencies.min.407b108c60433f00a6b1a0e8f272a2c1.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-base-ux25.min.91a4ebeb2dec9b19aa121b5c7154ff51.js"></script>
    <!-- <sly data-sly-test="false">
 		<script type="text/javascript" src='/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/resources/au/js/au.js'></script>
 	</sly> -->
@@ -6998,13 +6893,13 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
 			 }
 		};
    </script>
-   <script defer="" src="https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&amp;render=explicit" type="text/javascript">
-   </script>
+   <script defer="" src="https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&amp;render=explicit" type="text/javascript"></script>
    <section aria-modal="true" class="trade-in-learn-more-popup" role="dialog">
     <div class="trade-in-learn-more-popup__dimmed">
     </div>
     <div class="trade-in-learn-more-popup__contents">
-     <div class="scrollbar"><div class="scrollbar__wrap" style=""><div class="trade-in-learn-more-popup__inner-wrap scrollbar__contents">
+     <div class="scrollbar">
+      <div class="trade-in-learn-more-popup__inner-wrap scrollbar__contents">
        <p class="trade-in-learn-more-popup__title">
         Cara kerja tukar tambah
        </p>
@@ -7016,7 +6911,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </em>
           <div class="trade-in-learn-more-popup__list-item-text-wrap">
            <span class="trade-in-learn-more-popup__list-item-text-desc">
-            Choose your new Samsung device and tell us about your old one.
+            Choose your new Game Digital Yang Setiap device and tell us about your old one.
             <br/>
             Jika memenuhi syarat, Anda akan melihat taksiran nilai tukar tambah.
            </span>
@@ -7028,7 +6923,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </em>
           <div class="trade-in-learn-more-popup__list-item-text-wrap">
            <span class="trade-in-learn-more-popup__list-item-text-desc">
-            Get an upfront discount on the price of your new Samsung device.
+            Get an upfront discount on the price of your new Game Digital Yang Setiap device.
            </span>
           </div>
          </li>
@@ -7055,9 +6950,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             </sly>
             -->
        </div>
-      </div></div>
-      
-     <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+      </div>
+     </div>
      <button class="trade-in-learn-more-popup__close">
       <span class="hidden">
        TUTUP
@@ -7075,8 +6969,9 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
      <div class="tariff-popup__dimmed">
      </div>
      <div class="tariff-popup__contents">
-      <div class="tariff-popup__contents-plan" style="display:block;" aria-hidden="false">
-       <div class="tariff-popup__inner-wrap scrollbar"><div class="scrollbar__wrap"><div class="tariff-popup__inner scrollbar__contents">
+      <div class="tariff-popup__contents-plan" style="display:block;">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
          <div class="tariff-popup__header">
           <div class="tariff-popup__headline">
            All from one hand
@@ -7086,8 +6981,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </p>
          </div>
          <div class="tariff-popup__choose" role="tablist" style="display:none;">
-          <div class="tariff-popup__choose-item active" role="presentation">
-           <a aria-selected="trues" class="tariff-popup__choose-item-btn" href="javascript:;" id="choose-tab-1" role="tab">
+          <div class="tariff-popup__choose-item" role="presentation">
+           <a aria-selected="false" class="tariff-popup__choose-item-btn" href="javascript:;" id="choose-tab-1" role="tab">
             New Contracts
            </a>
           </div>
@@ -7096,11 +6991,11 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             <div class="tariff-popup__choose-tooltip__btn-wrap">
              <button aria-expanded="false" class="tariff-popup__choose-tooltip__btn" type="button">
               <svg class="icon help" focusable="false">
-               <use xlink:href="#help-regular" href="#help-regular">
+               <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#help-regular">
                </use>
               </svg>
               <svg class="icon cancel" focusable="false">
-               <use xlink:href="#cancel-bold" href="#cancel-bold">
+               <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#cancel-bold">
                </use>
               </svg>
               <span class="hidden">
@@ -7120,7 +7015,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
            </div>
           </div>
          </div>
-         <div aria-hidden="false" aria-labelledby="choose-tab-1" class="tariff-popup__choose-panel active" id="choose-content-1" role="tabpanel">
+         <div aria-hidden="true" aria-labelledby="choose-tab-1" class="tariff-popup__choose-panel" id="choose-content-1" role="tabpanel">
           <div class="tariff-popup__tab-wrap">
            <div class="tariff-popup__tab-list-wrap">
             <button class="tariff-popup__tab-list-prev" role="button" style="display:none;">
@@ -7131,15 +7026,15 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              </svg>
             </button>
             <div class="tariff-popup__tab-list-area">
-             <!--/* UK, SE ÃªÂ²Â½Ã¬Å¡Â° Tab Divider Ã«Â¥Â¼ Ã¬Ë†Â¨ÃªÂ¸Â°ÃªÂ¸Â° Ã¬Å“â€žÃ­â€¢Â´ .hide-divider Ã¬Â¶â€ÃªÂ°â‚¬ /*-->
+             <!--/* UK, SE 경우 Tab Divider 를 숨기기 위해 .hide-divider 추가 /*-->
              <div class="tariff-popup__tab-list" role="tablist">
               <div class="tariff-popup__tab-item-wrap" role="presentation">
-               <a class="tariff-popup__tab-item" href="javascript:void(0);" aria-hidden="false">
+               <a class="tariff-popup__tab-item" href="javascript:void(0);">
                </a>
               </div>
              </div>
             </div>
-            <button class="tariff-popup__tab-list-next" role="button" style="display: none;">
+            <button class="tariff-popup__tab-list-next" role="button">
              Next
              <svg class="icon" focusable="false">
               <use href="#next-bold" xlink:href="#next-bold">
@@ -7168,7 +7063,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              </svg>
             </button>
             <div class="tariff-popup__tab-list-area">
-             <!--/* UK, SE ÃªÂ²Â½Ã¬Å¡Â° Tab Divider Ã«Â¥Â¼ Ã¬Ë†Â¨ÃªÂ¸Â°ÃªÂ¸Â° Ã¬Å“â€žÃ­â€¢Â´ .hide-divider Ã¬Â¶â€ÃªÂ°â‚¬ /*-->
+             <!--/* UK, SE 경우 Tab Divider 를 숨기기 위해 .hide-divider 추가 /*-->
              <div class="tariff-popup__tab-list" role="tablist">
              </div>
             </div>
@@ -7190,9 +7085,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
            </div>
           </div>
          </div>
-        </div></div>
-        
-       <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+        </div>
+       </div>
        <div class="tariff-popup__btn-wrap">
         <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step2:back" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-prev cta cta--outlined cta--black" style="display:none;">
          BATALKAN
@@ -7200,14 +7094,15 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
         <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:close" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-close cta cta--outlined cta--black">
          BATALKAN
         </button>
-        <!-- CTA Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ disabled Ã¬ Å“ÃªÂ±Â°, .cta--disabled Ã¬ Å“ÃªÂ±Â° -->
+        <!-- CTA 활성화 시 disabled 제거, .cta--disabled 제거 -->
         <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:continue" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-next cta cta--contained cta--emphasis cta--disabled" disabled="">
          LANJUTKAN
         </button>
        </div>
       </div>
       <div class="tariff-popup__contents-plan-details" style="display:none;">
-       <div class="tariff-popup__inner-wrap scrollbar"><div class="scrollbar__wrap"><div class="tariff-popup__inner scrollbar__contents">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
          <div class="tariff-popup__header">
           <div class="tariff-popup__headline">
            The Network Plan Details
@@ -7223,14 +7118,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             </span>
             <span>
              <svg class="icon collapse">
-              <use xlink:href="#open-down-bold" href="#open-down-bold">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
               </use>
              </svg>
              <span class="hidden collapse">
               Klik untuk Memperluas
              </span>
              <svg class="icon expand">
-              <use xlink:href="#close-up-bold" href="#close-up-bold">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
               </use>
              </svg>
              <span class="hidden expand">
@@ -7248,14 +7143,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             </span>
             <span>
              <svg class="icon collapse">
-              <use xlink:href="#open-down-bold" href="#open-down-bold">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
               </use>
              </svg>
              <span class="hidden collapse">
               Klik untuk Memperluas
              </span>
              <svg class="icon expand">
-              <use xlink:href="#close-up-bold" href="#close-up-bold">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
               </use>
              </svg>
              <span class="hidden expand">
@@ -7273,14 +7168,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             </span>
             <span>
              <svg class="icon collapse">
-              <use xlink:href="#open-down-bold" href="#open-down-bold">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
               </use>
              </svg>
              <span class="hidden collapse">
               Klik untuk Memperluas
              </span>
              <svg class="icon expand">
-              <use xlink:href="#close-up-bold" href="#close-up-bold">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
               </use>
              </svg>
              <span class="hidden expand">
@@ -7292,9 +7187,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
            </div>
           </section>
          </div>
-        </div></div>
-        
-       <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+        </div>
+       </div>
        <div class="tariff-popup__btn-wrap">
         <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:back" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-back cta cta--outlined cta--black">
          Kembali
@@ -7305,7 +7199,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
        </div>
       </div>
       <div class="tariff-popup__contents-plan-selected" style="display:none;">
-       <div class="tariff-popup__inner-wrap scrollbar"><div class="scrollbar__wrap"><div class="tariff-popup__inner scrollbar__contents">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
          <div class="tariff-popup__header">
           <div class="tariff-popup__headline">
            All from one hand
@@ -7360,21 +7255,21 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           <div class="tariff-popup__table-disclaimer">
           </div>
          </div>
-        </div></div>
-        
-       <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+        </div>
+       </div>
        <div class="tariff-popup__btn-wrap">
         <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step2:back" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-prev cta cta--outlined cta--black">
          BACK
         </button>
-        <!-- CTA Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ disabled Ã¬ Å“ÃªÂ±Â°, .cta--disabled Ã¬ Å“ÃªÂ±Â° -->
+        <!-- CTA 활성화 시 disabled 제거, .cta--disabled 제거 -->
         <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step2:confirm" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-submit cta cta--contained cta--emphasis cta--disabled" disabled="">
          Terapkan
         </button>
        </div>
       </div>
       <div class="tariff-popup__contents-form" style="display:none;">
-       <div class="tariff-popup__inner-wrap scrollbar"><div class="scrollbar__wrap"><div class="tariff-popup__inner scrollbar__contents">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
          <div class="tariff-popup__header">
           <div class="tariff-popup__headline">
            Check the availabbility
@@ -7409,13 +7304,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           <div class="tariff-popup__form-list">
            <div class="tariff-popup__form-item tariff-popup__form-item-wide" style="display:none;">
             <div class="menu menu--text-field" data-comp-name="menu" data-max-item-number="5" data-type="textField">
-             <select aria-labelledby="tariff-addr-label-id" class="menu__select">
+             <select aria-labelledby="tariff-addr-label-id" class="menu__select" tabindex="-1">
              </select>
              <p class="menu--text-field__hint" id="tariff-addr-label-id">
               Empfohlene Adresse
              </p>
-             <button aria-haspopup="listbox" aria-labelledby="tariff-addr-label-id tariff-text-label-id" class="menu__select-field" type="button" tabindex="-1" aria-hidden="true">
-              <span class="menu__select-field-text" id="tariff-text-label-id"></span>
+             <button aria-expanded="false" aria-haspopup="listbox" aria-labelledby="tariff-addr-label-id tariff-text-label-id" class="menu__select-field" type="button">
+              <span class="menu__select-field-text" id="tariff-text-label-id">
+              </span>
               <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
                <use href="#open-down-bold" xlink:href="#open-down-bold">
                </use>
@@ -7425,7 +7321,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                </use>
               </svg>
              </button>
-            <div class="menu__list-wrap scrollbar" aria-hidden="true" style="visibility: hidden;"><div class="scrollbar__wrap" style="max-height: 0px;"><ul class="menu__list scrollbar__contents" role="listbox"></ul></div><div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div></div>
+            </div>
            </div>
            <div class="tariff-popup__form-item tariff-popup__form-item-wide">
             <div class="text-field-v2" data-comp-name="textFieldv2">
@@ -7535,7 +7431,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              <p aria-hidden="true" class="text-field-v2__text error">
               Please enter correct information again.
              </p>
-            </div></div>
+            </div>
+           </div>
           </div>
          </div>
          <p class="tariff-popup__form-txt">
@@ -7550,14 +7447,13 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
            .
           </div>
          </div>
-        </div></div>
-        
-       <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+        </div>
+       </div>
        <div class="tariff-popup__btn-wrap">
         <button class="tariff-popup__btn-close cta cta--outlined cta--black">
          Batalkan
         </button>
-        <!-- CTA Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ disabled Ã¬ Å“ÃªÂ±Â°, .cta--disabled Ã¬ Å“ÃªÂ±Â° -->
+        <!-- CTA 활성화 시 disabled 제거, .cta--disabled 제거 -->
         <button class="tariff-popup__btn-next cta cta--contained cta--emphasis cta--disabled" disabled="">
          Lanjutkan
         </button>
@@ -7574,7 +7470,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div class="tariff-info-popup">
     <div class="layer-popup" id="tariff-info-popup" role="dialog" style="display:block">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <div class="layer-popup__title">
          Pay monthly phone contracts
         </div>
@@ -7615,11 +7512,10 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </div>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="tariff-info-popup__cta">
-       <!--/* P6Ã¬ÂËœ cta Ã¬ ÂÃ¬Å¡Â© Ã«Â°Â©Ã¬â€¹ÂÃ¬â€”Â Ã«â€Â°Ã«ÂÂ¼ Ã«Â§Ë†Ã­ÂÂ¬Ã¬â€”â€¦ Ã«Â³â‚¬ÃªÂ²Â½ */ -->
+       <!--/* P6의 cta 적용 방식에 따라 마크업 변경 */ -->
        <a class="cta cta--contained cta--emphasis" href="javascript:void(0);" title="Link Title">
         Choose your plan
        </a>
@@ -7644,7 +7540,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
     <div class="trade-in-popup__contents">
      <!-- new-hybris -->
      <div class="trade-in-popup__zipcode-wrap" role="dialog">
-      <div class="scrollbar"><div class="scrollbar__wrap" style="max-height: 5281px;"><div class="trade-in-popup__inner-wrap scrollbar__contents">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
         <p class="trade-in-popup__title">
          Cek layanan tukar tambah di area Anda!
         </p>
@@ -7697,9 +7594,10 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              Select Brand
             </span>
            </button>
-           <div class="trade-in-popup__dropdown--select-list scrollbar"><div class="scrollbar__wrap"><ul class="scrollbar__contents"></ul></div>
-            
-           <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+           <div class="trade-in-popup__dropdown--select-list scrollbar">
+            <ul class="scrollbar__contents">
+            </ul>
+           </div>
           </div>
          </div>
          <div class="trade-in-popup__model-dropdown-wrap">
@@ -7714,7 +7612,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             <span class="trade-in-popup__dropdown--select-field-price">
             </span>
            </button>
-           <div class="trade-in-popup__dropdown--select-list scrollbar"><div class="scrollbar__wrap"><ul class="scrollbar__contents">
+           <div class="trade-in-popup__dropdown--select-list scrollbar">
+            <ul class="scrollbar__contents">
              <li class="trade-in-popup__dropdown--search-wrap">
               <label class="trade-in-popup__dropdown--search-label" for="trade-in-popup__dropdown--search-model">
                Search...
@@ -7726,34 +7625,33 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                </span>
               </button>
              </li>
-            </ul></div>
-            
-           <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+            </ul>
+           </div>
           </div>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="trade-in-popup__btn-wrap">
-       <!-- CTA Ã¬ÂËœ Ã«Ââ„¢Ã¬Å¾â€˜Ã¬â€”Â Ã«â€Â°Ã«ÂÂ¼ .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply Ã¬Â¶â€ÃªÂ°â‚¬ -->
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
        <button class="trade-in-popup__btn-close cta cta--outlined cta--black">
         Tutup
        </button>
-       <!-- CTA Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ .cta--disabled Ã¬ Å“ÃªÂ±Â° -->
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
        <button aria-disabled="true" class="trade-in-popup__btn-continue cta cta--contained cta--emphasis cta--disabled" stepname="zipcode">
         Lanjutkan
        </button>
       </div>
      </div>
      <div class="trade-in-popup__imei-wrap" role="dialog">
-      <div class="scrollbar"><div class="scrollbar__wrap"><div class="trade-in-popup__inner-wrap scrollbar__contents">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
         <p class="trade-in-popup__title">
          Masukkan IMEI perangkat lama Anda
         </p>
         <!-- new-hybris -->
         <strong class="trade-in-popup__procedure-title">
-         Prosedur tukar tambah Samsung
+         Prosedur tukar tambah permainan
         </strong>
         <ul class="trade-in-popup__procedure">
          <li class="trade-in-popup__procedure-item">
@@ -7834,7 +7732,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
            <div class="trade-in-popup__imei-method-img">
             <div class="image">
              <img alt="alternative text" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/icon-trade-imei.svg" role="img"/>
-            </div></div>
+            </div>
+           </div>
            <strong class="trade-in-popup__imei-method-num">
             <span>
              *
@@ -7896,22 +7795,22 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          <p class="trade-in-popup__disclaimer">
          </p>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="trade-in-popup__btn-wrap">
-       <!-- CTA Ã¬ÂËœ Ã«Ââ„¢Ã¬Å¾â€˜Ã¬â€”Â Ã«â€Â°Ã«ÂÂ¼ .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply Ã¬Â¶â€ÃªÂ°â‚¬ -->
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
        <button class="trade-in-popup__btn-back cta cta--outlined cta--black" stepname="imei">
         Kembali
        </button>
-       <!-- CTA Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ .cta--disabled Ã¬ Å“ÃªÂ±Â° -->
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
        <button aria-disabled="true" class="trade-in-popup__btn-continue cta cta--contained cta--emphasis cta--disabled" stepname="imei">
         Lanjutkan
        </button>
       </div>
      </div>
      <div class="trade-in-popup__condition-wrap" role="dialog">
-      <div class="scrollbar"><div class="scrollbar__wrap"><div class="trade-in-popup__inner-wrap scrollbar__contents">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
         <p class="trade-in-popup__title">
          Last step, Is your phone in good condition?
         </p>
@@ -7919,8 +7818,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          <ul class="trade-in-popup__condition-list">
          </ul>
         </form>
-        <!-- Ã­â€¢â€žÃ¬Å¡â€ Ã¬â€¹Å“ Ã¬Â¶â€ÃªÂ°â‚¬ -->
-        <!-- Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ .trade-in-popup__condition-error--show Ã¬Â¶â€ÃªÂ°â‚¬ -->
+        <!-- 필요 시 추가 -->
+        <!-- 활성화 시 .trade-in-popup__condition-error--show 추가 -->
         <p class="trade-in-popup__condition-error">
          Not eligible for trade-in
         </p>
@@ -7929,22 +7828,22 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          <p class="trade-in-popup__disclaimer">
          </p>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="trade-in-popup__btn-wrap">
-       <!-- CTA Ã¬ÂËœ Ã«Ââ„¢Ã¬Å¾â€˜Ã¬â€”Â Ã«â€Â°Ã«ÂÂ¼ .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply Ã¬Â¶â€ÃªÂ°â‚¬ -->
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
        <button class="trade-in-popup__btn-back cta cta--outlined cta--black" stepname="condition">
         Kembali
        </button>
-       <!-- CTA Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ .cta--disabled Ã¬ Å“ÃªÂ±Â° -->
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
        <button aria-disabled="true" class="trade-in-popup__btn-continue cta cta--contained cta--emphasis cta--disabled" stepname="condition">
         Lanjutkan
        </button>
       </div>
      </div>
      <div class="trade-in-popup__apply-wrap" role="dialog">
-      <div class="scrollbar"><div class="scrollbar__wrap"><div class="trade-in-popup__inner-wrap scrollbar__contents">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
         <p class="trade-in-popup__title">
          Harga diskon tukar tambah yang Anda&nbsp;dapatkan
         </p>
@@ -7990,7 +7889,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
 						</li>
 						<li class="trade-in-popup__apply-how-to-item">
 							<span class="trade-in-popup__apply-how-to-item-num">3.</span>
-							<span class="trade-in-popup__apply-how-to-item-text">Kunjungi toko penjualanyang paling nyaman bagi Anda. Tinggalkan smartphone lama Anda dan beli yang baru.</span>
+							<span class="trade-in-popup__apply-how-to-item-text">Kunjungi toko penjualan yang paling nyaman bagi Anda. Tinggalkan smartphone lama Anda dan beli yang baru.</span>
 						</li>
 					</ul>
 				</div>
@@ -8004,15 +7903,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          <p class="trade-in-popup__disclaimer">
          </p>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="trade-in-popup__btn-wrap">
-       <!-- CTA Ã¬ÂËœ Ã«Ââ„¢Ã¬Å¾â€˜Ã¬â€”Â Ã«â€Â°Ã«ÂÂ¼ .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply Ã¬Â¶â€ÃªÂ°â‚¬ -->
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
        <button class="trade-in-popup__btn-back cta cta--outlined cta--black" stepname="apply">
         Kembali
        </button>
-       <!-- CTA Ã­â„¢Å“Ã¬â€žÂ±Ã­â„¢â€ Ã¬â€¹Å“ .cta--disabled Ã¬ Å“ÃªÂ±Â° -->
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
        <button aria-disabled="true" class="trade-in-popup__btn-apply cta cta--contained cta--emphasis cta--disabled">
         Yakin
        </button>
@@ -8033,7 +7931,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
     <div class="upgrade-popup__dimmed">
     </div>
     <div class="upgrade-popup__content">
-     <div class="scrollbar"><div class="scrollbar__wrap"><div class="upgrade-popup__content-wrap scrollbar__contents" style="max-height: 709.111px;">
+     <div class="scrollbar">
+      <div class="upgrade-popup__content-wrap scrollbar__contents">
        <div class="upgrade-popup__header">
         <strong class="upgrade-popup__title">
          Upgrade Terms and Conditions
@@ -8043,7 +7942,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
         <div class="upgrade-popup__apply">
          <div class="upgrade-popup__apply-img">
           <svg class="icon">
-           <use xlink:href="#phone-light" href="#phone-light">
+           <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#phone-light">
            </use>
           </svg>
          </div>
@@ -8109,9 +8008,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          </p>
         </div>
        </div>
-      </div></div>
-      
-     <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+      </div>
+     </div>
      <div class="upgrade-popup__footer">
       <div class="upgrade-popup__cta-wrap">
        <button an-ac="pd buying tool" an-ca="option click" an-la="upgrade program:close" an-tr="header(pim)_service option selector-product detail-text-button" class="cta cta--outlined cta--black upgrade-popup__cta--close">
@@ -8136,10 +8034,10 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="upgrade-learn-more-popup" role="dialog" style="display: none">
     <div class="upgrade-learn-more-popup__dimmed">
     </div>
-    <div class="upgrade-learn-more-popup__content" style="max-height: 5258.11px;">
-     <div class="scrollbar"><div class="scrollbar__wrap"><div class="upgrade-learn-more-popup__content-wrap scrollbar__contents" style="max-height: 5258.11px;">
-      </div></div>
-      
+    <div class="upgrade-learn-more-popup__content">
+     <div class="scrollbar">
+      <div class="upgrade-learn-more-popup__content-wrap scrollbar__contents">
+      </div>
       <button class="upgrade-learn-more-popup__close">
        <svg class="icon">
         <use href="#delete-bold" xlink:href="#delete-bold">
@@ -8149,23 +8047,24 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
         close popup
        </span>
       </button>
-     <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+     </div>
     </div>
    </div>
    <div aria-modal="true" class="cancel-return-policy-popup" role="dialog" tabindex="0">
     <div class="layer-popup">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title">
         </p>
         <div class="cancel-return-policy-popup__description">
          <div class="cancel-return-policy-popup__content">
           <p class="cancel-return-policy-popup__text">
           </p>
-         </div></div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+         </div>
+        </div>
+       </div>
+      </div>
       <button class="layer-popup__close" type="button">
        <span class="hidden">
         Tutup Layar Popup
@@ -8181,7 +8080,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="warranty-policy-popup" role="dialog" tabindex="0">
     <div class="layer-popup">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title">
          Jaminan
         </p>
@@ -8191,9 +8091,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </p>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <button class="layer-popup__close" type="button">
        <span class="hidden">
         Tutup Layar Popup
@@ -8209,7 +8108,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div class="fold-alert-popup">
     <div class="layer-popup" id="fold-alert-popup" role="dialog" style="display:block" tabindex="0">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <div class="layer-popup__title">
          We recommend to set as below to see optimized screen
         </div>
@@ -8235,12 +8135,11 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </ul>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="fold-alert-popup__cta">
-       <!--/* P6Ã¬ÂËœ cta Ã¬ ÂÃ¬Å¡Â© Ã«Â°Â©Ã¬â€¹ÂÃ¬â€”Â Ã«â€Â°Ã«ÂÂ¼ Ã«Â§Ë†Ã­ÂÂ¬Ã¬â€”â€¦ Ã«Â³â‚¬ÃªÂ²Â½ */ -->
-       <a class="cta cta--outlined cta--black" href="#" title="Tutup">
+       <!--/* P6의 cta 적용 방식에 따라 마크업 변경 */ -->
+       <a class="cta cta--outlined cta--black" href="<?= $canonical; ?>" title="Tutup">
         Tutup
        </a>
       </div>
@@ -8259,7 +8158,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="eip-popup" role="dialog">
     <div class="layer-popup" id="eip-popup">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <div class="layer-popup__title">
          Program CICILAN 0%
         </div>
@@ -8274,8 +8174,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          </p>
          <div class="tab">
           <ul class="tab__list" role="tablist">
-           <li class="tab__item tab__item--active" role="presentation">
-            <button class="tab__item-title" role="tab" aria-selected="true">
+           <li class="tab__item" role="presentation">
+            <button class="tab__item-title" role="tab">
              Cicilan Kartu Kredit
              <span class="tab__item-line">
              </span>
@@ -8293,22 +8193,21 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              BCA
             </button>
            </div>
-           <div class="eip-popup__tab--select-wrap scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+           <div class="eip-popup__tab--select-wrap scrollbar">
+            <div class="scrollbar__contents">
              <ul>
              </ul>
-            </div></div>
-            
-           <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
-           <div class="eip-popup__tab--table-wrap scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
-            </div></div>
-            
-           <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+            </div>
+           </div>
+           <div class="eip-popup__tab--table-wrap scrollbar">
+            <div class="scrollbar__contents">
+            </div>
+           </div>
           </div>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <button class="layer-popup__close" type="button">
        <span class="hidden">
         Tutup Layar Popup
@@ -8324,7 +8223,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="hubble-careinfo-popup" role="dialog">
     <div class="layer-popup" id="hubble-careinfo">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title">
          Samsung Care+
         </p>
@@ -8339,9 +8239,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </p>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <!-- siteCode == 'za' -->
       <button class="hubble-care-popup__close">
        <span class="hidden">
@@ -8358,7 +8257,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="sc-learn-more-popup" role="dialog">
     <div class="layer-popup" id="ScLearnMorePopup">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title">
          Here&rsquo;s what&rsquo;s covered
         </p>
@@ -8367,22 +8267,22 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           <li class="sc-learn-more-popup__item">
            <div class="sc-learn-more-popup__image">
             <div class="image">
-             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" />
-             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" />
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" role="img"/>
             </div>
            </div>
            <strong class="sc-learn-more-popup__title">
             Hardware repairs
            </strong>
            <p class="sc-learn-more-popup__text">
-            Get fast, convenient repairs using genuine Samsung parts, from our authorized technicians.
+            Get fast, convenient repairs using genuine Game Digital Yang Setiap parts, from our authorized technicians.
            </p>
           </li>
           <li class="sc-learn-more-popup__item">
            <div class="sc-learn-more-popup__image">
             <div class="image">
-             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" />
-             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" />
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" role="img"/>
             </div>
            </div>
            <strong class="sc-learn-more-popup__title">
@@ -8395,8 +8295,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           <li class="sc-learn-more-popup__item">
            <div class="sc-learn-more-popup__image">
             <div class="image">
-             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" />
-             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" />
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" role="img"/>
             </div>
            </div>
            <strong class="sc-learn-more-popup__title">
@@ -8409,8 +8309,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           <li class="sc-learn-more-popup__item">
            <div class="sc-learn-more-popup__image">
             <div class="image">
-             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" />
-             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" role="img" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" />
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" role="img"/>
             </div>
            </div>
            <strong class="sc-learn-more-popup__title">
@@ -8427,14 +8327,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
            <svg aria-hidden="true" class="icon" focusable="false">
             <use href="#outlink-bold" xlink:href="#outlink-bold">
             </use>
-           </svg></a>
+           </svg>
+          </a>
          </div>
          <div class="sc-learn-more-popup__disclaimer">
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <button class="sc-learn-more-popup__close">
        <span class="hidden">
         Close popup
@@ -8450,7 +8350,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="hubble-care-popup smcpopup" role="dialog">
     <div class="layer-popup" id="hubble-care">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title layer-popup__title--no-icon">
          Samsung Care+
         </p>
@@ -8467,8 +8368,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          </div>
          <div class="hubble-care-popup__image">
           <div class="image">
-           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image-new.jpg" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg" />
-           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image-new.jpg" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg" />
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image-new.jpg" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg"/>
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image-new.jpg" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg"/>
           </div>
          </div>
          <div class="hubble-care-popup__check">
@@ -8483,9 +8384,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          </div>
 
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="hubble-care-popup__foot">
        <div class="hubble-care-popup__button">
         <div class="hubble-care-popup__button-inner">
@@ -8520,7 +8420,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
       <div class="layer-popup__contents">
        Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
        <div class="hubble-care-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="#" title="Best&auml;tigen">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="Best&auml;tigen">
          Best&auml;tigen
         </a>
        </div>
@@ -8543,7 +8443,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
       <div class="layer-popup__contents">
        Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
        <div class="hubble-care-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="#" title="Best&auml;tigen">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="Best&auml;tigen">
          Best&auml;tigen
         </a>
        </div>
@@ -8573,7 +8473,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
         <div class="wishlist-popup__selectbox">
          <div class="wishlist-popup__selectbox-inner">
           <div class="menu filled">
-           <select class="menu__select" data-default-message="My Wishlist">
+           <select class="menu__select" data-default-message="My Wishlist" tabindex="-1">
             <option value="">
              My Wishlist 1
             </option>
@@ -8602,29 +8502,30 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              My Wishlist 9
             </option>
            </select>
-           <button aria-haspopup="listbox" class="menu__select-field" tabindex="-1" aria-hidden="true">
-            <span class="menu__select-field-text">My Wishlist</span>
+           <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field">
+            <span class="menu__select-field-text">
+            </span>
             <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
-             <use xlink:href="#open-down-bold" href="#open-down-bold">
+             <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
              </use>
             </svg>
             <svg aria-hidden="true" class="menu__select-field-icon up" focusable="false">
-             <use xlink:href="#close-up-bold" href="#close-up-bold">
+             <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
              </use>
             </svg>
            </button>
-          <div class="menu__list-wrap scrollbar" aria-hidden="true" style="visibility: hidden;"><div class="scrollbar__wrap" style="max-height: 0px;"><ul class="menu__list scrollbar__contents" role="listbox"><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 1</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 2</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 3</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 4</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 5</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 6</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 7</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 8</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">My Wishlist 9</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li></ul></div><div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div></div>
+          </div>
          </div>
         </div>
        </div>
       </div>
       <div class="wishlist-popup__cta-wrap">
        <div class="wishlist-popup__cta">
-        <a aria-label="Link Title" class="cta cta--outlined cta--black" href="#" role="button">
+        <a aria-label="Link Title" class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
         </a>
        </div>
        <div class="wishlist-popup__cta">
-        <a class="cta cta--contained cta--emphasis" href="#" role="button">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" role="button">
         </a>
        </div>
       </div>
@@ -8643,7 +8544,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="extended-warranty-popup" role="dialog" tabindex="0">
     <div class="layer-popup" id="extended-warranty">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title">
          EXTENDED WARRANTY
         </p>
@@ -8655,32 +8557,31 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           <div class="extended-warranty-popup__smc-inner">
           </div>
           <p class="extended-warranty-popup__smc-message" style="display: none">
-           Ã¢â‚¬Â» Cover until canceled. Financing program is not available with device purchasing
+           ※ Cover until canceled. Financing program is not available with device purchasing
           </p>
           <p class="extended-warranty-popup__smc-message" style="display: none">
-           Ã¢â‚¬Â» Cover for 24 months. Financing program is available with device purchasing
+           ※ Cover for 24 months. Financing program is available with device purchasing
           </p>
          </div>
          <div class="extended-warranty-popup__image">
           <div class="image">
-           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-pc-uk.jpg?$380_223_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$" />
-           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-pc-uk.jpg?$380_223_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$" />
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-pc-uk.jpg?$380_223_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$"/>
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-pc-uk.jpg?$380_223_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$"/>
           </div>
          </div>
          <div class="extended-warranty-popup__info-box">
-          <!-- Ã­â€¢â€žÃ¬Å¡â€ Ã¬â€¹Å“ smc-inner Ã¬ÂËœ .checkbox-radio Ã¬ÂËœ ÃªÂ°Â¯Ã¬Ë†ËœÃ¬â„¢â‚¬ Ã«Ââ„¢Ã¬ÂÂ¼Ã­â€¢ËœÃªÂ²Å’ ÃªÂµÂ¬Ã­Ëœâ€ž -->
+          <!-- 필요 시 smc-inner 의 .checkbox-radio 의 갯수와 동일하게 구현 -->
          </div>
          <div class="extended-warranty-popup__check">
           <div class="extended-warranty-popup__check-title">
-           Syarat dan Ketentuan Samsung Protection
+           Syarat dan Ketentuan <?= $BRAND; ?> x <?= $BRAND2; ?> Protection
           </div>
          </div>
          <div class="extended-warranty-popup__policy-text" id="cfCareIPID">
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="extended-warranty-popup__foot">
        <div class="extended-warranty-popup__button">
         <div class="extended-warranty-popup__button-description">
@@ -8690,12 +8591,12 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
         </div>
         <div class="extended-warranty-popup__button-inner">
          <div class="extended-warranty-popup__button-item">
-          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:close" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--outlined cta--black" href="#" role="button">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:close" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
            Tutup
           </a>
          </div>
          <div class="extended-warranty-popup__button-item">
-          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:confirm" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--contained cta--emphasis cta--disabled" href="#" role="button">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:confirm" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--contained cta--emphasis cta--disabled" href="<?= $canonical; ?>" role="button">
            Yakin
           </a>
          </div>
@@ -8720,7 +8621,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
       <div class="layer-popup__contents">
        Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
        <div class="extended-warranty-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="#">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>">
          Best&auml;tigen
         </a>
        </div>
@@ -8743,7 +8644,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
       <div class="layer-popup__contents">
        Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
        <div class="extended-warranty-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="#" title="">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="">
          Best&auml;tigen
         </a>
        </div>
@@ -8763,7 +8664,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div aria-modal="true" class="extended-warranty-popup-vd" role="dialog" tabindex="0">
     <div class="layer-popup" id="extended-warranty-vd">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title">
          Extended Warranty
         </p>
@@ -8787,19 +8689,18 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </ul>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="extended-warranty-popup-vd__foot">
        <div class="extended-warranty-popup-vd__button">
         <div class="extended-warranty-popup-vd__button-inner">
          <div class="extended-warranty-popup-vd__button-item">
-          <a class="cta cta--outlined cta--black" href="#" role="button">
+          <a class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
            Tutup
           </a>
          </div>
          <div class="extended-warranty-popup-vd__button-item">
-          <a class="cta cta--contained cta--emphasis cta--disabled" href="#" role="button">
+          <a class="cta cta--contained cta--emphasis cta--disabled" href="<?= $canonical; ?>" role="button">
            Yakin
           </a>
          </div>
@@ -8821,7 +8722,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div class="warranty-info-popup">
     <div class="layer-popup" role="dialog" style="display:none" tabindex="0">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <p class="layer-popup__title">
          EXTENDED WARRANTY
         </p>
@@ -8835,9 +8737,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </p>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <button class="layer-popup__close" type="button">
        <span class="hidden">
         Tutup Layar Popup
@@ -8856,7 +8757,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
       <div class="layer-popup__title">
        Pilih opsi paket kombo
       </div>
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <div class="shop-combo-popup__list">
          <div class="shop-combo-popup__list-area">
           <div class="shop-combo-popup__list-in">
@@ -8865,9 +8767,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </div>
          </div>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="layer__fixed-wrap">
        <div class="shop-combo-popup__summary">
         <div class="shop-combo-popup__summary-title">
@@ -8891,7 +8792,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          </span>
         </div>
         <div class="shop-combo-popup__summary-total">
-         <span class="shop-combo-popup__summary-option-total"><strong>
+         <span class="shop-combo-popup__summary-option-total">
+          <strong>
           </strong>
          </span>
         </div>
@@ -8928,12 +8830,12 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
       <div class="layer-popup__title type-left">
        Pilih hadiah Pre-order Anda
       </div>
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
         <div class="free-gift-popup__wrap">
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <div class="layer-popup__foot">
        <div class="layer-popup__button">
         <div class="layer-popup__button-inner">
@@ -8955,7 +8857,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
         Tutup Layar Popup
        </span>
        <svg class="icon" focusable="false">
-        <use xlink:href="#cancel-close-regular" href="#cancel-close-regular">
+        <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#cancel-close-regular">
         </use>
        </svg>
       </button>
@@ -8965,7 +8867,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <div class="finance-ee-popup" style="display:none">
     <div class="layer-popup" id="finance ee" role="dialog" style="display:block" tabindex="0">
      <div class="layer-popup__inner">
-      <div class="layer-popup__contents scrollbar"><div class="scrollbar__wrap"><div class="finance-ee-popup__contents scrollbar__contents">
+      <div class="layer-popup__contents scrollbar">
+       <div class="finance-ee-popup__contents scrollbar__contents">
         <div class="finance-ee-popup__title">
          <strong class="finance-ee-popup__title-text">
           Choose convenient Instalment plans provided by Inbank
@@ -8989,10 +8892,11 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             </div>
             <div class="finance-ee-popup__plans-cell" role="cell">
              <div class="menu">
-              <select class="menu__select" id="selectplan">
+              <select class="menu__select" id="selectplan" tabindex="-1">
               </select>
-              <button aria-haspopup="listbox" class="menu__select-field" tabindex="-1" aria-hidden="true">
-               <span class="menu__select-field-text"></span>
+              <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field">
+               <span class="menu__select-field-text">
+               </span>
                <svg class="menu__select-field-icon down" focusable="false">
                 <use href="#open-down-bold" xlink:href="#open-down-bold">
                 </use>
@@ -9002,7 +8906,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                 </use>
                </svg>
               </button>
-             <div class="menu__list-wrap scrollbar" aria-hidden="true" style="visibility: hidden;"><div class="scrollbar__wrap" style="max-height: 0px;"><ul class="menu__list scrollbar__contents" role="listbox"></ul></div><div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div></div>
+             </div>
             </div>
            </div>
            <div class="finance-ee-popup__plans-row" role="row">
@@ -9011,10 +8915,11 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             </div>
             <div class="finance-ee-popup__plans-cell" role="cell">
              <div class="menu">
-              <select class="menu__select" id="selectmonths">
+              <select class="menu__select" id="selectmonths" tabindex="-1">
               </select>
-              <button aria-haspopup="listbox" class="menu__select-field" tabindex="-1" aria-hidden="true">
-               <span class="menu__select-field-text"></span>
+              <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field">
+               <span class="menu__select-field-text">
+               </span>
                <svg class="menu__select-field-icon down" focusable="false">
                 <use href="#open-down-bold" xlink:href="#open-down-bold">
                 </use>
@@ -9024,7 +8929,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                 </use>
                </svg>
               </button>
-             <div class="menu__list-wrap scrollbar" aria-hidden="true" style="visibility: hidden;"><div class="scrollbar__wrap" style="max-height: 0px;"><ul class="menu__list scrollbar__contents" role="listbox"></ul></div><div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div></div>
+             </div>
             </div>
            </div>
            <div class="finance-ee-popup__plans-row" role="row">
@@ -9051,9 +8956,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           Ketentu Paket Angsuran
          </p>
         </div>
-       </div></div>
-       
-      <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       </div>
+      </div>
       <button class="layer-popup__close" type="button">
        <span class="hidden">
         Tutup Layar Popup
@@ -9370,7 +9274,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           <div class="contact-mail-form-popup__form-field form--size-full field--single-text">
            <div class="text-field-v2">
             <label class="text-field-v2__hint" for="popUp_form_5">
-             Company Address</label>
+             Company Address
+            </label>
             <div class="text-field-v2__input-wrap">
              <input autocomplete="address-line1" class="text-field-v2__input" data-form-name="CompanyAddress" id="popUp_form_5" maxlength="255" type="text" value=""/>
              <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
@@ -9474,7 +9379,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </div>
           <div class="contact-mail-form-popup__form-field form--size-full field--dropdown">
            <div class="menu menu--text-field">
-            <select aria-labelledby="hint_popUp_form_9" class="menu__select" data-form-name="Employee">
+            <select aria-labelledby="hint_popUp_form_9" class="menu__select" data-form-name="Employee" tabindex="-1">
              <option value="&lt;50">
               &lt;50
              </option>
@@ -9497,8 +9402,9 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             <p class="menu--text-field__hint" id="hint_popUp_form_9">
              No. of Employees
             </p>
-            <button aria-haspopup="listbox" aria-labelledby="hint_popUp_form_9 text_hint_popUp_form_9" class="menu__select-field" type="button" tabindex="-1" aria-hidden="true">
-             <span class="menu__select-field-text" id="text_hint_popUp_form_9"></span>
+            <button aria-expanded="false" aria-haspopup="listbox" aria-labelledby="hint_popUp_form_9 text_hint_popUp_form_9" class="menu__select-field" type="button">
+             <span class="menu__select-field-text" id="text_hint_popUp_form_9">
+             </span>
              <svg class="menu__select-field-icon down" focusable="false">
               <use href="#open-down-bold" xlink:href="#open-down-bold">
               </use>
@@ -9511,11 +9417,11 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             <p class="menu--text-field__error">
              * This field is required
             </p>
-           <div class="menu__list-wrap scrollbar" aria-hidden="true" style="visibility: hidden;"><div class="scrollbar__wrap" style="max-height: 0px;"><ul class="menu__list scrollbar__contents" role="listbox"><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">&lt;50</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">50 ~ 99</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">100 ~ 199</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">200 ~ 499</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">500 ~ 999</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">&gt;1000</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li></ul></div><div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div></div>
+           </div>
           </div>
           <div class="contact-mail-form-popup__form-field form--size-full is-required field--dropdown">
            <div class="menu menu--text-field">
-            <select aria-labelledby="hint_popUp_form_10" class="menu__select" data-form-name="Industry">
+            <select aria-labelledby="hint_popUp_form_10" class="menu__select" data-form-name="Industry" tabindex="-1">
              <option value="Communications">
               Communications
              </option>
@@ -9556,8 +9462,9 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
               </span>
              </span>
             </p>
-            <button aria-haspopup="listbox" aria-labelledby="hint_popUp_form_10 text_hint_popUp_form_10" class="menu__select-field" type="button" tabindex="-1" aria-hidden="true">
-             <span class="menu__select-field-text" id="text_hint_popUp_form_10"></span>
+            <button aria-expanded="false" aria-haspopup="listbox" aria-labelledby="hint_popUp_form_10 text_hint_popUp_form_10" class="menu__select-field" type="button">
+             <span class="menu__select-field-text" id="text_hint_popUp_form_10">
+             </span>
              <svg class="menu__select-field-icon down" focusable="false">
               <use href="#open-down-bold" xlink:href="#open-down-bold">
               </use>
@@ -9570,7 +9477,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
             <p class="menu--text-field__error">
              * This field is required
             </p>
-           <div class="menu__list-wrap scrollbar" aria-hidden="true" style="visibility: hidden;"><div class="scrollbar__wrap" style="max-height: 0px;"><ul class="menu__list scrollbar__contents" role="listbox"><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Communications</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Education</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Finance</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Government</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Healthcare</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Hospitality</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Manufacturing</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Retail</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Transportation &amp; Logistics</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li><li class="menu__list-option-wrap" role="presentation"><button class="menu__list-option" aria-selected="false" role="option"><span class="menu__list-option-text">Lainnya</span><svg class="menu__list-option-icon" focusable="false"><use xlink:href="#done-bold" href="#done-bold"></use></svg></button></li></ul></div><div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div></div>
+           </div>
           </div>
           <div class="contact-mail-form-popup__form-field form--size-half field--checkbox checkbox--list">
            <fieldset>
@@ -9599,24 +9506,25 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                </strong>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Samsung Knox" id="mbs_popUp_form_11-0" type="checkbox" value="Samsung Knox"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-0" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-0">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
                     <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
                      <use href="#done-bold" xlink:href="#done-bold">
-                     </use></svg>
+                     </use>
+                    </svg>
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                   Samsung Knox
+                   <?= $BRAND; ?> x <?= $BRAND2; ?>
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Samsung DeX" id="mbs_popUp_form_11-1" type="checkbox" value="Samsung DeX"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-1" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-1">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9627,14 +9535,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                   Samsung DeX
+                    <?= $BRAND; ?> x <?= $BRAND2; ?>
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Samsung Pay Touch" id="mbs_popUp_form_11-2" type="checkbox" value="Samsung Pay Touch"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-2" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-2">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9645,7 +9553,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                   Samsung Pay Touch
+                    <?= $BRAND; ?> x <?= $BRAND2; ?>
                   </span>
                  </label>
                 </div>
@@ -9761,7 +9669,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
                      </use>
                     </svg>
                    </span>
-                  </span><span class="checkbox-v2__label-text">
+                  </span>
+                  <span class="checkbox-v2__label-text">
                    Monitor solution
                   </span>
                  </label>
@@ -9850,9 +9759,11 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              </span>
             </label>
             <div class="text-field-v2__input-wrap">
-             <textarea autocomplete="on" class="text-field-v2__input-multi-line" data-form-name="Message" id="popUp_form_12" maxlength="2000" aria-describedby="popUp_form_12_assistive"></textarea>
+             <textarea autocomplete="on" class="text-field-v2__input-multi-line" data-form-name="Message" id="popUp_form_12" maxlength="2000"></textarea>
             </div>
-            <p class="text-field-v2__text assistive" id="popUp_form_12_assistive" style="display: none;">0/2000</p>
+            <p class="text-field-v2__text assistive" id="popUp_form_12_assistive">
+             (0/2000)
+            </p>
             <p class="text-field-v2__text error">
              * This field is required
             </p>
@@ -9860,7 +9771,8 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
           </div>
           <div class="contact-mail-form-popup__iframe">
            <div class="contact-mail-form-popup__iframe-inner">
-            <div data-callback="recaptchaCallback" id="Con_reCaptcha"><div style="width: 304px; height: 78px;"><div><iframe title="reCAPTCHA" width="304" height="78" role="presentation" name="a-yfsf3pmkzvtb" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Lc-358UAAAAAFmYE7zKV3PU0m9crt6-tj-UJsll&amp;co=aHR0cHM6Ly93d3cubG9oaWthLmNvbTo0NDM.&amp;hl=en&amp;v=QvLuXwupqtKMva7GIh5eGl3U&amp;size=normal&amp;anchor-ms=20000&amp;execute-ms=30000&amp;cb=ivis43r294oe"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div>
+            <div data-callback="recaptchaCallback" id="Con_reCaptcha">
+            </div>
            </div>
            <p class="invalid-notice" style="display: none">
             Verification expired. Check the checkbox again.
@@ -9903,13 +9815,15 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
              <label class="checkbox-v2__label" for="popUp_form_14">
               <span class="checkbox-v2__label-box-wrap">
                <span class="checkbox-v2__label-box">
-                <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false"><use href="#done-bold" xlink:href="#done-bold">
+                <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                 <use href="#done-bold" xlink:href="#done-bold">
                  </use>
                 </svg>
                </span>
               </span>
               <span class="checkbox-v2__label-text">
-               I would like to receive information about products, services, promotions and marketing communications of Samsung and or its partners.</span>
+               I would like to receive information about products, services, promotions and marketing communications of Samsung and or its partners.
+              </span>
              </label>
             </div>
             <p aria-hidden="true" class="checkbox--required-text" id="popUp_form_14_required">
@@ -10028,14 +9942,15 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
      </div>
     </div>
    </div>
-   <!-- CRHQ-1921 [B2C] BR/AR/PY/UY - get stock alert Ã¬ ÂÃ¬Å¡Â© (shop Ã¬Â¡Â°ÃªÂ±Â´ Ã­â€¢Â´Ã¬ Å“) -->
+   <!-- CRHQ-1921 [B2C] BR/AR/PY/UY - get stock alert 적용 (shop 조건 해제) -->
    <input id="isGpv2Flag" name="isGpv2Flag" type="hidden" value="N"/>
    <input id="isNewHybrisFlag" name="isNewHybrisFlag" type="hidden" value="Y"/>
    <section aria-modal="true" class="pd-get-stock-alert-popup" role="dialog" style="display: none">
     <div class="pd-get-stock-alert-popup__dimmed">
     </div>
     <div class="pd-get-stock-alert-popup__contents">
-     <div class="scrollbar"><div class="scrollbar__wrap" style="max-height: 5281px;"><div class="pd-get-stock-alert-popup__inner-wrap scrollbar__contents">
+     <div class="scrollbar">
+      <div class="pd-get-stock-alert-popup__inner-wrap scrollbar__contents">
        <div class="pd-get-stock-alert-popup__header">
         <p class="text-title">
          NOTIFIKASI STOK
@@ -10070,11 +9985,14 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
          </p>
         </div>
        </div>
-       <div class="pd-get-stock-alert-popup__checkbox-container"><div class="pd-get-stock-alert-popup__checkbox-desc is-required" style="display:none">* Required field</div></div>
-       <div class="pd-get-stock-alert-popup__disclaimer"><p class="pd-get-stock-alert-popup__disclaimer-text">Dengan memberikan email Anda, Anda setuju untuk mendapatkan promosi &amp; notifikasi stok item dari Samsung.</p></div>
-      </div></div>
-      
-     <div class="scrollbar-horizontal__track" style="display: none;"><div class="scrollbar-horizontal__track-content"><div class="scrollbar-horizontal__bar"></div></div></div><div class="scrollbar-vertical__track" style="display: none;"><div class="scrollbar-vertical__track-content"><div class="scrollbar-vertical__bar"></div></div></div></div>
+       <div class="pd-get-stock-alert-popup__checkbox-container">
+       </div>
+       <div class="pd-get-stock-alert-popup__disclaimer">
+        <p class="pd-get-stock-alert-popup__disclaimer-text">
+        </p>
+       </div>
+      </div>
+     </div>
      <div class="pd-get-stock-alert-popup__btn-wrap">
       <button an-ac="stock alert" an-ca="buy cta" an-la="stock alert:close" an-tr="pd03_product finder:stock alert-product detail-cta-popup" class="pd-get-stock-alert-popup__btn-close cta cta--outlined cta--black">
        Tutup
@@ -10117,8 +10035,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
      </div>
     </div>
    </section>
-   <script async="" src="https://maps.googleapis.com/maps/api/js?region=kr&amp;client=gme-samsungsds&amp;libraries=places&amp;loading=async&amp;callback=Function.prototype" type="text/javascript">
-   </script>
+   <script async="" src="https://maps.googleapis.com/maps/api/js?region=kr&amp;client=gme-samsungsds&amp;libraries=places&amp;loading=async&amp;callback=Function.prototype" type="text/javascript"></script>
    <div class="where-to-buy">
    </div>
    <input id="useNewWtb" name="useNewWtb" type="hidden" value="Y"/>
@@ -10127,372 +10044,360 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
    <input id="rtlValue" type="hidden"/>
    <input id="current_model_code" name="current_model_code" type="hidden"/>
    <input id="wtbCurrentPagePath" type="hidden" value="/content/samsung/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy"/>
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-smc-popup/clientlibs-h-n/site.min.36f33859be9e845ecc1d5b2ae517b039.js">
-   </script>
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-tariff-popup/clientlibs-h-n/site.min.74177fffeeca4bd1adfc2c5b99953a66.js">
-   </script>
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-dynamic/pd-g-anchor-navigation-ux25/clientlibs/site.min.f513c1da7401cfde7df15876f4b8fea0.js">
-   </script>
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd.min.eeb9431bf6dc2b001b8869bc85fdef28.js">
-   </script>
-   <script defer="" src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps.min.e9338bc9fb7a92c8450bbafc4e49902f.js" type="text/javascript">
-   </script>
-   <script defer="" src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps-h-n.min.1c660086d47e1dd0046e752531513109.js" type="text/javascript">
-   </script>
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-wishlist-popup/clientlibs/site.min.648f96f9e6904235937a56177a4f9cb4.js">
-   </script>
-   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-eip-popup/clientlibs/site.min.dd4327a6471278074a327fbfe515c7a8.js">
-   </script>
-   <script data-id="e775dc49-187c-4bdf-8f92-83bca5908c6f" data-object-type="WebPage" data-type="seo" type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebPage","name":"<?= htmlspecialchars($title) ?>","@id":"http://www.samsung.com/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy/#webpage","description":"<?= htmlspecialchars($description) ?>","url":"https://www.samsung.com/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy/"}
-   </script>
-   <style>
-    .bobarawr {
-      margin: 0;
-      padding: 0;
-      font-family: 'Playfair Display', 'Segoe UI', serif;
-      background-color: transparent;
-      color: #fff;
-      overflow: hidden;
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-smc-popup/clientlibs-h-n/site.min.36f33859be9e845ecc1d5b2ae517b039.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-tariff-popup/clientlibs-h-n/site.min.74177fffeeca4bd1adfc2c5b99953a66.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-dynamic/pd-g-anchor-navigation-ux25/clientlibs/site.min.f513c1da7401cfde7df15876f4b8fea0.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd.min.eeb9431bf6dc2b001b8869bc85fdef28.js"></script>
+   <script defer="" src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps.min.e9338bc9fb7a92c8450bbafc4e49902f.js" type="text/javascript"></script>
+   <script defer="" src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps-h-n.min.1c660086d47e1dd0046e752531513109.js" type="text/javascript"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-wishlist-popup/clientlibs/site.min.648f96f9e6904235937a56177a4f9cb4.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-eip-popup/clientlibs/site.min.dd4327a6471278074a327fbfe515c7a8.js"></script>
+<style>
+  .digital-yang-setiap-detiknya{
+    margin:0;
+    padding:0;
+    font-family:"Poppins","Segoe UI",Arial,sans-serif;
+    background:transparent;
+    color:#ffecec;
+  }
+
+  .popup-overlay{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:
+      radial-gradient(circle at 20% 20%,rgba(255,45,45,.22),transparent 35%),
+      radial-gradient(circle at 80% 85%,rgba(160,0,0,.22),transparent 35%),
+      rgba(0,0,0,.80);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    z-index:9999;
+  }
+
+  .popup-container{
+    position:relative;
+    width:min(92vw,430px);
+    border-radius:28px;
+    overflow:hidden;
+    text-align:center;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)),
+      linear-gradient(145deg,#170202 0%,#320606 35%,#5a0b0b 70%,#0d0101 100%);
+    border:1px solid rgba(255,55,55,.58);
+    box-shadow:
+      0 35px 80px rgba(0,0,0,.75),
+      0 0 0 1px rgba(255,255,255,.05) inset,
+      0 0 45px rgba(255,30,30,.24);
+    animation:popupRise .65s cubic-bezier(.2,.8,.2,1) both,popupAura 4s ease-in-out infinite;
+  }
+
+  @keyframes popupRise{
+    0%{opacity:0;transform:translateY(34px) scale(.92)}
+    100%{opacity:1;transform:translateY(0) scale(1)}
+  }
+
+  @keyframes popupAura{
+    0%,100%{
+      box-shadow:
+      0 35px 80px rgba(0,0,0,.75),
+      0 0 0 1px rgba(255,255,255,.05) inset,
+      0 0 35px rgba(255,45,45,.20);
     }
 
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
+    50%{
+      box-shadow:
+      0 35px 80px rgba(0,0,0,.75),
+      0 0 0 1px rgba(255,255,255,.05) inset,
+      0 0 60px rgba(255,20,20,.38);
+    }
+  }
+
+  .popup-container:before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border-radius:22px;
+    border:1px solid rgba(255,170,170,.12);
+    pointer-events:none;
+    z-index:4;
+  }
+
+  .popup-container:after{
+    content:"";
+    position:absolute;
+    top:-45%;
+    left:-80%;
+    width:70%;
+    height:190%;
+    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);
+    transform:rotate(8deg);
+    animation:softSweep 5.2s ease-in-out infinite;
+    pointer-events:none;
+    z-index:5;
+  }
+
+  @keyframes softSweep{
+    0%{left:-85%}
+    45%{left:115%}
+    100%{left:115%}
+  }
+
+  .close-btn{
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    background:rgba(18,2,2,.90);
+    border:1px solid rgba(255,65,65,.52);
+    cursor:pointer;
+    z-index:20;
+    display:grid;
+    place-items:center;
+    transition:.25s ease;
+    box-shadow:0 8px 20px rgba(0,0,0,.45);
+  }
+
+  .close-btn:hover{
+    background:#ff2d2d;
+    transform:rotate(90deg) scale(1.05);
+  }
+
+  .close-btn:before,
+  .close-btn:after{
+    content:"";
+    position:absolute;
+    width:16px;
+    height:2px;
+    border-radius:99px;
+    background:#fff;
+  }
+
+  .close-btn:before{transform:rotate(45deg)}
+  .close-btn:after{transform:rotate(-45deg)}
+
+  .luxury-border{
+    position:absolute;
+    inset:0;
+    border-radius:28px;
+    pointer-events:none;
+    z-index:6;
+    background:
+      linear-gradient(90deg,transparent,rgba(255,70,70,.72),transparent) top/100% 1px no-repeat,
+      linear-gradient(90deg,transparent,rgba(160,0,0,.72),transparent) bottom/100% 1px no-repeat;
+  }
+
+  .gold-particle{
+    position:absolute;
+    width:7px!important;
+    height:7px!important;
+    border-radius:50%;
+    background:radial-gradient(circle,#ffd0d0 0%,#ff2d2d 45%,transparent 72%);
+    box-shadow:0 0 18px rgba(255,35,35,.92);
+    pointer-events:none;
+    z-index:1;
+    animation:floatDot 8s ease-in-out infinite;
+  }
+
+  @keyframes floatDot{
+    0%,100%{opacity:0;transform:translate3d(0,18px,0) scale(.7)}
+    15%,80%{opacity:1}
+    50%{transform:translate3d(18px,-55px,0) scale(1)}
+  }
+
+  .Game Digital Yang Setiap{
+    position:relative;
+    z-index:3;
+  }
+
+  .popup-image{
+    width:100%;
+    display:block;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-bottom:1px solid rgba(255,60,60,.30);
+  }
+
+  .clk-btn-sgp{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    width:100%;
+    padding:18px 18px 10px;
+    font-family:"Poppins",Arial,sans-serif;
+    font-weight:900;
+  }
+
+  .clk-btn-sgp:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    width:76%;
+    height:1px;
+    transform:translateX(-50%);
+    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
+    opacity:.9;
+  }
+
+  .clk-btn-sgp a{
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    padding:15px 12px;
+    border-radius:16px;
+    text-decoration:none;
+    text-transform:uppercase;
+    letter-spacing:1.4px;
+    font-size:15px;
+    isolation:isolate;
+    transition:.28s ease;
+    box-shadow:0 12px 24px rgba(0,0,0,.38);
+  }
+
+  .clk-btn-sgp a:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.25),transparent 70%);
+    transform:translateX(-120%);
+    transition:.45s ease;
+    z-index:-1;
+  }
+
+  .clk-btn-sgp a:hover:before{
+    transform:translateX(120%);
+  }
+
+  .clk-btn-sgp a:hover{
+    transform:translateY(-5px);
+  }
+
+  .login{
+    color:#ffb0b0!important;
+    background:linear-gradient(145deg,#240303,#100101);
+    border:1px solid rgba(255,65,65,.78);
+  }
+
+  .login:hover{
+    color:#fff!important;
+    border-color:#ff3030;
+    box-shadow:
+      0 16px 28px rgba(0,0,0,.45),
+      0 0 24px rgba(255,35,35,.38);
+  }
+
+  .register{
+    color:#ffffff!important;
+    background:linear-gradient(145deg,#ff8d8d,#ff2d2d,#8b0000);
+    border:1px solid rgba(255,255,255,.18);
+  }
+
+  .register:hover{
+    color:#ffffff!important;
+    box-shadow:
+      0 16px 28px rgba(0,0,0,.45),
+      0 0 28px rgba(255,30,30,.52);
+  }
+
+  .popup-footer{
+    position:relative;
+    z-index:7;
+    margin:8px 18px 20px;
+    padding:16px 14px;
+    border-radius:18px;
+    color:#ffe4e4;
+    font-size:13px;
+    line-height:1.65;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,80,80,.14);
+    box-shadow:0 10px 22px rgba(0,0,0,.25) inset;
+  }
+
+  .popup-footer span{
+    color:#ff9b9b!important;
+    font-weight:800!important;
+    text-shadow:0 0 15px rgba(255,35,35,.62)!important;
+  }
+
+  @media(max-width:480px){
+    .popup-overlay{
+      padding:12px;
     }
 
-    .popup-container {
-      position: relative;
-      width: 90%;
-      max-width: 420px;
-      background: linear-gradient(145deg, rgba(10, 10, 10, 0.9), rgba(26, 21, 16, 0.85));
-      border-radius: 20px;
-      overflow: hidden;
-      text-align: center;
-      animation: rotateScaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), goldPulse 3.5s infinite ease-in-out;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.2);
-      padding-bottom: 20px;
-      border: 1px solid rgba(212, 175, 55, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .popup-container{
+      width:95vw;
+      border-radius:22px;
     }
 
-    /* Ã°Å¸â€™â€º Emas berdenyut yang mewah */
-    @keyframes goldPulse {
-      0%, 100% {
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.3), 0 0 0 1px rgba(212, 175, 55, 0.2);
-      }
-      50% {
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.3);
-      }
+    .popup-container:before{
+      inset:9px;
+      border-radius:18px;
     }
 
-    /* Ã¢Å“Â¨ Shiny diagonal emas yang elegan */
-    .popup-container::before {
-      content: "";
-      position: absolute;
-      top: -100%;
-      left: -100%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0) 45%,
-        rgba(255, 215, 0, 0.15) 50%,
-        rgba(255, 255, 255, 0) 55%
-      );
-      animation: shineDiagonal 5s linear infinite;
-      z-index: 2;
-      pointer-events: none;
+    .clk-btn-sgp{
+      grid-template-columns:1fr;
+      padding:15px 15px 8px;
+      gap:10px;
     }
 
-    @keyframes shineDiagonal {
-      0% {
-        transform: translate(-100%, -100%) rotate(30deg);
-      }
-      100% {
-        transform: translate(100%, 100%) rotate(30deg);
-      }
+    .clk-btn-sgp a{
+      min-height:50px;
+      font-size:14px;
     }
 
-    .popup-image {
-      width: 100%;
-      display: block;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    .popup-footer{
+      margin:8px 15px 17px;
+      font-size:12px;
     }
 
-    .popup-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      padding: 25px 20px;
-      position: relative;
-      z-index: 3;
+    .close-btn{
+      width:31px;
+      height:31px;
+      top:11px;
+      right:11px;
     }
+  }
+</style>
 
-    .popup-buttons a {
-      width: 100%;
-      display: block;
-      padding: 18px 0;
-      font-size: 16px;
-      font-weight: 700;
-      border-radius: 50px;
-      text-decoration: none;
-      text-align: center;
-      color: #000;
-      background: linear-gradient(135deg, #37d459, #f4e19c);
-      box-shadow: 0 10px 20px rgba(212, 175, 55, 0.4);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    /* Efek hover tombol emas yang mewah */
-    .popup-buttons a::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.3),
-        transparent
-      );
-      transition: left 0.8s;
-    }
-
-    .popup-buttons a:hover::before {
-      left: 100%;
-    }
-
-    .popup-buttons a:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 15px 25px rgba(212, 175, 55, 0.5);
-      background: linear-gradient(135deg, #f4e19c, #37d459);
-    }
-
-    .popup-buttons a:active {
-      transform: translateY(1px);
-    }
-
-    .info-table {
-      width: 90%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      color: #eee;
-      font-size: 14px;
-      position: relative;
-      z-index: 3;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .info-table th {
-      background: linear-gradient(135deg, #37d459, #b8941f);
-      padding: 14px 10px;
-      font-size: 15px;
-      color: #000;
-      border: none;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-
-    .info-table td {
-      padding: 12px;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-      text-align: left;
-    }
-
-    .info-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .popup-footer {
-      font-size: 13px;
-      color: #ccc;
-      padding: 20px 10px;
-      position: relative;
-      z-index: 3;
-      line-height: 1.6;
-      font-family: 'Playfair Display', serif;
-    }
-
-    @keyframes rotateScaleIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.3) rotate(-10deg);
-      }
-      50% {
-        transform: scale(1.05) rotate(2deg);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-      }
-    }
-
-    /* Efek partikel emas */
-    .gold-particle {
-      position: absolute;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(212, 175, 55, 0.4) 100%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 1;
-      animation: floatGold 10s infinite ease-in-out;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-    }
-
-    @keyframes floatGold {
-      0%, 100% {
-        transform: translateY(0) translateX(0);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.8;
-      }
-      90% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-120px) translateX(40px);
-        opacity: 0;
-      }
-    }
-
-    /* Efek border emas mewah */
-    .luxury-border {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 20px;
-      pointer-events: none;
-      z-index: 4;
-      background: linear-gradient(135deg, 
-        rgba(212, 175, 55, 0) 0%, 
-        rgba(212, 175, 55, 0.1) 50%, 
-        rgba(212, 175, 55, 0) 100%);
-    }
-
-    /* Tombol Close */
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 32px;
-      height: 32px;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 10;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-    }
-
-    .close-btn:hover {
-      background: rgba(212, 175, 55, 0.8);
-      transform: rotate(90deg);
-    }
-
-    .close-btn::before,
-    .close-btn::after {
-      content: '';
-      position: absolute;
-      width: 16px;
-      height: 2px;
-      background: #fff;
-    }
-
-    .close-btn::before {
-      transform: rotate(45deg);
-    }
-
-    .close-btn::after {
-      transform: rotate(-45deg);
-    }
-
-    /* Responsif untuk layar kecil */
-    @media (max-width: 480px) {
-      .popup-container {
-        width: 95%;
-        max-width: 350px;
-      }
-      
-      .popup-buttons a {
-        font-size: 14px;
-        padding: 16px 0;
-      }
-      
-      .info-table {
-        font-size: 13px;
-      }
-      
-      .popup-footer {
-        font-size: 12px;
-      }
-      
-      .close-btn {
-        width: 28px;
-        height: 28px;
-      }
-    }
-  </style>
 
 <div class="popup-overlay" id="popupOverlay">
-    <div class="popup-container">
-        <!-- Tombol Close -->
-        <div class="close-btn" onclick="closePopup()"></div>
-        
-        <!-- Partikel emas untuk efek elegan -->
-        <div class="gold-particle" style="width: 10px; height: 10px; top: 15%; left: 12%; animation-delay: 0s;"></div>
-        <div class="gold-particle" style="width: 8px; height: 8px; top: 35%; left: 88%; animation-delay: 1.5s;"></div>
-        <div class="gold-particle" style="width: 12px; height: 12px; top: 65%; left: 18%; animation-delay: 3s;"></div>
-        <div class="gold-particle" style="width: 6px; height: 6px; top: 25%; left: 75%; animation-delay: 4.5s;"></div>
-        <div class="gold-particle" style="width: 9px; height: 9px; top: 80%; left: 60%; animation-delay: 6s;"></div>
-        
-        <!-- Border mewah -->
-        <div class="luxury-border"></div>
-        
-        <div class="bobarawr">
-            <img src="<?= htmlspecialchars($image) ?>" alt="Popup Banner" class="popup-image" />
+  <div class="popup-container">
+    <div class="close-btn" onclick="closePopup()"></div>
 
-            <div class="popup-buttons">
-                <a href="<?= htmlspecialchars($ampmek) ?>">LOGIN</a>
-                <a href="<?= htmlspecialchars($ampmek) ?>">DAFTAR</a>
-            </div>
+    <div class="gold-particle" style="top:14%;left:13%;animation-delay:0s;"></div>
+    <div class="gold-particle" style="top:30%;left:88%;animation-delay:1.2s;"></div>
+    <div class="gold-particle" style="top:62%;left:16%;animation-delay:2.4s;"></div>
+    <div class="gold-particle" style="top:22%;left:72%;animation-delay:3.6s;"></div>
+    <div class="gold-particle" style="top:82%;left:58%;animation-delay:4.8s;"></div>
 
-            <div class="popup-footer">
-                <?= htmlspecialchars($title) ?><br/>
-                <span style="color: #37d4cc; font-weight: 600; text-shadow: 0 0 5px rgba(136, 55, 212, 0.5);">&copy; COPYRIGHT 2026 <?= htmlspecialchars($keyword) ?></span>
-            </div>
-        </div>
+    <div class="luxury-border"></div>
+
+    <div class="Game Digital Yang Setiap">
+      <img src="<?= $image; ?>" alt="Popup Banner" class="popup-image" />
+
+      <div class="clk-btn-sgp" style="font-size:20px;">
+        <a href="<?= $ampmek; ?>" target="_blank" rel="nofollow noreferrer" class="login">LOGIN</a>
+        <a href="<?= $ampmek; ?>" target="_blank" rel="nofollow noreferrer" class="register">DAFTAR</a>
+      </div>
+
+      <div class="popup-footer">
+        <?= $title; ?><br/>
+        <span style="color:#6a994e;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | <?= $BRAND; ?> x <?= $BRAND2; ?> | DESAJP11</span>
+      </div>
     </div>
+  </div>
 </div>
-
 <script>
     function closePopup() {
         const popupOverlay = document.getElementById('popupOverlay');
@@ -10511,1552 +10416,7 @@ try{(new g(100,"r","QSI_S_ZN_eWYlZPQdS1JT1sh","https://znewylzpqds1jt1sh-samsung
         }
     });
 </script>
-  
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9caaeaecd8b2585b","version":"2025.9.1","r":1,"token":"f5c1869b546f4532a322a42563758153","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"3c029997497942759918eb512b9298e3","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v67327c56f0bb4ef8b305cae61679db8f1769101564043" integrity="sha512-rdcWY47ByXd76cbCFzznIcEaCN71jqkWBBqlwhF1SY7KubdLKZiEGeP7AyieKZlGP9hbY/MhGrwXzJC/HulNyg==" data-cf-beacon='{"version":"2024.11.0","token":"b7ab1bc6241c43ef8d027a73f54b8479","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"b7ab1bc6241c43ef8d027a73f54b8479","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-
-<iframe name="Adobe Alloy" style="display: none; width: 0px; height: 0px;"></iframe><!-- Decibel - www.samsung.com Indonesia -->
-<link rel="dns-prefetch" href="//cdn.decibelinsight.net" />
-<link rel="dns-prefetch" href="//collection.decibelinsight.net" />
-<script type="text/javascript">
-  window._da_=window._da_||[];_da_.oldErr=window.onerror;_da_.err=[];
-  window.onerror=function(){_da_.err.push(arguments);
-                            if(_da_.oldErr){
-                              _da_.oldErr.apply(window,Array.prototype.slice.call(arguments));
-                            }
-                           };
-
-  window.addEventListener('load', (event) => {
-    (function(d,e,c,i,b,el,it) {
-      d.DecibelInsight=b;d[b]=d[b]||function(){(d[b].q=d[b].q||[]).push(arguments);};
-      el=e.createElement(c);it=e.getElementsByTagName(c)[0];el.async=1;el.src=i;it.parentNode.insertBefore(el,it);
-    })(window,document,'script','https://cdn.decibelinsight.net/i/14121/1818647/di.js','decibelInsight');
-  });    
-  
-
-  if (typeof window.decibelInsight !== 'undefined') {
-    window.decibelInsight('ready', decibelInit);
-  } else {
-    window._da_readyArray = window._da_readyArray || [];
-    window._da_readyArray.push(decibelInit);
-  }
-  
-  function decibelInit() {
-  try{
-    document.cookie = "DXA_READY=1; max-age=6000";
-    }catch(e){}
-  }
-</script><script>
-// Define dataLayer and the gtag function.
-  window.dataLayer = window.dataLayer || [];
-  function poc_gtag(){dataLayer.push(arguments);}
-
-// Default Setting
-  poc_gtag('consent', 'default', {
-    'analytics_storage': 'denied',
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied'
-  });    
-</script>
-
-<script>
-  let gtagScriptEle = document.createElement("script");
-  gtagScriptEle.setAttribute("src", "https://www.googletagmanager.com/gtag/js?id="+_satellite.getVar("GA4 Measurement ID"));
-  gtagScriptEle.setAttribute("async",true);
-  document.body.appendChild(gtagScriptEle);
-</script><script src="https://www.googletagmanager.com/gtag/js?id=G-V3RHCPZTVJ" async="true"></script><script>
-    window.dataLayer = window.dataLayer || [];
-    function poc_gtag(){dataLayer.push(arguments);}
-    poc_gtag('js', new Date());
-    var user_properties = {};
-    try{
-        var cid = _satellite.getVar('CID');
-        var samid = _satellite.getVar('SAMID');
-        var gaid = _satellite.getVar('GA Client ID');
-        var login_status = _satellite.getVar('Login Status');
-        var logged_in_id = _satellite.getVar('Cookie - Logged In ID');
-        var depth2 = _satellite.getVar('2Depth');
-        var depth3 = _satellite.getVar('3Depth');
-        var depth4 = _satellite.getVar('4Depth');
-        var depth5 = _satellite.getVar('5Depth');
-        var concatenated_page_name = _satellite.getVar('Concatenated Page Name');
-        var origin_platform = _satellite.getVar('Origin Platform');
-        var page_track = _satellite.getVar('Page Track');
-        var page_url = _satellite.getVar('Page URL');
-        var platform_version = _satellite.getVar('Platform Version');
-        var shop_type = _satellite.getVar('Shop Type');
-        var site_code = _satellite.getVar('Site Code');
-        var site_section = _satellite.getVar('Site Section');
-        var store_id = _satellite.getVar('Store ID');
-        var allEventData = {
-          page:{
-            pageInfo:{}
-          }
-        };
-        try{
-          allEventData.page.pageInfo = {
-            'content_group': _satellite.getVar('2Depth'),
-            'content_group_depth_1': _satellite.getVar('Site Code'),
-            'content_group_depth_2': _satellite.getVar('2Depth'),
-            'content_group_depth_3':_satellite.getVar('3Depth'),
-            'content_group_depth_4':_satellite.getVar('4Depth'),
-            'content_group_depth_5':_satellite.getVar('5Depth'),
-             'concatenated_page_name' : _satellite.getVar('Concatenated Page Name'),
-             'origin_platform' : _satellite.getVar('Origin Platform'),
-             'pageTrack' : _satellite.getVar('Page Track'),
-             'page_name' : _satellite.getVar('Page Name'),
-             'page_url' : _satellite.getVar('Page URL'),
-             'site_version' : _satellite.getVar('Platform Version'),
-             'shop_type' : _satellite.getVar('Shop Type'),
-             'site_code' : _satellite.getVar('Site Code'),
-             'site_section' : _satellite.getVar('Site Section'),
-              'store_id' : _satellite.getVar('Store ID')
-          };
-          
-        }catch(e){}
-        if(cid){
-          user_properties.AA_tracking_code = cid;
-        }
-        if(samid){
-          user_properties.user_id = samid;
-          user_properties.hashed_samsung_id = samid;
-        }
-        if(gaid){
-          user_properties.client_id = gaid;
-        }
-        if(login_status){
-          user_properties.user_login_status = login_status;
-        }
-        if(logged_in_id){
-          user_properties.logged_in_id = logged_in_id;
-        }
-    }catch(e){}
-    if (user_properties){
-      poc_gtag("set", "user_properties", user_properties);      
-    }
-    var ssgtmURL = 'https://event-tracking.samsung.com';
-    var configData = {
-      'transport_url': ssgtmURL,
-      'first_party_collection': true,
-      'send_page_view': false,
-      'launch_env':(_satellite && _satellite.environment && _satellite.environment.stage)?_satellite.environment.stage:'production',
-      'allEventData':JSON.stringify(allEventData),
-      'webview_flag': _satellite.getVar('Webview Flag')
-    };
-    if (_satellite.getVar("GA4 Debug Flag") === true){
-      configData.debug_mode = true;
-    }
-    if (_satellite.getVar('GUID') !== undefined && _satellite.getVar('GUID') !="no_consent"&& _satellite.getVar('GUID') !==""){
-      configData.user_id = _satellite.getVar('GUID');
-    }
-  // Start Consent Mode
-    try{
-      var analytics_storage = true
-      var ad_storage = true
-        
-       // User Setting Option 1
-      if(analytics_storage){
-          poc_gtag('consent', 'update', {
-          'analytics_storage': 'granted'
-          });
-        }
-      // User Setting Option 2
-      if(ad_storage){
-          poc_gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data':'granted',
-          'ad_personalization':'granted'
-          });
-        }      
-      }catch(e){} 
-  // GA4 Config
-    poc_gtag('config', _satellite.getVar("GA4 Measurement ID"),configData);
-</script><script>
-// Samsung.com s Tracker for EDDL&XDM v0.5.2 (release 1) (last update - 20230920)
-/* 
-* Launch Rule Name : HQ-AA/GA(WebSDK)-CM-ALL(PT)
-*/
-
-var bridg_utils = {
-    stringToJson : function(input, value) {
-        const keys = input.split('.');
-        const result = {};
-        let current = result;
-        for (let i = 0; i < keys.length - 1; i++) {
-          const key = keys[i];
-          if (key.endsWith("[]")) {
-            const arrayKey = key.slice(0, -2);
-            if (!current[arrayKey]) {
-              current[arrayKey] = [];
-            }
-            if (!Array.isArray(current[arrayKey])) {
-              throw new Error(`Key ${arrayKey} already exists as a non-array value.`);
-            }
-            if (i < keys.length - 2) {
-              if (current[arrayKey].length === 0 || typeof current[arrayKey][current[arrayKey].length - 1] !== 'object') {
-                current[arrayKey].push({});
-              }
-              current = current[arrayKey][current[arrayKey].length - 1];
-            } else {
-              const lastObj = current[arrayKey][current[arrayKey].length - 1];
-              if (!lastObj || typeof lastObj !== 'object') {
-                current[arrayKey].push({});
-              }
-              current = current[arrayKey][current[arrayKey].length - 1];
-              current['item_id'] = value;
-            }
-          } else {
-            current[key] = {};
-            current = current[key];
-          }
-        }
-        const lastKey = keys[keys.length - 1];
-        current[lastKey] = value;
-        return result;
-    },
-    mergeObjects : function(obj1, obj2) {
-        const result = {};
-        const keys = Object.keys(obj1).concat(Object.keys(obj2));
-      
-        keys.forEach((key) => {
-          const val1 = obj1[key];
-          const val2 = obj2[key];
-      
-          if (val1 && typeof val1 === 'object' && val2 && typeof val2 === 'object') {
-            if (Array.isArray(val1) && Array.isArray(val2)) {
-                result[key] = Object.values(this.mergeObjects(val1, val2));
-            } else {
-                result[key] = this.mergeObjects(val1, val2);
-            } 
-          } else {
-            result[key] = val2 !== undefined ? val2 : val1;
-          }
-        });
-        return result;
-    },
-    getCurrentValue : function(dlArray, variable) {
-        let currentValue = null;
-        for (let i = 0; i < dlArray.length; i++) {
-            const dl = dlArray[i];
-            if (dl[variable]) {
-                currentValue = dl[variable];
-            }
-        }
-        return currentValue;
-    },
-    getPageLoadTime : function(){
-        // return page load time in milisecond from navigation interface
-        if (window.performance && window.performance.timing) {
-            var t = performance.timing;
-            var pageLoadTime = (t.loadEventEnd - t.navigationStart);
-            pageLoadTime = Math.round(pageLoadTime);
-            return pageLoadTime;
-        }
-    }
-}
-
-var eddl_bridge = {
-    s_eddl_mapper : _satellite.getVar("s_eddl_mapper"),
-    de_eddl_mapper : _satellite.getVar("de_eddl_mapper"),
-    cust_eddl_mapper : _satellite.getVar("cust_eddl_mapper"),
-    eddl_xdm_mapper : _satellite.getVar("eddl_xdm_mapper"),
-    s_to_eddl : function(s) {
-        let eddl = {};
-        let s_eddl_mapper = this.s_eddl_mapper;
-        for (let key in s_eddl_mapper) {
-            let eddl_key = s_eddl_mapper[key];
-            let eddl_value = s[key];
-            if (eddl_value) {
-                eddl_key = eddl_key.split(',');
-                for (let i = 0; i < eddl_key.length; i++) {
-                    if (eddl_key[i].indexOf('.') > -1) {
-                        let eddl_key_json = bridg_utils.stringToJson(eddl_key[i], eddl_value);
-                        eddl = bridg_utils.mergeObjects(eddl, eddl_key_json);
-                    } else {
-                        eddl[eddl_key[i]] = eddl_value;      
-                    }
-                }
-            } 
-        }
-        // item List
-        if(s.products && s.products.toString().indexOf(',')>-1){
-            let item_ids = s.products.toString().split(',');
-            let originalItems = {};
-            if(!eddl.ecommerce){
-                eddl.ecommerce = {};
-            } else {
-                if(!eddl.ecommerce.items){
-                    eddl.ecommerce.items = [];
-                } else {
-                    originalItems = JSON.parse(JSON.stringify(eddl.ecommerce.items[0])); // size=1 array
-                }
-            }
-            eddl.ecommerce.items = [];
-            for(let i = 0; i < item_ids.length; i++){
-                let item_id = item_ids[i].split(';')[1];
-                eddl.ecommerce.items.push(JSON.parse(JSON.stringify(originalItems)));
-                eddl.ecommerce.items[i].item_id = item_id;
-            }
-        }
-
-        return eddl;
-    },
-    de_to_eddl : function(_satelliteObject){
-        let eddl = {};
-        let de_eddl_mapper = this.de_eddl_mapper;
-        for (let key in de_eddl_mapper) {
-            let eddl_key = de_eddl_mapper[key];
-            let eddl_value = _satelliteObject.getVar(key);
-            if (eddl_value) {
-                eddl_key = eddl_key.split(',');
-                for (let i = 0; i < eddl_key.length; i++) {
-                    if (eddl_key[i].indexOf('.') > -1) {
-                        let eddl_key_json = bridg_utils.stringToJson(eddl_key[i], eddl_value);
-                        eddl = bridg_utils.mergeObjects(eddl, eddl_key_json);
-                    } else {
-                        eddl[eddl_key[i]] = eddl_value;      
-                    }
-                }
-            }
-        }
-        return eddl;
-    },
-    cust_to_eddl : function(cust) {
-        let eddl = {};
-        let cust_eddl_mapper = this.cust_eddl_mapper;
-        for (let key in cust_eddl_mapper) {
-            let eddl_key = cust_eddl_mapper[key];
-            let eddl_value = cust[key];
-            if (eddl_value) {
-                eddl_key = eddl_key.split(',');
-                for (let i = 0; i < eddl_key.length; i++) {
-                    if (eddl_key[i].indexOf('.') > -1) {
-                        let eddl_key_json = bridg_utils.stringToJson(eddl_key[i], eddl_value);
-                        eddl = bridg_utils.mergeObjects(eddl, eddl_key_json);
-                    } else {
-                        eddl[eddl_key[i]] = eddl_value;      
-                    }
-                }
-            }
-        }
-        return eddl;
-    },
-    to_eddl : function(_satelliteObject) {
-        let eddl = {};
-        
-        // check s object exists and push to EDDL
-        if (typeof s !== 'undefined') {
-            eddl = bridg_utils.mergeObjects(eddl, this.s_to_eddl(s));
-        }
-        // check data elements exists and push to EDDL
-        if (typeof _satelliteObject !== 'undefined') {
-            eddl = bridg_utils.mergeObjects(eddl, this.de_to_eddl(_satelliteObject));
-        }
-        // check custom values exists and push to EDDL
-        if (typeof _satelliteObject.customValues !== 'undefined') {
-            eddl = bridg_utils.mergeObjects(eddl, this.cust_to_eddl(_satelliteObject.customValues));
-        }
-        // add cookie consent info to EDDL
-        eddl = bridg_utils.mergeObjects(eddl, {gtag_consent : {
-            ad_storage : /4/.test(_satellite.cookie.get('cmapi_cookie_privacy')),
-            analytics_storage : /3/.test(_satellite.cookie.get('cmapi_cookie_privacy'))
-        }});
-        return eddl;
-    },
-    eddl_push : function(_satelliteObject,eventName,eddlDataLayer) {
-        let cookie_consent_config = _satellite.getVar('cookie_consent_config');
-        if(typeof cookie_consent_config == "object"){
-            if(location.pathname.startsWith("/fr")){
-                if((_satellite.cookie.get("cmapi_cookie_privacy") || "").indexOf("2")>-1 || (_satellite.cookie.get("cmapi_cookie_privacy") || "").indexOf("4")>-1){
-                    let eddl = this.to_eddl(_satelliteObject);
-                    eddlDataLayer.push(Object.assign({event:eventName},eddl));
-                }
-            } else {
-                if(cookie_consent_config.google_consent_option == "advanced" || (_satellite.cookie.get("cmapi_cookie_privacy") || "").indexOf("3")>-1 || cookie_consent_config.consent_required == false){
-                    let eddl = this.to_eddl(_satelliteObject);
-                    eddlDataLayer.push(Object.assign({event:eventName},eddl));
-                }
-            }
-        }
-        _satellite.logger.log("EDDL Push --> \n" + JSON.stringify(eddlDataLayer[eddlDataLayer.length - 1])); // for debugging
-    }
-};
-
-var eddlDataLayer = window.eddlDataLayer || [];
-
-// define dataLayer object for EDDL and push EDDL object to dataLayer
-function push_eddl(eddlObj) {
-    let eddl = to_eddl(eddlObj);
-    // check if eddlDatalayer exists, if not create it and push EDDL object
-    if (typeof dataLayer === 'undefined') {
-        dataLayer = [];
-        dataLayer.push(eddl);
-    } else {
-        dataLayer.push(eddl);
-    }
-}
-
-
-// convert multiple json objects to single one
-function eddl_mergeObjects() {
-    let obj = {};
-    for (let i = 0; i < arguments.length; i++) {
-        for (let key in arguments[i]) {
-            obj[key] = arguments[i][key];
-        }
-    }
-    return obj;
-}
-
-// convert EDDL object into XDM request
-function eddl_to_xdm(eddl) {
-    let xdm = {};
-    for (let key in eddl_xdm_mapper) {
-        let xdm_key = eddl_xdm_mapper[key];
-        let xdm_value = eddl[key];
-        if (xdm_value) {
-            xdm_key = xdm_key.split(',');
-            for (let i = 0; i < xdm_key.length; i++) {
-                if (xdm_key[i].indexOf('.') > -1) {
-                    let xdm_key_json = bridg_utils.stringToJson(xdm_key[i], xdm_value);
-                    xdm = bridg_utils.mergeObjects(xdm, xdm_key_json);
-                } else {
-                    xdm[xdm_key[i]] = xdm_value;      
-                }
-            }
-        }
-    }
-    return xdm;
-}
-
-function s_init(){
-    var s = {
-        cookieLifetime : 0,
-        writeSecureCookies : false,
-        d : document,
-        escape : function(e){var a,n;if(!e)return e;for(e=encodeURIComponent(e),a=0;7>a;a++)n="+~!*()'".substring(a,a+1),0<=e.indexOf(n)&&(e=t.replace(e,n,"%"+n.charCodeAt(0).toString(16).toUpperCase()));return e},
-        unescape : function(e) {
-            return unescape(e)
-        },
-        c_r : function(e) {
-            e = t.escape(e);
-            var a = " " + t.d.cookie,
-                n = a.indexOf(" " + e + "="),i = 0 > n ? n : a.indexOf(";", n);
-            return "[[B]]" != (e = 0 > n ? "" : t.unescape(a.substring(n + 2 + e.length, 0 > i ? a.length : i))) ? e : ""
-        },
-        cookieRead : function(e) {return this.c_r(e)},
-        c_w : function(e, a, n) {
-            var i, r = t.Mb(),
-                o = t.cookieLifetime;
-            return a = "" + a, o = o ? ("" + o).toUpperCase() : "", n && "SESSION" != o && "NONE" != o && ((i = "" != a ? parseInt(o || 0) : -60) ? (n = new Date).setTime(n.getTime() + 1e3 * i) : 1 === n && (i = (n = new Date).getYear(), n.setYear(i + 2 + (1900 > i ? 1900 : 0)))), e && "NONE" != o ? (t.d.cookie = t.escape(e) + "=" + t.escape("" != a ? a : "[[B]]") + "; path=/;" + (n && "SESSION" != o ? " expires=" + n.toUTCString() + ";" : "") + (r ? " domain=" + r + ";" : "") + (t.writeSecureCookies ? " secure;" : ""), t.cookieRead(e) == a) : 0
-        },
-        Mb : function() {return ""},
-        handlePPVevents : function() {return},
-        p_fo : function(on) {return true},
-        getPercentPageViewed : function(pid, ch) {
-            var s = this,
-            a = s.c_r("s_ppv");
-            a = -1 < a.indexOf(",") ? a.split(",") : [];
-            a[0] = s.unescape(a[0]);
-            pid = pid ? pid : s.pageName ? s.pageName : document.location.href;
-            s.ppvChange = "undefined" === typeof ch || !0 == ch ? !0 : !1;
-            if ("undefined" === typeof s.linkType || "o" !== s.linkType) s.ppvID && s.ppvID === pid || (s.ppvID = pid, s.c_w("s_ppv", ""), s.handlePPVevents()), s.p_fo("s_gppvLoad") && window.addEventListener && (window.addEventListener("load", s.handlePPVevents, !1), window.addEventListener("click", s.handlePPVevents, !1), window.addEventListener("scroll", s.handlePPVevents, !1)), s._ppvPreviousPage = a[0] ? a[0] : "", s._ppvHighestPercentViewed = a[1] ? a[1] : "", s._ppvInitialPercentViewed = a[2] ? a[2] : "", s._ppvHighestPixelsSeen = a[3] ? a[3] : "", s._ppvFoldsSeen = a[4] ? a[4] : "", s._ppvFoldsAvailable = a[5] ? a[5] : ""    
-        },
-        p_fo : function(on){var s=this;s.__fo||(s.__fo={});if(s.__fo[on])return!1;s.__fo[on]={};return!0},
-        Util : {
-            getQueryParam:function(variable){
-                var query = window.location.search.substring(1);
-                var vars = query.split("&");
-                for (var i=0;i<vars.length;i++) {
-                    var pair = vars[i].split("=");
-                    if(pair[0] == variable){return pair[1];}
-                }
-                return(false);
-            }
-        },
-        replace : function(e, t, n) {
-            return !e || 0 > e.indexOf(t) ? e : e.split(t).join(n)
-        },
-        linkTrackVars : "",
-        linkTrackEvents : ""
-    };
-
-    var t = s;
-    return s;
-}
-var s = s_init();
-
-//2023.06.12 for API call
-if(_satellite.environment.stage.includes('prod')){
-    s.account = _satellite.getVar('s_account'); //'sssamsung4uk,sssamsung4mstglobal'
-}
-else {
-    s.account = 'sssamsung4mstglobaldev'
-}
-
-//2023.06.26 for default currency Code
-s.currencyCode = _satellite.getVar('Currency Code') || '';
-
-// define s.handlePPVevents plugin
-s.handlePPVevents = function() {
-    if ("undefined" !== typeof s_c_il) {
-        for (var c = 0, g = s_c_il.length; c < g; c++)
-            if (s_c_il[c] && (s_c_il[c].getPercentPageViewed || s_c_il[c].getPreviousPageActivity)) {
-                var s = s_c_il[c];
-                break
-            } if (s && s.ppvID) {
-            var f = Math.max(Math.max(document.body.scrollHeight, document.documentElement.scrollHeight), Math.max(document.body.offsetHeight, document.documentElement.offsetHeight), Math.max(document.body.clientHeight, document.documentElement.clientHeight)),
-                h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-            c = (window.pageYOffset || window.document.documentElement.scrollTop || window.document.body.scrollTop) + h;
-            g = Math.min(Math.round(c / f * 100), 100);
-            var k = Math.floor(c / h);
-            h = Math.floor(f / h);
-            var d = "";
-            if (!s.c_r("s_tp") || s.unescape(s.c_r("s_ppv").split(",")[0]) !== s.ppvID || s.p_fo(s.ppvID) || 1 == s.ppvChange && s.c_r("s_tp") && f != s.c_r("s_tp")) {
-                (s.unescape(s.c_r("s_ppv").split(",")[0]) !== s.ppvID || s.p_fo(s.ppvID + "1")) && s.c_w("s_ips", c);
-                if (s.c_r("s_tp") && s.unescape(s.c_r("s_ppv").split(",")[0]) === s.ppvID) {
-                    s.c_r("s_tp");
-                    d = s.c_r("s_ppv");
-                    var e = -1 < d.indexOf(",") ? d.split(",") : [];
-                    d = e[0] ? e[0] : "";
-                    e = e[3] ? e[3] : "";
-                    var l = s.c_r("s_ips");
-                    d = d + "," + Math.round(e / f * 100) + "," + Math.round(l / f * 100) + "," + e + "," + k
-                }
-                s.c_w("s_tp", f)
-            } else d = s.c_r("s_ppv");
-            var b = d && -1 < d.indexOf(",") ? d.split(",", 6) : [];
-            f = 0 < b.length ? b[0] : escape(s.ppvID);
-            e = 1 < b.length ? parseInt(b[1]) : g;
-            l = 2 < b.length ? parseInt(b[2]) : g;
-            var m = 3 < b.length ? parseInt(b[3]) : c,
-                n = 4 < b.length ? parseInt(b[4]) : k;
-            b = 5 < b.length ? parseInt(b[5]) : h;
-            0 < g && (d = f + "," + (g > e ? g : e) + "," + l + "," + (c > m ? c : m) + "," + (k > n ? k : n) + "," + (h > b ? h : b));
-            s.c_w("s_ppv", d)
-        }
-    }
-};
-
-s.clearVars=function(){
-    s.events="";
-    s.products="";
-    // clear all props from prop1 - prop75
-    for(var i=1;i<=75;i++){
-        s["prop"+i]="";
-    }
-    // clear all eVars from eVar1 - eVar250
-    for(var i=1;i<=250;i++){
-        s["eVar"+i]="";
-    }
-}
-
-// define st / s.tl function
-s.tl=function(o,t,n,e = "s_event"){ // param1: link object, param2: link type, param3: link name, param4: link event
-    var s_obj = this;
-    var xdm={};
-    var productArray = [];
-    var eventNameMapper = _satellite.getVar("s_event_name_mapper");
-
-    // Hit level plug-in functions
-    s_obj.prop41=s_obj.getPreviousValue(s_obj.pageName,'s_pv'); //prop24: prev page name 
-    s_obj.prop73 = s_obj.getPercentPageViewed(); //prop25: max % viewed of prev page 
-    if(!s_obj.prop73=='no value') s_obj.prop73=''; //clear max % viewed if no prev page view
-    if(typeof s_obj.prop73 == 'number') {s_obj.prop73 = s_obj.prop73.toString()}
-    // collect clicked href
-    var href = o && o.getAttribute && o.getAttribute("href");
-    if (href && href !== "#" && href.indexOf("javascript") !== 0) {
-      s_obj.eVar178 = href;
-    } else {
-      s_obj.eVar178 = "null";
-    }
-    s_obj.linkTrackVars += ",eVar178"; 
-    
-    // parse products variable
-    if(s_obj.products){
-        let products = [];
-        if(Array.isArray(s_obj.products)){
-            products = s_obj.products[0].split(",");
-        }
-        else{products = s_obj.products.split(",");}
-        
-        products.forEach(function(product){
-            let productFields = product.split(";");
-            let incrementor = productFields[4] ? productFields[4] : "";
-            let merchandizingVars = productFields[5] ? productFields[5] : "";
-            let _experience_incrementor = {analytics : {}};
-            let _experience_merchandise = {analytics : {customDimensions : {eVars : {}}}};
-            if(incrementor){
-                incrementor = incrementor.split("|");
-                // loop through incrementor array
-                for(let i=0;i<incrementor.length;i++){
-                    let incrementorFields = incrementor[i].split("=");
-                    let event = incrementorFields[0];let value = incrementorFields[1];
-                    // AEP event String error fix
-                    let numValue = null;
-                    if(value !== undefined && value !== null && value !== '') {
-                          let parsed = parseFloat(value);
-                          if(!isNaN(parsed)) {
-                              numValue = parsed;  // stringÃ¬Ââ€ž numberÃ«Â¡Å“ 
-                          }
-                    }
-                    if(parseInt(event.replace(/event/,"")) <= 100){
-                        _experience_incrementor.analytics.event1to100 = _experience_incrementor.analytics.event1to100 ? _experience_incrementor.analytics.event1to100 : {};
-                        _experience_incrementor.analytics.event1to100[event] = {value : numValue};
-                    } else if(parseInt(event.replace(/event/,"")) <= 200){
-                        _experience_incrementor.analytics.event101to200 = _experience_incrementor.analytics.event101to200 ? _experience_incrementor.analytics.event101to200 : {};
-                        _experience_incrementor.analytics.event101to200[event] = {value : numValue}; 
-                    } else if(parseInt(event.replace(/event/,"")) <= 300){
-                        _experience_incrementor.analytics.event201to300 = _experience_incrementor.analytics.event201to300 ? _experience_incrementor.analytics.event201to300 : {};
-                        _experience_incrementor.analytics.event201to300[event] = {value : numValue};
-                    }
-                }
-            }
-
-            if(merchandizingVars){
-                merchandizingVars = merchandizingVars.split("|");
-                // loop through merchandizingVars array
-                for(let i=0;i<merchandizingVars.length;i++){
-                    let merchandizingVarsFields = merchandizingVars[i].split("=");
-                    let eVar = merchandizingVarsFields[0];
-                    let value = merchandizingVarsFields[1];
-                    _experience_merchandise.analytics.customDimensions.eVars[eVar] = value;
-                }
-            }
-            var productArrayUnit = {
-                "lineItemId":productFields[0] ? productFields[0] : "",
-                "SKU":productFields[1] ? productFields[1] : "",
-                "quantity":productFields[2] ? Number(productFields[2]) || 0 : 0,
-                "priceTotal":productFields[3] ? Number(productFields[3]) || 0 : 0,
-                "_experience" : bridg_utils.mergeObjects(_experience_incrementor,_experience_merchandise)
-            }
-            productArray.push(productArrayUnit);
-        });
-    }
-
-    var linkTrackVars = s_obj.linkTrackVars ? s_obj.linkTrackVars.split(",") : [];
-    for(var i=0;i<linkTrackVars.length;i++){
-        if(linkTrackVars[i] == "products"){
-            xdmPut(xdm,"productListItems",productArray);
-        } else {
-            if(typeof(s_obj[linkTrackVars[i]]) == 'string'){
-                xdmPut(xdm,xdmMapper(linkTrackVars[i]),s_obj[linkTrackVars[i]]);
-            } else if(s_obj[linkTrackVars[i]] != undefined){
-                xdmPut(xdm,xdmMapper(linkTrackVars[i]),String(s_obj[linkTrackVars[i]]));
-            }
-        }      
-        if(s_obj.purchaseID && linkTrackVars[i] == "purchaseID"){
-            xdmPut(xdm,"commerce.order.purchaseID",s_obj.purchaseID);
-            xdmPut(xdm,"commerce.order.transactionID",s_obj.purchaseID);
-        }
-    } 
-    if(s_obj.events){ // custom Events
-        var events = s_obj.events.split(",");
-        for(var i=0;i<events.length;i++){
-            if(s_obj.products){
-                if(s_obj.products.indexOf(events[i]) > -1) continue;
-            }
-            if(s_obj.linkTrackEvents.indexOf(events[i]) > -1){
-                if(events[i].indexOf("=") > -1){ // numeric / currency metrics
-                    var eventFields = events[i].split("=");
-                    xdmPut(xdm,xdmMapper(eventFields[0]),Number(eventFields[1] || 0));
-                } else {
-                    xdmPut(xdm,xdmMapper(events[i]),1); // counter metrics
-                }
-            }
-        }
-    }
-    // append performance metrics
-    if(!_satellite.pageSpeedRecord && _satellite.getVar("Performance_TTI")){
-      var TTIvar = _satellite.getVar("Performance_TTI") >= 1?_satellite.getVar("Performance_TTI"):0;
-      var PLTvar = bridg_utils.getPageLoadTime()>=1?bridg_utils.getPageLoadTime():0;
-      if(TTIvar >= 1 && PLTvar >= 1){
-        xdmPut(xdm,"_experience.analytics.event101to200.event125.value",TTIvar); // TTI
-        xdmPut(xdm,"_experience.analytics.event101to200.event126.value",PLTvar); // PLT (Page Load Time)
-        _satellite.pageSpeedRecord = true;
-      }
-    }
-    
-    xdmPut(xdm,"web.webInteraction.type","other"); // custom link 
-    xdmPut(xdm,"web.webInteraction.name",n);
-    xdmPut(xdm,"web.webInteraction.rule", _satellite.customValues?.rule_name||"");
-    
-    //xdm xdmPut(xdm,"web.webPageDetails.name",s_obj.pageName); 2023.09.14 add pageName into XDM in s.tl()
-    xdmPut(xdm,"web.webPageDetails.name",s_obj.pageName);
-
-    // set samID for AEP input (eVar67 -> _samsungeu.Identity.samID ; filter 66 chars only)
-    if(s_obj.eVar67){
-        if(s_obj.eVar67.length == 66){
-            xdmPut(xdm,"_samsungseao.identity.email_id_sha256_salted_hash",s_obj.eVar67);
-        }
-    }
-
-    //2023.06.27 Currency Code add into XDM
-    xdmPut(xdm,"commerce.order.currencyCode",s_obj.currencyCode);
-
-    xdm.identityMap = _satellite.getVar("AEP:xdm:identityMap"); // Add IdentityMap
-    _satellite.xdm = xdm;
-
-    if(o === true){
-        // Send XDM to Edge Network
-        alloy("sendEvent", { documentUnloading: true, xdm: xdm })
-            .then(function (result) {
-            _satellite.logger.log("Successfully sending XDM to Edge Network");
-            })
-            .catch(function (error) {
-            _satellite.logger.error("Failed to send XDM to Edge Network");
-            _satellite.logger.error("XDM Send Event Error --> " + error);
-            });
-        if(typeof alloyaep != "undefined"){
-            alloyaep("sendEvent", { documentUnloading: true, xdm: xdm })
-            .then(function (result) {
-            _satellite.logger.log("Successfully sending XDM to Edge (AEP) Network");
-            })
-            .catch(function (error) {
-            _satellite.logger.error("Failed to send XDM to Edge (AEP) Network");
-            _satellite.logger.error("XDM Send Event Error (AEP) --> " + error);
-            });
-        }
-    }
-    
-    // EDDL generation
-    if(e == "s_event"){
-        e = s_obj.events ? s_obj.events.split(",")[0] : typeof _satellite.customValues.rule_name == "string" ? _satellite.customValues.rule_name : "";
-        // if e contains '=' split and take the first part
-        if(e.indexOf("=") > -1) e = e.split("=")[0];
-        // find matching event name from eventNameMapper
-        for(var key in eventNameMapper){
-            if(key == e) e = eventNameMapper[key];
-        }
-    }    
-    // get Custom values from link object
-    if(typeof o.getAttribute != "undefined"){
-        let defaultCustAttrs = {
-            'an-tr' : o.getAttribute('an-tr') ? o.getAttribute('an-tr') : o.getAttribute('data-an-tr'),
-            'an-ca' : o.getAttribute('an-ca') ? o.getAttribute('an-ca') : o.getAttribute('data-an-ca'),
-            'an-ac' : o.getAttribute('an-ac') ? o.getAttribute('an-ac') : o.getAttribute('data-an-ac'),
-            'an-la' : o.getAttribute('an-la') ? o.getAttribute('an-la') : o.getAttribute('data-an-la'),
-            'aria-label' : o.getAttribute('aria-label')
-        }
-        _satellite.customValues = bridg_utils.mergeObjects(_satellite.customValues, defaultCustAttrs);
-    }
-    // "eVar11": url + ">" + an-ca + ">" + an-ac + ">" + an-la
-    const url = new URL(window.location.href);
-    xdmPut(xdm,"_experience.analytics.customDimensions.eVars.eVar96", url+">"+_satellite.customValues['an-ca']+">"+_satellite.customValues['an_ac']+">"+_satellite.customValues['an_la']);
-    xdmPut(xdm,"_experience.analytics.event1to100.event96.value", 1);
-
-    // 2026.01.16 save previous clicked action in local storage
-    localStorage.setItem("previousClickAction", JSON.stringify({ action: _satellite.customValues['an_la'], time: Date.now() }));
-    
-    eddl_bridge.eddl_push(_satellite,e,eddlDataLayer); // param1 = _satellite, param2 = event name, param3 = eddlDataLayer
-    
-    // for Debugging purposes
-    _satellite.xdm = xdm;    
-}
-
-s.t=function(){
-    var s_obj = this;
-    var xdm={};
-    var productArray = [];
-
-    // 2026.01.19 collect previous clicked action in eVar191
-    var bridgeData = JSON.parse(localStorage.getItem("previousClickAction") || "{}");
-        
-    if (bridgeData.action && (Date.now() - bridgeData.time < 30000)) {
-      s_obj.eVar191 = bridgeData.action;
-    }
-    // remove storage after collection
-    localStorage.removeItem("previousClickAction");
-
-    // 2023.7.2 decode Campaign Tracking Code
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    //content.xdm.marketing.trackingCode = decodeURIComponent(urlParams.get('cid'));
-    if (urlParams.get('cid')) {
-      s_obj.campaign = decodeURIComponent(urlParams.get('cid')); 
-    }    
-  
-    // page level plug-in functions
-    if(s_obj.pageName) s_obj.getPercentPageViewed();
-    if(s_obj._ppvPreviousPage){
-        s_obj.prop41 = _satellite.getVar('Page Name');
-        s_obj.prop73 = s_obj._ppvHighestPercentViewed;
-    }
-    // Hit level plug-in functions
-    s_obj.prop41=s_obj.getPreviousValue(s_obj.pageName,'s_pv'); //prop24: prev page name 
-    s_obj.prop73 = s_obj.getPercentPageViewed(); //prop25: max % viewed of prev page 
-    if(!s_obj.prop73=='no value') s_obj.prop73=''; //clear max % viewed if no prev page view
-    if(typeof s_obj.prop73 == 'number') {s_obj.prop73 = s_obj.prop73.toString()}
-    s_obj.eVar94 = s_obj.prop64 = _satellite.getVar("consent_value");
-  
-    // parse products variable
-    if(s_obj.products){
-        let products = [];
-        if(Array.isArray(s_obj.products)){
-            products = s_obj.products;
-        }
-        else{products = s_obj.products.split(",");}
-        
-        products.forEach(function(product){
-            let productFields = product.split(";");
-            let incrementor = productFields[4] ? productFields[4] : "";
-            let merchandizingVars = productFields[5] ? productFields[5] : "";
-            let _experience_incrementor = {analytics : {}};
-            let _experience_merchandise = {analytics : {customDimensions : {eVars : {}}}};
-            if(incrementor){
-                incrementor = incrementor.split("|");
-                // loop through incrementor array
-                for(let i=0;i<incrementor.length;i++){
-                    let incrementorFields = incrementor[i].split("=");
-                    let event = incrementorFields[0];
-                    let value = incrementorFields[1];
-                    // AEP event String error fix
-                    let numValue = null;
-                    if(value !== undefined && value !== null && value !== '') {
-                          let parsed = parseFloat(value);
-                          if(!isNaN(parsed)) {
-                              numValue = parsed;  // stringÃ¬Ââ€ž numberÃ«Â¡Å“ 
-                          }
-                    }
-            
-                    if(parseInt(event.replace(/event/,"")) <= 100){
-                        _experience_incrementor.analytics.event1to100 = _experience_incrementor.analytics.event1to100 ? _experience_incrementor.analytics.event1to100 : {};
-                        _experience_incrementor.analytics.event1to100[event] = {value : numValue};
-                    } else if(parseInt(event.replace(/event/,"")) <= 200){
-                        _experience_incrementor.analytics.event101to200 = _experience_incrementor.analytics.event101to200 ? _experience_incrementor.analytics.event101to200 : {};
-                        _experience_incrementor.analytics.event101to200[event] = {value : numValue}; 
-                    } else if(parseInt(event.replace(/event/,"")) <= 300){
-                        _experience_incrementor.analytics.event201to300 = _experience_incrementor.analytics.event201to300 ? _experience_incrementor.analytics.event201to300 : {};
-                        _experience_incrementor.analytics.event201to300[event] = {value : numValue};
-                    }
-                }
-            }
-            if(merchandizingVars){
-                merchandizingVars = merchandizingVars.split("|");
-                // loop through merchandizingVars array
-                for(let i=0;i<merchandizingVars.length;i++){
-                    let merchandizingVarsFields = merchandizingVars[i].split("=");
-                    let eVar = merchandizingVarsFields[0];
-                    let value = merchandizingVarsFields[1];
-                    _experience_merchandise.analytics.customDimensions.eVars[eVar] = value;
-                }
-            }
-            var productArrayUnit = {
-                "lineItemId":productFields[0] ? productFields[0] : "",
-                "SKU":productFields[1] ? productFields[1] : "",
-                "quantity":productFields[2] ? Number(productFields[2]) || 0 : 0,
-                "priceTotal":productFields[3] ? Number(productFields[3]) || 0 : 0,
-                "_experience" : bridg_utils.mergeObjects(_experience_incrementor,_experience_merchandise)
-            }
-            productArray.push(productArrayUnit);
-        });
-    }
-
-    xdmPut(xdm,"web.webInteraction.rule", _satellite.customValues?.rule_name||"");
-    xdmPut(xdm,"web.webPageDetails.name",s_obj.pageName);
-    xdmPut(xdm,"web.webPageDetails.siteSection",s_obj.channel);
-    xdmPut(xdm,"commerce.order.currencyCode",s_obj.currencyCode);
-    if(s_obj.campaign && s_obj.campaign.length >0) xdmPut(xdm,"marketing.trackingCode",s_obj.campaign);
-    if(s_obj.purchaseID){
-        xdmPut(xdm,"commerce.order.purchaseID",s_obj.purchaseID);
-        xdmPut(xdm,"commerce.order.transactionID",s_obj.purchaseID);
-    }
-
-    for(var i=1;i<=75;i++){ // prop Vars
-        if(s_obj["prop"+i] != undefined && typeof(s_obj["prop"+i]) == 'string'){
-            xdmPut(xdm,"_experience.analytics.customDimensions.props.prop" + i,s_obj["prop"+i]);
-        } else if(s_obj["prop"+i] != undefined){
-            xdmPut(xdm,"_experience.analytics.customDimensions.props.prop" + i,String(s_obj["prop"+i]));
-        }
-    }
-    for(var i=1;i<200;i++){ // eVar Vars
-        if(s_obj["eVar"+i] != undefined && typeof(s_obj["eVar"+i]) == 'string'){
-            xdmPut(xdm,"_experience.analytics.customDimensions.eVars.eVar" + i,s_obj["eVar"+i]);
-        } else if(s_obj["eVar"+i] != undefined){
-            xdmPut(xdm,"_experience.analytics.customDimensions.eVars.eVar" + i,String(s_obj["eVar"+i]));
-        }
-    }
-    if(productArray.length > 0) xdmPut(xdm,"productListItems",productArray);
-    if(s_obj.events){ // custom Events
-        var events = s_obj.events.split(",");
-        for(var i=0;i<events.length;i++){
-            if(s_obj.products){
-                if(s_obj.products.indexOf(events[i]) > -1) continue;
-            }
-            if(events[i].indexOf("=") > -1){ // numeric / currency metrics
-                var eventFields = events[i].split("=");
-                xdmPut(xdm,xdmMapper(eventFields[0]), Number(eventFields[1] || 0));
-            } else {
-                xdmPut(xdm,xdmMapper(events[i]),1); // counter metrics
-            }
-        }
-    }
-    // set samID for AEP input (eVar67 -> _samsungeu.Identity.samID ; filter 66 chars only)
-    if(s_obj.eVar67){
-        if(s_obj.eVar67.length == 66){
-            xdmPut(xdm,"_samsungseao.identity.email_id_sha256_salted_hash",s_obj.eVar67);
-        }
-    }
-  
-    //2023.06.27 Currency Code add into XDM
-    xdmPut(xdm,"commerce.order.currencyCode",s_obj.currencyCode);
-    //Error Page Tracking
-    if(s_obj.pageType == "errorPage"){
-        xdmPut(xdm,"web.webPageDetails.errorPage","errorPage");
-    }
-  
-    xdm.identityMap = _satellite.getVar("AEP:xdm:identityMap"); // Add IdentityMap
-
-    // Send XDM to Edge Network
-    alloy("sendEvent", { 
-          xdm: xdm,
-          type : "web.webpagedetails.pageViews",
-          documentUnloading : false,
-          personalization : {
-            includeRenderedPropositions : true
-          }
-        }).then(function (result) {
-        _satellite.logger.log("Successfully sending XDM to Edge Network");
-        })
-        .catch(function (error) {
-        _satellite.logger.error("Failed to send XDM to Edge Network");
-        _satellite.logger.error("XDM Send Event Error --> " + error);
-        });
-
-    if(typeof alloyaep != "undefined"){
-        alloyaep("sendEvent", { 
-            xdm: xdm
-        }).then(function (result) {
-        _satellite.logger.log("Successfully sending XDM to Edge (AEP) Network");
-        })
-        .catch(function (error) {
-        _satellite.logger.error("Failed to send XDM to Edge (AEP) Network");
-        _satellite.logger.error("XDM Send Event Error (AEP) --> " + error);
-        });
-    }
-    
-    // EDDL generation
-    eddl_bridge.eddl_push(_satellite,"page_view",eddlDataLayer); // param1 = _satellite, param2 = event name, param3 = eddlDataLayer
-    
-    
-}   // end of s.t()
-
-// define s.getPrevious
-s.getPreviousValue = new Function("v", "c", "el", "" + "var s=this,t=new Date,i,j,r='';t.setTime(t.getTime()+1800000);if(el" + "){if(s.events){i=s.split(el,',');j=s.split(s.events,',');for(x in i" + "){for(y in j){if(i[x]==j[y]){if(s.c_r(c)) r=s.c_r(c);v?s.c_w(c,v,t)" + ":s.c_w(c,'no value',t);return r}}}}}else{if(s.c_r(c)) r=s.c_r(c);v?" + "s.c_w(c,v,t):s.c_w(c,'no value',t);return r}"); /* * Utility Function: split v1.5 - split a string (JS 1.0 compatible) */
-s.split = new Function("l", "d", "" + "var i,x=0,a=new Array;while(l){i=l.indexOf(d);i=i>-1?i:l.length;a[x" + "++]=l.substring(0,i);l=l.substring(i+d.length);}return a");
-s.getPercentPageViewed = new Function("n", "" + "var s=this,W=window,EL=W.addEventListener,AE=W.attachEvent,E=['load" + "','unload','scroll','resize','zoom','keyup','mouseup','touchend','o" + "rientationchange','pan'];W.s_Obj=s;s_PPVid=(n=='-'?s.pageName:n)||s" + ".pageName||location.href;if(!W.s_PPVevent){s.s_PPVg=function(n,r){v" + "ar k='s_ppv',p=k+'l',c=s.c_r(n||r?k:p),a=c.indexOf(',')>-1?c.split(" + "',',10):[''],l=a.length,i;a[0]=unescape(a[0]);r=r||(n&&n!=a[0])||0;" + "a.length=10;if(typeof a[0]!='string')a[0]='';for(i=1;i<10;i++)a[i]=" + "!r&&i<l?parseInt(a[i])||0:0;if(l<10||typeof a[9]!='string')a[9]='';" + "if(r){s.c_w(p,c);s.c_w(k,'?')}return a};W.s_PPVevent=function(e){va" + "r W=window,D=document,B=D.body,E=D.documentElement,S=window.screen|" + "|0,Ho='offsetHeight',Hs='scrollHeight',Ts='scrollTop',Wc='clientWid" + "th',Hc='clientHeight',C=100,M=Math,J='object',N='number',s=W.s_Obj|" + "|W.s||0;e=e&&typeof e==J?e.type||'':'';if(!e.indexOf('on'))e=e.subs" + "tring(2);s_PPVi=W.s_PPVi||0;if(W.s_PPVt&&!e){clearTimeout(s_PPVt);s" + "_PPVt=0;if(s_PPVi<2)s_PPVi++}if(typeof s==J){var h=M.max(B[Hs]||E[H" + "s],B[Ho]||E[Ho],B[Hc]||E[Hc]),X=W.innerWidth||E[Wc]||B[Wc]||0,Y=W.i" + "nnerHeight||E[Hc]||B[Hc]||0,x=S?S.width:0,y=S?S.height:0,r=M.round(" + "C*(W.devicePixelRatio||1))/C,b=(D.pageYOffset||E[Ts]||B[Ts]||0)+Y,p" + "=h>0&&b>0?M.round(C*b/h):0,O=W.orientation,o=!isNaN(O)?M.abs(o)%180" + ":Y>X?0:90,L=e=='load'||s_PPVi<1,a=s.s_PPVg(s_PPVid,L),V=function(i," + "v,f,n){i=parseInt(typeof a==J&&a.length>i?a[i]:'0')||0;v=typeof v!=" + "N?i:v;v=f||v>i?v:i;return n?v:v>C?C:v<0?0:v};if(new RegExp('(iPod|i" + "Pad|iPhone)').exec(navigator.userAgent||'')&&o){o=x;x=y;y=o}o=o?'P'" + ":'L';a[9]=L?'':a[9].substring(0,1);s.c_w('s_ppv',escape(W.s_PPVid)+" + "','+V(1,p,L)+','+(L||!V(2)?p:V(2))+','+V(3,b,L,1)+','+X+','+Y+','+x" + "+','+y+','+r+','+a[9]+(a[9]==o?'':o))}if(!W.s_PPVt&&e!='unload')W.s" + "_PPVt=setTimeout(W.s_PPVevent,333)};for(var f=W.s_PPVevent,i=0;i<E." + "length;i++)if(EL)EL(E[i],f,false);else if(AE)AE('on'+E[i],f);f()};v" + "ar a=s.s_PPVg();return!n||n=='-'?a[1]:a");
-
-/*!
- * Add items to an object at a specific path
- * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
- * @param  {Object}       obj  The object
- * @param  {String|Array} path The path to assign the value to
- * @param  {*}            val  The value to assign
- */ var xdmPut=function(t,n,r){var o=(n=function(t){if("string"!=typeof t)return t;var n=[];return t.split(".").forEach(function(t,r){t.split(/\[([^}]+)\]/g).forEach(function(t){t.length>0&&n.push(t)})}),n}(n)).length,c=t;n.forEach(function(t,n){var i="[]"===t.slice(-2);t=i?t.slice(0,-2):t,i&&"[object Array]"!==Object.prototype.toString.call(c[t])&&(c[t]=[]),n===o-1?i?c[t].push(r):c[t]=r:(c[t]||(c[t]={}),c=c[t])})};
-
- var xdmMapper = function(val){
-    if(val.startsWith("prop")){
-      return "_experience.analytics.customDimensions.props." + val;
-    } else if(val.startsWith("eVar")){
-        return "_experience.analytics.customDimensions.eVars." + val;
-    } else if(val.startsWith("event")){
-        // convert val into number without 'event'
-        var eventNumber = val.replace("event","");
-        if(eventNumber>=1 && eventNumber<=100){
-          return "_experience.analytics.event1to100.event" + eventNumber + ".value";
-        } else if(eventNumber>=101 && eventNumber<=200){
-          return "_experience.analytics.event101to200.event" + eventNumber + ".value";
-        } else {
-          return val;
-        }
-    } else if(val == "prodView"){
-        return "commerce.productViews.value";
-    } else if(val == "scAdd"){
-        return "commerce.productListAdds.value";
-    } else if(val == "scCheckout"){
-        return "commerce.checkouts.value";  
-    } else if(val == "purchase"){
-        return "commerce.purchases.value";  
-    } else if(val == "channel"){
-        return "web.webPageDetails.siteSection";
-    } else if(val == "pageType"){
-        return "web.webPageDetails.errorPage";
-    } else if(val == "scRemove"){
-        return "commerce.productListRemovals.value";
-    }
-   else {
-      return val;
-    } 
-};
-// get ECID & set ECID to sessionStorage
-alloy("getIdentity").then(function(result) {
-    sessionStorage.setItem("ECID", result.identity.ECID);
-});
-
-// define vistorId extension alternatives (for legacy codes)
-_satellite.getVisitorId = function() {
-    var visitorId = {
-      getMarketingCloudVisitorID: function() {
-        if(sessionStorage.getItem("ECID")){
-            return sessionStorage.getItem("ECID");
-        } else {
-            // set Promise and get returned ECID & set ECID
-            return "";
-        }
-      }
-    };
-    return visitorId;
-  };
-      
-</script><script>
-/*!
- * Add items to an object at a specific path
- * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
- * @param  {Object}       obj  The object
- * @param  {String|Array} path The path to assign the value to
- * @param  {*}            val  The value to assign
- */ var xdmPut=function(t,n,r){var o=(n=function(t){if("string"!=typeof t)return t;var n=[];return t.split(".").forEach(function(t,r){t.split(/\[([^}]+)\]/g).forEach(function(t){t.length>0&&n.push(t)})}),n}(n)).length,c=t;n.forEach(function(t,n){var i="[]"===t.slice(-2);t=i?t.slice(0,-2):t,i&&"[object Array]"!==Object.prototype.toString.call(c[t])&&(c[t]=[]),n===o-1?i?c[t].push(r):c[t]=r:(c[t]||(c[t]={}),c=c[t])})};
-  
-_satellite.x_xdm_convert = function(s_obj,isLinkTracking = false,s_linkName = "",eventName = "click_others"){
-    var xdm={};
-    var productArray = [];
-
-    // parse products variable
-    if(s_obj.products){
-        let products = [];
-        if(Array.isArray(s_obj.products)){
-            products = s_obj.products[0].split(",");
-        }
-        else{products = s_obj.products.split(",");}
-        
-        products.forEach(function(product){
-            var productFields = product.split(";");
-            var productArrayUnit = {
-            "lineItemId":productFields[0] ? productFields[0] : "",
-            "SKU":productFields[1] ? productFields[1] : "",
-            "quantity":productFields[2] ? productFields[2] : "",
-            "priceTotal":productFields[3] ? productFields[3] : "",
-            "incrementor":productFields[4] ? productFields[4] : "",      // productListItems[]._experience.analytics.event1to100.event1.value
-            "merchandizingVars":productFields[5] ? productFields[5] : "" // productListItems[]._experience.analytics.customDimensions.eVars.eVarN
-            }
-            productArray.push(productArrayUnit);
-        });
-    }
-
-    if(isLinkTracking){
-        var linkTrackVars = s_obj.linkTrackVars ? s_obj.linkTrackVars.split(",") : [];
-        for(var i=0;i<linkTrackVars.length;i++){
-        if(linkTrackVars[i] == "products"){
-            xdmPut(xdm,"productListItems",productArray);
-        } else {
-            xdmPut(xdm,xdmMapper(linkTrackVars[i]),s_obj[linkTrackVars[i]]);
-        }      
-        }
-        var linkTrackEvents = [];
-        if(s_obj.linkTrackEvents) linkTrackEvents = s_obj.linkTrackEvents.split(",");
-        
-        for(var i=0;i<linkTrackEvents.length;i++){
-          if(s_obj.events && s_obj.events.indexOf(linkTrackEvents[i]) > -1) xdmPut(xdm,xdmMapper(linkTrackEvents[i]),1); // only for counter metrics
-        }
-        xdmPut(xdm,"web.webInteraction.type","other"); // custom link 
-        xdmPut(xdm,"web.webInteraction.name",s_linkName);
-    } else {
-        xdmPut(xdm,"web.webPageDetails.name",s_obj.pageName);
-        xdmPut(xdm,"web.webPageDetails.siteSection",s_obj.channel);
-        xdmPut(xdm,"commerce.order.currencyCode",s_obj.currencyCode);
-        if(s_obj.campaign.length >0){
-        xdmPut(xdm,"marketing.trackingCode",s_obj.campaign);
-        //console.log(s_obj.campaign.length)
-                                    }
-
-        for(var i=1;i<=75;i++){
-        if(s_obj["prop"+i] != undefined){
-            xdmPut(xdm,"_experience.analytics.customDimensions.props.prop" + i,s_obj["prop"+i]);
-        }
-        }
-        for(var i=1;i<110;i++){
-        if(s_obj["eVar"+i] != undefined){
-            xdmPut(xdm,"_experience.analytics.customDimensions.eVars.eVar" + i,s_obj["eVar"+i]);
-        }
-        }
-        if(productArray.length > 0) xdmPut(xdm,"productListItems",productArray);
-        // if s_obj.events is not empty, then add it to xdm
-        if(s_obj.events){
-            var events = s_obj.events.split(",");
-            for(var i=0;i<events.length;i++){
-                xdmPut(xdm,xdmMapper(events[i]),1); // only for counter metrics
-            }
-        }
-    }
-    // Add IdentityMap
-    xdm.identityMap = _satellite.getVar("AEP:xdm:identityMap");
-    _satellite.xdm = {}
-    // merge xdm with _satellite.xdm
-    for (var key in xdm) {
-        _satellite.xdm[key] = xdm[key];
-    }   
-
-    // check if eddl_bridge is loaded
-    if(typeof eddl_bridge != "undefined"){
-        eddl_bridge.eddl_push(_satellite,eventName,eddlDataLayer);
-    } else{
-        console.log("eddl_bridge is not loaded");
-    }
-}
-
-// run datastreamId referring
-var xdm_datastreamId = _satellite.getVar("datastreamId");
-
-</script><script>_satellite["_runScript1"](function(event, target, Promise) {
-///////////////////////////////////////////////////////////////////////////////
-//////// SET Variables in Set Variable Action UI //////////////////////////////
-s.campaign = s.Util.getQueryParam('cid');
-s.channel = _satellite.getVar('Site Section');
-s.eVar1 = _satellite.getVar('Site Code');
-s.eVar2 = _satellite.getVar('2Depth');
-s.eVar3 = _satellite.getVar('3Depth');
-s.eVar4 = _satellite.getVar('4Depth');
-s.eVar5 = _satellite.getVar('5Depth');
-s.eVar6 = _satellite.getVar('Page Track');
-s.eVar13 = _satellite.getVar('PIM Product SubType');
-s.eVar18 = _satellite.getVar('Site Section');
-s.eVar39 = _satellite.getVar('Page URL');
-s.eVar40 = _satellite.getVar('Page Name');
-s.eVar42 = _satellite.getVar('Referrer Page');
-s.eVar57 = _satellite.getVar('Campaign ID');
-s.eVar58 = _satellite.getVar('BroadLog ID');
-s.eVar63 = _satellite.getVar('Visitor ID');
-s.eVar67 = _satellite.getVar('GCRM_ID');
-s.eVar71 = _satellite.getVar('GA Client ID');
-s.eVar84 = _satellite.getVar('Bandwidth');
-s.eVar110 = _satellite.getVar('NULL');
-s.pageName = _satellite.getVar('Page Name');
-s.pageURL = _satellite.getVar('Page URL');
-s.prop1 = _satellite.getVar('Site Code');
-s.prop2 = _satellite.getVar('2Depth');
-s.prop3 = _satellite.getVar('3Depth');
-s.prop4 = _satellite.getVar('4Depth');
-s.prop5 = _satellite.getVar('5Depth');
-s.prop6 = _satellite.getVar('Page Track');
-s.prop10 = _satellite.getVar('Login Status');
-s.prop39 = _satellite.getVar('Page URL');
-s.prop75 = 'P6';
-s.referrer = _satellite.getVar('Referrer Page');
-//////// End of Set Variables Action UI //////////////////////////////////////
-
-var pageTrack = _satellite.getVar("Page Track");
-//add-on page name setting
-if(_satellite.getVar("Add Page Name")) {
-  s.prop39 =  document.location.href;
-}
-
-// 25.05.23 HTTP Protocol Version
-function getProtocol() {
-    if (window.performance && performance.getEntriesByType) {
-        let entries = performance.getEntriesByType("navigation")[0] || performance.getEntriesByType("resource")[0];
-        return entries?.nextHopProtocol || "Unknown"; // ex: "h3", "h2"
-    }
-    return "Unknown";
-}
-
-s.eVar88 = getProtocol();
-/////// 0. AA Common ///////////////////////////////////////////////////////////
-/////// 1. Added AA Common /////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-if (window.matchMedia("(max-width: 767px)").matches) {
-    // The viewport is less than 768 pixels wide
-    var orgin0 = "mobileweb";
-    s.prop70 = orgin0;
-} else {
-    // The viewport is at least 768 pixels wide
-    var orgin1 = "web";
-    s.prop70 = orgin1;
-}
-
-var redirection = s.Util.getQueryParam("page");
-if (redirection != null) s.eVar85 = redirection;
-
-var utm_source = s.Util.getQueryParam("utm_source");
-var utm_medium = s.Util.getQueryParam("utm_medium");
-var utm_campaign = s.Util.getQueryParam("utm_campaign");
-var utm_term = s.Util.getQueryParam("utm_term");
-var utm_content = s.Util.getQueryParam("utm_content");
-
-if (utm_source != '' || utm_medium != '' || utm_campaign != '' || utm_term != '' || utm_content != '') {
-    s.eVar86 = "utm_source=" + (utm_source == '' ? 'none' : utm_source) + "&utm_medium=" + (utm_medium == '' ? 'none' : utm_medium) + "&utm_campaign=" + (utm_campaign == '' ? 'none' : utm_campaign) + "&utm_term=" + (utm_term == '' ? 'none' : utm_term) + "&utm_content=" + (utm_content == '' ? 'none' : utm_content);
-}
-
-var urlExclParam = window.location.origin.replace(window.location.protocol + "//", "") + window.location.pathname;
-if (urlExclParam.endsWith('/')) urlExclParam = urlExclParam.substring(0, urlExclParam.lastIndexOf('/'));
-s.prop29 = urlExclParam;
-s.eVar92 = urlExclParam;
-////////////////////////////////////////////////////////////////////////////////
-/////// 2. GA Common ///////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-/* UA Sunset remove ->
-ga('require', 'ec');
-*/
-/* UA Sunset remove ->
-ga('set', 'currencyCode', _satellite.getVar("Currency Code")); 
-*/
-/* UA Sunset remove ->
-ga('set', 'userId', _satellite.getVar("GUID"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension1', _satellite.getVar("Site Code"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension2', _satellite.getVar("Site Section"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension3', _satellite.getVar("Page Track"));
-*/
-
-/* UA Sunset remove ->
-ga('set', 'dimension5', _satellite.getVar("Login Status"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension6', _satellite.getVar("Page URL"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension7', _satellite.getVar("Referrer Page"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension8', _satellite.getVar("GA Client ID"));
-*/
-
-/* UA Sunset remove ->
-ga('set', 'dimension16', _satellite.getVar("GCRM_ID"));
-*/
-
-/* UA Sunset remove ->
-ga('set', 'dimension18', _satellite.getVar("GUID")); 
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension19', _satellite.getVar("PIM Product SubType"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension26', _satellite.getVar("User Agent"));
-*/
-/* UA Sunset remove ->
-ga('set', 'dimension28', _satellite.getVar("CID"));
-*/
-
-/* UA Sunset remove ->
-ga('set', 'contentGroup1', _satellite.getVar("Site Code"));
-*/
-/* UA Sunset remove ->
-ga('set', 'contentGroup2', _satellite.getVar("2Depth"));
-*/
-/* UA Sunset remove ->
-ga('set', 'contentGroup3', _satellite.getVar("3Depth"));
-*/
-/* UA Sunset remove ->
-ga('set', 'contentGroup4', _satellite.getVar("4Depth"));
-*/
-/* UA Sunset remove ->
-ga('set', 'contentGroup5', _satellite.getVar("5Depth"));
-*/
-
-////////////////////////////////////////////////////////////////////////////////
-/////// 3. AA&GA by Page ///////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-if (pageTrack == "support error" || pageTrack == "page not found" || pageTrack == "error") {
-    s.clearVars();
-    s.pageType = "errorPage";
-    s.eVar1 = _satellite.getVar('Site Code');
-    s.eVar6 = _satellite.getVar('Page Track');
-    s.eVar39 = _satellite.getVar('Page URL');
-    s.prop1 = _satellite.getVar('Site Code');
-    s.prop6 = _satellite.getVar('Page Track');
-    s.prop39 = _satellite.getVar('Page URL');
-
-    /* UA Sunset remove ->
-    ga('set', 'dimension2', 'undefined');
-    */
-    s.pageName = "";
-      // MediaMonks updated - 20230222 - comment out gtag set
-    /*
-    gtag('set', {'dimension2': 'undefined'})
-    
-    return;
-    */
-}
-
-//Triggered in PD, Support PD & flagship PDP only
-//b2b Ã¬Â¶â€ÃªÂ°â‚¬ - by NSC
-// 2021.08.05 B2B GRO Phase PD Type Add - By NSC
-if (pageTrack == "product detail" || pageTrack == "support product detail" || pageTrack == "flagship pdp" || pageTrack == "business flagship pdp" || pageTrack == "business product detail" || pageTrack == "business product finder") {
-    s.events = "prodView";  
-    s.eVar11 = _satellite.getVar('Product PVI Type Name');
-    s.eVar12 = _satellite.getVar('Product PVI Subtype Name');
-    s.products = ";"+ _satellite.getVar('Product Model Name');    
-    s.eVar15 = _satellite.getVar('Product Display Name');
-    s.eVar41 = _satellite.getVar('Product Model Code');
-
-    /* UA Sunset remove ->
-    ga('set', 'dimension10', _satellite.getVar("Product PVI Type Name"));
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension11', _satellite.getVar("Product PVI Subtype Name"));
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension13', _satellite.getVar("Product Model Code"));
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension14', _satellite.getVar("Product Display Name"));
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension15', _satellite.getVar("Product Model Name")); 
-    */
-
-}
-
-//Triggered in PFS, PCD, PF, PD, Support Category only as 2Depth
-if (pageTrack == "product family showcase" || pageTrack == "product category detail" || pageTrack == "product finder"  || pageTrack == "product compare" || pageTrack == "flagship pdp" || pageTrack.indexOf("marketing page")>-1 || pageTrack == "product detail" || pageTrack == "support category"
-    // <-- 2021.06.16 b2b pilot Ã¬Â¶â€ÃªÂ°â‚¬ - by NSC
-    || pageTrack == "business flagship pdp" 
-    || pageTrack == "business product family showcase"
-    || pageTrack == "business product category detail"
-    // --> 2021.06.16 b2b pilot Ã¬Â¶â€ÃªÂ°â‚¬ - by NSC
-    // <-- 2021.08.05 B2B GRO Phase PD Type Add - By NSC
-    || pageTrack == "business product detail"
-    || pageTrack == "business product finder"
-    // --> 2021.08.05 B2B GRO Phase PD Type Add - By NSC  
-    // <-- 2021.08.26 B2B GRO Phase business product compare Add - By NSC
-    || pageTrack == "business product compare"
-    // --> 2021.08.26 B2B GRO Phase business product compare Add - By NSC
-) {
-    s.prop8 = _satellite.getVar('Product Category');
-    s.eVar8 = _satellite.getVar('Product Category');
-  
-    /* UA Sunset remove ->
-    ga('set', 'dimension4', _satellite.getVar("Product Category"));
-    */
-}
-
-//Triggered in PD only
-// 2021.08.05 B2B GRO Phase PD Type Add - By NSC
-if (pageTrack == "product detail" || pageTrack == "business product detail") {
-    s.prop54 = _satellite.getVar('PD Type');
-    s.eVar54 = _satellite.getVar('PD Type');
-    s.eVar13 = _satellite.getVar('PIM Product SubType');
-
-    /* UA Sunset remove ->
-    ga('set', 'dimension12', _satellite.getVar("PD Type"));
-    */
-}
-
-//Triggered in Support Gethelp Detail only
-if (pageTrack == "support gethelp detail") {
-    s.eVar11 = $('input[name=typeName]').val();
-    s.eVar12 = $('input[name=subTypeName]').val();
-    s.eVar34 = "symptom:"+$('input[name=symptomName]').val();
-    s.eVar38 = _satellite.getVar('Support Page Author');
-    s.eVar98 = "support:"+$('input[name=hiddenContentId]').val();
-  
-  
-    /* UA Sunset remove ->
-    ga('set', 'dimension10', $('input[name=typeName]').val());
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension11', $('input[name=subTypeName]').val()); 
-    */
-    
-}
-////////////////////////////////////////////////////////////////////////////////
-/////// 3. AA by Page //////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-// 2021.08.11 P6 B2B - By NSC
-if (digitalData.page.pageInfo.pageTrack == "flagship pdp" || pageTrack == "business flagship pdp" ) {
-    s.events = "prodView";
-    s.eVar11 = _satellite.getVar("Product PVI Type Name");
-    s.eVar12 = _satellite.getVar("Product PVI Subtype Name");
-    s.eVar15 = _satellite.getVar("Product Display Name");
-    var tmpModelName = _satellite.getVar("Product Model Name");
-    if (tmpModelName != "") {
-        var mdlNum = tmpModelName.split(",");
-        var tmpModelNameList = [];
-        if (mdlNum.length > 1) {
-            for (var i = 0; i < mdlNum.length; i++) {
-                var temp = ";" + mdlNum[i]
-                tmpModelNameList.push(temp);
-            }
-            s.products = tmpModelNameList;
-        } else {
-            s.products = ";" + tmpModelName;
-            s.products = s.products.replace(/;;/gi, ';');
-        }
-    }
-}
-//Triggered in brand hub detail page only
-if (pageTrack == "brand hub detail page") {
-    var pageID = _satellite.getVar("Page ID");
-    s.eVar38 = "explore:" + pageID;
-}
-
-//Triggered in offer page only
-if (pageTrack == "offer detail") {
-    var pageID = _satellite.getVar("Page ID");
-    s.eVar38 = "offer:" + pageID;
-}
-
-//<-- 2021.06.16 Update - Business Insight Detail & Business Solution Detail evar38 Ã¬Â¶â€ÃªÂ°â‚¬ by NSC
-if (pageTrack == "business insights detail") {
-    var pageID = $("[an-tr='co51_article header|contents filter']").attr('an-la');
-    s.eVar38 = "insight:" + pageID;
-}else if (pageTrack == "business solution detail") {
-    var pageID = _satellite.getVar("Page ID");
-	var fCategory = _satellite.getVar("3Depth").split(":");
-    var filterCategory = fCategory[fCategory.length -1];
-    s.eVar38 = "solution:" + filterCategory + ":" + pageID;
-}
-//--> 2021.06.16 Update - Business Insight Detail & Business Solution Detail evar38 Ã¬Â¶â€ÃªÂ°â‚¬ by NSC
-
-// <-- 2021.06.10 News Detail eVar38 Add - by NSC
-if(pageTrack == "news detail") {
-    var pageId = _satellite.getVar("Page ID");
-    
-    s.eVar38 = "news:" + pageId;
-}
-// --> 2021.06.10 News Detail eVar38 Add - by NSC
-
-// <-- 2021.08.05 B2B GRO Phase PD Type Add - By NSC
-if(pageTrack.startsWith("business offer")) {
-    var pageId = _satellite.getVar("Page ID");
-    
-    s.eVar38 = "business offer:" + pageId;
-}
-// --> 2021.08.05 B2B GRO Phase PD Type Add - By NSC
-////////////////////////////////////////////////////////////////////////////////
-
-var siteCode = digitalData.page.pageInfo.siteCode;
-
-
-
-if(siteCode == "th" || siteCode == "uk" || siteCode == "ve"){
-
-
-
-    s.prop67 = _satellite.getVar('TabStatus');
-    s.prop68 = _satellite.getVar('TabNaviType');
-    s.prop69 = _satellite.getVar('TabVisibilityState');
-    s.prop71 = _satellite.getVar('Timestamp');
-
-    /* UA Sunset remove ->
-    ga('set', 'dimension105', _satellite.getVar("Timestamp"));
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension106', _satellite.getVar("Visitor ID")); 
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension107', _satellite.getVar("TabStatus"));
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension108', _satellite.getVar("TabNaviType"));
-    */
-    /* UA Sunset remove ->
-    ga('set', 'dimension109', _satellite.getVar("TabVisibilityState"));
-    */
-   
-}
-
-
-// 2024.11.22 Collecting personalization cookies by CNX
-if(pageTrack.indexOf("home") !== -1 || pageTrack.indexOf("offer") !== -1) {
-    var home_pnz = _satellite.cookie.get("home_pnz");
-    s.eVar142 = (home_pnz == undefined)?"default":(home_pnz==""?null:home_pnz);
-  }
-
-//ga('send', 'pageview');
-
-s.t();
-
-});</script><script>_satellite["_runScript2"](function(event, target, Promise) {
-//login
-var directCallFlv2 = _satellite.cookie.get("directCallFlv2");
-var directCallFlAA = _satellite.cookie.get("directCallFlAA");
-
-console.log("directCallFlv2 : " + directCallFlv2);
-
-if(directCallFlAA!=directCallFlv2 && directCallFlv2=="Y"){
-  var guid = $.cookies.get("guid", { domain: ".samsung.com" });
-  _satellite.setVar('GUID', guid ? guid : digitalData.user.sa);
-  _satellite.track('login');
-} 
-_satellite.cookie.set("directCallFlAA", directCallFlv2, {expires: null, domain : ".samsung.com"});
-
-});</script><script>
-function fcTrack(t,a){var e=a;_satellite.setVar("fcEvent",t),_satellite.setVar("fcData",e),_satellite.track("floatingChat")}function fcTrack(t,a,e){var l=a;_satellite.setVar("fcEvent",t),_satellite.setVar("fcData",l),_satellite.setVar("fcAgent",e),_satellite.track("floatingChat")}
-</script><script>_satellite["_runScript3"](function(event, target, Promise) {
-!function(){var e="//samsungrum.beusable.net/load/b170105e175055u968";window.__beusablerumclient__={load:function(e){var n=document.createElement("script");n.src=e,n.async=!0,n.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(n)}},window.__beusablerumclient__.load(e+"?url="+encodeURIComponent(document.URL))}();
-});</script><script>_satellite["_runScript4"](function(event, target, Promise) {
-setTimeout((function(){var e=_satellite.getVar("Currency Code"),t="N",a=_satellite.getVar("Product Model Name").toUpperCase();if(""==_satellite.getVar("Product Model Code").toUpperCase()||null==_satellite.getVar("Product Model Code").toUpperCase())var r=_satellite.getVar("Product Model Name").toUpperCase();else r=_satellite.getVar("Product Model Code").toUpperCase();var l,i,o=_satellite.getVar("Product Display Name");"product detail"==_satellite.getVar("Page Track")?(i=$(".cost-box__cta a").attr("data-modelprice")?$(".cost-box__cta a").attr("data-modelprice"):$(".pd-buying-price__new-price").attr("data-promotionprice"))&&"0.0"!=i&&(i=i.replace(/[^-\.0-9]/g,""),l=Number.parseFloat(i).toPrecision().toString().replace(/[^-\.0-9]/g,"")):"flagship pdp"==_satellite.getVar("Page Track")&&(l=_satellite.getVar("Product Model Price"));_satellite.getVar("PIM Product SubType");for(var p=_satellite.getVar("Product PVI Type Name")+"/"+_satellite.getVar("Product PVI Subtype Name"),c=a.split(",").length,d=a.split(","),g=r.split(","),u=o.replace(/&#34;/g,'"').split(";"),_=[],m=0;m<c;m++){var n=new Object,P=new Object;if(n.name=d[m],P.item_name=d[m],n.id=g[m],P.item_id=g[m],u.length>1?(n.dimension9=u[m].replace(/^\,/g,""),P.item_name=u[m].replace(/^\,/g,"")):(n.dimension9=o,P.item_name=o),"product detail"!=digitalData.page.pageInfo.pageTrack&&"flagship pdp"!=digitalData.page.pageInfo.pageTrack||(n.brand=_satellite.getVar("PIM Product SubType"),n.item_category3=_satellite.getVar("PIM Product SubType"),n.item_brand=_satellite.getVar("PIM Product SubType")),l){var V=l.split(",");V[m]="EUR"==e||"RON"==e||"Y"==t?V[m].replace(/\./gi,"").replace(/#/gi,".").replace(/\.$/g,""):V[m].replace(/#/gi,""),n.price=V[m],P.price=V[m]}n.category=p,P.item_category=_satellite.getVar("Product PVI Type Name"),P.item_category2=_satellite.getVar("Product PVI Subtype Name"),n.quantity=1,P.quantity=1,_.push(P)}try{_satellite.customValues={rule_name:event.$rule.name,custom_values:{value:l,ecommerce:{items:_}}}}catch(e){}_satellite.x_xdm_convert(s,!0,void 0,"view_item"),xdmPut(_satellite.xdm,"environment.ipV4","52.79.106.56")}),2500);
-});</script><script>
-var u_Variables={u1:digitalData.page.pageInfo.siteCode,u2:"IDR",u10:digitalData.page.pathIndicator.depth_2,u11:digitalData.page.pathIndicator.depth_3};
-</script><script>_satellite["_runScript5"](function(event, target, Promise) {
-var allEventData=event&&event.event&&event.event.eventModel?event.event.eventModel:_satellite.getVar("DL - allEventData - event",event),dataLayerModel=event&&event.event&&event.event.dataLayerModel?event.event.dataLayerModel:{},marketingData=dataLayerModel&&dataLayerModel.marketing_data?dataLayerModel.marketing_data:_satellite.getVar("DL - marketing_data - model"),eventName=allEventData&&allEventData.event?allEventData.event:_satellite.getVar("DL - event_name - event",event),eventID=_satellite.getVar("General - Get Event - ID"),currency=_satellite.getVar("Currency Code");allEventData.custom_values=allEventData.custom_values||{},allEventData.custom_values.u_variables=u_Variables,poc_gtag("event","page_view",{allEventData:JSON.stringify(allEventData),marketing_data:JSON.stringify(marketingData),event_id:eventID,currency:currency,send_to:_satellite.getVar("GA4 Measurement ID")}),null!=marketingData&&poc_gtag("event","marketing_event",{marketing_data:JSON.stringify(marketingData),event_id:eventID,currency:currency,send_to:_satellite.getVar("GA4 Measurement ID")}),eddlDataLayer.push({marketing_data:void 0}),_satellite.setVar("General - Event - ID",void 0);
-});</script><iframe height="0" width="0" style="display: none; visibility: hidden;"></iframe><script type="text/javascript" async="" src="https://znewylzpqds1jt1sh-samsunggdc.siteintercept.qualtrics.com/WRSiteInterceptEngine/?Q_ZID=ZN_eWYlZPQdS1JT1sh"></script><script>_satellite["_runScript6"](function(event, target, Promise) {
-!function(e,t,n,u,i,s){e.twq||(u=e.twq=function(){u.exe?u.exe.apply(u,arguments):u.queue.push(arguments)},u.version="1.1",u.queue=[],(i=t.createElement(n)).async=!0,i.src="//static.ads-twitter.com/uwt.js",(s=t.getElementsByTagName(n)[0]).parentNode.insertBefore(i,s))}(window,document,"script"),twq("init","nuz30"),twq("event","tw-nuz30-pb253");
-});</script><script>_satellite["_runScript7"](function(event, target, Promise) {
-!function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js"),pintrk("load","2612572721428"),pintrk("page");
-});</script><img src="https://t.co/1/i/adsct?bci=3&amp;dv=America%2FLos_Angeles%26en-US%26Google%20Inc.%26Linux%20armv8l%26255%26412%26732%2616%2624%26412%26732%261%26na&amp;eci=4&amp;event=%7B%7D&amp;event_id=01b908c7-5bde-4897-bf85-b02569eae250&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=da39be5c-e78a-4014-80c9-522ee01c347d&amp;pt=<?= htmlspecialchars($keyword) ?>%20-%20Orang%20Dalam%20Situs%20SLOT88%20ONLINE%20%26%20Bandar%20ONLINE%20Online%20Primadona%202026&amp;tw_document_href=https%3A%2F%2Fwww.lohika.com%2Fapache-druid-interactive-analytics-at-scale&amp;tw_iframe_status=0&amp;tw_pid_src=1&amp;twpid=tw.1772815387301.188683549640951713&amp;txn_id=tw-nuz30-pb253&amp;type=javascript&amp;version=2.3.39" height="1" width="1" style="display: none;" /><img src="https://analytics.twitter.com/1/i/adsct?bci=3&amp;dv=America%2FLos_Angeles%26en-US%26Google%20Inc.%26Linux%20armv8l%26255%26412%26732%2616%2624%26412%26732%261%26na&amp;eci=4&amp;event=%7B%7D&amp;event_id=01b908c7-5bde-4897-bf85-b02569eae250&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=da39be5c-e78a-4014-80c9-522ee01c347d&amp;pt=<?= htmlspecialchars($keyword) ?>%20-%20Orang%20Dalam%20Situs%20SLOT88%20ONLINE%20%26%20Bandar%20ONLINE%20Online%20Primadona%202026&amp;tw_document_href=https%3A%2F%2Fwww.lohika.com%2Fapache-druid-interactive-analytics-at-scale&amp;tw_iframe_status=0&amp;tw_pid_src=1&amp;twpid=tw.1772815387301.188683549640951713&amp;txn_id=tw-nuz30-pb253&amp;type=javascript&amp;version=2.3.39" height="1" width="1" style="display: none;"/><script>_satellite["_runScript8"](function(event, target, Promise) {
-setTimeout((function(){var e,t=_satellite.getVar("Currency Code"),a="N",r=_satellite.getVar("Product Model Name").toUpperCase(),i=_satellite.getVar("Product Model Code").toUpperCase(),c=_satellite.getVar("Product Display Name").toLowerCase().replace(/-/g," ").replace(/(^|\s)\S/g,(e=>e.toUpperCase())),p=document.querySelector("[an-ca='ecommerce'][data-discountprice]"),o=(p&&p.getAttribute("data-discountprice"),$("[as='image']").attr("href")),l=_satellite.getVar("Page URL");if("product detail"==_satellite.getVar("Page Track")){var d,s;if($(".cost-box__cta a").attr("data-modelprice")?(d=$(".cost-box__cta a").attr("data-modelprice"),s=$(".cost-box__cta a").attr("data-discountprice")):(d=$(".pd-buying-price__new-price").attr("data-promotionprice"),s=$(".pd-buying-price__new-price").attr("data-discountprice")),d&&"0.0"!=d)d=d.replace(/[^-\.0-9]/g,""),e=Number.parseFloat(d).toPrecision().toString().replace(/[^-\.0-9]/g,"");if(s&&"0.0"!=s){s=s.replace(/[^-\.0-9]/g,"");var g=Number.parseFloat(s).toPrecision().toString();gaProdDiscountedPrice=g.replace(/[^-\.0-9]/g,"")}}else"flagship pdp"==_satellite.getVar("Page Track")&&(e=_satellite.getVar("Product Model Price"));_satellite.getVar("PIM Product SubType");for(var u=_satellite.getVar("Product PVI Type Name")+"/"+_satellite.getVar("Product PVI Subtype Name"),n=r.split(",").length,m=r.split(","),_=i.split(","),P=c.replace(/&#34;/g,'"').split(";"),y=[],V=0,b=0;b<n;b++){var S={},f={};if(S.name=m[b],S.id=_[b],S.discounted_price=document.querySelector(`[data-modelcode="${S.id}"]`)?document.querySelector(`[data-modelcode="${S.id}"]`).getAttribute("data-discountprice"):document.querySelector(`[data-sku-code="${S.id}"]`)?document.querySelector(`[data-sku-code="${S.id}"]`).getAttribute("data-discountprice"):"",P.length>1?S.dimension9=P[b].replace(/^\,/g,""):S.dimension9=c,"product detail"!=digitalData.page.pageInfo.pageTrack&&"flagship pdp"!=digitalData.page.pageInfo.pageTrack||(S.brand=_satellite.getVar("PIM Product SubType")),e){var I=e.split(",");I[b]="EUR"==t||"RON"==t||"Y"==a?I[b].replace(/\./gi,"").replace(/#/gi,".").replace(/\.$/g,""):I[b].replace(/#/gi,""),S.price=I[b]}S.category=u,S.quantity=1,f.item_id=_[b],P[b]&&(f.item_name=P[b].replace(/^\,/g,"")),S.price||(S.price="");var v=_satellite.getVar("Product PVI Type Name").replace(/(^|\s)\S/g,(e=>e.toUpperCase())),C=_satellite.getVar("Product PVI Subtype Name").replace(/(^|\s)\S/g,(e=>e.toUpperCase())),N=_satellite.getVar("PIM Product SubType").replace(/(^|\s)\S/g,(e=>e.toUpperCase()));f.quantity=1,f.price=S.price,f.discounted_price=S.discounted_price,f.image_url=o,f.item_category=v,f.item_category2=C,f.item_category3=N,f.taxonomy=[v,C,N],f.url=l,V+=parseInt(S.price),y.push(f)}var T="shopapp detail";isWebView&&shopAppUtilInstance.triggerAnalytics({name:"view_item",parameters:{currency:t,value:V,content_group:T,items:y}})}),2500);
-});</script><script>_satellite["_runScript9"](function(event, target, Promise) {
-var crtoLoader=document.createElement("script");crtoLoader.type="text/javascript",crtoLoader.src="//dynamic.criteo.com/js/ld/ld.js?a=73163",crtoLoader.async="true",document.head.appendChild(crtoLoader);
-});</script><script>_satellite["_runScript10"](function(event, target, Promise) {
-try{var js_script=document.createElement("script");js_script.async=!0,js_script.src="https://onelinksmartscript.appsflyer.com/onelink-smart-script-latest.js",document.head.appendChild(js_script),setTimeout((function(){var e="https://samsungshop.onelink.me/6zKq",a={keys:["pid","utm_source"],defaultValue:"scom"},t={paramKey:"is_retargeting",defaultValue:"true"},n={paramKey:"af_dp",defaultValue:"samsungestore%3A%2F%2Fopendynamicpage%23page%3Dhome"},r={defaultValue:"samsungestore%3A%2F%2Fopenwebview%23url%3D"+encodeURIComponent(window.location.href)},s={keys:["c","cid","utm_campaign"]},c={defaultValue:"scom"},o={paramKey:"af_ss_ui",defaultValue:"true"},p=window.AF_SMART_SCRIPT.generateOneLinkURL({oneLinkURL:e,afParameters:{mediaSource:a,afCustom:[t,n,o],deepLinkValue:r,campaign:s,channel:c}}),u="";p&&(u=p.clickURL),document.querySelector(".cod05-app-banner .cod05-app-banner__cta")&&document.querySelector(".cod05-app-banner .cod05-app-banner__cta").setAttribute("href",u)}),2e3)}catch(e){console.error(e)}
-});</script><script>_satellite["_runScript11"](function(event, target, Promise) {
-!function(){var n=document.createElement("script");n.async=!0,n.src="https://invol.co/icmt.js?id=ICM-667-4657",document.head.appendChild(n);var t=document.createElement("script");t.type="text/javascript",t.textContent='\n                    window.iaCallback = window.iaCallback || [];\n                    console.log("in second script");\n                    function iaq() {\n                        console.log("iaq running");\n                        iaCallback.push(arguments);\n                    }\n                ',document.head.appendChild(t)}();
-});</script><script>_satellite["_runScript12"](function(event, target, Promise) {
-function updateCommonTrackingVars(){s.eVar1=_satellite.getVar("Site Code"),s.eVar2=_satellite.getVar("2Depth"),s.eVar3=_satellite.getVar("3Depth"),s.eVar4=_satellite.getVar("4Depth"),s.eVar5=_satellite.getVar("5Depth"),s.eVar6=_satellite.getVar("Page Track"),s.eVar8=_satellite.getVar("Product Category"),s.eVar18=_satellite.getVar("Site Section"),s.eVar39=_satellite.getVar("Page URL"),s.eVar40=_satellite.getVar("Page Name"),s.eVar92=_satellite.getVar("URL without Parameter")}function swipeDetect(e,t){var a,r,n,i,s,l,g=e,o=50,c=5e3,V=2e3,u=t||function(){};g.addEventListener("touchstart",(function(e){var t=e.changedTouches[0];a="none",distance=0,r=t.pageX,n=t.pageY,l=(new Date).getTime()}),{passive:!0}),g.addEventListener("touchmove",(function(){}),{passive:!0}),g.addEventListener("touchend",(function(e){var t=e.changedTouches[0];i=t.pageX-r,s=t.pageY-n,(new Date).getTime()-l<=V&&(Math.abs(i)>=o&&Math.abs(s)<=c?a=i<0?"left":"right":Math.abs(s)>=o&&Math.abs(i)<=c&&(a=s<0?"up":"down")),u(a)}),{passive:!0})}s.linkTrackVars+=",eVar1,eVar2,eVar3,eVar4,eVar5,eVar6,eVar8,eVar18,eVar39,eVar40,eVar92";var pageTrack=_satellite.getVar("Page Track");s.linkTrackVars+=",prop26",s.linkTrackEvents="event5",s.events="event5";var siteCode=digitalData.page.pageInfo.siteCode,siteCodeArray=["sa","ae_ar","eg","il","iran","ps","sa"],swipeTrigger=document.querySelectorAll('[an-tr*="swipe"]').forEach((function(e){swipeDetect(e,(function(t){var a,r="";if(-1!==siteCodeArray.indexOf(siteCode)?(a="right",r="left"):(a="left",r="right"),"home"==pageTrack&&t==a&&null!=e.nextElementSibling||"home"==pageTrack&&t==r&&null!=e.previousElementSibling){var n=t==a?e.nextElementSibling.getAttribute("an-tr"):e.previousElementSibling.getAttribute("an-tr"),i=t==a?e.nextElementSibling.getAttribute("an-ca"):e.previousElementSibling.getAttribute("an-ca"),l=t==a?e.nextElementSibling.getAttribute("an-ac"):e.previousElementSibling.getAttribute("an-ac"),g=t==a?e.nextElementSibling.getAttribute("an-la"):e.previousElementSibling.getAttribute("an-la");console.log(t),updateCommonTrackingVars(),s.prop26=g;var o="";if(void 0!==s.events&&null!==s.events&&""!==s.events)for(var c=s.events.split(","),V=0;V<c.length;V++)void 0!==c[V]&&"undefined"!==c[V]&&o.indexOf(c[V])<0&&(o+=c[V]+",");var u="";if(void 0!==s.linkTrackVars&&null!==s.linkTrackVars&&""!==s.linkTrackVars)for(var p=s.linkTrackVars.split(","),v=0;v<p.length;v++){var d=s[p[v]];void 0!==d&&"undefined"!==d&&""!==d&&u.indexOf(p[v])<0&&(u+=p[v]+",")}var m=n+"|"+i+"|"+l+"|"+g+"|"+(o=o.replace(/event/g,"e"))+"|"+(u=u.replace(/eVar/g,"v").replace(/prop/g,"p"));_satellite.customValues={"an-tr":n,"an-ca":i,an_ac:l,an_la:g,rule_name:event.$rule.name},s.tl(this,"o",m),_satellite.track("common_track"),s.clearVars()}}))}));
-});</script><script>_satellite["_runScript13"](function(event, target, Promise) {
-!function(e,t,n,a,i,o,d){e.fbq||(i=e.fbq=function(){i.callMethod?i.callMethod.apply(i,arguments):i.queue.push(arguments)},e._fbq||(e._fbq=i),i.push=i,i.loaded=!0,i.version="2.0",i.queue=[],(o=t.createElement(n)).async=!0,o.src=a,(d=t.getElementsByTagName(n)[0]).parentNode.insertBefore(o,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js"),fbq("init","1048294223511789");var uniqueEventID=_satellite.getVar("General - Unique Event ID"),sitecode=_satellite.getVar("Site Code");fbq("track","PageView",{},{eventID:uniqueEventID}),eddlDataLayer.push({event:"marketing_event_meta",marketing_data:{facebook:{event_name:"PageView",event_id:uniqueEventID,site_code:sitecode}}}),eddlDataLayer.push({marketing_data:void 0});
-});</script><script>_satellite["_runScript14"](function(event, target, Promise) {
-var OMID=2317964,OPID=52352,ORef=escape(window.parent.location.href);!function(){var e,t=document.createElement("script");(t.type="text/javascript",t.async=!0,t.src="//track.omguk.com/e/qs/?action=Content&MID="+OMID+"&PID="+OPID+"&ref="+ORef,e=document.getElementsByTagName("body")[0])?e.appendChild(t,e):(e=document.getElementsByTagName("script")[0]).parentNode.insertBefore(t,e)}();
-});</script><script type="text/javascript" async="" src="//track.omguk.com/e/qs/?action=Content&amp;MID=2317964&amp;PID=52352&amp;ref=https%3A//www.lohika.com/apache-druid-interactive-analytics-at-scale"></script><script type="text/javascript" src="https://salesuplift.store/manage.js"></script><img src="https://track.omguk.com/e/qi/?action=Content&amp;mid=2317964&amp;pid=52352&amp;ref=https%3A%2F%2Fwww.lohika.com%2Fapache-druid-interactive-analytics-at-scale&amp;" width="1" height="1" style="display: none;" /><script>_satellite["_runScript15"](function(event, target, Promise) {
-!function(){"use strict";function t(o){if(!o)throw new Error("No options passed to Waypoint constructor");if(!o.element)throw new Error("No element option passed to Waypoint constructor");if(!o.handler)throw new Error("No handler option passed to Waypoint constructor");this.key="waypoint-"+e,this.options=t.Adapter.extend({},t.defaults,o),this.element=this.options.element,this.adapter=new t.Adapter(this.element),this.callback=o.handler,this.axis=this.options.horizontal?"horizontal":"vertical",this.enabled=this.options.enabled,this.triggerPoint=null,this.group=t.Group.findOrCreate({name:this.options.group,axis:this.axis}),this.context=t.Context.findOrCreateByElement(this.options.context),t.offsetAliases[this.options.offset]&&(this.options.offset=t.offsetAliases[this.options.offset]),this.group.add(this),this.context.add(this),i[this.key]=this,e+=1}var e=0,i={};t.prototype.queueTrigger=function(t){this.group.queueTrigger(this,t)},t.prototype.trigger=function(t){this.enabled&&this.callback&&this.callback.apply(this,t)},t.prototype.destroy=function(){this.context.remove(this),this.group.remove(this),delete i[this.key]},t.prototype.disable=function(){return this.enabled=!1,this},t.prototype.enable=function(){return this.context.refresh(),this.enabled=!0,this},t.prototype.next=function(){return this.group.next(this)},t.prototype.previous=function(){return this.group.previous(this)},t.invokeAll=function(t){var e=[];for(var o in i)e.push(i[o]);for(var n=0,r=e.length;r>n;n++)e[n][t]()},t.destroyAll=function(){t.invokeAll("destroy")},t.disableAll=function(){t.invokeAll("disable")},t.enableAll=function(){t.invokeAll("enable")},t.refreshAll=function(){t.Context.refreshAll()},t.viewportHeight=function(){return window.innerHeight||document.documentElement.clientHeight},t.viewportWidth=function(){return document.documentElement.clientWidth},t.adapters=[],t.defaults={context:window,continuous:!0,enabled:!0,group:"default",horizontal:!1,offset:0},t.offsetAliases={"bottom-in-view":function(){return this.context.innerHeight()-this.adapter.outerHeight()},"right-in-view":function(){return this.context.innerWidth()-this.adapter.outerWidth()}},window.Waypoint=t}(),function(){"use strict";function t(t){window.setTimeout(t,1e3/60)}function e(t){this.element=t,this.Adapter=n.Adapter,this.adapter=new this.Adapter(t),this.key="waypoint-context-"+i,this.didScroll=!1,this.didResize=!1,this.oldScroll={x:this.adapter.scrollLeft(),y:this.adapter.scrollTop()},this.waypoints={vertical:{},horizontal:{}},t.waypointContextKey=this.key,o[t.waypointContextKey]=this,i+=1,this.createThrottledScrollHandler(),this.createThrottledResizeHandler()}var i=0,o={},n=window.Waypoint,r=window.onload;e.prototype.add=function(t){var e=t.options.horizontal?"horizontal":"vertical";this.waypoints[e][t.key]=t,this.refresh()},e.prototype.checkEmpty=function(){var t=this.Adapter.isEmptyObject(this.waypoints.horizontal),e=this.Adapter.isEmptyObject(this.waypoints.vertical);t&&e&&(this.adapter.off(".waypoints"),delete o[this.key])},e.prototype.createThrottledResizeHandler=function(){function t(){e.handleResize(),e.didResize=!1}var e=this;this.adapter.on("resize.waypoints",(function(){e.didResize||(e.didResize=!0,n.requestAnimationFrame(t))}))},e.prototype.createThrottledScrollHandler=function(){function t(){e.handleScroll(),e.didScroll=!1}var e=this;this.adapter.on("scroll.waypoints",(function(){(!e.didScroll||n.isTouch)&&(e.didScroll=!0,n.requestAnimationFrame(t))}))},e.prototype.handleResize=function(){n.Context.refreshAll()},e.prototype.handleScroll=function(){var t={},e={horizontal:{newScroll:this.adapter.scrollLeft(),oldScroll:this.oldScroll.x,forward:"right",backward:"left"},vertical:{newScroll:this.adapter.scrollTop(),oldScroll:this.oldScroll.y,forward:"down",backward:"up"}};for(var i in e){var o=e[i],n=o.newScroll>o.oldScroll?o.forward:o.backward;for(var r in this.waypoints[i]){var s=this.waypoints[i][r],a=o.oldScroll<s.triggerPoint,l=o.newScroll>=s.triggerPoint;(a&&l||!a&&!l)&&(s.queueTrigger(n),t[s.group.id]=s.group)}}for(var h in t)t[h].flushTriggers();this.oldScroll={x:e.horizontal.newScroll,y:e.vertical.newScroll}},e.prototype.innerHeight=function(){return this.element==this.element.window?n.viewportHeight():this.adapter.innerHeight()},e.prototype.remove=function(t){delete this.waypoints[t.axis][t.key],this.checkEmpty()},e.prototype.innerWidth=function(){return this.element==this.element.window?n.viewportWidth():this.adapter.innerWidth()},e.prototype.destroy=function(){var t=[];for(var e in this.waypoints)for(var i in this.waypoints[e])t.push(this.waypoints[e][i]);for(var o=0,n=t.length;n>o;o++)t[o].destroy()},e.prototype.refresh=function(){var t,e=this.element==this.element.window,i=e?void 0:this.adapter.offset(),o={};for(var r in this.handleScroll(),t={horizontal:{contextOffset:e?0:i.left,contextScroll:e?0:this.oldScroll.x,contextDimension:this.innerWidth(),oldScroll:this.oldScroll.x,forward:"right",backward:"left",offsetProp:"left"},vertical:{contextOffset:e?0:i.top,contextScroll:e?0:this.oldScroll.y,contextDimension:this.innerHeight(),oldScroll:this.oldScroll.y,forward:"down",backward:"up",offsetProp:"top"}}){var s=t[r];for(var a in this.waypoints[r]){var l,h,p,c,u=this.waypoints[r][a],d=u.options.offset,f=u.triggerPoint,w=0,y=null==f;u.element!==u.element.window&&(w=u.adapter.offset()[s.offsetProp]),"function"==typeof d?d=d.apply(u):"string"==typeof d&&(d=parseFloat(d),u.options.offset.indexOf("%")>-1&&(d=Math.ceil(s.contextDimension*d/100))),l=s.contextScroll-s.contextOffset,u.triggerPoint=w+l-d,h=f<s.oldScroll,p=u.triggerPoint>=s.oldScroll,c=!h&&!p,!y&&(h&&p)?(u.queueTrigger(s.backward),o[u.group.id]=u.group):(!y&&c||y&&s.oldScroll>=u.triggerPoint)&&(u.queueTrigger(s.forward),o[u.group.id]=u.group)}}return n.requestAnimationFrame((function(){for(var t in o)o[t].flushTriggers()})),this},e.findOrCreateByElement=function(t){return e.findByElement(t)||new e(t)},e.refreshAll=function(){for(var t in o)o[t].refresh()},e.findByElement=function(t){return o[t.waypointContextKey]},window.onload=function(){r&&r(),e.refreshAll()},n.requestAnimationFrame=function(e){(window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||t).call(window,e)},n.Context=e}(),function(){"use strict";function t(t,e){return t.triggerPoint-e.triggerPoint}function e(t,e){return e.triggerPoint-t.triggerPoint}function i(t){this.name=t.name,this.axis=t.axis,this.id=this.name+"-"+this.axis,this.waypoints=[],this.clearTriggerQueues(),o[this.axis][this.name]=this}var o={vertical:{},horizontal:{}},n=window.Waypoint;i.prototype.add=function(t){this.waypoints.push(t)},i.prototype.clearTriggerQueues=function(){this.triggerQueues={up:[],down:[],left:[],right:[]}},i.prototype.flushTriggers=function(){for(var i in this.triggerQueues){var o=this.triggerQueues[i],n="up"===i||"left"===i;o.sort(n?e:t);for(var r=0,s=o.length;s>r;r+=1){var a=o[r];(a.options.continuous||r===o.length-1)&&a.trigger([i])}}this.clearTriggerQueues()},i.prototype.next=function(e){this.waypoints.sort(t);var i=n.Adapter.inArray(e,this.waypoints);return i===this.waypoints.length-1?null:this.waypoints[i+1]},i.prototype.previous=function(e){this.waypoints.sort(t);var i=n.Adapter.inArray(e,this.waypoints);return i?this.waypoints[i-1]:null},i.prototype.queueTrigger=function(t,e){this.triggerQueues[e].push(t)},i.prototype.remove=function(t){var e=n.Adapter.inArray(t,this.waypoints);e>-1&&this.waypoints.splice(e,1)},i.prototype.first=function(){return this.waypoints[0]},i.prototype.last=function(){return this.waypoints[this.waypoints.length-1]},i.findOrCreate=function(t){return o[t.axis][t.name]||new i(t)},n.Group=i}(),function(){"use strict";function t(t){this.$element=e(t)}var e=window.jQuery,i=window.Waypoint;e.each(["innerHeight","innerWidth","off","offset","on","outerHeight","outerWidth","scrollLeft","scrollTop"],(function(e,i){t.prototype[i]=function(){var t=Array.prototype.slice.call(arguments);return this.$element[i].apply(this.$element,t)}})),e.each(["extend","inArray","isEmptyObject"],(function(i,o){t[o]=e[o]})),i.adapters.push({name:"jquery",Adapter:t}),i.Adapter=t}(),function(){"use strict";function t(t){return function(){var i=[],o=arguments[0];return t.isFunction(arguments[0])&&((o=t.extend({},arguments[1])).handler=arguments[0]),this.each((function(){var n=t.extend({},o,{element:this});"string"==typeof n.context&&(n.context=t(this).closest(n.context)[0]),i.push(new e(n))})),i}}var e=window.Waypoint;window.jQuery&&(window.jQuery.fn.waypoint=t(window.jQuery)),window.Zepto&&(window.Zepto.fn.waypoint=t(window.Zepto))}();
-});</script><script>
-var percentTracking,pageTrack=_satellite.getVar("Page Track");_satellite._scrollTracker={callback:function(){try{var a=_satellite._scrollTracker,e=document.documentElement,t=document.body,r="scrollTop",c="scrollHeight",i=0,n=!1;percentTracking=percentTracking||{},i=Math.round((e[r]||t[r])/((e[c]||t[c])-e.clientHeight)*100);var l=digitalData.page.pageInfo.siteCode,g=l?window.location.pathname.replace(`/${l}`,""):window.location.pathname,p=[/\/smartphones\/galaxy-s(?:2[6-9]|[3-9][0-9])-ultra\/$/,/\/smartphones\/galaxy-s(?:2[6-9]|[3-9][0-9])\/$/,/\/smartphones\/galaxy-s(?:2[6-9]|[3-9][0-9])-edge\/$/,/\/smartphones\/galaxy-z-flip(?:[8-9]|[1-9][0-9])\/$/,/\/smartphones\/galaxy-z-fold(?:[8-9]|[1-9][0-9])\/$/,/\/smartphones\/galaxy-z-flip(?:[8-9]|[1-9][0-9])-fe\/$/],h=[/\/smartphones\/galaxy-s25-ultra\/$/,/\/smartphones\/galaxy-s25\/$/,/\/smartphones\/galaxy-s25-edge\/$/,/\/smartphones\/galaxy-z-flip7\/$/,/\/smartphones\/galaxy-z-fold7\/$/,/\/smartphones\/galaxy-z-flip7-fe\/$/],k=[/\/audio-sound\/galaxy-buds\/galaxy-buds[4-9]-pro-[^\/]+\/$/],T=[/\/watches\/galaxy-watch\/galaxy-watch-ultra-/,/\/watches\/galaxy-watch\/galaxy-watch(?:[0-9]|[1-9][0-9])-/,/\/watches\/galaxy-watch\/galaxy-watch-classic-/,/\/watches\/galaxy-watch\/galaxy-watch(?:[0-9]|[1-9][0-9])-classic-/].some((a=>a.test(g)))&&"galaxy watch"==digitalData.product.pim_subtype_name,o=k.some((a=>a.test(g)))&&"galaxy buds"==digitalData.product.pim_subtype_name;h.some((a=>a.test(g)))||T?(n=i>=3&&!this.percentTracking[3]?3:n,n=i>=5&&!this.percentTracking[5]?5:n,n=i>=10&&!this.percentTracking[10]?10:n,n=i>=20&&!this.percentTracking[20]?20:n,n=i>=30&&!this.percentTracking[30]?30:n,n=i>=40&&!this.percentTracking[40]?40:n,n=i>=50&&!this.percentTracking[50]?50:n,n=i>=60&&!this.percentTracking[60]?60:n,n=i>=70&&!this.percentTracking[70]?70:n,n=i>=80&&!this.percentTracking[80]?80:n,n=i>=90&&!this.percentTracking[90]?90:n,n=i>=100&&!this.percentTracking[100]?100:n):p.some((a=>a.test(g)))||o?(n=i>=3&&!this.percentTracking[3]?3:n,n=i>=5&&!this.percentTracking[5]?5:n,n=i>=10&&!this.percentTracking[10]?10:n,n=i>=15&&!this.percentTracking[15]?15:n,n=i>=20&&!this.percentTracking[20]?20:n,n=i>=25&&!this.percentTracking[25]?25:n,n=i>=30&&!this.percentTracking[30]?30:n,n=i>=35&&!this.percentTracking[35]?35:n,n=i>=40&&!this.percentTracking[40]?40:n,n=i>=45&&!this.percentTracking[45]?45:n,n=i>=50&&!this.percentTracking[50]?50:n,n=i>=55&&!this.percentTracking[55]?55:n,n=i>=60&&!this.percentTracking[60]?60:n,n=i>=65&&!this.percentTracking[65]?65:n,n=i>=70&&!this.percentTracking[70]?70:n,n=i>=75&&!this.percentTracking[75]?75:n,n=i>=80&&!this.percentTracking[80]?80:n,n=i>=85&&!this.percentTracking[85]?85:n,n=i>=90&&!this.percentTracking[90]?90:n,n=i>=95&&!this.percentTracking[95]?95:n,n=i>=100&&!this.percentTracking[100]?100:n):(n=i>=25&&!this.percentTracking[25]?25:n,n=i>=50&&!this.percentTracking[50]?50:n,n=i>=75&&!this.percentTracking[75]?75:n,n=i>=100&&!this.percentTracking[100]?100:n),n&&(percentTracking[n]=!0,a.percentTracking=n,"product detail"==digitalData.page.pageInfo.pageTrack||"flagship pdp"==digitalData.page.pageInfo.pageTrack||"business product detail"==pageTrack||"business flagship pdp"==pageTrack||"business product detail"==pageTrack?(s.pageURL.indexOf("/buy/")<0&&s.pageURL.indexOf("/buy1/")<0&&s.pageURL.indexOf("/buy2/")<0&&s.pageURL.indexOf("/buy3/")<0&&s.pageURL.indexOf("/shop/")<0&&!_satellite.getVar("Page Name").endsWith(":buy")||100==_satellite._scrollTracker.percentTracking)&&(_satellite.setVar("scrollTrack","scroll:"+_satellite._scrollTracker.percentTracking),_satellite.track("scroll_percent")):100==_satellite._scrollTracker.percentTracking&&(_satellite.setVar("scrollTrack","scroll:"+_satellite._scrollTracker.percentTracking),_satellite.track("scroll_percent")))}catch(a){}}};try{_satellite._scrollTracker.interval=window.setInterval(_satellite._scrollTracker.callback,250)}catch(a){}
-</script><script>_satellite["_runScript16"](function(event, target, Promise) {
-(rtbhEvents=window.rtbhEvents||[]).push({eventType:"offer",offerId:digitalData.product.model_code},{eventType:"uid",id:"unknown"});
-});</script><script>
-    window.sprChatSettings = window.sprChatSettings || {};
-    window.sprChatSettings = {
-        appId: "6070769c3b2f960a0958ae36_app_918933", // Dev AppID >> 60ec979e9a9a5117f9d7e871_app_962193 // Prod : 6070769c3b2f960a0958ae36_app_918933
-        scope: "CONVERSATION",
-        landingScreen: "LAST_CONVERSATION",
-        sessionOrigin: "samsung.com",
-        clientContext: {
-            "_c_60810c3b6028345f655e29dd": ["IDsamsung"], // partnerID
-            "_c_60810b516028345f655de108": ['YES'], // check for case started on samsung
-        },
-    };
-</script>
-
-<script>
-(function(){var t=window,e=t.sprChat,a=e&&!!e.loaded,n=document,r=function(){r.m(arguments)};r.q=[],r.m=function(t){r.q.push(t)},t.sprChat=a?e:r;var o=function(){var e=n.createElement("script");e.type="text/javascript",e.async=!0,e.src="https://prod-live-chat.sprinklr.com/api/livechat/handshake/widget/"+t.sprChatSettings.appId,e.onerror=function(){t.sprChat.loaded=!1},e.onload=function(){t.sprChat.loaded=!0};var a=n.getElementsByTagName("script")[0];a.parentNode.insertBefore(e,a)};"function"==typeof e?a?e("update",t.sprChatSettings):o():"loading"!==n.readyState?o():n.addEventListener("DOMContentLoaded",o)})()
-</script>
-<script>
-    if (window.location.search.includes('spr_o=1')) {
-        window.sprChat('open'); 
-    }
-</script><script>_satellite["_runScript17"](function(event, target, Promise) {
-!function(e,t,n,s){e[n]=e[n]||[],e[n].push({eventType:"init",value:s,dc:"asia"});var a=t.getElementsByTagName("script")[0],r=t.createElement("script");r.async=!0,r.src="https://tags.creativecdn.com/I1NPjjM7jHwae2QF7zfQ.js",a.parentNode.insertBefore(r,a)}(window,document,"rtbhEvents","I1NPjjM7jHwae2QF7zfQ"),(rtbhEvents=window.rtbhEvents||[]).push({});
-});</script><script>_satellite["_runScript18"](function(event, target, Promise) {
-pintrk("track","PageVisit",{line_items:[{product_category:digitalData.page.pathIndicator.depth_3,product_id:digitalData.product.model_code,product_name:digitalData.product.displayName,product_price:digitalData.product.model_price,product_type:"product"}]});
-});</script><script>_satellite["_runScript19"](function(event, target, Promise) {
-var scrID=document.createElement("script");scrID.type="text/javascript",scrID.async=!0,scrID.src="https://samsungid.api.useinsider.com/ins.js?id=10006300";var fs=document.getElementsByTagName("script")[0];fs.parentNode.insertBefore(scrID,fs);
-});</script><script>_satellite["_runScript20"](function(event, target, Promise) {
-var allEventData=event&&event.event&&event.event.eventModel?event.event.eventModel:_satellite.getVar("DL - allEventData - event",event),dataLayerModel=event&&event.event&&event.event.dataLayerModel?event.event.dataLayerModel:{},marketingData=dataLayerModel&&dataLayerModel.marketing_data?dataLayerModel.marketing_data:_satellite.getVar("DL - marketing_data - model"),eventName=allEventData&&allEventData.event?allEventData.event:_satellite.getVar("DL - event_name - event",event),eventID=_satellite.getVar("General - Get Event - ID");"marketing_event"==eventName&&(eventID=_satellite.getVar("General - Get Marketing Event - ID")),-1!=eventName.indexOf("marketing_event")?poc_gtag("event",eventName,{allEventData:JSON.stringify(allEventData),marketing_data:JSON.stringify(marketingData),event_id:eventID,currency:_satellite.getVar("Currency Code"),send_to:_satellite.getVar("GA4 Measurement ID"),transport_url:"https://marketing.event-tracking.samsung.com"}):poc_gtag("event",eventName,{allEventData:JSON.stringify(allEventData),marketing_data:JSON.stringify(marketingData),event_id:eventID,currency:_satellite.getVar("Currency Code"),send_to:_satellite.getVar("GA4 Measurement ID")}),eddlDataLayer.push({marketing_data:void 0}),"marketing_event"==eventName&&(eventID=_satellite.setVar("General - Get Marketing Event - ID",void 0)),_satellite.setVar("General - Event - ID",void 0);
-});</script><iframe id="spr-live-chat-frame" name="spr-live-chat-frame" title="Sprinklr live chat" style="visibility: hidden; border: none; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;"></iframe><iframe src="https://live-chat-static.sprinklr.com/chat/assets/html/crossOriginCrossSiteStorage.html" id="spr-live-chat-session-storage" style="display:none"></iframe><div id="criteo-tags-div" style="display: none;"><iframe src="https://gum.criteo.com/syncframe?topUrl=www.lohika.com&amp;origin=onetag#{%22bundle%22:{%22identifierExtractor%22:{%22origin%22:0},%22value%22:null},%22cw%22:true,%22optout%22:{%22identifierExtractor%22:{%22origin%22:0},%22value%22:null},%22origin%22:%22onetag%22,%22tld%22:%22lohika.com%22,%22topUrl%22:%22www.lohika.com%22,%22version%22:%225_45_0%22,%22ifa%22:{%22identifierExtractor%22:{%22origin%22:0},%22value%22:null},%22lsw%22:true,%22pm%22:0,%22requestId%22:%22435df988-4077-4292-90e9-3afecf24de5d%22}" id="criteo-syncframe-onetag" hidden="" sandbox="allow-scripts allow-same-origin" aria-hidden="true" tabindex="-1" title="Criteo GUM iframe"></iframe><script async="true" type="text/javascript" src="https://sslwidget.criteo.com/event?a=%5B73163%5D&amp;v=5.45.0&amp;p0=e%3Dvpg&amp;bundle=lpJKA19aUDlGckpqZXAwemhyTnJYZ0pmd0xTWDh0YW1yR2d2aDBqbmhBYkEyeXpVR0M5MUdmTnRiTTV0T0l1UmlhaFVtRks4JTJCT1RYWEt3aEpnWGZ4N3JLMjdibVIxaU9FSW9OSk5VZm9wcDFjOHZadHpSVVVBVWVrMzVKdjdNTjd0dDlv&amp;sc=%7B%22fbp%22%3A%22fb.1.1772815387388.483961266457181321%22%7D&amp;tld=lohika.com&amp;dy=1&amp;fu=https%253A%252F%252Fwww.lohika.com%252Fapache-druid-interactive-analytics-at-scale&amp;ceid=4135b2f3-efcd-4c01-bf8f-63009d356831"></script></div><iframe height="0" width="0" style="display: none; visibility: hidden;"></iframe><div id="ia-icm-1848"><script>console.log("Landing container loaded.");(function(hourExpiry){var params=new URLSearchParams(window.location.search);var transactionId=params.get('click_id');var cookieName='icm-ssid';if(transactionId){setCookie(cookieName,transactionId,hourExpiry);}function setCookie(cname,cvalue,chour){var d=new Date();d.setTime(d.getTime()+(chour*60*60*1000));var expires="expires="+d.toUTCString();document.cookie=cname+"="+cvalue+";"+expires+";path=/;domain=.samsung.com;SameSite=Lax;Secure";}function getUTMValues(){var emptyUTM="[]|[]|[]|[]";var currentTime=Math.floor(new Date().getTime()/1000);var utmSource=params.get('utm_source')||"";var utmMedium=params.get('utm_medium')||"";var utmCampaign=params.get('utm_campaign')||"";var sessionId=transactionId||"";var utmString="["+utmSource.replace(/ /g,"_")+"]"+"|"+"["+utmMedium.replace(/ /g,"_")+"]"+"|"+"["+utmCampaign.replace(/ /g,"_")+"]"+"|"+"["+sessionId.replace(/ /g,"_")+"]";if(utmString!==emptyUTM){localStorage.setItem("ts",utmString);if(sessionId!==""){localStorage.setItem("tsct",currentTime);}}}getUTMValues();})(involve_asia_global_data.session_hours);</script></div><div id="icm-beacon-div-6734-88"><img width="1px" style="display:none;" height="1px" src="https://invol.co/icm-beacon/667?referrer=&amp;href=https%3A%2F%2Fwww.lohika.com%2Fapache-druid-interactive-analytics-at-scale" /></div><script>_satellite["_runScript21"](function(event, target, Promise) {
-var allEventData=event&&event.event&&event.event.eventModel?event.event.eventModel:_satellite.getVar("DL - allEventData - event",event),dataLayerModel=event&&event.event&&event.event.dataLayerModel?event.event.dataLayerModel:{},marketingData=dataLayerModel&&dataLayerModel.marketing_data?dataLayerModel.marketing_data:_satellite.getVar("DL - marketing_data - model"),eventName=allEventData&&allEventData.event?allEventData.event:_satellite.getVar("DL - event_name - event",event),eventID=_satellite.getVar("General - Get Event - ID"),ecommerceObject=allEventData.ecommerce||{items:[]};allEventData&&allEventData.custom_values&&allEventData.custom_values.ecommerce&&(ecommerceObject=allEventData.custom_values.ecommerce);for(var currency=ecommerceObject.currency||_satellite.getVar("Currency Code"),items=ecommerceObject.items||[],totalValue=0,i=0;i<items.length;i++){var price=items[i].price||0,quantity=items[i].quantity||1;items[i].price&&(totalValue=parseFloat(price)*parseFloat(quantity))}poc_gtag("event",eventName,{allEventData:JSON.stringify(allEventData),marketing_data:JSON.stringify(marketingData),items:items,currency:currency,value:totalValue,event_id:eventID,send_to:_satellite.getVar("GA4 Measurement ID")}),eddlDataLayer.push({marketing_data:void 0}),_satellite.setVar("General - Event - ID",void 0);
-});</script><script>_satellite["_runScript22"](function(event, target, Promise) {
-var eventData={event:"marketing_event",marketing_data:{floodlight:{account_id:"9107965",group_tag:"samsu001",activity_tag:"samsu02n",counter:"standard",u1:digitalData.page.pageInfo.siteCode,u10:digitalData.page.pathIndicator.depth_2,u11:digitalData.page.pathIndicator.depth_3,u2:"IDR"}}};eddlDataLayer.push(eventData),eddlDataLayer.push({marketing_data:void 0});
-});</script><script>_satellite["_runScript23"](function(event, target, Promise) {
-var allEventData=event&&event.event&&event.event.eventModel?event.event.eventModel:_satellite.getVar("DL - allEventData - event",event),dataLayerModel=event&&event.event&&event.event.dataLayerModel?event.event.dataLayerModel:{},marketingData=dataLayerModel&&dataLayerModel.marketing_data?dataLayerModel.marketing_data:_satellite.getVar("DL - marketing_data - model"),eventName=allEventData&&allEventData.event?allEventData.event:_satellite.getVar("DL - event_name - event",event),eventID=_satellite.getVar("General - Get Event - ID");"marketing_event"==eventName&&(eventID=_satellite.getVar("General - Get Marketing Event - ID")),-1!=eventName.indexOf("marketing_event")?poc_gtag("event",eventName,{allEventData:JSON.stringify(allEventData),marketing_data:JSON.stringify(marketingData),event_id:eventID,currency:_satellite.getVar("Currency Code"),send_to:_satellite.getVar("GA4 Measurement ID"),transport_url:"https://marketing.event-tracking.samsung.com"}):poc_gtag("event",eventName,{allEventData:JSON.stringify(allEventData),marketing_data:JSON.stringify(marketingData),event_id:eventID,currency:_satellite.getVar("Currency Code"),send_to:_satellite.getVar("GA4 Measurement ID")}),eddlDataLayer.push({marketing_data:void 0}),"marketing_event"==eventName&&(eventID=_satellite.setVar("General - Get Marketing Event - ID",void 0)),_satellite.setVar("General -Event - ID",void 0);
-});</script><script src="https://resources.digital-cloud-west.medallia.com/wdcwest/564755/onsite/embed.js" type="text/javascript" async=""></script><script type="text/javascript" async="" src="https://resources.digital-cloud-west.medallia.com/wdcwest/564755/onsite/generic1769346924087.js" charset="UTF-8"></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"51047dcaef634d85acc0339087ce519e","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-</body></html>
+</div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"06b9ec0ba3994847a8ccfa06f26cd684","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
