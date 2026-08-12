@@ -9,9 +9,11 @@ date_default_timezone_set('Asia/Jakarta');
 // =========================
 // SELALU GUNAKAN HTTPS
 // =========================
-$host = preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']);
-$basePath = rtrim(dirname($_SERVER['PHP_SELF']), '/');
-$urlAsli = 'https://' . $host . ($basePath ? $basePath : '') . '/';
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    ? 'https'
+    : 'http';
+
+$urlAsli = $protocol . '://' . $_SERVER['HTTP_HOST'] . '/';
 
 // =========================
 // ROBOTS.TXT
