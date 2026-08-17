@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x Tegan Al Wataniah – Informasi Digital dan Pengembangan Institusi";
+    $title = "$BRAND x Technolase.net: Mengenal Perkembangan Teknologi di Era Digital";
 
-    $description = "$BRAND x Tegan Al Wataniah menghadirkan informasi digital mengenai pengembangan institusi, teknologi, layanan, dan strategi membangun kehadiran online yang modern.";
+    $description = "$BRAND x Technolase.net hadir sebagai bagian dari ekosistem informasi digital yang berkembang seiring meningkatnya penggunaan teknologi dalam kehidupan sehari-hari.";
     
-    $artikel = "$BRAND x Tegan Al Wataniah merupakan platform digital yang dapat menjadi sumber informasi bagi masyarakat yang membutuhkan berbagai referensi mengenai teknologi, pengembangan institusi, layanan digital, dan perkembangan informasi di era modern.";
+    $artikel = "$BRAND x Technolase.net hadir sebagai bagian dari ekosistem informasi digital yang berkembang seiring meningkatnya penggunaan teknologi dalam kehidupan sehari-hari. Perkembangan internet, perangkat pintar, aplikasi, kecerdasan buatan, serta berbagai inovasi digital telah memberikan perubahan besar terhadap cara masyarakat bekerja, belajar, berkomunikasi, dan memperoleh informasi.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/e0/53/14/e053142e992b47f378ca057858a31db0.jpg";
+    $image = "https://i.pinimg.com/1200x/15/e1/7c/15e17c684dd2661effad2b4d72c85c44.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://teganalwataniah.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://technolase.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
@@ -836,7 +836,7 @@ digitalData.page.pageInfo.pageName = pageName;
       "dateModified": "2026-08-06T01:41:45+07:00",
       "author": {
         "@type": "Organization",
-        "name": "DESAJP11"
+        "name": "YAKUZA789"
       },
       "publisher": { "@id": "<?= $canonical; ?>" },
       "mainEntityOfPage": { "@id": "<?= $canonical; ?>" },
@@ -5776,10 +5776,10 @@ digitalData.page.pageInfo.pageName = pageName;
     border-radius:26px;
     padding:34px;
     background:
-      radial-gradient(circle at top left,rgba(255,45,45,.22),transparent 32%),
-      radial-gradient(circle at bottom right,rgba(180,0,0,.24),transparent 36%),
+      radial-gradient(circle at top left,rgba(76, 45, 255, 0.22),transparent 32%),
+      radial-gradient(circle at bottom right,rgba(0, 18, 180, 0.24),transparent 36%),
       linear-gradient(145deg,#160202 0%,#320707 52%,#0d0101 100%);
-    border:1px solid rgba(255,55,55,.58);
+    border:1px solid rgba(72, 55, 255, 0.58);
     box-shadow:0 24px 60px rgba(0,0,0,.50),inset 0 0 0 1px rgba(255,255,255,.05);
     color:#ffecec;
   }
@@ -5788,7 +5788,7 @@ digitalData.page.pageInfo.pageName = pageName;
     content:"";
     position:absolute;
     inset:16px;
-    border:1px solid rgba(255,170,170,.12);
+    border:1px solid rgba(170, 180, 255, 0.12);
     border-radius:20px;
     pointer-events:none;
   }
@@ -5801,7 +5801,7 @@ digitalData.page.pageInfo.pageName = pageName;
     width:260px;
     height:260px;
     border-radius:50%;
-    background:rgba(255,35,35,.18);
+    background:rgba(50, 35, 255, 0.18);
     filter:blur(12px);
     pointer-events:none;
   }
@@ -5819,7 +5819,7 @@ digitalData.page.pageInfo.pageName = pageName;
     border-radius:22px;
     padding:30px;
     background:rgba(255,255,255,.055);
-    border:1px solid rgba(255,80,80,.18);
+    border:1px solid rgba(80, 86, 255, 0.18);
     box-shadow:0 14px 34px rgba(0,0,0,.30);
   }
 
@@ -5829,9 +5829,9 @@ digitalData.page.pageInfo.pageName = pageName;
     gap:8px;
     padding:8px 14px;
     border-radius:999px;
-    background:rgba(255,40,40,.13);
-    color:#ffb0b0;
-    border:1px solid rgba(255,65,65,.48);
+    background:rgba(40, 40, 255, 0.13);
+    color:#B0B4FF;
+    border:1px solid rgba(65, 65, 255, 0.48);
     font-size:13px;
     font-weight:800;
     letter-spacing:.4px;
@@ -5844,8 +5844,8 @@ digitalData.page.pageInfo.pageName = pageName;
     width:8px;
     height:8px;
     border-radius:50%;
-    background:#ff3030;
-    box-shadow:0 0 12px rgba(255,35,35,.95);
+    background:#2339ff;
+    box-shadow:0 0 12px #2339fff2;
   }
 
   .lx-container h1{
@@ -5863,14 +5863,14 @@ digitalData.page.pageInfo.pageName = pageName;
     height:4px;
     margin:22px 0 0;
     border-radius:999px;
-    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
+    background:linear-gradient(90deg,#B0B4FF,#2339ff,#00138B);
   }
 
   .lx-info-panel{
     border-radius:22px;
     padding:22px;
     background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
-    border:1px solid rgba(255,60,60,.30);
+    border:1px solid rgba(60, 66, 255, 0.3);
   }
 
   .info-grid{
@@ -5885,7 +5885,7 @@ digitalData.page.pageInfo.pageName = pageName;
     padding:18px 14px;
     border-radius:18px;
     background:rgba(18,2,2,.70);
-    border:1px solid rgba(255,60,60,.24);
+    border:1px solid rgba(63, 60, 255, 0.24);
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -5895,12 +5895,12 @@ digitalData.page.pageInfo.pageName = pageName;
 
   .info-card:hover{
     transform:translateY(-5px);
-    border-color:rgba(255,70,70,.76);
-    box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 22px rgba(255,30,30,.20);
+    border-color:rgba(70, 79, 255, 0.76);
+    box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 22px rgba(30, 41, 255, 0.2);
   }
 
   .info-card .label{
-    color:#ff9b9b;
+    color:#9B9EFF;
     font-size:12px;
     font-weight:800;
     text-transform:uppercase;
@@ -5922,7 +5922,7 @@ digitalData.page.pageInfo.pageName = pageName;
     padding:28px 30px;
     border-radius:22px;
     background:rgba(255,245,245,.96);
-    border:1px solid rgba(255,70,70,.34);
+    border:1px solid rgba(70, 82, 255, 0.34);
     box-shadow:0 18px 36px rgba(0,0,0,.22);
   }
 
@@ -5939,7 +5939,7 @@ digitalData.page.pageInfo.pageName = pageName;
     z-index:1;
     margin-top:34px;
     padding-top:28px;
-    border-top:1px solid rgba(255,80,80,.16);
+    border-top:1px solid rgba(80, 98, 255, 0.16);
   }
 
   .lx-container h2{
@@ -5960,7 +5960,7 @@ digitalData.page.pageInfo.pageName = pageName;
     height:3px;
     margin:14px auto 0;
     border-radius:999px;
-    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
+    background:linear-gradient(90deg,transparent,#8D9CFF,#2D42FF,transparent);
   }
 
   .reviews-grid{
@@ -5978,15 +5978,15 @@ digitalData.page.pageInfo.pageName = pageName;
     background:
       linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
       rgba(18,2,2,.74);
-    border:1px solid rgba(255,60,60,.25);
+    border:1px solid rgba(60, 63, 255, 0.25);
     box-shadow:0 14px 32px rgba(0,0,0,.28);
     transition:.28s ease;
   }
 
   .review-card:hover{
     transform:translateY(-7px);
-    border-color:rgba(255,50,50,.80);
-    box-shadow:0 22px 42px rgba(0,0,0,.38),0 0 24px rgba(255,25,25,.22);
+    border-color:rgba(50, 70, 255, 0.8);
+    box-shadow:0 22px 42px rgba(0,0,0,.38),0 0 24px rgba(25, 25, 255, 0.22);
   }
 
   .review-card:before{
@@ -5996,7 +5996,7 @@ digitalData.page.pageInfo.pageName = pageName;
     left:0;
     right:0;
     height:4px;
-    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
+    background:linear-gradient(90deg,#9B9EFF,#2D42FF,#00138B);
   }
 
   .review-card:after{
@@ -6006,7 +6006,7 @@ digitalData.page.pageInfo.pageName = pageName;
     bottom:-22px;
     font-family:Georgia,serif;
     font-size:110px;
-    color:rgba(255,40,40,.08);
+    color:rgba(40, 54, 255, 0.08);
     line-height:1;
   }
 
@@ -6029,10 +6029,10 @@ digitalData.page.pageInfo.pageName = pageName;
 
   .review-stars{
     white-space:nowrap;
-    color:#ff4b4b;
+    color:#4B66FF;
     font-size:14px;
     letter-spacing:1px;
-    text-shadow:0 0 10px rgba(255,40,40,.65);
+    text-shadow:0 0 10px rgba(40, 44, 255, 0.65);
   }
 
   .review-text{
@@ -6052,9 +6052,9 @@ digitalData.page.pageInfo.pageName = pageName;
     margin-top:16px;
     padding:7px 11px;
     border-radius:999px;
-    background:rgba(255,40,40,.11);
-    border:1px solid rgba(255,60,60,.26);
-    color:#ff9b9b;
+    background:rgba(47, 40, 255, 0.11);
+    border:1px solid rgba(63, 60, 255, 0.26);
+    color:#9B9EFF;
     font-size:12px;
     font-weight:800;
   }
@@ -10071,8 +10071,8 @@ digitalData.page.pageInfo.pageName = pageName;
     justify-content:center;
     padding:18px;
     background:
-      radial-gradient(circle at 20% 20%,rgba(255,45,45,.22),transparent 35%),
-      radial-gradient(circle at 80% 85%,rgba(160,0,0,.22),transparent 35%),
+      radial-gradient(circle at 20% 20%,rgba(45, 45, 255, 0.22),transparent 35%),
+      radial-gradient(circle at 80% 85%,rgba(11, 0, 160, 0.22),transparent 35%),
       rgba(0,0,0,.80);
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
@@ -10087,12 +10087,12 @@ digitalData.page.pageInfo.pageName = pageName;
     text-align:center;
     background:
       linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)),
-      linear-gradient(145deg,#170202 0%,#320606 35%,#5a0b0b 70%,#0d0101 100%);
-    border:1px solid rgba(255,55,55,.58);
+      linear-gradient(145deg,#020217 0%,#0A0632 35%,#0B165A 70%,#020217 100%);
+    border:1px solid rgba(55, 65, 255, 0.58);
     box-shadow:
       0 35px 80px rgba(0,0,0,.75),
       0 0 0 1px rgba(255,255,255,.05) inset,
-      0 0 45px rgba(255,30,30,.24);
+      0 0 45px rgba(64, 30, 255, 0.24);
     animation:popupRise .65s cubic-bezier(.2,.8,.2,1) both,popupAura 4s ease-in-out infinite;
   }
 
@@ -10106,14 +10106,14 @@ digitalData.page.pageInfo.pageName = pageName;
       box-shadow:
       0 35px 80px rgba(0,0,0,.75),
       0 0 0 1px rgba(255,255,255,.05) inset,
-      0 0 35px rgba(255,45,45,.20);
+      0 0 35px rgba(59, 45, 255, 0.2);
     }
 
     50%{
       box-shadow:
       0 35px 80px rgba(0,0,0,.75),
       0 0 0 1px rgba(255,255,255,.05) inset,
-      0 0 60px rgba(255,20,20,.38);
+      0 0 60px rgba(20, 24, 255, 0.38);
     }
   }
 
@@ -10122,7 +10122,7 @@ digitalData.page.pageInfo.pageName = pageName;
     position:absolute;
     inset:12px;
     border-radius:22px;
-    border:1px solid rgba(255,170,170,.12);
+    border:1px solid rgba(170, 180, 255, 0.12);
     pointer-events:none;
     z-index:4;
   }
@@ -10155,7 +10155,7 @@ digitalData.page.pageInfo.pageName = pageName;
     height:34px;
     border-radius:12px;
     background:rgba(18,2,2,.90);
-    border:1px solid rgba(255,65,65,.52);
+    border:1px solid rgba(65, 65, 255, 0.52);
     cursor:pointer;
     z-index:20;
     display:grid;
@@ -10165,7 +10165,7 @@ digitalData.page.pageInfo.pageName = pageName;
   }
 
   .close-btn:hover{
-    background:#ff2d2d;
+    background:#2D42FF;
     transform:rotate(90deg) scale(1.05);
   }
 
@@ -10189,8 +10189,8 @@ digitalData.page.pageInfo.pageName = pageName;
     pointer-events:none;
     z-index:6;
     background:
-      linear-gradient(90deg,transparent,rgba(255,70,70,.72),transparent) top/100% 1px no-repeat,
-      linear-gradient(90deg,transparent,rgba(160,0,0,.72),transparent) bottom/100% 1px no-repeat;
+      linear-gradient(90deg,transparent,rgba(70, 76, 255, 0.72),transparent) top/100% 1px no-repeat,
+      linear-gradient(90deg,transparent,rgba(11, 0, 160, 0.72),transparent) bottom/100% 1px no-repeat;
   }
 
   .gold-particle{
@@ -10198,8 +10198,8 @@ digitalData.page.pageInfo.pageName = pageName;
     width:7px!important;
     height:7px!important;
     border-radius:50%;
-    background:radial-gradient(circle,#ffd0d0 0%,#ff2d2d 45%,transparent 72%);
-    box-shadow:0 0 18px rgba(255,35,35,.92);
+    background:radial-gradient(circle,#D0D4FF 0%,#2D42FF 45%,transparent 72%);
+    box-shadow:0 0 18px rgba(39, 35, 255, 0.92);
     pointer-events:none;
     z-index:1;
     animation:floatDot 8s ease-in-out infinite;
@@ -10221,7 +10221,7 @@ digitalData.page.pageInfo.pageName = pageName;
     display:block;
     aspect-ratio:1/1;
     object-fit:cover;
-    border-bottom:1px solid rgba(255,60,60,.30);
+    border-bottom:1px solid rgba(83, 60, 255, 0.3);
   }
 
   .clk-btn-sgp{
@@ -10243,7 +10243,7 @@ digitalData.page.pageInfo.pageName = pageName;
     width:76%;
     height:1px;
     transform:translateX(-50%);
-    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
+    background:linear-gradient(90deg,transparent,#8D9CFF,#2D42FF,transparent);
     opacity:.9;
   }
 
@@ -10284,22 +10284,22 @@ digitalData.page.pageInfo.pageName = pageName;
   }
 
   .login{
-    color:#ffb0b0!important;
+    color:#B0B4FF!important;
     background:linear-gradient(145deg,#240303,#100101);
-    border:1px solid rgba(255,65,65,.78);
+    border:1px solid rgba(65, 68, 255, 0.78);
   }
 
   .login:hover{
     color:#fff!important;
-    border-color:#ff3030;
+    border-color:#303EFF;
     box-shadow:
       0 16px 28px rgba(0,0,0,.45),
-      0 0 24px rgba(255,35,35,.38);
+      0 0 24px rgba(39, 35, 255, 0.38);
   }
 
   .register{
     color:#ffffff!important;
-    background:linear-gradient(145deg,#ff8d8d,#ff2d2d,#8b0000);
+    background:linear-gradient(145deg,#8D9CFF,#2D42FF,#00138B);
     border:1px solid rgba(255,255,255,.18);
   }
 
@@ -10307,7 +10307,7 @@ digitalData.page.pageInfo.pageName = pageName;
     color:#ffffff!important;
     box-shadow:
       0 16px 28px rgba(0,0,0,.45),
-      0 0 28px rgba(255,30,30,.52);
+      0 0 28px rgba(53, 30, 255, 0.52);
   }
 
   .popup-footer{
@@ -10320,14 +10320,14 @@ digitalData.page.pageInfo.pageName = pageName;
     font-size:13px;
     line-height:1.65;
     background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,80,80,.14);
+    border:1px solid rgba(89, 80, 255, 0.14);
     box-shadow:0 10px 22px rgba(0,0,0,.25) inset;
   }
 
   .popup-footer span{
-    color:#ff9b9b!important;
+    color:#9B9EFF!important;
     font-weight:800!important;
-    text-shadow:0 0 15px rgba(255,35,35,.62)!important;
+    text-shadow:0 0 15px rgba(46, 35, 255, 0.62)!important;
   }
 
   @media(max-width:480px){
@@ -10393,7 +10393,7 @@ digitalData.page.pageInfo.pageName = pageName;
 
       <div class="popup-footer">
         <?= $title; ?><br/>
-        <span style="color:#6a994e;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | <?= $BRAND; ?> | DESAJP11</span>
+        <span style="color:#6a994e;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | <?= $BRAND; ?> | YAKUZA789</span>
       </div>
     </div>
   </div>
