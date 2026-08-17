@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x $BRAND2 - Panduan Lengkap Mengenal Dunia Burung Paruh Bengkok";
+    $title = "$BRAND x Tegan Al Wataniah – Informasi Digital dan Pengembangan Institusi";
 
-    $description = "$BRAND x $BRAND2 merupakan sumber informasi yang berfokus pada dunia burung paruh bengkok dan menyediakan pembahasan mengenai berbagai spesies serta kelompok parrot serta berbagai informasi mengenai karakteristik, habitat, dan pengenalan spesies";
+    $description = "$BRAND x Tegan Al Wataniah menghadirkan informasi digital mengenai pengembangan institusi, teknologi, layanan, dan strategi membangun kehadiran online yang modern.";
     
-    $artikel = "$BRAND x $BRAND2 dapat diposisikan secara SEO sebagai referensi untuk berbagai pencarian seperti Cyberfront Tech Blog, tutorial Debian, Linux server, VMware tutorial, VMware Cloud Foundation, home lab, network security, Prometheus, Grafana, Pi-hole, AdGuard Home, server monitoring, DevOps, dan IT infrastructure.";
+    $artikel = "$BRAND x Tegan Al Wataniah merupakan platform digital yang dapat menjadi sumber informasi bagi masyarakat yang membutuhkan berbagai referensi mengenai teknologi, pengembangan institusi, layanan digital, dan perkembangan informasi di era modern.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/49/ba/0f/49ba0f16063bd9471dd24b51b1fb4811.jpg";
+    $image = "https://i.pinimg.com/1200x/e0/53/14/e053142e992b47f378ca057858a31db0.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://parrots-cyberfront.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://teganalwataniah.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
@@ -99,9 +99,9 @@ $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-duni
 <link rel="amphtml" href="<?= $ampmek; ?>">
 <link rel="alternate" hreflang="id-id" href="<?= $ampmek; ?>"/>
 <link rel="alternate" hreflang="id" href="<?= $ampmek; ?>"/>
-<meta name="publisher" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
+<meta name="publisher" content="<?= $BRAND; ?>">
 <meta name="description" content="<?= $description; ?>">
-<meta name="keywords" content="<?= $BRAND; ?> x <?= $BRAND2; ?>, Game Digital Yang Setiap, Digital Yang Setiap Detiknya, Setiap Detiknya Punya Kejutan, Yang Setiap Detiknya Punya, Dunia Game Digital Yang" />
+<meta name="keywords" content="<?= $BRAND; ?>, Game Digital Yang Setiap, Digital Yang Setiap Detiknya, Setiap Detiknya Punya Kejutan, Yang Setiap Detiknya Punya, Dunia Game Digital Yang" />
 <meta name="sitecode" content="id">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<?= $title; ?>">
@@ -109,7 +109,7 @@ $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-duni
 <meta name="twitter:url" content="<?= $canonical; ?>">
 <meta name="twitter:image" content="<?= $logo; ?>">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
+<meta property="og:site_name" content="<?= $BRAND; ?>">
 <meta property="og:locale" content="id_ID">
 <meta property="og:url" content="<?= $canonical; ?>">
 <meta property="og:title" content="<?= $title; ?>">
@@ -780,7 +780,7 @@ digitalData.page.pageInfo.pageName = pageName;
       "@type": "WebSite",
       "@id": "<?= $canonical; ?>",
       "url": "<?= $canonical; ?>",
-      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+      "name": "<?= $BRAND; ?>",
       "inLanguage": "id-ID",
       "potentialAction": {
         "@type": "SearchAction",
@@ -794,17 +794,17 @@ digitalData.page.pageInfo.pageName = pageName;
     {
       "@type": "Organization",
       "@id": "<?= $canonical; ?>",
-      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+      "name": "<?= $BRAND; ?>",
       "url": "<?= $canonical; ?>",
       "logo": {
         "@type": "ImageObject",
         "url": "<?= $logo; ?>"
       },
       "sameAs": [
-        "https://www.facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
-        "https://www.twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
-        "https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
-        "https://line.me/ti/p/<?= $BRAND; ?> x <?= $BRAND2; ?>"
+        "https://www.facebook.com/<?= $BRAND; ?>",
+        "https://www.twitter.com/<?= $BRAND; ?>",
+        "https://instagram.com/<?= $BRAND; ?>",
+        "https://line.me/ti/p/<?= $BRAND; ?>"
       ]
     },
 
@@ -852,7 +852,7 @@ digitalData.page.pageInfo.pageName = pageName;
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+          "name": "<?= $BRAND; ?>",
           "item": "<?= $canonical; ?>"
         },
         {
@@ -909,8 +909,8 @@ digitalData.page.pageInfo.pageName = pageName;
 
         {
           "@type": "Question",
-          "name": "Mengapa <?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini?",
-          "acceptedAnswer": { "@type": "Answer", "text": "<?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini karena menjadi bagian dari pembahasan utama yang membantu memperjelas arah informasi." }
+          "name": "Mengapa <?= $BRAND; ?> sering dikaitkan dengan topik ini?",
+          "acceptedAnswer": { "@type": "Answer", "text": "<?= $BRAND; ?> sering dikaitkan dengan topik ini karena menjadi bagian dari pembahasan utama yang membantu memperjelas arah informasi." }
         },
 
         {
@@ -1411,7 +1411,7 @@ digitalData.page.pageInfo.pageName = pageName;
           <div class="nv00-gnb-v4__l0-menu-title">
            <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--pc-only">
-            <?= $BRAND; ?> x <?= $BRAND2; ?>
+            <?= $BRAND; ?>
             </span>
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--mobile-only">
              Explore Shop
@@ -1447,7 +1447,7 @@ digitalData.page.pageInfo.pageName = pageName;
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-             LINK <?= $BRAND; ?> x <?= $BRAND2; ?>
+             LINK <?= $BRAND; ?>
             </span>
            </button>
           </div>
@@ -1489,7 +1489,7 @@ digitalData.page.pageInfo.pageName = pageName;
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-              <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
+              <?= $BRAND; ?> LOGIN
             </span>
            </button>
           </div>
@@ -1515,7 +1515,7 @@ digitalData.page.pageInfo.pageName = pageName;
          
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="<?= $BRAND; ?> x <?= $BRAND2; ?> DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="<?= $BRAND; ?> x <?= $BRAND2; ?> Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem" target="_blank">
+           <a an-ac="gnb" an-ca="navigation" an-la="<?= $BRAND; ?> DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="<?= $BRAND; ?> Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem" target="_blank">
             DAFTAR
            </a>
           </div>
@@ -3794,7 +3794,7 @@ digitalData.page.pageInfo.pageName = pageName;
          <div class="wt-mt-xs-1 wt-mb-xs-1">
 
 <style>
-    .<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card {
+    .<?= $BRAND; ?>ng-card {
             max-width: 750px;
             width: 100%;
             background: 355070;
@@ -4034,7 +4034,7 @@ digitalData.page.pageInfo.pageName = pageName;
             background: 6A994E;
         }
 </style>
-<div class="<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card">
+<div class="<?= $BRAND; ?>ng-card">
         <!-- main title (atas sekali) -->
         <div class="hero-title">
             <h1><?= $title; ?></h1>
@@ -4042,7 +4042,7 @@ digitalData.page.pageInfo.pageName = pageName;
         <!-- Info Box -->
         <div class="info-container">
             <div class="info-head">
-                <h2>INFORMASI SITUS <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
+                <h2>INFORMASI SITUS <?= $BRAND; ?></h2>
             </div>
             <div class="info-list">
                 <div class="info-row">
@@ -5115,7 +5115,7 @@ digitalData.page.pageInfo.pageName = pageName;
            <use href="#information-error-bold" xlink:href="#information-error-bold">
            </use>
           </svg>
-          Please select <?= $BRAND; ?> x <?= $BRAND2; ?> Assured Buyback or no coverage
+          Please select <?= $BRAND; ?> Assured Buyback or no coverage
          </p>
          <div class="pd-select-option__wrap">
           <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
@@ -6112,7 +6112,7 @@ digitalData.page.pageInfo.pageName = pageName;
 
     <div class="lx-hero">
       <div class="lx-title-card">
-        <div class="lx-badge">Informasi Pilihan <?= $BRAND; ?> x <?= $BRAND2; ?></div>
+        <div class="lx-badge">Informasi Pilihan <?= $BRAND; ?></div>
         <h1><?= $title; ?></h1>
         <div class="lx-divider"></div>
       </div>
@@ -6147,12 +6147,12 @@ digitalData.page.pageInfo.pageName = pageName;
     </div>
 
     <section class="reviews-section">
-      <h2>APA KATA MEREKA? REVIEW MEMBER SETIA <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
+      <h2>APA KATA MEREKA? REVIEW MEMBER SETIA <?= $BRAND; ?></h2>
 
       <div class="reviews-grid">
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name"><?= $BRAND; ?> x <?= $BRAND2; ?> – Surabaya</span>
+            <span class="review-name"><?= $BRAND; ?> – Surabaya</span>
             <span class="review-stars">★★★★★</span>
           </div>
           <p class="review-text">"<?= $description; ?>"</p>
@@ -6213,7 +6213,7 @@ digitalData.page.pageInfo.pageName = pageName;
         
         <!-- Simple footer -->
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ffdd00; color: #ffdd00; font-size: 12px;">
-            © 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
+            © 2026 <?= $BRAND; ?>. All rights reserved.
         </div>
     </div>
     
@@ -6392,10 +6392,10 @@ digitalData.page.pageInfo.pageName = pageName;
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:home" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Home" href="https://www.samsung.com/id/">
          <span class="breadcrumb__text-desktop">
-          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
+          <?= $BRAND; ?> <span style="margin-left: 15px;">></span>
          </span>
          <span class="breadcrumb__text-mobile">
-          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
+          <?= $BRAND; ?> <span style="margin-left: 15px;">></span>
          </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
@@ -6491,7 +6491,7 @@ digitalData.page.pageInfo.pageName = pageName;
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
                   <a class="footer-category__link" href="<?= $canonical; ?>">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                    <?= $BRAND; ?>
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
@@ -6521,12 +6521,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 </li>
                 <li class="footer-category__item" role="listitem">
                   <a class="footer-category__link" href="<?= $canonical; ?>">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?> SLOT
+                    <?= $BRAND; ?> SLOT
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
                   <a class="footer-category__link" href="<?= $canonical; ?>">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
+                    <?= $BRAND; ?> LOGIN
                   </a>
                 </li>
               </ul>
@@ -6754,12 +6754,12 @@ digitalData.page.pageInfo.pageName = pageName;
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
                   <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Tentang <?= $BRAND; ?> x <?= $BRAND2; ?>
+                    Tentang <?= $BRAND; ?>
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
                   <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Kenapa Pilih <?= $BRAND; ?> x <?= $BRAND2; ?>
+                    Kenapa Pilih <?= $BRAND; ?>
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
@@ -6784,7 +6784,7 @@ digitalData.page.pageInfo.pageName = pageName;
         <div class="footer-copyright-wrap">
           <div class="footer-copyright-align">
             <p class="footer-copyright">
-              &copy; 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
+              &copy; 2026 <?= $BRAND; ?>. All rights reserved.
             </p>
           </div>
           <div class="footer-language">
@@ -6827,28 +6827,28 @@ digitalData.page.pageInfo.pageName = pageName;
             </span>
             <ul class="footer-sns__list" role="list">
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://facebook.com/<?= $BRAND; ?>" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#facebook-bold" xlink:href="#facebook-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://twitter.com/<?= $BRAND; ?>" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#twitter-bold" xlink:href="#twitter-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://instagram.com/<?= $BRAND; ?>" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#instagram-bold" xlink:href="#instagram-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://youtube.com/@<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://youtube.com/@<?= $BRAND; ?>" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#youtube-bold" xlink:href="#youtube-bold"></use>
                   </svg>
@@ -8574,7 +8574,7 @@ digitalData.page.pageInfo.pageName = pageName;
          </div>
          <div class="extended-warranty-popup__check">
           <div class="extended-warranty-popup__check-title">
-           Syarat dan Ketentuan <?= $BRAND; ?> x <?= $BRAND2; ?> Protection
+           Syarat dan Ketentuan <?= $BRAND; ?> Protection
           </div>
          </div>
          <div class="extended-warranty-popup__policy-text" id="cfCareIPID">
@@ -9506,7 +9506,7 @@ digitalData.page.pageInfo.pageName = pageName;
                </strong>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-0" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?>" id="mbs_popUp_form_11-0" type="checkbox" value="<?= $BRAND; ?>"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-0">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9517,14 +9517,14 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                   <?= $BRAND; ?> x <?= $BRAND2; ?>
+                   <?= $BRAND; ?>
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-1" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?>" id="mbs_popUp_form_11-1" type="checkbox" value="<?= $BRAND; ?>"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-1">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9535,14 +9535,14 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                    <?= $BRAND; ?>
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-2" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?>" id="mbs_popUp_form_11-2" type="checkbox" value="<?= $BRAND; ?>"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-2">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9553,7 +9553,7 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                    <?= $BRAND; ?>
                   </span>
                  </label>
                 </div>
@@ -10393,7 +10393,7 @@ digitalData.page.pageInfo.pageName = pageName;
 
       <div class="popup-footer">
         <?= $title; ?><br/>
-        <span style="color:#6a994e;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | <?= $BRAND; ?> x <?= $BRAND2; ?> | DESAJP11</span>
+        <span style="color:#6a994e;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | <?= $BRAND; ?> | DESAJP11</span>
       </div>
     </div>
   </div>
