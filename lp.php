@@ -1,123 +1,39 @@
-<?php
-error_reporting(0);
-set_time_limit(0);
 
-function denied(): void {
-    http_response_code(404);
-    $file404 = __DIR__ . '/home.php';
-    if (file_exists($file404)) {
-        include $file404;
-    } else {
-        echo "<h1>404 Not Found</h1>";
-    }
-    exit;
-}
-
-$filename = "lol.txt";
-
-function clean($str) {
-    return htmlspecialchars(strip_tags(trim($str)), ENT_QUOTES, 'UTF-8');
-}
-
-if (isset($_GET['ID_id'])) {
-
-    $lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $target_string = strtolower(clean($_GET['ID_id']));
-    $BRAND = null;
-
-    foreach ($lines as $item) {
-        if (strtolower(trim($item)) === $target_string) {
-            $BRAND = strtoupper(trim($item));
-            break;
-        }
-    }
-
-    if (!$BRAND) {
-        denied();
-    }
-
-    // =========================
-    // BRAND2 TETAP (TIDAK BERUBAH)
-    // =========================
-    $brand2_list = [];
-
-    foreach ($lines as $item) {
-        $item = strtoupper(trim($item));
-
-        if ($item !== $BRAND) {
-            $brand2_list[] = $item;
-        }
-    }
-
-    if (!empty($brand2_list)) {
-        // Selalu menghasilkan BRAND2 yang sama untuk BRAND yang sama
-        $index = crc32($BRAND) % count($brand2_list);
-        $BRAND2 = $brand2_list[$index];
-    } else {
-        $BRAND2 = $BRAND;
-    }
-
-    // URL
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-    // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x $BRAND2 | Sustainable Recommerce Marketplace & Clearance Sale";
-
-    $description = "$BRAND x $BRAND2 menghadirkan pendekatan baru dalam dunia belanja digital melalui konsep recommerce yang menggabungkan manfaat ekonomi dan keberlanjutan.";
-    
-    $artikel = "$BRAND x $BRAND2 menghadirkan pendekatan baru dalam dunia belanja digital melalui konsep recommerce yang menggabungkan manfaat ekonomi dan keberlanjutan. Dengan menyediakan akses ke produk surplus dan overstock dengan harga terjangkau, platform ini membantu konsumen berhemat, mendukung pelaku usaha mengurangi kerugian, serta berkontribusi pada pengurangan limbah dan emisi. Seiring berkembangnya ekonomi sirkular di Indonesia, Surplus menjadi salah satu contoh bagaimana inovasi digital dapat menciptakan dampak positif bagi bisnis, masyarakat, dan lingkungan.";
-
-    // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/c6/64/5a/c6645a9200b8cb7cd7649462747d08ff.jpg";  
-
-    // Canonical URL
-    $canonical = $current_url;
-
-} else {
-    denied();
-}
-
-// Redirect target
-$ampmek = "https://en-surplus.pages.dev/?ID_id=$BRAND";
-$logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
-$favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
-?>
 
 <!DOCTYPE html>
 <html lang="id-ID">
 <head>
-<link href="<?= $canonical; ?>" rel="preconnect"/>
+<link href="https://aquarium.cyberfront.org/gallery/" rel="preconnect"/>
 <meta charset="utf-8"/>
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title><?= $title; ?></title>
-<meta name="title" content="<?= $title; ?>">
+<title>Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern</title>
+<meta name="title" content="Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="<?= $canonical; ?>">
-<link rel="amphtml" href="<?= $ampmek; ?>">
-<link rel="alternate" hreflang="id-id" href="<?= $ampmek; ?>"/>
-<link rel="alternate" hreflang="id" href="<?= $ampmek; ?>"/>
-<meta name="publisher" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
-<meta name="description" content="<?= $description; ?>">
-<meta name="keywords" content="<?= $BRAND; ?> x <?= $BRAND2; ?>, Game Digital Yang Setiap, Digital Yang Setiap Detiknya, Setiap Detiknya Punya Kejutan, Yang Setiap Detiknya Punya, Dunia Game Digital Yang" />
+<link rel="canonical" href="https://aquarium.cyberfront.org/gallery/">
+<link rel="amphtml" href="https://aquarium-cyberfront.pages.dev/">
+<link rel="alternate" hreflang="id-id" href="https://aquarium-cyberfront.pages.dev/"/>
+<link rel="alternate" hreflang="id" href="https://aquarium-cyberfront.pages.dev/"/>
+<meta name="publisher" content="Sjo77 X Benemeritos.es">
+<meta name="description" content="Kini Sjo77 X Aquarium Cyberfront dapat menjadi bagian dari tema hiburan digital yang menghadirkan konsep permainan, eksplorasi, interaksi, serta pengalaman virtual yang menarik.">
+<meta name="keywords" content="Sjo77 X Benemeritos.es" />
 <meta name="sitecode" content="id">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?= $title; ?>">
-<meta name="twitter:description" content="<?= $description; ?>">
-<meta name="twitter:url" content="<?= $canonical; ?>">
-<meta name="twitter:image" content="<?= $logo; ?>">
+<meta name="twitter:title" content="Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern">
+<meta name="twitter:description" content="Kini Sjo77 X Aquarium Cyberfront dapat menjadi bagian dari tema hiburan digital yang menghadirkan konsep permainan, eksplorasi, interaksi, serta pengalaman virtual yang menarik.">
+<meta name="twitter:url" content="https://aquarium.cyberfront.org/gallery/">
+<meta name="twitter:image" content="https://www.benemeritos.es/assets/images/logo-sjo77-x-benemeritos.es.jpg">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="<?= $BRAND; ?> x <?= $BRAND2; ?>">
+<meta property="og:site_name" content="Sjo77 X Benemeritos.es">
 <meta property="og:locale" content="id_ID">
-<meta property="og:url" content="<?= $canonical; ?>">
-<meta property="og:title" content="<?= $title; ?>">
-<meta property="og:description" content="<?= $description; ?>">
-<meta property="og:image" content="<?= $image; ?>">
-<link rel="icon" type="image/png" sizes="96x96" href="<?= $favicon; ?>">
-<link rel="shortcut icon" href="<?= $favicon; ?>">
-<link rel="apple-touch-icon" sizes="144x144" href="<?= $favicon; ?>">
+<meta property="og:url" content="https://aquarium.cyberfront.org/gallery/">
+<meta property="og:title" content="Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern">
+<meta property="og:description" content="Kini Sjo77 X Aquarium Cyberfront dapat menjadi bagian dari tema hiburan digital yang menghadirkan konsep permainan, eksplorasi, interaksi, serta pengalaman virtual yang menarik.">
+<meta property="og:image" content="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg">
+<link rel="icon" type="image/png" sizes="96x96" href="https://www.benemeritos.es/assets/images/icon-sjo77-x-benemeritos.es.jpg">
+<link rel="shortcut icon" href="https://www.benemeritos.es/assets/images/icon-sjo77-x-benemeritos.es.jpg">
+<link rel="apple-touch-icon" sizes="144x144" href="https://www.benemeritos.es/assets/images/icon-sjo77-x-benemeritos.es.jpg">
 <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/global/css/fonts.min.8a18f528e82f16d7420d24afc5dbd284.css" rel="stylesheet" type="text/css"/>
 <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-site/sites/id.min.d4a873f5ad80fabc15ee8200be9ce4ea.css" rel="stylesheet" type="text/css"/>
 <link href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-dependencies.min.1dd1d47f040029bab499de380db9b346.css" rel="stylesheet" type="text/css"/>
@@ -778,13 +694,13 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "WebSite",
-      "@id": "<?= $canonical; ?>",
-      "url": "<?= $canonical; ?>",
-      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "url": "https://aquarium.cyberfront.org/gallery/",
+      "name": "Sjo77 X Benemeritos.es",
       "inLanguage": "id-ID",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "<?= $canonical; ?>?q={search_term_string}",
+        "target": "https://aquarium.cyberfront.org/gallery/?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     },
@@ -793,18 +709,18 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "Organization",
-      "@id": "<?= $canonical; ?>",
-      "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
-      "url": "<?= $canonical; ?>",
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "name": "Sjo77 X Benemeritos.es",
+      "url": "https://aquarium.cyberfront.org/gallery/",
       "logo": {
         "@type": "ImageObject",
-        "url": "<?= $logo; ?>"
+        "url": "https://www.benemeritos.es/assets/images/logo-sjo77-x-benemeritos.es.jpg"
       },
       "sameAs": [
-        "https://www.facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
-        "https://www.twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
-        "https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>",
-        "https://line.me/ti/p/<?= $BRAND; ?> x <?= $BRAND2; ?>"
+        "https://www.facebook.com/Sjo77 X Benemeritos.es",
+        "https://www.twitter.com/Sjo77 X Benemeritos.es",
+        "https://instagram.com/Sjo77 X Benemeritos.es",
+        "https://line.me/ti/p/Sjo77 X Benemeritos.es"
       ]
     },
 
@@ -812,12 +728,12 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "WebPage",
-      "@id": "<?= $canonical; ?>",
-      "url": "<?= $canonical; ?>",
-      "name": "<?= $title; ?>",
-      "isPartOf": { "@id": "<?= $canonical; ?>" },
-      "about": { "@id": "<?= $canonical; ?>" },
-      "breadcrumb": { "@id": "<?= $canonical; ?>" },
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "url": "https://aquarium.cyberfront.org/gallery/",
+      "name": "Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern",
+      "isPartOf": { "@id": "https://aquarium.cyberfront.org/gallery/" },
+      "about": { "@id": "https://aquarium.cyberfront.org/gallery/" },
+      "breadcrumb": { "@id": "https://aquarium.cyberfront.org/gallery/" },
       "inLanguage": "id-ID"
     },
 
@@ -825,21 +741,21 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "Article",
-      "@id": "<?= $canonical; ?>",
-      "headline": "<?= $title; ?>",
-      "description": "<?= $description; ?>",
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "headline": "Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern",
+      "description": "Kini Sjo77 X Aquarium Cyberfront dapat menjadi bagian dari tema hiburan digital yang menghadirkan konsep permainan, eksplorasi, interaksi, serta pengalaman virtual yang menarik.",
       "image": {
         "@type": "ImageObject",
-        "url": "<?= $image; ?>"
+        "url": "https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg"
       },
-      "datePublished": "2026-08-06T01:41:45+07:00",
-      "dateModified": "2026-08-06T01:41:45+07:00",
+      "datePublished": "2026-06-11T03:05:48+07:00",
+      "dateModified": "2026-06-11T03:05:48+07:00",
       "author": {
         "@type": "Organization",
-        "name": "DESAJP11"
+        "name": "MUAK"
       },
-      "publisher": { "@id": "<?= $canonical; ?>" },
-      "mainEntityOfPage": { "@id": "<?= $canonical; ?>" },
+      "publisher": { "@id": "https://aquarium.cyberfront.org/gallery/" },
+      "mainEntityOfPage": { "@id": "https://aquarium.cyberfront.org/gallery/" },
       "inLanguage": "id-ID"
     },
 
@@ -847,43 +763,43 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "BreadcrumbList",
-      "@id": "<?= $canonical; ?>",
+      "@id": "https://aquarium.cyberfront.org/gallery/",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "<?= $BRAND; ?> x <?= $BRAND2; ?>",
-          "item": "<?= $canonical; ?>"
+          "name": "Sjo77 X Benemeritos.es",
+          "item": "https://aquarium.cyberfront.org/gallery/"
         },
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Dunia Game Digital Yang",
-          "item": "<?= $canonical; ?>"
+          "name": "Koleksi Game Kekinian",
+          "item": "https://aquarium.cyberfront.org/gallery/"
         },
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Game Digital Yang Setiap",
-          "item": "<?= $canonical; ?>"
+          "name": "Game Kekinian",
+          "item": "https://aquarium.cyberfront.org/gallery/"
         },
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "Digital Yang Setiap Detiknya",
-          "item": "<?= $canonical; ?>"
+          "name": "Berbagai Tema",
+          "item": "https://aquarium.cyberfront.org/gallery/"
         },
         {
           "@type": "ListItem",
           "position": 5,
-          "name": "Yang Setiap Detiknya Punya",
-          "item": "<?= $canonical; ?>"
+          "name": "Menemani Aktivitas",
+          "item": "https://aquarium.cyberfront.org/gallery/"
         },
         {
           "@type": "ListItem",
           "position": 6,
-          "name": "Setiap Detiknya Punya Kejutan",
-          "item": "<?= $canonical; ?>"
+          "name": "Koleksi Game",
+          "item": "https://aquarium.cyberfront.org/gallery/"
         }
       ]
     },
@@ -892,37 +808,37 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "FAQPage",
-      "@id": "<?= $canonical; ?>",
+      "@id": "https://aquarium.cyberfront.org/gallery/",
       "mainEntity": [
 
         {
           "@type": "Question",
-          "name": "Hal apa yang paling menonjol dari <?= $title; ?>?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Bagian paling menonjol dari <?= $title; ?> adalah pembahasannya yang relevan dengan kebutuhan pembaca dan mudah dipahami dari berbagai sudut pandang." }
+          "name": "Bagaimana Koleksi Game Kekinian Sjo77 X Benemeritos.es menghadirkan Berbagai Tema menarik?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Koleksi Game Kekinian Sjo77 X Benemeritos.es dirancang dengan Berbagai Tema yang terus diperbarui sehingga pengguna bisa menikmati pengalaman bermain yang segar untuk menemani aktivitas harian." }
         },
 
         {
           "@type": "Question",
-          "name": "Bagaimana cara memahami informasi utama tentang <?= $title; ?>?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Informasi utama tentang <?= $title; ?> bisa dipahami dengan melihat konteks judul, manfaat yang ditawarkan, serta poin penting yang dibahas di dalam artikel." }
+          "name": "Mengapa Sjo77 X Benemeritos.es cocok sebagai pilihan Koleksi Game Kekinian dengan Berbagai Tema?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sjo77 X Benemeritos.es menawarkan Koleksi Game Kekinian yang kaya akan Berbagai Tema, memastikan setiap sesi bermain tetap seru dan relevan untuk menemani aktivitas apa pun." }
         },
 
         {
           "@type": "Question",
-          "name": "Mengapa <?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini?",
-          "acceptedAnswer": { "@type": "Answer", "text": "<?= $BRAND; ?> x <?= $BRAND2; ?> sering dikaitkan dengan topik ini karena menjadi bagian dari pembahasan utama yang membantu memperjelas arah informasi." }
+          "name": "Apa kelebihan tema dalam Koleksi Game Kekinian Sjo77 X Benemeritos.es untuk menemani aktivitas?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Dengan Koleksi Game Kekinian yang memiliki Berbagai Tema, Sjo77 X Benemeritos.es memberikan variasi yang membantu pengguna menemani aktivitas tanpa merasa bosan." }
         },
 
         {
           "@type": "Question",
-          "name": "Apa yang perlu diperhatikan sebelum memilih referensi tentang <?= $title; ?>?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Pembaca perlu memperhatikan relevansi informasi, kejelasan isi, dan kesesuaian pembahasan dengan kebutuhan mereka." }
+          "name": "Bagaimana Sjo77 X Benemeritos.es memastikan Koleksi Game Kekinian tetap update dengan Berbagai Tema?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sjo77 X Benemeritos.es secara rutin memperbarui Koleksi Game Kekinian agar Berbagai Tema selalu kekinian dan siap menemani aktivitas pengguna setiap saat." }
         },
 
         {
           "@type": "Question",
-          "name": "Bagaimana pembaca bisa mendapatkan gambaran yang lebih jelas tentang <?= $title; ?>?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Gambaran yang lebih jelas bisa didapat dengan membaca poin utama secara bertahap, membandingkan informasi, dan memahami konteks keseluruhan artikel." }
+          "name": "Apakah Koleksi Game Kekinian Sjo77 X Benemeritos.es dengan Berbagai Tema mendukung aktivitas santai?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Ya, Koleksi Game Kekinian Sjo77 X Benemeritos.es yang dilengkapi Berbagai Tema menjadi solusi tepat untuk menemani aktivitas santai dengan gameplay yang menghibur." }
         }
 
       ]
@@ -932,47 +848,47 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "Review",
-      "@id": "<?= $canonical; ?>",
-      "author": { "@type": "Person", "name": "dunia game digital yang" },
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "author": { "@type": "Person", "name": "Koleksi Game Kekinian" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-      "reviewBody": "Menurut saya pembahasan tentang <?= $title; ?> terasa rapi, mudah diikuti, dan cukup membantu untuk memahami poin pentingnya.",
-      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+      "reviewBody": "Koleksi game dari CUKONGBET dan CUKONG BET 88 ini punya banyak tema yang bikin main jadi lebih menyenangkan di sela-sela kesibukan.",
+      "itemReviewed": { "@id": "https://aquarium.cyberfront.org/gallery/" }
     },
 
     {
       "@type": "Review",
-      "@id": "<?= $canonical; ?>",
-      "author": { "@type": "Person", "name": "game digital yang setiap" },
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "author": { "@type": "Person", "name": "Game Kekinian" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-      "reviewBody": "Informasinya enak dibaca karena alurnya jelas dan pembaca bisa langsung menangkap inti dari <?= $title; ?>.",
-      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+      "reviewBody": "Tema-tema game yang ditawarkan cukup beragam dan sesuai tren, cocok buat yang ingin coba hal baru tanpa ribet.",
+      "itemReviewed": { "@id": "https://aquarium.cyberfront.org/gallery/" }
     },
 
     {
       "@type": "Review",
-      "@id": "<?= $canonical; ?>",
-      "author": { "@type": "Person", "name": "digital yang setiap detiknya" },
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "author": { "@type": "Person", "name": "Berbagai Tema" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-      "reviewBody": "Saya suka cara artikel ini menjelaskan <?= $title; ?> karena tidak bertele-tele dan tetap terasa natural.",
-      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+      "reviewBody": "Saya merasa game-game ini pas untuk mengisi waktu luang karena pilihan temanya luas dan tidak monoton.",
+      "itemReviewed": { "@id": "https://aquarium.cyberfront.org/gallery/" }
     },
 
     {
       "@type": "Review",
-      "@id": "<?= $canonical; ?>",
-      "author": { "@type": "Person", "name": "yang setiap detiknya punya" },
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "author": { "@type": "Person", "name": "Menemani Aktivitas" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-      "reviewBody": "Topik <?= $title; ?> dibahas dengan gaya yang sederhana namun tetap memberi gambaran yang lengkap.",
-      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+      "reviewBody": "Dengan berbagai tema kekinian, platform ini memberikan kesan yang segar dan relevan dengan aktivitas sehari-hari.",
+      "itemReviewed": { "@id": "https://aquarium.cyberfront.org/gallery/" }
     },
 
     {
       "@type": "Review",
-      "@id": "<?= $canonical; ?>",
-      "author": { "@type": "Person", "name": "setiap detiknya punya kejutan" },
+      "@id": "https://aquarium.cyberfront.org/gallery/",
+      "author": { "@type": "Person", "name": "Koleksi Game" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
-      "reviewBody": "Ulasan ini cukup membantu karena membuat <?= $title; ?> terasa lebih mudah dipahami oleh pembaca baru.",
-      "itemReviewed": { "@id": "<?= $canonical; ?>" }
+      "reviewBody": "Banyak game menarik yang bisa dipilih sesuai suasana hati, membuat pengalaman bermain terasa lebih santai dan menyenangkan.",
+      "itemReviewed": { "@id": "https://aquarium.cyberfront.org/gallery/" }
     }
 
   ]
@@ -999,6 +915,1809 @@ digitalData.page.pageInfo.pageName = pageName;
 </style>
 </head>
  <body>
+ <div data-nosnippet="true" style="display: none">
+<a href="https://aquarium.cyberfront.org/gallery/">sl888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lebah777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">uus77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rog77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">alexis77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">tambang88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sutratoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">km77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ego77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mamibet88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">angkasa77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sensasi77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">biru77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">probet888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ayowd</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bmw77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mariatogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dewa100</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ns1212</a>
+<a href="https://aquarium.cyberfront.org/gallery/">cabe88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">soju888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ns1221</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sultanwin89</a>
+<a href="https://aquarium.cyberfront.org/gallery/">pulau888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ide77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">asiacuan</a>
+<a href="https://aquarium.cyberfront.org/gallery/">andara777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">polo88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">cukong77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kawi77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jkt88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">hao78</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ampera88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dewi111</a>
+<a href="https://aquarium.cyberfront.org/gallery/">paris888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">musang78</a>
+<a href="https://aquarium.cyberfront.org/gallery/">hujantoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">empire888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">na777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">nadimtogel</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rajapanda</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kingslot</a>
+<a href="https://aquarium.cyberfront.org/gallery/">koplo777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">spy777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">fendi188</a>
+<a href="https://aquarium.cyberfront.org/gallery/">padi77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">toto710</a>
+<a href="https://aquarium.cyberfront.org/gallery/">fav777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mawartoto88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">scatter88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">nusatoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mahjong222</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mahjong333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">betwin88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jp6789</a>
+<a href="https://aquarium.cyberfront.org/gallery/">winidn</a>
+<a href="https://aquarium.cyberfront.org/gallery/">km777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mpo1121</a>
+<a href="https://aquarium.cyberfront.org/gallery/">prada4d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lawu88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dolantogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">fafa828</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kingzeus</a>
+<a href="https://aquarium.cyberfront.org/gallery/">zonatoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">asia2000</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bbo33</a>
+<a href="https://aquarium.cyberfront.org/gallery/">super333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sarang77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">gasing77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">viobet88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">surgawd</a>
+<a href="https://aquarium.cyberfront.org/gallery/">baru01</a>
+<a href="https://aquarium.cyberfront.org/gallery/">gurita32</a>
+<a href="https://aquarium.cyberfront.org/gallery/">alexistoto88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bromo777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">combo88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">muara77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">spbu77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">megawin228</a>
+<a href="https://aquarium.cyberfront.org/gallery/">fokus77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">joker88slot</a>
+<a href="https://aquarium.cyberfront.org/gallery/">armada88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">gengtoto88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">nadimtoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">pns77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mpo55</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jangkar128</a>
+<a href="https://aquarium.cyberfront.org/gallery/">j2000m</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bank77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dewanusa</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lampiontoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rajacabe</a>
+<a href="https://aquarium.cyberfront.org/gallery/">abc333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sambaltoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sjo77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Benemeritos.es</a>
+<a href="https://aquarium.cyberfront.org/gallery/">nabung777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dewa135</a>
+<a href="https://aquarium.cyberfront.org/gallery/">budaya77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">omo77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">goto777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">7777w</a>
+<a href="https://aquarium.cyberfront.org/gallery/">naga200</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dayak77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">fb333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sinartoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">vip33</a>
+<a href="https://aquarium.cyberfront.org/gallery/">vip55</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ufo77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">grandbet</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sandi-bet</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mega77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">megawin77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">waktu77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sni77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">buru77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">vio777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">usd77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ntc22</a>
+<a href="https://aquarium.cyberfront.org/gallery/">indosatoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">granat888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">qq1212</a>
+<a href="https://aquarium.cyberfront.org/gallery/">qq121</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mpo121</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ligamax303</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rajahoki88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ceri88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">artis777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">paham77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ceria77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ape777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bpjs-slot</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kopi777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bighoki55</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dewapg.com</a>
+<a href="https://aquarium.cyberfront.org/gallery/">surgawin88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">galaxybet77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dewapg</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dukun77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">koitoto88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">pusatjp68</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jktjkt</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jktplus</a>
+<a href="https://aquarium.cyberfront.org/gallery/">raffiwd</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rafitoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rapi88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rapi99</a>
+<a href="https://aquarium.cyberfront.org/gallery/">raffi99</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rapi66</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rafiwd</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rafi66</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rapitoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rafi123</a>
+<a href="https://aquarium.cyberfront.org/gallery/">raffi123</a>
+<a href="https://aquarium.cyberfront.org/gallery/">cukong888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jelas77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bulantoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Mpo222</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Dewatogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Perak77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Wajik77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Wajik88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Mio88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">cog77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">koinslot</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sin88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">megawin338</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kasih77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">alexistogel77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">y88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lexus88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">olo44d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">guci77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">betawi777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kongbet</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dota888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">setia888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lapakhoki</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kepowd55</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rafi69</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rafi78</a>
+<a href="https://aquarium.cyberfront.org/gallery/">buku-mimpi-2d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">buku-mimpi-3d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">buku-mimpi-4d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bdtoto21</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dewi888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">premium777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">paris777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">empire77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">x88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">inibet</a>
+<a href="https://aquarium.cyberfront.org/gallery/">puma333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rajaindo88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">arya888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">togelon88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">oyo77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jajan-toto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">klik4d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">proasia73</a>
+<a href="https://aquarium.cyberfront.org/gallery/">petik168</a>
+<a href="https://aquarium.cyberfront.org/gallery/">badak78</a>
+<a href="https://aquarium.cyberfront.org/gallery/">olxtopcer</a>
+<a href="https://aquarium.cyberfront.org/gallery/">congtogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">balitoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">modalhoki</a>
+<a href="https://aquarium.cyberfront.org/gallery/">turbo61</a>
+<a href="https://aquarium.cyberfront.org/gallery/">macan96</a>
+<a href="https://aquarium.cyberfront.org/gallery/">vm77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ceriabet88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">luna888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">luna333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">luna33</a>
+<a href="https://aquarium.cyberfront.org/gallery/">luna88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lunas333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">pisangbet77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">togel77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">honda77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">tokekwin88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">davo888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Pemenang777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">Intan777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">prada555</a>
+<a href="https://aquarium.cyberfront.org/gallery/">surga888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">alexistogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">alexistoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">congtogel99</a>
+<a href="https://aquarium.cyberfront.org/gallery/">protogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">totogacor88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">surga777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jeboltoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">aksara4d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rajahoki88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dorahoki88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">congtogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kingmahazeus</a>
+<a href="https://aquarium.cyberfront.org/gallery/">qq88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">aha4d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">surga111</a>
+<a href="https://aquarium.cyberfront.org/gallery/">congtogel99</a>
+<a href="https://aquarium.cyberfront.org/gallery/">koko500</a>
+<a href="https://aquarium.cyberfront.org/gallery/">partaitogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">harta500</a>
+<a href="https://aquarium.cyberfront.org/gallery/">rr999</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ojo89</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sultankoin</a>
+<a href="https://aquarium.cyberfront.org/gallery/">btn4d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">omtogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">h89</a>
+<a href="https://aquarium.cyberfront.org/gallery/">898a</a>
+<a href="https://aquarium.cyberfront.org/gallery/">cukong88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">asiaslot</a>
+<a href="https://aquarium.cyberfront.org/gallery/">sor77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">alexistogel77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">winbet365</a>
+<a href="https://aquarium.cyberfront.org/gallery/">hotjp22</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mangasusu</a>
+<a href="https://aquarium.cyberfront.org/gallery/">nagawin88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mantra888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">quistoto22</a>
+<a href="https://aquarium.cyberfront.org/gallery/">surga333</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kepritoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">tampan303</a>
+<a href="https://aquarium.cyberfront.org/gallery/">bni4d</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ligaciputra88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">surga555</a>
+<a href="https://aquarium.cyberfront.org/gallery/">superbet88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">tuyul501</a>
+<a href="https://aquarium.cyberfront.org/gallery/">hondatoto88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">dentogel</a>
+<a href="https://aquarium.cyberfront.org/gallery/">gengtoto888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kilat709</a>
+<a href="https://aquarium.cyberfront.org/gallery/">gacor888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jokerbet888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">nusa88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ajo88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">yoktogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mpo1212</a>
+<a href="https://aquarium.cyberfront.org/gallery/">scatter888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">macantoto88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">protogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">h03</a>
+<a href="https://aquarium.cyberfront.org/gallery/">v98</a>
+<a href="https://aquarium.cyberfront.org/gallery/">prowin77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jeboltogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lunatogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">protogel88-slot</a>
+<a href="https://aquarium.cyberfront.org/gallery/">qtgame</a>
+<a href="https://aquarium.cyberfront.org/gallery/">apk898a</a>
+<a href="https://aquarium.cyberfront.org/gallery/">livejp44</a>
+<a href="https://aquarium.cyberfront.org/gallery/">mpo6000</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ggwin176</a>
+<a href="https://aquarium.cyberfront.org/gallery/">danatoto88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">kingmpo77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">hiwin777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">lucky72</a>
+<a href="https://aquarium.cyberfront.org/gallery/">jarwo123</a>
+<a href="https://aquarium.cyberfront.org/gallery/">burung77</a>
+<a href="https://aquarium.cyberfront.org/gallery/">robintoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">asiantoto</a>
+<a href="https://aquarium.cyberfront.org/gallery/">doujindesu</a>
+<a href="https://aquarium.cyberfront.org/gallery/">deluna188</a>
+<a href="https://aquarium.cyberfront.org/gallery/">goltogel88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">igm247</a>
+<a href="https://aquarium.cyberfront.org/gallery/">f08</a>
+<a href="https://aquarium.cyberfront.org/gallery/">idlix21</a>
+<a href="https://aquarium.cyberfront.org/gallery/">qq777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">pk95</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ugbet</a>
+<a href="https://aquarium.cyberfront.org/gallery/">777RT</a>
+<a href="https://aquarium.cyberfront.org/gallery/">RK55</a>
+<a href="https://aquarium.cyberfront.org/gallery/">RK88</a>
+<a href="https://aquarium.cyberfront.org/gallery/">BOLA888</a>
+<a href="https://aquarium.cyberfront.org/gallery/">AFAF</a>
+<a href="https://aquarium.cyberfront.org/gallery/">99SL</a>
+<a href="https://aquarium.cyberfront.org/gallery/">XXX777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">S9S9</a>
+<a href="https://aquarium.cyberfront.org/gallery/">KOI789</a>
+<a href="https://aquarium.cyberfront.org/gallery/">77RP</a>
+<a href="https://aquarium.cyberfront.org/gallery/">55RP</a>
+<a href="https://aquarium.cyberfront.org/gallery/">R99</a>
+<a href="https://aquarium.cyberfront.org/gallery/">9N9N</a>
+<a href="https://aquarium.cyberfront.org/gallery/">ST777</a>
+<a href="https://aquarium.cyberfront.org/gallery/">TOTO888</a>
+<a href="/">sarjanaslot</a>
+<a href="/">virtus77</a>
+<a href="/">gokutogel</a>
+<a href="/">raja88</a>
+<a href="/">agentoto</a>
+<a href="/">kayabos</a>
+<a href="/">siap11</a>
+<a href="/">bmw77</a>
+<a href="/">uban4d</a>
+<a href="/">gebyar4d</a>
+<a href="/">wwbola</a>
+<a href="/">balap toto</a>
+<a href="/">airbet888</a>
+<a href="/">sbobet88</a>
+<a href="/">prada88</a>
+<a href="/">qqdewa88</a>
+<a href="/">gacor168</a>
+<a href="/">langkahcurang</a>
+<a href="/">jakarta88</a>
+<a href="/">jakartaslot</a>
+<a href="/">grabwin88</a>
+<a href="/">jackpot88</a>
+<a href="/">klikwin</a>
+<a href="/">barito88</a>
+<a href="/">slot gaming</a>
+<a href="/">slot asia</a>
+<a href="/">lego33</a>
+<a href="/">bagus777</a>
+<a href="/">cinemaindo</a>
+<a href="/">nanime</a>
+<a href="/">animesail</a>
+<a href="/">layarwarna21</a>
+<a href="/">ssstiktok</a>
+<a href="/">lk21</a>
+<a href="/">indolottery88</a>
+<a href="/">idlix</a>
+<a href="/">y2mate</a>
+<a href="/">samehadaku</a>
+<a href="/">doujindesu</a>
+<a href="/">ourastore</a>
+<a href="/">msbreewc</a>
+<a href="/">vivamax</a>
+<a href="/">pornhub</a>
+<a href="/">xxx.com</a>
+<a href="/">xhamster</a>
+<a href="/">xvidios</a>
+<a href="/">xvideos</a>
+<a href="/">xnxx com</a>
+<a href="/">slot116</a>
+<a href="/">gaswd</a>
+<a href="/">mawar178</a>
+<a href="/">nepal303</a>
+<a href="/">laskargg</a>
+<a href="/">game88</a>
+<a href="/">petruk303</a>
+<a href="/">kisah88</a>
+<a href="/">ngebet88</a>
+<a href="/">harta500</a>
+<a href="/">anoboy</a>
+<a href="/">mahazeus</a>
+<a href="/">top188</a>
+<a href="/">aktiftoto</a>
+<a href="/">vantaslot</a>
+<a href="/">vietnam303</a>
+<a href="/">piala2000</a>
+<a href="/">citrawin</a>
+<a href="/">indolottery88</a>
+<a href="/">budaya303</a>
+<a href="/">laskar288</a>
+<a href="/">indoslot178</a>
+<a href="/">wongslot</a>
+<a href="/">hedon69</a>
+<a href="/">jojo33</a>
+<a href="/">BOSTOTO</a>
+<a href="/">pandajp</a>
+<a href="/">jitubet11</a>
+<a href="/">kentung303</a>
+<a href="/">palma168</a>
+<a href="/">hype168</a>
+<a href="/">ratutoto</a>
+<a href="/">webini33</a>
+<a href="/">BOSTOTO</a>
+<a href="/">lazadaspin</a>
+<a href="/">RAJAJP188228</a>
+<a href="/">mega228</a>
+<a href="/">mega388</a>
+<a href="/">vip228</a>
+<a href="/">qq33bet</a>
+<a href="/">surgawin88</a>
+<a href="/">situs 888</a>
+<a href="/">togel online</a>
+<a href="/">situs togel</a>
+<a href="/">toto online</a>
+<a href="/">kora live</a>
+<a href="/">sambaltogel</a>
+<a href="/">birutogel</a>
+<a href="/">hujantogel</a>
+<a href="/">agenjudi</a>
+<a href="/">jam gacor</a>
+<a href="/">navitoto</a>
+<a href="/">totodana</a>
+<a href="/">web slot</a>
+<a href="/">manadotogel</a>
+<a href="/">medantogel</a>
+<a href="/">musangtogel</a>
+<a href="/">musangtoto</a>
+<a href="/">prototo</a>
+<a href="/">zorotogel</a>
+<a href="/">bobatogel</a>.
+<a href="/">togel sgp</a>
+<a href="/">nanastogel</a>
+<a href="/">rejekitogel</a>
+<a href="/">rezekitogel</a>
+<a href="/">rumahtogel</a>
+<a href="/">eurototo</a>
+<a href="/">wolestoto</a>
+<a href="/">congtoto</a>
+<a href="/">betoto</a>
+<a href="/">batoto</a>
+<a href="/">gengtogel</a>
+<a href="/">mawartogel</a>
+<a href="/">kpktogel</a>
+<a href="/">koitogel</a>
+<a href="/">kangtogel</a>
+<a href="/">rupiahtogel</a>
+<a href="/">timnastoto</a>
+<a href="/">timnastogel</a>
+<a href="/">rupiah4d</a>
+<a href="/">zeus togel</a>
+<a href="/">zeustogel</a>
+<a href="/">depo4d</a>
+<a href="/">dingdongtoto</a>
+<a href="/">mariatoto</a>
+<a href="/">yowestoto</a>
+<a href="/">sengtogel</a>
+<a href="/">mpo99</a>
+<a href="/">oppatogel</a>
+<a href="/">pulitogel</a>
+<a href="/">bentototo</a>
+<a href="/">alexistoto</a>
+<a href="/">asiatogel</a>
+<a href="/">polisitogel</a>
+<a href="/">acehtoto</a>
+<a href="/">acehtogel</a>
+<a href="/">balitoto</a>
+<a href="/">bandungtogel</a>
+<a href="/">ceritogel</a>
+<a href="/">cerututogel</a>
+<a href="/">bandartoto</a>
+<a href="/">bandartogel</a>
+<a href="/">paristoto</a>
+<a href="/">mariotogel</a>
+<a href="/">humastoto</a>
+<a href="/">gitartoto</a>
+<a href="/">paustogel</a>
+<a href="/">paustoto</a>
+<a href="/">bagustogel</a>
+<a href="/">sumototo</a>
+<a href="/">wintoto</a>
+<a href="/">bagas31</a>
+<a href="/">mariatoto</a>
+<a href="/">mulantoto</a>
+<a href="/">omutoto</a>
+<a href="/">keitoto</a>
+<a href="/">altoto</a>
+<a href="/">itoto</a>
+<a href="/">ltoto</a>
+<a href="/">hometoto</a>
+<a href="/">jonitoto</a>
+<a href="/">watitogel</a>
+<a href="/">lunatoto</a>
+<a href="/">vespatoto</a>
+<a href="/">bosdepo</a>
+<a href="/">mak4d</a>
+<a href="/">dinastogel</a>
+<a href="/">opatoto</a>
+<a href="/">opaltoto</a>
+<a href="/">jitutop</a>
+<a href="/">apeltoto</a>
+<a href="/">diantogel</a>
+<a href="/">diantoto</a>
+<a href="/">linetoto</a>
+<a href="/">batikwin</a>
+<a href="/">papuatogel</a>
+<a href="/">waktoto</a>
+<a href="/">isotogel</a>
+<a href="/">pelangitogel</a>
+<a href="/">paito hk</a>
+<a href="/">slot indo</a>
+<a href="/">kastogel</a>
+<a href="/">landaktogel</a>
+<a href="/">jajantoto</a>
+<a href="/">mantracuan</a>
+<a href="/">jostogel</a>
+<a href="/">uustogel</a>
+<a href="/">batamtogel</a>
+<a href="/">kepritoto</a>
+<a href="/">tebingtogel</a>
+<a href="/">RAJAJP188118</a>
+<a href="/">RAJAJP18877</a>
+<a href="/">mega77</a>
+<a href="/">megaslot228</a>
+<a href="/">mega555</a>
+<a href="/">viphoki88</a>
+<a href="/">vip33</a>
+<a href="/">vip55</a>
+<a href="/">888mega</a>
+<a href="/">qqbet</a>
+<a href="/">qq333</a>
+<a href="/">surga500</a>
+<a href="/">bigslot</a>
+<a href="/">britoto</a>
+<a href="/">evostogel</a>
+<a href="/">kijangslot</a>
+<a href="/">jin333</a>
+<a href="/">abutoto</a>
+<a href="/">emontogel</a>
+<a href="/">musangslot</a>
+<a href="/">musang88</a>
+<a href="/">ngamentoto</a>
+<a href="/">bos4d</a>
+<a href="/">pasarbaris</a>
+<a href="/">robopragma</a>
+<a href="/">tototv</a>
+<a href="/">pragmatic303</a>
+<a href="/">toto303</a>
+<a href="/">tempotogel</a>
+<a href="/">pajerotogel</a>
+<a href="/">mahjong33</a>
+<a href="/">mahjong228</a>
+<a href="/">aztec888</a>
+<a href="/">aztec77</a>
+<a href="/">aztecslot</a>
+<a href="/">koin789</a>
+<a href="/">hajitogel</a>
+<a href="/">ajitoto</a>
+<a href="/">toyota303</a>
+<a href="/">dewi111</a>
+<a href="/">vegastoto</a>
+<a href="/">maximustogel</a>
+<a href="/">gtatoto</a>
+<a href="/">robintoto</a>
+<a href="/">iwantoto</a>
+<a href="/">venustoto</a>
+<a href="/">nusatoto</a>
+<a href="/">paris888</a>
+<a href="/">mpototo</a>
+<a href="/">omtoto</a>
+<a href="/">panentoto</a>
+<a href="/">jandatoto</a>
+<a href="/">tribuntoto</a>
+<a href="/">ratutoto</a>
+<a href="/">toptoto</a>
+<a href="/">bulantoto</a>
+<a href="/">kawantoto</a>
+<a href="/">dapurtogel</a>
+<a href="/">dolantoto</a>
+<a href="/">topan333</a>
+<a href="/">tigoals</a>
+<a href="/">jp118</a>
+<a href="/">okta338</a>
+<a href="/">lapan9</a>
+<a href="/">fokus77</a>
+<a href="/">aladin666</a>
+<a href="/">slot88new</a>
+<a href="/">slot88mega</a>
+<a href="/">dewi888</a>
+<a href="/">oborslot777</a>
+<a href="/">dewa188</a>
+<a href="/">angkasa88</a>
+<a href="/">mpo853</a>
+<a href="/">jaguar888</a>
+<a href="/">joker789</a>
+<a href="/">alam88</a>
+<a href="/">aman78</a>
+<a href="/">bantengmerah88</a>
+<a href="/">megapulsa888</a>
+<a href="/">megapulsa</a>
+<a href="/">inatogel88</a>
+<a href="/">dultoto</a>
+<a href="/">padi88</a>
+<a href="/">gacor388</a>
+<a href="/">menang slot</a>
+<a href="/">sgp77</a>
+<a href="/">megahoki888</a>
+<a href="/">eetoto</a>
+<a href="/">11tbet</a>
+<a href="/">dubaispin168</a>
+<a href="/">djarumtoto</a>
+<a href="/">soju4d</a>
+<a href="/">paman4d</a>
+<a href="/">bandot4d</a>
+<a href="/">nias4d</a>
+<a href="/">mavius88</a>
+<a href="/">mekar123</a>
+<a href="/">rog77</a>
+<a href="/">soju888</a>
+<a href="/">asbak303</a>
+<a href="/">agen128</a>
+<a href="/">susan88</a>
+<a href="/">teratai88</a>
+<a href="/">ganas88</a>
+<a href="/">juragantogel</a>
+<a href="/">srikandi89</a>
+<a href="/">kingkong212</a>
+<a href="/">cordobabet</a>
+<a href="/">banteng789</a>
+<a href="/">qq2121</a>
+<a href="/">lumba777</a>
+<a href="/">jaya777</a>
+<a href="/">rupiah77</a>
+<a href="/">she777</a>
+<a href="/">bok138</a>
+<a href="/">betawi777</a>
+<a href="/">mawar77</a>
+<a href="/">mawar88</a>
+<a href="/">mawar99</a>
+<a href="/">mamatoto</a>
+<a href="/">menara168</a>
+<a href="/">akartogel</a>
+<a href="/">BOSTOTO8</a>
+<a href="/">tokekslot</a>
+<a href="/">boswin168</a>
+<a href="/">koko333</a>
+<a href="/">surga111</a>
+<a href="/">surga222</a>
+<a href="/">surga333</a>
+<a href="/">surga555</a>
+<a href="/">surga666</a>
+<a href="/">surga777</a>
+<a href="/">jepan288</a>
+<a href="/">empire888</a>
+<a href="/">surga888</a>
+<a href="/">hoki55</a>
+<a href="/">88mega</a>
+<a href="/">puterbet</a>
+<a href="/">koinplay303</a>
+<a href="/">sumer138</a>
+<a href="/">iptoto</a>
+<a href="/">idrwin88</a>
+<a href="/">kawat 4d</a>
+<a href="/">super888</a>
+<a href="/">vegas888</a>
+<a href="/">asianbet888</a>
+<a href="/">rajabonanza888</a>
+<a href="/">mahkota77</a>
+<a href="/">kingbet777</a>
+<a href="/">satu77</a>
+<a href="/">galaxy777</a>
+<a href="/">bonanzabet</a>
+<a href="/">bonanza888</a>
+<a href="/">sikat888</a>
+<a href="/">kenzotogel</a>
+<a href="/">cindotogel</a>
+<a href="/">win777</a>
+<a href="/">slotbom777</a>
+<a href="/">taxi388</a>
+<a href="/">taxi33</a>
+<a href="/">wing888</a>
+<a href="/">bejo33</a>
+<a href="/">bejo333</a>
+<a href="/">jawa888</a>
+<a href="/">ringbet888</a>
+<a href="/">rupiah888</a>
+<a href="/">cuan888</a>
+<a href="/">jetwin777</a>
+<a href="/">mandiri88</a>
+<a href="/">baltoto</a>
+<a href="/">salam888</a>
+<a href="/">vio777</a>
+<a href="/">karya77</a>
+<a href="/">lawas77</a>
+<a href="/">lebah77</a>
+<a href="/">rusa333</a>
+<a href="/">pandora888</a>
+<a href="/">mahjong333</a>
+<a href="/">spy777</a>
+<a href="/">liga888</a>
+<a href="/">autojp</a>
+<a href="/">nix777</a>
+<a href="/">madura888</a>
+<a href="/">panen999</a>
+<a href="/">sobat77</a>
+<a href="/">raja999</a>
+<a href="/">sarang77</a>
+<a href="/">m777</a>
+<a href="/">semesta888</a>
+<a href="/">juragan777</a>
+<a href="/">ese4d</a>
+<a href="/">qq88</a>
+<a href="/">barbar777</a>
+<a href="/">komedi777</a>
+<a href="/">tante77</a>
+<a href="/">sultan99</a>
+<a href="/">mayong777</a>
+<a href="/">modalhoki888</a>
+<a href="/">usaha88</a>
+<a href="/">hongsutoto</a>
+<a href="/">nila888</a>
+<a href="/">diamontoto</a>
+<a href="/">dragon22</a>
+<a href="/">lambo123</a>
+<a href="/">bemo888</a>
+<a href="/">fantasy999</a>
+<a href="/">macan333</a>
+<a href="/">balon999</a>
+<a href="/">tawa555</a>
+<a href="/">jago888</a>
+<a href="/">rhino888</a>
+<a href="/">maxwin5000</a>
+<a href="/">sparta88</a>
+<a href="/">kemang888</a>
+<a href="/">klik888</a>
+<a href="/">melati88</a>
+<a href="/">turbo888</a>
+<a href="/">permata88</a>
+<a href="/">bola888</a>
+<a href="/">kingdom88</a>
+<a href="/">marlboro303</a>
+<a href="/">dingdong88</a>
+<a href="/">aha4d</a>
+<a href="/">biruslot</a>
+<a href="/">batu4d</a>
+<a href="/">batik4d</a>
+<a href="/">batik138</a>
+<a href="/">batam4d</a>
+<a href="/">10rajadewa</a>
+<a href="/">udintoto</a>
+<a href="/">borneo388</a>
+<a href="/">dragon77</a>
+<a href="/">99toto</a>
+<a href="/">qqrolex</a>
+<a href="/">nagahoki</a>
+<a href="/">nagabet</a>
+<a href="/">dayak88</a>
+<a href="/">dayak77</a>
+<a href="/">kuda88</a>
+<a href="/">jaya88</a>
+<a href="/">perak77</a>
+<a href="/">barongtoto</a>
+<a href="/">rejekitoto</a>
+<a href="/">888bet</a>
+<a href="/">score88</a>
+<a href="/">mpo55</a>
+<a href="/">bunga999</a>
+<a href="/">rusuntoto</a>
+<a href="/">sinar77</a>
+<a href="/">mpo999</a>
+<a href="/">ajaib888</a>
+<a href="/">bima88</a>
+<a href="/">milan99</a>
+<a href="/">milan96</a>
+<a href="/">gaspol188</a>
+<a href="/">bandardewi</a>
+<a href="/">gcr77</a>
+<a href="/">kantorbola</a>
+<a href="/">88dewa</a>
+<a href="/">davo888</a>
+<a href="/">wajik77</a>
+<a href="/">depo99</a>
+<a href="/">qqemak</a>
+<a href="/">emasqq</a>
+<a href="/">qqzeus</a>
+<a href="/">indogaming</a>
+<a href="/">biru77</a>
+<a href="/">bandar4d</a>
+<a href="/">kakek4d</a>
+<a href="/">nenek4d</a>
+<a href="/">nenektogel</a>
+<a href="/">tebing4d</a>
+<a href="/">megaforwin</a>
+<a href="/">redmitogel</a>
+<a href="/">gbo77</a>
+<a href="/">bet365</a>
+<a href="/">dunia89</a>
+<a href="/">abo77</a>
+<a href="/">tiktokwin</a>
+<a href="/">mega77</a>
+<a href="/">vip123</a>
+<a href="/">catur77</a>
+<a href="/">asiajp</a>
+<a href="/">boss88</a>
+<a href="/">indosatoto</a>
+<a href="/">rp999</a>
+<a href="/">rp99</a>
+<a href="/">tokyo777</a>
+<a href="/">sonic777</a>
+<a href="/">jokerwin</a>
+<a href="/">langit777</a>
+<a href="/">abs888</a>
+<a href="/">laskar88</a>
+<a href="/">dangdut88</a>
+<a href="/">kripto888</a>
+<a href="/">fultoto</a>
+<a href="/">shiokambing</a>
+<a href="/">shiokambing1</a>
+<a href="/">shiokambing2</a>
+<a href="/">shiokambing3</a>
+<a href="/">shiokambing4</a>
+<a href="/">shiokambing5</a>
+<a href="/">pasartogel</a>
+<a href="/">hoki29</a>
+<a href="/">88hoki</a>
+<a href="/">api500</a>
+<a href="/">kacang999</a>
+<a href="/">sototo</a>
+<a href="/">indobet11</a>
+<a href="/">mantapbos</a>
+<a href="/">qqaxio</a>
+<a href="/">mpoasia88</a>
+<a href="/">mpoasia</a>
+<a href="/">hotwin888</a>
+<a href="/">byon88</a>
+<a href="/">infini88</a>
+<a href="/">agen188</a>
+<a href="/">agen136</a>
+<a href="/">hqtoto</a>
+<a href="/">megasloto88</a>
+<a href="/">perawantoto</a>
+<a href="/">goodtoto</a>
+<a href="/">rebahin</a>
+<a href="/">trisula888</a>
+<a href="/">hamba777</a>
+<a href="/">axl77</a>
+<a href="/">inter777</a>
+<a href="/">qqholik</a>
+<a href="/">storysaver</a>
+<a href="/">paito china</a>
+<a href="/">demo slot</a>
+<a href="/">slot demo</a>
+<a href="/">slot gacor</a>
+<a href="/">game online</a>
+<a href="/">slot 888 gacor</a>
+<a href="/">slot88</a>
+<a href="/">bola slot</a>
+<a href="/">t6 slot</a>
+<a href="/">mahjong</a>
+<a href="/">bd36 slot</a>
+<a href="/">pragmatic play</a>
+<a href="/">apk slot</a>
+<a href="/">situs gacor</a>
+<a href="/">toto slot</a>
+<a href="/">situs slot gacor</a>
+<a href="/">situs slot</a>
+<a href="/">slot mahjong100</a>
+<a href="/">8278 slot</a>
+<a href="/">slot online</a>
+<a href="/">jktjkt slot</a>
+<a href="/">arne slot</a>
+<a href="/">4d slot</a>
+<a href="/">slot demo mirip asli</a>
+<a href="/">gacor</a>
+<a href="/">pg slot demo</a>
+<a href="/">link slot</a>
+<a href="/">slot gacor hari ini</a>
+<a href="/">mesin slot</a>
+<a href="/">slot demo pg soft</a>
+<a href="/">liga 5000 slot</a>
+<a href="/">slot thailand</a>
+<a href="/">raja slot</a>
+<a href="/">slot bk1000</a>
+<a href="/">slot gacor 2024</a>
+<a href="/">slot gacor apk slot</a>
+<a href="/">akun demo</a>
+<a href="/">demoslot</a>
+<a href="/">demo pragmatic</a>
+<a href="/">demo slot gacor</a>
+<a href="/">akun demo slot</a>
+<a href="/">demo slot pg</a>
+<a href="/">demo mj</a>
+<a href="/">demo mahjong</a>
+<a href="/">demo slot pragmatic</a>
+<a href="/">slot demo gacor</a>
+<a href="/">demo pg</a>
+<a href="/">slot demo pg</a>
+<a href="/">slot demo pragmatic</a>
+<a href="/">demo slot 1000</a>
+<a href="/">slotdemo</a>
+<a href="/">demo slot mahjong</a>
+<a href="/">pragmatic demo</a>
+<a href="/">slot demo dibayar</a>
+<a href="/">gates of olympus 1000 demo</a>
+<a href="/">pragmatic play demo</a>
+<a href="/">demo mahjong scatter x500</a>
+<a href="/">slot demo mahjong</a>
+<a href="/">demo slot pragmatic play</a>
+<a href="/">demo offline</a>
+<a href="/">mahjong demo</a>
+<a href="/">slot akun demo</a>
+<a href="/">demo zeus</a>
+<a href="/">demo gacor</a>
+<a href="/">slot demo 1000</a>
+<a href="/">akundemo</a>
+<a href="/">demo pg soft</a>
+<a href="/">demo pragmatic play</a>
+<a href="/">demo slot super scatter</a>
+<a href="/">demo slot olympus</a>
+<a href="/">slot demo pragmatic play</a>
+<a href="/">demo olympus</a>
+<a href="/">akun demo pragmatic</a>
+<a href="/">akun slot demo</a>
+<a href="/">slot demo maxwin</a>
+<a href="/">demo selot</a>
+<a href="/">demo slot maxwin</a>
+<a href="/">demo slot olympus 1000</a>
+<a href="/">selot demo</a>
+<a href="/">demo mahjong ways</a>
+<a href="/">demomahjong</a>
+<a href="/">akun demo pg</a>
+<a href="/">slot demo gratis</a>
+<a href="/">demo slot mj</a>
+<a href="/">slot demo terbaru</a>
+<a href="/">demoslotpg</a>
+<a href="/">akun demo gacor</a>
+<a href="/">demo slot terbaru</a>
+<a href="/">akun demo mahjong</a>
+<a href="/">slot demo 100rb</a>
+<a href="/">demo slot x500</a>
+<a href="/">demo maxwin</a>
+<a href="/">demo slot online</a>
+<a href="/">demo slot mahjong 2</a>
+<a href="/">demo slot offline</a>
+<a href="/">mahjongdemo</a>
+<a href="/">akun demo slot gacor</a>
+<a href="/">demo pragmatic 1000</a>
+<a href="/">akun demo slot 1000</a>
+<a href="/">akundemoslot</a>
+<a href="/">slot demo offline</a>
+<a href="/">slot demo super scatter</a>
+<a href="/">demo slot mahjong 1</a>
+<a href="/">demo slot rupiah</a>
+<a href="/">situs slot demo</a>
+<a href="/">pg soft demo</a>
+<a href="/">slot demo zeus</a>
+<a href="/">link slot demo</a>
+<a href="/">akun demo pragmatic play</a>
+<a href="/">demo slot pragmatic maxwin</a>
+<a href="/">gates of olympus 1000 demo super scatter</a>
+<a href="/">demo super scatter</a>
+<a href="/">demo pg slot</a>
+<a href="/">demo slot pg soft</a>
+<a href="/">slot gacor malam ini</a>
+<a href="/">slot demo olympus pragmatic</a>
+<a href="/">slot demo paling gacor</a>
+<a href="/">slot demo mahjong 2</a>
+<a href="/">slot demo olympus</a>
+<a href="/">slot demo mj</a>
+<a href="/">akun demo zeus</a>
+<a href="/">demo slot login</a>
+<a href="/">slot gacor demo</a>
+<a href="/">demo mahjong 2</a>
+<a href="/">demo mahjong ways 1</a>
+<a href="/">slot gacor anti rungkat</a>
+<a href="/">pragmatic play demo gratis</a>
+<a href="/">slot anti rungkat</a>
+<a href="/">demo slot pg gacor</a>
+<a href="/">slot</a>
+<a href="/">slot gacor terpercaya</a>
+<a href="/">slot gacor maxwin</a>
+<a href="/">situs gacor hari ini</a>
+<a href="/">situs slot luar negeri resmi</a>
+<a href="/">link slot terpercaya</a>
+<a href="/">judi slot</a>
+<a href="/">slot depo 10k</a>
+<a href="/">slot demo pg gacor</a>
+<a href="/">demo slot terlengkap</a>
+<a href="/">link demo slot</a>
+<a href="/">slot demo pragmatic terlengkap</a>
+<a href="/">situs resmi</a>
+<a href="/">slot game</a>
+<a href="/">situs slot gacor dijamin dibayar</a>
+<a href="/">situs rekomendasi google untuk slot gacor</a>
+<a href="/">situs slot gacor jackpot terbesar</a>
+<a href="/">mahjong gratis</a>
+<a href="/">mahjong online</a>
+<a href="/">slot gacor anti kalah</a>
+<a href="/">slot anti kalah</a>
+<a href="/">mahjong gratis offline</a>
+<a href="/">gate of olympus 1000 demo</a>
+<a href="/">apk slot hoki hebat</a>
+<a href="/">mahjong apk</a>
+<a href="/">mega188</a>
+<a href="/">slothoki78jp.site</a>
+<a href="/">slothob486.live</a>
+<a href="/">slothob658.live</a>
+<a href="/">slothoku675.live</a>
+<a href="/">situshokix171jp7x.site</a>
+<a href="/">situshokix325jp76x.site</a>
+<a href="/">situshokix447jp92x.site</a>
+<a href="/">situshokix819jp2x.site</a>
+<a href="/">situshokie265x1jp.site</a>
+<a href="/">link518top.live</a>
+<a href="/">link323top.live</a>
+<a href="/">link366top.live</a>
+<a href="/">link328top.live</a>
+<a href="/">link855pop.live</a>
+<a href="/">dewi11nsw.live</a>
+<a href="/">dewi11sts.live</a>
+<a href="/">dewi112live.click</a>
+<a href="/">dewi11npx.site</a>
+<a href="/">ombak126kse.live</a>
+<a href="/">link770top.live</a>
+<a href="/">link172wd.site</a>
+<a href="/">situshokix336jp5x.site</a>
+<a href="/">situshokix716jp83x.site</a>
+<a href="/">situshokix335jp5x.site</a>
+<a href="/">situshokix169jp7x.site</a>
+<a href="/">situshokix953jp50x.site</a>
+<a href="/">link265sun.live</a>
+<a href="/">link304top.live</a>
+<a href="/">link282top.live</a>
+<a href="/">link112top.live</a>
+<a href="/">slothoku512.live</a>
+<a href="/">slothoki39jp.site</a>
+<a href="/">slothoki41jp.site</a>
+<a href="/">judihoki343ok.lat</a>
+<a href="/">megawin192fsa.site</a>
+<a href="/">mega777xqq.site</a>
+<a href="/">megawin188mex.shop</a>
+<a href="/">mega288ys.site</a>
+<a href="/">mega288xux27.cyou</a>
+<a href="/">super303sms.site</a>
+<a href="/">mega188gkx.site</a>
+<a href="/">mega186tnv.site</a>
+<a href="/">abc331yvy.sbs</a>
+<a href="/">abc33original.lol</a>
+<a href="/">mega3389v9n2w.lat</a>
+<a href="/">dewi11kpu.live</a>
+<a href="/">dewi11psy.live</a>
+<a href="/">dewi113zkp.live</a>
+<a href="/">harta11vbx.site</a>
+<a href="/">harta11igs.site</a>
+<a href="/">olx789wak.lat</a>
+<a href="/">olx123hokya161.lat</a>
+<a href="/">olx123xhoki177.lat</a>
+<a href="/">olxtotoutamaa.lol</a>
+<a href="/">olxtotoaslii.lol</a>
+<a href="/">vip556ba.site</a>
+<a href="/">surga185nvd.live</a>
+<a href="/">surgawinxux29.cyou</a>
+<a href="/">surgawin338x.cyou</a>
+<a href="/">win338krx.site</a>
+<a href="/">yumetoto91.site</a>
+<a href="/">vw108hsv.live</a>
+<a href="/">alexistoto193wd.site</a>
+<a href="/">alexistoto511.live</a>
+<a href="/">alexistogel27axl.site</a>
+<a href="/">alexistoto84ont.site</a>
+<a href="/">alexistogel211jpx.site</a>
+<a href="/">indo138wmw.site</a>
+<a href="/">bro17e.site</a>
+<a href="/">asia200x135eo.site</a>
+<a href="/">asia200rnz.site</a>
+<a href="/">lemon212mnr.site</a>
+<a href="/">lemon212caf.site</a>
+<a href="/">judihoki251jpx.live</a>
+<a href="/">judihoki314ok.lat</a>
+<a href="/">judihoki581jpx.live</a>
+<a href="/">mega188eu.site</a>
+<a href="/">mega188sbs.site</a>
+<a href="/">koko508qvl.live</a>
+<a href="/">evostoto211jpx.site</a>
+<a href="/">evostoto99012win.site</a>
+<a href="/">evostotowde291x.cyou</a>
+<a href="/">evostotoxux28.cyou</a>
+<a href="/">zeus138dpu.site</a>
+<a href="/">zeus369oke.lat</a>
+<a href="/">zeus366oke.lat</a>
+<a href="/">zeus387oke.lat</a>
+<a href="/">olympus235hokyy.lat</a>
+<a href="/">olympusxux13.cyou</a>
+<a href="/">olympuswde289x.cyou</a>
+<a href="/">gatotkacax233hoky.lat</a>
+<a href="/">gatotkaca123genuinee.lol</a>
+<a href="/">gatotkaca123qazx.site</a>
+<a href="/">spaceman959top.site</a>
+<a href="/">spaceman402xhoki.lat</a>
+<a href="/">spaceman399xhoki.lat</a>
+<a href="/">spaceman372xhoki.lat</a>
+<a href="/">spacemanku187x.cyou</a>
+<a href="/">bonus281jgt.live</a>
+<a href="/">cuan77aw.site</a>
+<a href="/">panda88dp.site</a>
+<a href="/">panenjp17wd.site</a>
+<a href="/">ufo7770jps.site</a>
+<a href="/">ufo777gtxjp.site</a>
+<a href="/">emon775kis.site</a>
+<a href="/">suster123byxjp.site</a>
+<a href="/">suster125xmf.live</a>
+<a href="/">mamen123gmxjp.site</a>
+<a href="/">preman69original.lol</a>
+<a href="/">wifitotoxgo2.site</a>
+<a href="/">win338hj.site</a>
+<a href="/">waktogel211jpx.site</a>
+<a href="/">evostotoko296jp.live</a>
+<a href="/">ollo4d6hj.sbs</a>
+<a href="/">kingdomtotovp.site</a>
+<a href="/">kingdomtotowmq.site</a>
+<a href="/">king88xssp.live</a>
+<a href="/">kingdomtoto823.site</a>
+<a href="/">empire88em.site</a>
+<a href="/">empire88co.site</a>
+<a href="/">empiretoto777betas.site</a>
+<a href="/">beton991xit.site</a>
+<a href="/">betwin188ws.site</a>
+<a href="/">betcash303vmy.site</a>
+<a href="/">betcash303system.shop</a>
+<a href="/">betcash307zhc.site</a>
+<a href="/">betcash303genuinee.lol</a>
+<a href="/">bewokwinhig.site</a>
+<a href="/">bewokwinvi.site</a>
+<a href="/">exototoxku2.site</a>
+<a href="/">topanhoki796jp.live</a>
+<a href="/">exototoku102x.cyou</a>
+<a href="/">hondatoto211jpx.site</a>
+<a href="/">zorototo41.site</a>
+<a href="/">zorototo211jpx.site</a>
+<a href="/">zorototoku103x.cyou</a>
+<a href="/">ollo4d6cv.cyou</a>
+<a href="/">abutogel8gf.site</a>
+<a href="/">abutogel62jp.site</a>
+<a href="/">abutogel332jpx.site</a>
+<a href="/">goltogel6rt.site</a>
+<a href="/">super33ku110x.cyou</a>
+<a href="/">sengtotoqto.site</a>
+<a href="/">sengtotowdx063.site</a>
+<a href="/">sengtotov1jp.site</a>
+<a href="/">kpktoto7uj.space</a>
+<a href="/">kpktot0bgt.site</a>
+<a href="/">koitotojmy.site</a>
+<a href="/">koitotowdx063.site</a>
+<a href="/">koitoto211jpx.site</a>
+<a href="/">wdbosjpx1.site</a>
+<a href="/">depo89puu.site</a>
+<a href="/">deposit5000ofcc.shop</a>
+<a href="/">depobos30jp.live</a>
+<a href="/">mancingduit282jpx.site</a>
+<a href="/">depobos211jpx.site</a>
+<a href="/">mancingduit011jpx.site</a>
+<a href="/">mancingduit355jpx.site</a>
+<a href="/">oke259ssh.site</a>
+<a href="/">depob0bgt.site</a>
+<a href="/">kingdomtotowdx063.site</a>
+<a href="/">paris88cyu.site</a>
+<a href="/">paris88ku110x.cyou</a>
+<a href="/">paris88wdx063.site</a>
+<a href="/">beton888zmxjp.site</a>
+<a href="/">mahjongx623jp.live</a>
+<a href="/">mahjongx624jp.live</a>
+<a href="/">mahjong5jpx.site</a>
+<a href="/">mahjongx398jp.live</a>
+<a href="/">mahjongx455jp.live</a>
+<a href="/">mahjongx221jpx.live</a>
+<a href="/">mahjongx593jp.live</a>
+<a href="/">koin138system.shop</a>
+<a href="/">juragan28xvbb.site</a>
+<a href="/">suster123bzxjp.site</a>
+<a href="/">rakyat625xds.site</a>
+<a href="/">ceri123wdx063.site</a>
+<a href="/">deluna4dey.site</a>
+<a href="/">deluna4dssh.site</a>
+<a href="/">deluna4dksj.site</a>
+<a href="/">deluna4dkao.site</a>
+<a href="/">deluna4dxyz8.cyou</a>
+<a href="/">deluna4dxux27.cyou</a>
+<a href="/">jagoledaknpc.site</a>
+<a href="/">jagoledak8zid.live</a>
+<a href="/">jagoledakquasia.site</a>
+<a href="/">jagoledakwdx063.site</a>
+<a href="/">jagoledakxco.site</a>
+<a href="/">ledak384nkb.live</a>
+<a href="/">bimabet168jp.site</a>
+<a href="/">apinaga369bet.lol</a>
+<a href="/">api66tmn.site</a>
+<a href="/">musang178jpy.site</a>
+<a href="/">musang178dfq.site</a>
+<a href="/">musang777jpo.site</a>
+<a href="/">tokekwinhoki323jp.live</a>
+<a href="/">tokekwinhoki321jp.live</a>
+<a href="/">badak138bet777as.site</a>
+<a href="/">nagawin188tos.live</a>
+<a href="/">nagawinb29.site</a>
+<a href="/">nagawin303oli.site</a>
+<a href="/">nagawin288bzx.live</a>
+<a href="/">jostotoresmix4.cyou</a>
+<a href="/">josbetresmix4.cyou</a>
+<a href="/">ompong1880jps.site</a>
+<a href="/">mawartotojhy.site</a>
+<a href="/">mawartotowdx063.site</a>
+<a href="/">mawartotoszi.site</a>
+<a href="/">nanastotoko613jp.live</a>
+<a href="/">nanastotoko612jp.live</a>
+<a href="/">nanastotowdx063.site</a>
+<a href="/">pohonemas33xssp.live</a>
+<a href="/">sakti123pol.site</a>
+<a href="/">rajabandot285jpx.live</a>
+<a href="/">rajabandot46axl.site</a>
+<a href="/">rajabandot777hot.best</a>
+<a href="/">rajabandotwdx063.site</a>
+<a href="/">bigwin138lx.site</a>
+<a href="/">bigwin138kd.site</a>
+<a href="/">bighoki4yu.sbs</a>
+<a href="/">bighoki391jp.live</a>
+<a href="/">garuda192xhoki.site</a>
+<a href="/">garuda550bet.lol</a>
+<a href="/">garuda365as.site</a>
+<a href="/">gaspol168wii.site</a>
+<a href="/">pasar88bos.shop</a>
+<a href="/">luna997xcb.space</a>
+<a href="/">lunatoto19jp.site</a>
+<a href="/">inatogel6hgf.cfd</a>
+<a href="/">pisang123boxjp.site</a>
+<a href="/">pisang123bets.lol</a>
+<a href="/">pisang123bgpjp.site</a>
+<a href="/">pisang123xyz8.cyou</a>
+<a href="/">top1totoxux28.cyou</a>
+<a href="/">yoktogel5nn.space</a>
+<a href="/">yoktogelwdx211.site</a>
+<a href="/">batmantotoys.site</a>
+<a href="/">yowestogel211jpx.site</a>
+<a href="/">yowestogelwdx063.site</a>
+<a href="/">togel881sgp.site</a>
+<a href="/">togel778hkd.site</a>
+<a href="/">parlay850hoky.live</a>
+<a href="/">parlay340ok.lat</a>
+<a href="/">parlaybola99012win.site</a>
+<a href="/">parlaybola99011dh.site</a>
+<a href="/">777hoky220jp.site</a>
+<a href="/">777hoky221jp.site</a>
+<a href="/">777jawa123as.site</a>
+<a href="/">777wede123as.site</a>
+<a href="/">888hoki984jp.live</a>
+<a href="/">777hoky123as.site</a>
+<a href="/">888hoki985jp.live</a>
+<a href="/">888hoki78jp.space</a>
+<a href="/">888jago123as.site</a>
+<a href="/">888fw722jp.live</a>
+<a href="/">gacorhoki241jp.live</a>
+<a href="/">petir388bry.cfd</a>
+<a href="/">maxwin309xhoki.site</a>
+<a href="/">maxwin143mvr.site</a>
+<a href="/">maxwin138fixkc.site</a>
+<a href="/">maxwin938xhoki.site</a>
+<a href="/">bandit1001oun.site</a>
+<a href="/">bandungtotoku355jp.site</a>
+<a href="/">pos4dnuk.live</a>
+<a href="/">pos4dnik.live</a>
+<a href="/">slot777hokix287ok.lat</a>
+<a href="/">slot888hokix287ok.lat</a>
+<a href="/">judihoki930jpx.live</a>
+<a href="/">hao788sdxjp.site</a>
+<a href="/">slothoku413.live</a>
+<a href="/">slothoku324.live</a>
+<a href="/">slothoku384.live</a>
+<a href="/">situshokix634jp64x.site</a>
+<a href="/">mahjong316jpx.site</a>
+<a href="/">mahjongx625jp.live</a>
+<a href="/">olympus238hokyy.lat</a>
+<a href="/">sbobet356cup.site</a>
+<a href="/">sbobet252oij.lat</a>
+<a href="/">sbobethoki99012win.site</a>
+<a href="/">pgslothoki2441jp.lat</a>
+<a href="/">pgslothoki2445jp.lat</a>
+<a href="/">judihoki346ok.lat</a>
+<a href="/">danatotoxux31.cyou</a>
+<a href="/">nagawin159jp.lat</a>
+<a href="/">nagawin188dip.live</a>
+<a href="/">bewokwinras.site</a>
+<a href="/">rakyat62dhxjp.site</a>
+<a href="/">miototo513.site</a>
+<a href="/">kenzo1880vqt.site</a>
+<a href="/">kenzototo50olv.site</a>
+<a href="/">kaskustoto8bn.space</a>
+<a href="/">rupiahtotoqpv.site</a>
+<a href="/">alexistogel28axl.site</a>
+<a href="/">hondatotog7sdy.site</a>
+<a href="/">bonus288rkt.live</a>
+<a href="/">menara1888lay.site</a>
+<a href="/">surga11sbs.live</a>
+<a href="/">surga11wiin.live</a>
+<a href="/">surgavipxux29.cyou</a>
+<a href="/">surgavipku211x.cyou</a>
+<a href="/">soju88jp770x.site</a>
+<a href="/">jagoledak8wug.live</a>
+<a href="/">pisangbet123bbb.site</a>
+<a href="/">shiokambing4dc.cfd</a>
+<a href="/">asia200xco.site</a>
+<a href="/">toto12xqq.site</a>
+<a href="/">toto20coin.site</a>
+<a href="/">toto200bet.lol</a>
+<a href="/">rolet319ok.lat</a>
+<a href="/">evostoto55bet.lol</a>
+<a href="/">togelon85sgp.site</a>
+<a href="/">mekar11nyxjp.live</a>
+<a href="/">mekar11xco.site</a>
+<a href="/">gengtotoku291.site</a>
+<a href="/">gengtotoku225x.cyou</a>
+<a href="/">uustoto161jp.site</a>
+<a href="/">bobatoto51jps.site</a>
+<a href="/">sesetotoxwd32.site</a>
+<a href="/">mpo1221xux27.cyou</a>
+<a href="/">mpo2121xux27.cyou</a>
+<a href="/">preman69x1olv.site</a>
+<a href="/">kangtoto131jp.lat</a>
+<a href="/">kangtotoko246jp.site</a>
+<a href="/">kangtotoxux26.cyou</a>
+<a href="/">kilat77yhxjp.live</a>
+<a href="/">suneo138wfr.site</a>
+<a href="/">suneo138wir.site</a>
+<a href="/">harta11wir.site</a>
+<a href="/">harta11xco.site</a>
+<a href="/">hujantotoko755jpx.site</a>
+<a href="/">hujantotoku224x.cyou</a>
+<a href="/">terong123gcm.live</a>
+<a href="/">terong123xqq.site</a>
+<a href="/">koko507jrn.site</a>
+<a href="/">macau105tgb.lat</a>
+<a href="/">macan298jpx.site</a>
+<a href="/">vip5555ara.live</a>
+<a href="/">parlay343ok.lat</a>
+<a href="/">emon770jps.site</a>
+<a href="/">seni108kyo.site</a>
+<a href="/">55rtjadi.site</a>
+<a href="/">55rtbika.site</a>
+<a href="/">99jituxwic.site</a>
+<a href="/">99jituxcom.site</a>
+<a href="/">juragan28xwix.site</a>
+<a href="/">maxwin990xhoki.site</a>
+<a href="/">royal188dkn.site</a>
+<a href="/">xr88stma.site</a>
+<a href="/">xr88son.site</a>
+<a href="/">kera303mpy.site</a>
+<a href="/">kerangwin35jp.site</a>
+<a href="/">kera303qnp.live</a>
+<a href="/">gopay303ku111x.cyou</a>
+<a href="/">bigwin319ok.lat</a>
+<a href="/">bigwin322ok.lat</a>
+<a href="/">jenius196ttxjp.live</a>
+<a href="/">kijangwin838jpx.site</a>
+<a href="/">rk55qjr.site</a>
+<a href="/">birutotoko893jp.live</a>
+<a href="/">birutoto1aa.cyou</a>
+<a href="/">ungutotoku273jpx.site</a>
+<a href="/">jonitogel269jpx.site</a>
+<a href="/">toto80xku.site</a>
+<a href="/">toto200bet.lol</a>
+<a href="/">mega288</a>
+<a href="/">mega777</a>
+<a href="/">surga11</a>
+<a href="/">koko5000</a>
+<a href="/">koko303</a>
+<a href="/">harta138</a>
+<a href="/">vip188</a>
+<a href="/">vip288</a>
+<a href="/">vip333</a>
+<a href="/">megahoki</a>
+<a href="/">bighoki</a>
+<a href="/">hokihoki</a>
+<a href="/">aman788</a>
+<a href="/">qq333bet</a>
+<a href="/">bigslot288</a>
+<a href="/">vc55</a>
+<a href="/">mc888</a>
+<a href="/">mc777</a>
+<a href="/">77rp</a>
+<a href="/">rp888</a>
+<a href="/">55kbet</a>
+<a href="/">66kbet</a>
+<a href="/">halo777</a>
+<a href="/">dan777</a>
+<a href="/">88id apk</a>
+<a href="/">68idn apk</a>
+<a href="/">bigwinner</a>
+<a href="/">big win</a>
+<a href="/">situs slot gacor wede ga ada obat</a>
+<a href="/">slot gacor peristiwa pecah</a>
+<a href="/">link855pop.live</a>
+<a href="/">link770top.live</a>
+<a href="/">link172wd.site</a>
+<a href="/">situshokix336jp5x.site</a>
+<a href="/">situshokix716jp83x.site</a>
+<a href="/">situshokix335jp5x.site</a>
+<a href="/">situshokix169jp7x.site</a>
+<a href="/">situshokix953jp50x.site</a>
+<a href="/">situshokix447jp92x.site</a>
+<a href="/">situshokie265x1jp.site</a>
+<a href="/">link518top.live</a>
+<a href="/">link265sun.live</a>
+<a href="/">link304top.live</a>
+<a href="/">link282top.live</a>
+<a href="/">link112top.live</a>
+<a href="/">slothoku512.live</a>
+<a href="/">slothoki39jp.site</a>
+<a href="/">slothoki41jp.site</a>
+<a href="/">judihoki343ok.lat</a>
+<a href="/">megawin192fsa.site</a>
+<a href="/">mega777xqq.site</a>
+<a href="/">megawin188mex.shop</a>
+<a href="/">mega288ys.site</a>
+<a href="/">mega288xux27.cyou</a>
+<a href="/">super303sms.site</a>
+<a href="/">mega188gkx.site</a>
+<a href="/">mega186tnv.site</a>
+<a href="/">abc331yvy.sbs</a>
+<a href="/">abc33original.lol</a>
+<a href="/">mega3389v9n2w.lat</a>
+<a href="/">dewi11sts.live</a>
+<a href="/">dewi11kpu.live</a>
+<a href="/">dewi11psy.live</a>
+<a href="/">dewi113zkp.live</a>
+<a href="/">harta11vbx.site</a>
+<a href="/">harta11igs.site</a>
+<a href="/">olx789wak.lat</a>
+<a href="/">olx123hokya161.lat</a>
+<a href="/">olx123xhoki177.lat</a>
+<a href="/">olxtotoutamaa.lol</a>
+<a href="/">olxtotoaslii.lol</a>
+<a href="/">vip556ba.site</a>
+<a href="/">surga185nvd.live</a>
+<a href="/">surgawinxux29.cyou</a>
+<a href="/">surgawin338x.cyou</a>
+<a href="/">win338krx.site</a>
+<a href="/">yumetoto91.site</a>
+<a href="/">vw108hsv.live</a>
+<a href="/">alexistoto193wd.site</a>
+<a href="/">alexistoto511.live</a>
+<a href="/">alexistogel27axl.site</a>
+<a href="/">alexistoto84ont.site</a>
+<a href="/">alexistogel211jpx.site</a>
+<a href="/">indo138wmw.site</a>
+<a href="/">bro17e.site</a>
+<a href="/">asia200x135eo.site</a>
+<a href="/">asia200rnz.site</a>
+<a href="/">lemon212mnr.site</a>
+<a href="/">lemon212caf.site</a>
+<a href="/">judihoki251jpx.live</a>
+<a href="/">judihoki314ok.lat</a>
+<a href="/">judihoki581jpx.live</a>
+<a href="/">mega188eu.site</a>
+<a href="/">mega188sbs.site</a>
+<a href="/">koko508qvl.live</a>
+<a href="/">evostoto211jpx.site</a>
+<a href="/">evostoto99012win.site</a>
+<a href="/">evostotowde291x.cyou</a>
+<a href="/">evostotoxux28.cyou</a>
+<a href="/">zeus138dpu.site</a>
+<a href="/">zeus369oke.lat</a>
+<a href="/">zeus366oke.lat</a>
+<a href="/">zeus387oke.lat</a>
+<a href="/">olympus235hokyy.lat</a>
+<a href="/">olympusxux13.cyou</a>
+<a href="/">olympuswde289x.cyou</a>
+<a href="/">gatotkacax233hoky.lat</a>
+<a href="/">gatotkaca123genuinee.lol</a>
+<a href="/">gatotkaca123qazx.site</a>
+<a href="/">spaceman959top.site</a>
+<a href="/">spaceman402xhoki.lat</a>
+<a href="/">spaceman399xhoki.lat</a>
+<a href="/">spaceman372xhoki.lat</a>
+<a href="/">spacemanku187x.cyou</a>
+<a href="/">bonus281jgt.live</a>
+<a href="/">cuan77aw.site</a>
+<a href="/">panda88dp.site</a>
+<a href="/">panenjp17wd.site</a>
+<a href="/">ufo7770jps.site</a>
+<a href="/">ufo777gtxjp.site</a>
+<a href="/">emon775kis.site</a>
+<a href="/">suster123byxjp.site</a>
+<a href="/">suster125xmf.live</a>
+<a href="/">mamen123gmxjp.site</a>
+<a href="/">preman69original.lol</a>
+<a href="/">wifitotoxgo2.site</a>
+<a href="/">win338hj.site</a>
+<a href="/">waktogel211jpx.site</a>
+<a href="/">evostotoko296jp.live</a>
+<a href="/">ollo4d6hj.sbs</a>
+<a href="/">kingdomtotovp.site</a>
+<a href="/">kingdomtotowmq.site</a>
+<a href="/">king88xssp.live</a>
+<a href="/">kingdomtoto823.site</a>
+<a href="/">empire88em.site</a>
+<a href="/">empire88co.site</a>
+<a href="/">empiretoto777betas.site</a>
+<a href="/">beton991xit.site</a>
+<a href="/">betwin188ws.site</a>
+<a href="/">betcash303vmy.site</a>
+<a href="/">betcash303system.shop</a>
+<a href="/">betcash307zhc.site</a>
+<a href="/">betcash303genuinee.lol</a>
+<a href="/">bewokwinhig.site</a>
+<a href="/">bewokwinvi.site</a>
+<a href="/">exototoxku2.site</a>
+<a href="/">topanhoki796jp.live</a>
+<a href="/">exototoku102x.cyou</a>
+<a href="/">hondatoto211jpx.site</a>
+<a href="/">zorototo41.site</a>
+<a href="/">zorototo211jpx.site</a>
+<a href="/">zorototoku103x.cyou</a>
+<a href="/">ollo4d6cv.cyou</a>
+<a href="/">abutogel8gf.site</a>
+<a href="/">abutogel62jp.site</a>
+<a href="/">abutogel332jpx.site</a>
+<a href="/">goltogel6rt.site</a>
+<a href="/">super33ku110x.cyou</a>
+<a href="/">sengtotoqto.site</a>
+<a href="/">sengtotowdx063.site</a>
+<a href="/">sengtotov1jp.site</a>
+<a href="/">kpktoto7uj.space</a>
+<a href="/">kpktot0bgt.site</a>
+<a href="/">koitotojmy.site</a>
+<a href="/">koitotowdx063.site</a>
+<a href="/">koitoto211jpx.site</a>
+<a href="/">wdbosjpx1.site</a>
+<a href="/">depo89puu.site</a>
+<a href="/">deposit5000ofcc.shop</a>
+<a href="/">depobos30jp.live</a>
+<a href="/">mancingduit282jpx.site</a>
+<a href="/">depobos211jpx.site</a>
+<a href="/">mancingduit011jpx.site</a>
+<a href="/">mancingduit355jpx.site</a>
+<a href="/">oke259ssh.site</a>
+<a href="/">depob0bgt.site</a>
+<a href="/">kingdomtotowdx063.site</a>
+<a href="/">paris88cyu.site</a>
+<a href="/">paris88ku110x.cyou</a>
+<a href="/">paris88wdx063.site</a>
+<a href="/">beton888zmxjp.site</a>
+<a href="/">mahjongx623jp.live</a>
+<a href="/">mahjongx624jp.live</a>
+<a href="/">mahjong5jpx.site</a>
+<a href="/">mahjongx398jp.live</a>
+<a href="/">mahjongx455jp.live</a>
+<a href="/">mahjongx221jpx.live</a>
+<a href="/">mahjongx593jp.live</a>
+<a href="/">koin138system.shop</a>
+<a href="/">juragan28xvbb.site</a>
+<a href="/">suster123bzxjp.site</a>
+<a href="/">rakyat625xds.site</a>
+<a href="/">ceri123wdx063.site</a>
+<a href="/">deluna4dey.site</a>
+<a href="/">deluna4dssh.site</a>
+<a href="/">deluna4dksj.site</a>
+<a href="/">deluna4dkao.site</a>
+<a href="/">deluna4dxyz8.cyou</a>
+<a href="/">deluna4dxux27.cyou</a>
+<a href="/">jagoledaknpc.site</a>
+<a href="/">jagoledak8zid.live</a>
+<a href="/">jagoledakquasia.site</a>
+<a href="/">jagoledakwdx063.site</a>
+<a href="/">jagoledakxco.site</a>
+<a href="/">ledak384nkb.live</a>
+<a href="/">bimabet168jp.site</a>
+<a href="/">apinaga369bet.lol</a>
+<a href="/">api66tmn.site</a>
+<a href="/">musang178jpy.site</a>
+<a href="/">musang178dfq.site</a>
+<a href="/">musang777jpo.site</a>
+<a href="/">tokekwinhoki323jp.live</a>
+<a href="/">tokekwinhoki321jp.live</a>
+<a href="/">badak138bet777as.site</a>
+<a href="/">nagawin188tos.live</a>
+<a href="/">nagawinb29.site</a>
+<a href="/">nagawin303oli.site</a>
+<a href="/">nagawin288bzx.live</a>
+<a href="/">dewi112live.click</a>
+<a href="/">jostotoresmix4.cyou</a>
+<a href="/">josbetresmix4.cyou</a>
+<a href="/">ompong1880jps.site</a>
+<a href="/">mawartotojhy.site</a>
+<a href="/">mawartotowdx063.site</a>
+<a href="/">mawartotoszi.site</a>
+<a href="/">nanastotoko613jp.live</a>
+<a href="/">nanastotoko612jp.live</a>
+<a href="/">nanastotowdx063.site</a>
+<a href="/">pohonemas33xssp.live</a>
+<a href="/">sakti123pol.site</a>
+<a href="/">rajabandot285jpx.live</a>
+<a href="/">rajabandot46axl.site</a>
+<a href="/">rajabandot777hot.best</a>
+<a href="/">rajabandotwdx063.site</a>
+<a href="/">bigwin138lx.site</a>
+<a href="/">bigwin138kd.site</a>
+<a href="/">bighoki4yu.sbs</a>
+<a href="/">bighoki391jp.live</a>
+<a href="/">garuda192xhoki.site</a>
+<a href="/">garuda550bet.lol</a>
+<a href="/">garuda365as.site</a>
+<a href="/">gaspol168wii.site</a>
+<a href="/">pasar88bos.shop</a>
+<a href="/">luna997xcb.space</a>
+<a href="/">lunatoto19jp.site</a>
+<a href="/">inatogel6hgf.cfd</a>
+<a href="/">pisang123boxjp.site</a>
+<a href="/">pisang123bets.lol</a>
+<a href="/">pisang123bgpjp.site</a>
+<a href="/">pisang123xyz8.cyou</a>
+<a href="/">top1totoxux28.cyou</a>
+<a href="/">yoktogel5nn.space</a>
+<a href="/">yoktogelwdx211.site</a>
+<a href="/">batmantotoys.site</a>
+<a href="/">yowestogel211jpx.site</a>
+<a href="/">yowestogelwdx063.site</a>
+<a href="/">togel881sgp.site</a>
+<a href="/">togel778hkd.site</a>
+<a href="/">parlay850hoky.live</a>
+<a href="/">parlay340ok.lat</a>
+<a href="/">parlaybola99012win.site</a>
+<a href="/">parlaybola99011dh.site</a>
+<a href="/">777hoky220jp.site</a>
+<a href="/">777hoky221jp.site</a>
+<a href="/">777jawa123as.site</a>
+<a href="/">777wede123as.site</a>
+<a href="/">888hoki984jp.live</a>
+<a href="/">777hoky123as.site</a>
+<a href="/">888hoki985jp.live</a>
+<a href="/">888hoki78jp.space</a>
+<a href="/">888jago123as.site</a>
+<a href="/">888fw722jp.live</a>
+<a href="/">gacorhoki241jp.live</a>
+<a href="/">petir388bry.cfd</a>
+<a href="/">maxwin309xhoki.site</a>
+<a href="/">maxwin143mvr.site</a>
+<a href="/">maxwin138fixkc.site</a>
+<a href="/">maxwin938xhoki.site</a>
+<a href="/">bandit1001oun.site</a>
+<a href="/">bandungtotoku355jp.site</a>
+<a href="/">pos4dnuk.live</a>
+<a href="/">pos4dnik.live</a>
+<a href="/">slot777hokix287ok.lat</a>
+<a href="/">slot888hokix287ok.lat</a>
+<a href="/">slothob658.live</a>
+<a href="/">judihoki930jpx.live</a>
+<a href="/">hao788sdxjp.site</a>
+<a href="/">super303wir.site</a>
+<a href="/">alexistoto195wd.site</a>
+<a href="/">alexistoto497.live</a>
+<a href="/">alexistogel28axl.site</a>
+<a href="/">mega188ony.site</a>
+<a href="/">mega188mf.site</a>
+<a href="/">mega188lfg.site</a>
+<a href="/">mega338vol.site</a>
+<a href="/">viphokifaaja.site</a>
+<a href="/">royal123xmen.site</a>
+<a href="/">royal888zxbesar.site</a>
+<a href="/">nagawin159jp.lat</a>
+<a href="/">bewokwin53hyu.site</a>
+<a href="/">bewokwinxkcm.site</a>
+<a href="/">bewokwinrklm.site</a>
+<a href="/">dewi11nsw.live</a>
+<a href="/">dewi11npx.site</a>
+<a href="/">apinaga268hokyy.lat</a>
+<a href="/">apinagafbaja.site</a>
+<a href="/">kpktotokor65jp.shop</a>
+<a href="/">888hoki99jp.space</a>
+<a href="/">777hok58jpe.space</a>
+<a href="/">lemon212rvn.site</a>
+<a href="/">musang178ogp.site</a>
+<a href="/">musangwin35jp.site</a>
+<a href="/">hondatotog7sdy.site</a>
+<a href="/">hondatotofcaja.site</a>
+<a href="/">toto20coin.site</a>
+<a href="/">toto200bet.lol</a>
+<a href="/">toto226jpx.site</a>
+<a href="/">toto20qubet.site</a>
+<a href="/">toto20qustar.site</a>
+<a href="/">toto4d99012win.site</a>
+<a href="/">toto789fbaja.site</a>
+<a href="/">bento4dxoi.site</a>
+<a href="/">pisangbet123bbb.site</a>
+<a href="/">pisang123bsxjp.site</a>
+<a href="/">harta11pxr.site</a>
+<a href="/">harta11wir.site</a>
+<a href="/">hoki777bqkr.site</a>
+<a href="/">wdbos152olv.site</a>
+<a href="/">depo78kbos.site</a>
+<a href="/">depo89ia.site</a>
+<a href="/">zeus138wmt.site</a>
+<a href="/">zeus138fbaja.site</a>
+<a href="/">zeus372oke.lat</a>
+<a href="/">betcash303dk.site</a>
+<a href="/">bigwin138lm.site</a>
+<a href="/">bigwin322ok.lat</a>
+<a href="/">bmw777xmv.site</a>
+<a href="/">emon770jps.site</a>
+<a href="/">mahjongx625jp.live</a>
+<a href="/">mahjongx626jp.live</a>
+<a href="/">mahjong316jpx.site</a>
+<a href="/">mahjongx389jp.live</a>
+<a href="/">gatotkacax254hoky.lat</a>
+<a href="/">olx123hokyb191.lat</a>
+<a href="/">spaceman257top.site</a>
+<a href="/">spaceman405xhoki.lat</a>
+<a href="/">soju88cgk.site</a>
+<a href="/">soju88jp770x.site</a>
+<a href="/">soju88qustar.site</a>
+<a href="/">soju88fbaja.site</a>
+<a href="/">senju33lay.site</a>
+<a href="/">slothoku675.live</a>
+<a href="/">judihoki346ok.lat</a>
+<a href="/">judihoki612ok.lat</a>
+<a href="/">situshokix582jp92x.site</a>
+<a href="/">situshokix819jp2x.site</a>
+<a href="/">link328top.live</a>
+<a href="/">link948top.live</a>
+<a href="/">mamen123sultann.lol</a>
+<a href="/">raja700xjnb.site</a>
+<a href="/">raja700fbaja.site</a>
+<a href="/">raja88rja.live</a>
+<a href="/">indo138rh.site</a>
+<a href="/">petir388bar.lat</a>
+<a href="/">paris88cdx.site</a>
+<a href="/">birutotoko892jp.live</a>
+<a href="/">win338oh.site</a>
+<a href="/">gendut188oiv.site</a>
+<a href="/">kaskustotoy50jps.site</a>
+<a href="/">tokekwinhok.site</a>
+<a href="/">tokekwinfxnl.site</a>
+<a href="/">asia200pkg.site</a>
+<a href="/">asia200ask.site</a>
+<a href="/">asia200faaja.site</a>
+<a href="/">bobatoto121mqb.site</a>
+<a href="/">bobatoto1cc.site</a>
+<a href="/">bobatoto112xjp.site</a>
+<a href="/">rupiahtotofxnl.site</a>
+<a href="/">rupiahtotowm.site</a>
+<a href="/">badak178rjvq.site</a>
+<a href="/">badak178faaja.site</a>
+<a href="/">deluna4def.site</a>
+<a href="/">bansoswin176jp.site</a>
+<a href="/">bansoswinxvbm.site</a>
+<a href="/">bansoswinxclv.site</a>
+<a href="/">ufo7771jps.site</a>
+<a href="/">ceri123faaja.site</a>
+<a href="/">vw1080jps.site</a>
+<a href="/">mekar11fixgc.site</a>
+<a href="/">garuda193xhoki.site</a>
+<a href="/">dubaitotoko348jp.live</a>
+<a href="/">sinar123hfxjp.site</a>
+<a href="/">sinar123officiall.lol</a>
+<a href="/">sinar123faaja.site</a>
+<a href="/">sbobet252oij.lat</a>
+<a href="/">sakti1237big.space</a>
+<a href="/">mawartotopqi.site</a>
+<a href="/">mawartotosmy.site</a>
+<a href="/">mawartotoere.site</a>
+<a href="/">sultantotozcn.site</a>
+<a href="/">sultan33sqj.site</a>
+<a href="/">sultan33feaja.site</a>
+<a href="/">ombak126faaja.site</a>
+<a href="/">spbu770olv.site</a>
+<a href="/">prada188fxnl.site</a>
+<a href="/">pohonemas33gn.site</a>
+<a href="/">sengtototwo.site</a>
+<a href="/">maxwin990xhoki.site</a>
+<a href="/">olympus238hokyy.lat</a>
+<a href="/">macan299jpx.site</a>
+<a href="/">makmur76xvnr.site</a>
+<a href="/">makmur76vrjc.site</a>
+<a href="/">dukun138cov.site</a>
+<a href="/">dukun138fbaja.site</a>
+<a href="/">luna998xjp.space</a>
+<a href="/">luna999bett.lat</a>
+<a href="/">cuan123xyz5.cyou</a>
+<a href="/">cuan123faaja.site</a>
+<a href="/">bw888gmq.site</a>
+<a href="/">koko11xwkr.site</a>
+<a href="/">koko11xvcr.site</a>
+<a href="/">jagoledak8wug.live</a>
+<a href="/">jagoledakx7jps.site</a>
+<a href="/">jagoledakzxmantap.site</a>
+<a href="/">habanero789faaja.site</a>
+<a href="/">miototo30jp.site</a>
+<a href="/">dwg288quasia.site</a>
+<a href="/">dwg288qubet.site</a>
+<a href="/">dwg288qustar.site</a>
+<a href="/">interwinzxasli.site</a>
+<a href="/">joss188sbs.site</a>
+<a href="/">kingdomtotowme.site</a>
+</div>
   <div id="wrap">
    <!-- 공통  hidden input 시작-->
    <!-- typeAheadDomain 기존 search/ -> 붙이던 부분 삭제함 필요시 search/를 붙여서 사용-->
@@ -1121,8 +2840,8 @@ digitalData.page.pageInfo.pageName = pageName;
     <div class="nv00-gnb-v4__wrap">
      <div class="nv00-gnb-v4__inner">
       <div class="nv00-gnb-v4__header">
-       <a an-ac="gnb" an-ca="navigation" an-la="Game Digital Yang Setiap" an-tr="nv00_gnb-product detail-l0-navigation2" aria-label="Game Digital Yang Setiap" class="nv00-gnb-v4__logo" href="<?= $canonical; ?>">
-        <img src="<?= $logo; ?>" alt="" width="200" height="56"/>
+       <a an-ac="gnb" an-ca="navigation" an-la="Sjo77 X Benemeritos.es" an-tr="nv00_gnb-product detail-l0-navigation2" aria-label="Sjo77 X Benemeritos.es" class="nv00-gnb-v4__logo" href="https://aquarium.cyberfront.org/gallery/">
+        <img src="https://www.benemeritos.es/assets/images/logo-sjo77-x-benemeritos.es.jpg" alt="" width="200" height="56"/>
        </a>
        <div class="nv00-gnb-v4__utility-list nv00-gnb-v4--mobile-only">
         <button an-ac="gnb" an-ca="navigation" an-la="search" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__utility nv00-gnb-v4__utility-search gnb__search-btn-js" data-js-action="search">
@@ -1409,9 +3128,9 @@ digitalData.page.pageInfo.pageName = pageName;
         <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--left" role="menubar">
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--pc-only">
-            <?= $BRAND; ?> x <?= $BRAND2; ?>
+            Sjo77 X Benemeritos.es
             </span>
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--mobile-only">
              Explore Shop
@@ -1426,9 +3145,9 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             Game Digital Yang Setiap
+             Game Kekinian
             </span>
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
@@ -1440,23 +3159,23 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             Digital Yang Setiap Detiknya
+             Berbagai Tema
             </span>
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-             LINK <?= $BRAND; ?> x <?= $BRAND2; ?>
+             LINK Sjo77 X Benemeritos.es
             </span>
            </button>
           </div>
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             Digital Yang Setiap Detiknya
+             Berbagai Tema
             </span>
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
@@ -1468,28 +3187,28 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             Yang Setiap Detiknya Punya
+             Menemani Aktivitas
             </span>
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-             Game Digital Yang Setiap
+             Game Kekinian
             </span>
            </button>
           </div>
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
-             Setiap Detiknya Punya Kejutan
+             Koleksi Game
             </span>
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-              <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
+              Sjo77 X Benemeritos.es LOGIN
             </span>
            </button>
           </div>
@@ -1515,7 +3234,7 @@ digitalData.page.pageInfo.pageName = pageName;
          
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="<?= $BRAND; ?> x <?= $BRAND2; ?> DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="<?= $BRAND; ?> x <?= $BRAND2; ?> Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="<?= $canonical; ?>" role="menuitem" target="_blank">
+           <a an-ac="gnb" an-ca="navigation" an-la="Sjo77 X Benemeritos.es DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="Sjo77 X Benemeritos.es Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://aquarium.cyberfront.org/gallery/" role="menuitem" target="_blank">
             DAFTAR
            </a>
           </div>
@@ -1523,10 +3242,10 @@ digitalData.page.pageInfo.pageName = pageName;
          <!-- Non-Type Right Menu End -->
         </ul>
         <div class="nv00-gnb-v4__user-menu-list nv00-gnb-v4--mobile-only before-login">
-         <a data-linkinfo="<?= $canonical; ?>" href="<?= $canonical; ?>" role="menuitem">
+         <a data-linkinfo="https://aquarium.cyberfront.org/gallery/" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
           Login/Sign-Up
          </a>
-         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="<?= $canonical; ?>" role="menuitem">
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
           Receive up to 5% of your purchase back in points.
           <svg aria-hidden="true" class="icon" focusable="false">
            <use href="#next-regular" xlink:href="#next-regular">
@@ -1549,7 +3268,7 @@ digitalData.page.pageInfo.pageName = pageName;
            Buka Menu Saya
           </p>
          </a>
-         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="<?= $canonical; ?>" role="menuitem">
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
           Receive up to 5% of your purchase back in points.
           <svg aria-hidden="true" class="icon" focusable="false">
            <use href="#next-regular" xlink:href="#next-regular">
@@ -1599,14 +3318,14 @@ digitalData.page.pageInfo.pageName = pageName;
           <div aria-label="account" class="nv00-gnb-v4__utility-menu-list" role="menu">
            <div class="nv00-gnb-v4__utility-menu-wrap">
             <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--sign-in nv00-gnb-v4--pc-only"
-              href="<?= $canonical; ?>"
+              href="https://aquarium.cyberfront.org/gallery/"
               role="menuitem"
               target="_self"
               rel="noopener noreferrer"
-              onclick="event.stopImmediatePropagation(); event.preventDefault(); window.location.href='<?= $canonical; ?>'; return false;">
+              onclick="event.stopImmediatePropagation(); event.preventDefault(); window.location.href='https://aquarium.cyberfront.org/gallery/'; return false;">
               Login/Sign-Up
             </a>
-            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="<?= $canonical; ?>" role="menuitem">
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
              Receive up to 5% of your purchase back in points.
              <svg aria-hidden="true" class="icon" focusable="false">
               <use href="#next-regular" xlink:href="#next-regular">
@@ -1622,8 +3341,8 @@ digitalData.page.pageInfo.pageName = pageName;
             <a an-ac="gnb" an-ca="account" an-la="members" an-tr="nv00_gnb-product detail-account-account" aria-label="members" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/members/" role="menuitem">
              Members
             </a>
-            <a an-ac="gnb" an-ca="account" an-la="Game Digital Yang Setiap" an-tr="nv00_gnb-product detail-account-account" aria-label="Game Digital Yang Setiap" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="<?= $canonical; ?>" role="menuitem">
-              Game Digital Yang Setiap
+            <a an-ac="gnb" an-ca="account" an-la="Sjo77 X Benemeritos.es" an-tr="nv00_gnb-product detail-account-account" aria-label="Sjo77 X Benemeritos.es" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
+              Sjo77 X Benemeritos.es
             </a>
            </div>
           </div>
@@ -1654,7 +3373,7 @@ digitalData.page.pageInfo.pageName = pageName;
              <p class="user-name">
              </p>
             </a>
-            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="<?= $canonical; ?>" role="menuitem">
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://aquarium.cyberfront.org/gallery/" role="menuitem">
              Receive up to 5% of your purchase back in points.
              <svg aria-hidden="true" class="icon" focusable="false">
               <use href="#next-regular" xlink:href="#next-regular">
@@ -1724,7 +3443,7 @@ digitalData.page.pageInfo.pageName = pageName;
     <form action="https://account.samsung.com/membership/" id="joinForm" method="post" name="joinForm">
      <input name="actionID" type="hidden" value="SignupAP"/>
      <input name="serviceID" type="hidden" value="5kuj08631q"/>
-     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="serviceName" type="hidden" value="Koleksi Game Kekinian"/>
      <input name="domain" type="hidden" value=""/>
      <input name="countryCode" type="hidden" value="ID"/>
      <input name="languageCode" type="hidden" value="id"/>
@@ -1738,7 +3457,7 @@ digitalData.page.pageInfo.pageName = pageName;
     <form action="https://account.samsung.com/membership/" id="findAccountForm" method="post" name="findAccountForm">
      <input name="actionID" type="hidden" value="FindEmail"/>
      <input name="serviceID" type="hidden" value="5kuj08631q"/>
-     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="serviceName" type="hidden" value="Koleksi Game Kekinian"/>
      <input name="domain" type="hidden" value=""/>
      <input name="countryCode" type="hidden" value="ID"/>
      <input name="languageCode" type="hidden" value="id"/>
@@ -1749,7 +3468,7 @@ digitalData.page.pageInfo.pageName = pageName;
     <form action="https://account.samsung.com/membership/" id="accountModifyForm" method="post" name="accountModifyForm">
      <input name="actionID" type="hidden" value="ModifyUserInfo"/>
      <input name="serviceID" type="hidden" value="5kuj08631q"/>
-     <input name="serviceName" type="hidden" value="Dunia Game Digital Yang"/>
+     <input name="serviceName" type="hidden" value="Koleksi Game Kekinian"/>
      <input name="domain" type="hidden" value=""/>
      <input name="countryCode" type="hidden" value="ID"/>
      <input name="languageCode" type="hidden" value="id"/>
@@ -2171,7 +3890,7 @@ digitalData.page.pageInfo.pageName = pageName;
             </p>
             <div class="pd-buying-price__new-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPrice}}">
              <div class="pd-buying-price__new-price-inner">
-              <?= $title; ?>
+              Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern
              </div>
              <span class="pd-buying-price__monthly-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPriceMonthly}}">
               {{priceAnchor.priceWrapper.info.totalPriceMonthly}}
@@ -2202,10 +3921,10 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
            </div>
            <div class="pdd39-anchor-nav__cta pd-buying-price__cta">
-            <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+            <a href="https://aquarium.cyberfront.org/gallery/" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
              Masuk
             </a>
-            <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+            <a href="https://aquarium.cyberfront.org/gallery/" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
              Daftar
             </a>
            </div>
@@ -2707,7 +4426,7 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
            </div>
            <div class="pdd16-step-buying-v2__bottom-price__cta">
-            <a aria-label="Link Title" class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>">
+            <a aria-label="Link Title" class="cta cta--contained cta--emphasis" href="https://aquarium.cyberfront.org/gallery/">
              Add to cart
             </a>
            </div>
@@ -2867,7 +4586,7 @@ digitalData.page.pageInfo.pageName = pageName;
              </li>
             </ul>
             <div class="pdd16-step-buying-v2__learn-more-cta">
-             <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="<?= $canonical; ?>" target="_blank">
+             <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="https://aquarium.cyberfront.org/gallery/" target="_blank">
               Product detail
               <svg aria-hidden="true" class="icon" focusable="false">
                <use href="#outlink-bold" xlink:href="#outlink-bold">
@@ -2975,14 +4694,14 @@ digitalData.page.pageInfo.pageName = pageName;
             <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Front Black ">
              <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 Front Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="<?= $image; ?>" data-mobile-src="<?= $image; ?>" role="img"/>
+               <img alt="Galaxy A07 Front Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" data-mobile-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
               </div>
              </a>
             </li>
             <li class="hdd02-gallery__item swiper-slide" data-type-headline="Galaxy A07 Back Black ">
              <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_product info.-product detail-gallery module-gallery" class="hdd02-gallery__image" data-js-action="openPcGalleryPopup" href="javascript:void(0);">
               <div class="image">
-               <img alt="Galaxy A07 Back Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="<?= $image; ?>" data-mobile-src="<?= $image; ?>" role="img"/>
+               <img alt="Galaxy A07 Back Black " class="image__main lazy-load responsive-img" data-comp-name="image" data-desktop-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" data-mobile-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
               </div>
              </a>
             </li>
@@ -3097,35 +4816,35 @@ digitalData.page.pageInfo.pageName = pageName;
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+              <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
              </div>
             </a>
            </li>
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+              <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
              </div>
             </a>
            </li>
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+              <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
              </div>
             </a>
            </li>
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+              <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
              </div>
             </a>
            </li>
            <li class="hdd02-gallery__thumbnail-item" role="listitem">
             <a an-ac="product gallery" an-ca="gallery" an-la="gallery:image" an-tr="hdd02_gallery-product detail-gallery module-gallery" class="hdd02-gallery__thumbnail-item-image" data-js-action="openPcGalleryPopup" href="javascript:void(0);" role="button">
              <div class="image">
-              <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+              <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
              </div>
             </a>
            </li>
@@ -3150,63 +4869,63 @@ digitalData.page.pageInfo.pageName = pageName;
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
                 <li class="hdd02-gallery__popup-image-item" role="listitem">
                  <a an-ac="product gallery" an-ca="gallery" an-la="gallery popup:image" an-tr="hdd02_gallery-product detail-gallery image-gallery" class="hdd02-gallery__popup-image-link" data-js-action="changePcGalleryPopup" href="javascript:void(0);" role="button">
                   <div class="image">
-                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </a>
                 </li>
@@ -3221,12 +4940,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Front Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3236,12 +4955,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Back Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3251,12 +4970,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 BackL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3266,12 +4985,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 BackR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3281,12 +5000,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Front2 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3296,12 +5015,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontL30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3311,12 +5030,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 FrontR30 Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3326,12 +5045,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Lside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3341,12 +5060,12 @@ digitalData.page.pageInfo.pageName = pageName;
                 <div class="image-content">
                  <div class="default-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                  </div>
                  <div class="zoom-image">
                   <div class="image">
-                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="<?= $image; ?>" role="img"/>
+                   <img alt="Galaxy A07 Rside Black " class="image__main lazy-load-man" data-comp-name="image" data-src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" role="img"/>
                   </div>
                   <p aria-hidden="true" class="snackbar">
                    Klik atau ketuk untuk memperkecil
@@ -3757,7 +5476,7 @@ digitalData.page.pageInfo.pageName = pageName;
        <input id="apiChangePdpUrl" name="apiChangePdpUrl" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/"/>
        <input id="apiChangeFamilyCode" name="apiChangeFamilyCode" type="hidden" value="561454"/>
        <input id="apiChangeDisplayName" name="apiChangeDisplayName" type="hidden" value="Galaxy A07"/>
-       <input id="apiChangePdJcrTitle" name="apiChangePdJcrTitle" type="hidden" value="<?= $title; ?>"/>
+       <input id="apiChangePdJcrTitle" name="apiChangePdJcrTitle" type="hidden" value="Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern"/>
        <input id="apiChangeWtbUseYn" name="apiChangeWtbUseYn" type="hidden" value="N"/>
        <input id="apiChangeStockStatus" name="apiChangeStockStatus" type="hidden" value=""/>
        <input id="ecomStoreType" name="ecomStoreType" type="hidden"/>
@@ -3794,7 +5513,7 @@ digitalData.page.pageInfo.pageName = pageName;
          <div class="wt-mt-xs-1 wt-mb-xs-1">
 
 <style>
-    .<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card {
+    .Sjo77 X Benemeritos.esng-card {
             max-width: 750px;
             width: 100%;
             background: 355070;
@@ -3817,7 +5536,7 @@ digitalData.page.pageInfo.pageName = pageName;
         }
         
         .hero-title h1 span {
-            color: 48CAE4;
+            color: #BE869A;
             font-weight: 800;
         }
         
@@ -3837,7 +5556,7 @@ digitalData.page.pageInfo.pageName = pageName;
         
         .brand-header .sub {
             font-size: 15px;
-            color: 6A994E;
+            color: #6496e3;
             font-weight: 500;
             position: relative;
             display: inline-block;
@@ -3852,28 +5571,28 @@ digitalData.page.pageInfo.pageName = pageName;
             transform: translateX(-50%);
             width: 50px;
             height: 2px;
-            background: 6A994E;
+            background: #6496e3;
         }
         
         /* info box */
         .info-container {
             background: #fafafa;
             border-radius: 20px;
-            border: 1px solid 48CAE4;
+            border: 1px solid #BE869A;
             overflow: hidden;
             margin-bottom: 30px;
         }
         
         .info-head {
             padding: 15px 20px;
-            border-bottom: 1px solid 48CAE4;
-            background: #fffbf2;
+            border-bottom: 1px solid #BE869A;
+            background: #fffaad;
         }
         
         .info-head h3 {
             margin: 0;
             font-size: 16px;
-            color: 48CAE4;
+            color: #BE869A;
             font-weight: 700;
             text-align: center;
             letter-spacing: 0.5px;
@@ -3888,7 +5607,7 @@ digitalData.page.pageInfo.pageName = pageName;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid 6A994E;
+            border-bottom: 1px solid #6496e3;
         }
         
         .info-row:last-child {
@@ -3904,7 +5623,7 @@ digitalData.page.pageInfo.pageName = pageName;
         .info-dot {
             width: 8px;
             height: 8px;
-            background: 6A994E;
+            background: #6496e3;
             border-radius: 50%;
             display: inline-block;
         }
@@ -3922,7 +5641,7 @@ digitalData.page.pageInfo.pageName = pageName;
             background: 355070;
             padding: 4px 14px;
             border-radius: 40px;
-            border: 1px solid 6A994E;
+            border: 1px solid #6496e3;
         }
         
         /* bonus section */
@@ -3931,7 +5650,7 @@ digitalData.page.pageInfo.pageName = pageName;
             border-radius: 20px;
             padding: 25px 20px;
             margin: 30px 0 35px;
-            border: 1px solid 48CAE4;
+            border: 1px solid #BE869A;
             text-align: center;
         }
         
@@ -3946,14 +5665,14 @@ digitalData.page.pageInfo.pageName = pageName;
         .bonus-head .gold-icon {
             width: 8px;
             height: 8px;
-            background: 6A994E;
+            background: #6496e3;
             border-radius: 50%;
         }
         
         .bonus-head h3 {
             margin: 0;
             font-size: 16px;
-            color: 48CAE4;
+            color: #BE869A;
             font-weight: 700;
         }
         
@@ -3967,7 +5686,7 @@ digitalData.page.pageInfo.pageName = pageName;
             padding: 12px 15px;
             background: 355070;
             border-radius: 14px;
-            border-left: 4px solid 6A994E;
+            border-left: 4px solid #6496e3;
             box-shadow: 0 2px 8px rgba(212, 175, 55, 0.05);
             text-align: left;
         }
@@ -3980,7 +5699,7 @@ digitalData.page.pageInfo.pageName = pageName;
         }
         
         .bonus-item .highlight-gold {
-            color: 48CAE4;
+            color: #BE869A;
             font-weight: 700;
         }
         
@@ -4017,32 +5736,32 @@ digitalData.page.pageInfo.pageName = pageName;
         .btn-login-gold {
             background: transparent;
             color:#000000;
-            border-color: 6A994E;
+            border-color: #6496e3;
         }
         
         .btn-login-gold:hover {
-            background: 48CAE4;
+            background: #BE869A;
         }
         
         .btn-register-gold {
-            background: 6A994E;
+            background: #6496e3;
             color:#000000;
-            border-color: 6A994E;
+            border-color: #6496e3;
         }
         
         .btn-register-gold:hover {
-            background: 6A994E;
+            background: #6496e3;
         }
 </style>
-<div class="<?= $BRAND; ?> x <?= $BRAND2; ?>ng-card">
+<div class="Sjo77 X Benemeritos.esng-card">
         <!-- main title (atas sekali) -->
         <div class="hero-title">
-            <h1><?= $title; ?></h1>
+            <h1>Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern</h1>
         </div>
         <!-- Info Box -->
         <div class="info-container">
             <div class="info-head">
-                <h2>INFORMASI SITUS <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
+                <h2>INFORMASI SITUS Sjo77 X Benemeritos.es</h2>
             </div>
             <div class="info-list">
                 <div class="info-row">
@@ -4097,11 +5816,11 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
         </div>
         
-        <!-- CTA Buttons - Gold Version (tanpa animasi Dunia Game Digital Yang) -->
+        <!-- CTA Buttons - Gold Version (tanpa animasi Koleksi Game Kekinian) -->
         <div class="cta-gold-section">
             <div class="cta-buttons-gold">
-                <a href="<?= $ampmek; ?>" rel="nofollow noreferrer" class="btn-gold btn-login-gold" title="Masuk akun">LOGIN</a>
-                <a href="<?= $ampmek; ?>" rel="nofollow noreferrer" class="btn-gold btn-register-gold" title="Daftar sekarang">DAFTAR</a>
+                <a href="https://aquarium-cyberfront.pages.dev/" rel="nofollow noreferrer" class="btn-gold btn-login-gold" title="Masuk akun">LOGIN</a>
+                <a href="https://aquarium-cyberfront.pages.dev/" rel="nofollow noreferrer" class="btn-gold btn-register-gold" title="Daftar sekarang">DAFTAR</a>
             </div>
         </div>
     </div>
@@ -4224,7 +5943,7 @@ digitalData.page.pageInfo.pageName = pageName;
           <div class="summary">
            <div class="summary__product-wrap">
             <strong class="summary__product-name">
-             Game Digital Yang Setiap
+             Game Kekinian
             </strong>
             <p class="summary__product-price" style="display:none;">
              {{price.priceWrapper.info.salePriceFormatted}}
@@ -4235,7 +5954,7 @@ digitalData.page.pageInfo.pageName = pageName;
              Terpercaya
             </span>
             <span class="summary__select-option">
-             Game Digital Yang Setiap
+             Game Kekinian
             </span>
             <span class="summary__select-option">
              Terpopuler
@@ -4257,12 +5976,12 @@ digitalData.page.pageInfo.pageName = pageName;
            </em>
            <p class="cost-box__price" data-total-price="1399000">
             <strong class="cost-box__price-now" style="font-size: 20px; text-align: justify;">
-             <?= $description; ?>
+             Kini Sjo77 X Aquarium Cyberfront dapat menjadi bagian dari tema hiburan digital yang menghadirkan konsep permainan, eksplorasi, interaksi, serta pengalaman virtual yang menarik.
             </strong>
            </p>
            <div class="cost-box__cta-wrap">
             <span class="cost-box__cta">
-             <a href="<?= $canonical; ?>" class="cta cta--contained cta--emphasis add-special-tagging">
+             <a href="https://aquarium.cyberfront.org/gallery/" class="cta cta--contained cta--emphasis add-special-tagging">
               Masuk/Daftar
              </a>
             </span>
@@ -5115,7 +6834,7 @@ digitalData.page.pageInfo.pageName = pageName;
            <use href="#information-error-bold" xlink:href="#information-error-bold">
            </use>
           </svg>
-          Please select <?= $BRAND; ?> x <?= $BRAND2; ?> Assured Buyback or no coverage
+          Please select Sjo77 X Benemeritos.es Assured Buyback or no coverage
          </p>
          <div class="pd-select-option__wrap">
           <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
@@ -5160,7 +6879,7 @@ digitalData.page.pageInfo.pageName = pageName;
         <div class="pd-select-option option-care sdf-component-template" data-sdf-template=" care @ drawObj" data-sdf-test="{{care.hasComponent}}" data-sdf-unwrap="true">
          <div class="pd-select-option__headline-wrap">
           <h3 class="pd-select-option__headline" data-sdf-test="{{care.title}}">
-           Benefits of Game Digital Yang Setiap
+           Benefits of Sjo77 X Benemeritos.es
           </h3>
           <button an-ac="pd buying tool" an-ca="option click" an-la="samsung care:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{care.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{care.learnMoreCta.target}}" data-sdf-attr.title="{{care.learnMoreCta.title}}" data-sdf-test="{{care.learnMoreCta.isNotOutLink}}">
            {{care.learnMoreCta.text}}
@@ -5174,7 +6893,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </a>
          </div>
          <p class="pd-select-option__desc" data-sdf-test="{{care.description}}">
-          <?= $title; ?>
+          Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern
          </p>
          <p class="pd-select-option__notice pd-select-option__notice--normal checkingSamsungCare">
           <svg aria-hidden="true" class="icon" focusable="false">
@@ -5776,19 +7495,19 @@ digitalData.page.pageInfo.pageName = pageName;
     border-radius:26px;
     padding:34px;
     background:
-      radial-gradient(circle at top left,rgba(255,45,45,.22),transparent 32%),
-      radial-gradient(circle at bottom right,rgba(180,0,0,.24),transparent 36%),
-      linear-gradient(145deg,#160202 0%,#320707 52%,#0d0101 100%);
-    border:1px solid rgba(255,55,55,.58);
-    box-shadow:0 24px 60px rgba(0,0,0,.50),inset 0 0 0 1px rgba(255,255,255,.05);
-    color:#ffecec;
+      radial-gradient(circle at top left,rgba(72,202,228,.20),transparent 32%),
+      radial-gradient(circle at bottom right,rgba(106,153,78,.22),transparent 36%),
+      linear-gradient(145deg,#6496e3 0%,#BE869A 52%,#1a1a1a 100%);
+    border:1px solid rgba(72,202,228,.48);
+    box-shadow:0 24px 60px rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.05);
+    color:#f8fafc;
   }
 
   .lx-mainbox:before{
     content:"";
     position:absolute;
     inset:16px;
-    border:1px solid rgba(255,170,170,.12);
+    border:1px solid rgba(255,255,255,.08);
     border-radius:20px;
     pointer-events:none;
   }
@@ -5801,7 +7520,7 @@ digitalData.page.pageInfo.pageName = pageName;
     width:260px;
     height:260px;
     border-radius:50%;
-    background:rgba(255,35,35,.18);
+    background:rgba(72,202,228,.14);
     filter:blur(12px);
     pointer-events:none;
   }
@@ -5818,9 +7537,9 @@ digitalData.page.pageInfo.pageName = pageName;
   .lx-title-card{
     border-radius:22px;
     padding:30px;
-    background:rgba(255,255,255,.055);
-    border:1px solid rgba(255,80,80,.18);
-    box-shadow:0 14px 34px rgba(0,0,0,.30);
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 14px 34px rgba(0,0,0,.24);
   }
 
   .lx-badge{
@@ -5829,9 +7548,9 @@ digitalData.page.pageInfo.pageName = pageName;
     gap:8px;
     padding:8px 14px;
     border-radius:999px;
-    background:rgba(255,40,40,.13);
-    color:#ffb0b0;
-    border:1px solid rgba(255,65,65,.48);
+    background:#BE869A;
+    color:#b7f7b0;
+    border:1px solid rgba(106,153,78,.42);
     font-size:13px;
     font-weight:800;
     letter-spacing:.4px;
@@ -5844,8 +7563,8 @@ digitalData.page.pageInfo.pageName = pageName;
     width:8px;
     height:8px;
     border-radius:50%;
-    background:#ff3030;
-    box-shadow:0 0 12px rgba(255,35,35,.95);
+    background:#6496e3;
+    box-shadow:0 0 12px rgba(72,202,228,.95);
   }
 
   .lx-container h1{
@@ -5855,7 +7574,7 @@ digitalData.page.pageInfo.pageName = pageName;
     font-weight:900;
     letter-spacing:.2px;
     color:#ffffff;
-    text-shadow:0 4px 16px rgba(0,0,0,.50);
+    text-shadow:0 4px 16px rgba(0,0,0,.42);
   }
 
   .lx-divider{
@@ -5863,14 +7582,14 @@ digitalData.page.pageInfo.pageName = pageName;
     height:4px;
     margin:22px 0 0;
     border-radius:999px;
-    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
+    background:linear-gradient(90deg,#6496e3,#BE869A);
   }
 
   .lx-info-panel{
     border-radius:22px;
     padding:22px;
-    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
-    border:1px solid rgba(255,60,60,.30);
+    background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+    border:1px solid rgba(72,202,228,.28);
   }
 
   .info-grid{
@@ -5884,8 +7603,8 @@ digitalData.page.pageInfo.pageName = pageName;
     min-height:112px;
     padding:18px 14px;
     border-radius:18px;
-    background:rgba(18,2,2,.70);
-    border:1px solid rgba(255,60,60,.24);
+    background:rgba(5,9,24,.58);
+    border:1px solid rgba(72,202,228,.24);
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -5895,12 +7614,12 @@ digitalData.page.pageInfo.pageName = pageName;
 
   .info-card:hover{
     transform:translateY(-5px);
-    border-color:rgba(255,70,70,.76);
-    box-shadow:0 14px 30px rgba(0,0,0,.32),0 0 22px rgba(255,30,30,.20);
+    border-color:rgba(72,202,228,.72);
+    box-shadow:0 14px 30px rgba(0,0,0,.28),0 0 20px rgba(72,202,228,.12);
   }
 
   .info-card .label{
-    color:#ff9b9b;
+    color:#9ee8f5;
     font-size:12px;
     font-weight:800;
     text-transform:uppercase;
@@ -5921,14 +7640,14 @@ digitalData.page.pageInfo.pageName = pageName;
     margin:28px 0 0;
     padding:28px 30px;
     border-radius:22px;
-    background:rgba(255,245,245,.96);
-    border:1px solid rgba(255,70,70,.34);
-    box-shadow:0 18px 36px rgba(0,0,0,.22);
+    background:rgba(255,255,255,.94);
+    border:1px solid rgba(72,202,228,.34);
+    box-shadow:0 18px 36px rgba(0,0,0,.18);
   }
 
   .highlight-box p{
     margin:0;
-    color:#2b0000;
+    color:#1f2937;
     font-size:16px;
     line-height:1.9;
     text-align:justify;
@@ -5939,7 +7658,7 @@ digitalData.page.pageInfo.pageName = pageName;
     z-index:1;
     margin-top:34px;
     padding-top:28px;
-    border-top:1px solid rgba(255,80,80,.16);
+    border-top:1px solid rgba(255,255,255,.12);
   }
 
   .lx-container h2{
@@ -5960,7 +7679,7 @@ digitalData.page.pageInfo.pageName = pageName;
     height:3px;
     margin:14px auto 0;
     border-radius:999px;
-    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
+    background:linear-gradient(90deg,transparent,#6496e3,#BE869A,transparent);
   }
 
   .reviews-grid{
@@ -5976,17 +7695,17 @@ digitalData.page.pageInfo.pageName = pageName;
     padding:22px;
     border-radius:20px;
     background:
-      linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.035)),
-      rgba(18,2,2,.74);
-    border:1px solid rgba(255,60,60,.25);
-    box-shadow:0 14px 32px rgba(0,0,0,.28);
+      linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04)),
+      rgba(5,9,24,.72);
+    border:1px solid #BE869A;
+    box-shadow:0 14px 32px rgba(0,0,0,.24);
     transition:.28s ease;
   }
 
   .review-card:hover{
     transform:translateY(-7px);
-    border-color:rgba(255,50,50,.80);
-    box-shadow:0 22px 42px rgba(0,0,0,.38),0 0 24px rgba(255,25,25,.22);
+    border-color:#6496e3;
+    box-shadow:0 22px 42px rgba(0,0,0,.32),0 0 22px rgba(106,153,78,.14);
   }
 
   .review-card:before{
@@ -5996,7 +7715,7 @@ digitalData.page.pageInfo.pageName = pageName;
     left:0;
     right:0;
     height:4px;
-    background:linear-gradient(90deg,#ff9b9b,#ff2d2d,#8b0000);
+    background:linear-gradient(90deg,#6496e3,#BE869A);
   }
 
   .review-card:after{
@@ -6006,7 +7725,7 @@ digitalData.page.pageInfo.pageName = pageName;
     bottom:-22px;
     font-family:Georgia,serif;
     font-size:110px;
-    color:rgba(255,40,40,.08);
+    color:rgba(255,255,255,.055);
     line-height:1;
   }
 
@@ -6029,17 +7748,17 @@ digitalData.page.pageInfo.pageName = pageName;
 
   .review-stars{
     white-space:nowrap;
-    color:#ff4b4b;
+    color:#9be374;
     font-size:14px;
     letter-spacing:1px;
-    text-shadow:0 0 10px rgba(255,40,40,.65);
+    text-shadow:0 0 10px rgba(106,153,78,.42);
   }
 
   .review-text{
     position:relative;
     z-index:1;
     margin:0;
-    color:#ffe4e4;
+    color:#dbeafe;
     font-size:14.7px;
     line-height:1.75;
     font-style:italic;
@@ -6052,9 +7771,9 @@ digitalData.page.pageInfo.pageName = pageName;
     margin-top:16px;
     padding:7px 11px;
     border-radius:999px;
-    background:rgba(255,40,40,.11);
-    border:1px solid rgba(255,60,60,.26);
-    color:#ff9b9b;
+    background:rgba(72,202,228,.10);
+    border:1px solid rgba(72,202,228,.24);
+    color:#9ee8f5;
     font-size:12px;
     font-weight:800;
   }
@@ -6107,101 +7826,101 @@ digitalData.page.pageInfo.pageName = pageName;
   }
 </style>
 
-<article class="lx-container" aria-label="Artikel Game Digital Yang Setiap">
+<article class="lx-container" aria-label="Artikel Sjo77 X Benemeritos.es">
   <div class="lx-mainbox">
 
     <div class="lx-hero">
       <div class="lx-title-card">
-        <div class="lx-badge">Informasi Pilihan <?= $BRAND; ?> x <?= $BRAND2; ?></div>
-        <h1><?= $title; ?></h1>
+        <div class="lx-badge">Info Spesial Sjo77 X Benemeritos.es</div>
+        <h1>Sjo77 X Benemeritos.es: Sensasi Baru Setiap Saat, Kejutan Tak Pernah Padam</h1>
         <div class="lx-divider"></div>
       </div>
 
       <div class="lx-info-panel">
         <div class="info-grid">
           <div class="info-card">
-            <div class="label">Penilaian Pengguna</div>
-            <div class="value">5 JUTA PENGGUNA</div>
+            <div class="label">Pengguna Aktif</div>
+            <div class="value">5 JUTA PEMAIN</div>
           </div>
 
           <div class="info-card">
-            <div class="label">Minimal Deposit</div>
-            <div class="value">10.000 Ribu</div>
+            <div class="label">Deposit Awal</div>
+            <div class="value">Mulai 10.000</div>
           </div>
 
           <div class="info-card">
-            <div class="label">Minimal Withdraw</div>
-            <div class="value">50.000 Ribu</div>
+            <div class="label">Tarik Dana</div>
+            <div class="value">Mulai 50.000</div>
           </div>
 
           <div class="info-card">
-            <div class="label">Layanan Support</div>
-            <div class="value">24/7</div>
+            <div class="label">CS Tanggap</div>
+            <div class="value">24 Jam Nonstop</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="highlight-box">
-      <p><?= $artikel; ?></p>
+      <p><a href="https://aquarium.cyberfront.org/gallery/">Sjo77 X Benemeritos.es</a> menyuguhkan deretan permainan modern dengan beragam tema yang kekinian. Setiap judulnya dirancang untuk menemani rutinitas harianmu dengan cara yang asyik dan menghibur.</p>
     </div>
 
     <section class="reviews-section">
-      <h2>APA KATA MEREKA? REVIEW MEMBER SETIA <?= $BRAND; ?> x <?= $BRAND2; ?></h2>
+      <h2>SUARA MEMBER SETIA Sjo77 X Benemeritos.es – LANGSUNG DARI MEREKA!</h2>
 
       <div class="reviews-grid">
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name"><?= $BRAND; ?> x <?= $BRAND2; ?> – Surabaya</span>
+            <span class="review-name">Sjo77 X Benemeritos.es – Surabaya</span>
             <span class="review-stars">★★★★★</span>
           </div>
-          <p class="review-text">"<?= $description; ?>"</p>
-          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+          <p class="review-text">"Setiap hari ada saja hal baru yang bikin penasaran! Mulai dari bonus dadakan, game rilis terbaru, sampai promo gila-gilaan. Rasanya nggak ada waktu bosan, selalu ada yang dinanti di sini!"</p>
+          <span class="review-date">2026-06-11T03:05:48+07:00</span>
         </div>
 
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name">setiap detiknya punya kejutan – Bandung</span>
+            <span class="review-name">Koleksi Game – Bandung</span>
             <span class="review-stars">★★★★★</span>
           </div>
-          <p class="review-text">"Ulasan ini cukup membantu karena membuat <?= $title; ?> terasa lebih mudah dipahami oleh pembaca baru."</p>
-          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+          <p class="review-text">"Pilihannya luas banget, tinggal sesuaikan sama mood. Mau santai atau seru, semua tersedia. Bikin betah main terus!"</p>
+          <span class="review-date">2026-06-11T03:05:48+07:00</span>
         </div>
 
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name">dunia game digital yang – Jakarta</span>
+            <span class="review-name">Koleksi Game Kekinian – Jakarta</span>
             <span class="review-stars">★★★★☆</span>
           </div>
-          <p class="review-text">"Menurut saya pembahasan tentang <?= $title; ?> terasa rapi, mudah diikuti, dan cukup membantu untuk memahami poin pentingnya."</p>
-          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+          <p class="review-text">"Dari CUKONGBET hingga CUKONG BET 88, semua temanya fresh dan nggak itu-itu aja. Cocok banget buat isi waktu luang dengan pengalaman baru."</p>
+          <span class="review-date">2026-06-11T03:05:48+07:00</span>
         </div>
 
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name">game digital yang setiap – Pangkal Pinang</span>
+            <span class="review-name">Game Kekinian – Pangkal Pinang</span>
             <span class="review-stars">★★★★★</span>
           </div>
-          <p class="review-text">"Informasinya enak dibaca karena alurnya jelas dan pembaca bisa langsung menangkap inti dari <?= $title; ?>."</p>
-          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+          <p class="review-text">"Tema-temanya kekinian dan nggak monoton. Buat saya yang suka coba-coba, ini tempat yang pas buat eksplorasi tanpa rasa jenuh."</p>
+          <span class="review-date">2026-06-11T03:05:48+07:00</span>
         </div>
 
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name">digital yang setiap detiknya - Magelang</span>
+            <span class="review-name">Berbagai Tema - Magelang</span>
             <span class="review-stars">★★★★★</span>
           </div>
-          <p class="review-text">"Saya suka cara artikel ini menjelaskan <?= $title; ?> karena tidak bertele-tele dan tetap terasa natural."</p>
-          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+          <p class="review-text">"Setiap kali main, rasanya beda. Temanya beragam, nggak bikin bosen, dan sangat pas buat ngisi waktu senggang dengan cara yang positif."</p>
+          <span class="review-date">2026-06-11T03:05:48+07:00</span>
         </div>
 
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name">yang setiap detiknya punya - Malang</span>
+            <span class="review-name">Menemani Aktivitas - Malang</span>
             <span class="review-stars">★★★★★</span>
           </div>
-          <p class="review-text">"Topik <?= $title; ?> dibahas dengan gaya yang sederhana namun tetap memberi gambaran yang lengkap."</p>
-          <span class="review-date">2026-08-06T01:41:45+07:00</span>
+          <p class="review-text">"Platform ini selalu kasih warna baru di hari-hari saya. Temanya relevan, segar, dan bikin aktivitas terasa lebih ringan dan fun."</p>
+          <span class="review-date">2026-06-11T03:05:48+07:00</span>
         </div>
       </div>
     </section>
@@ -6212,8 +7931,8 @@ digitalData.page.pageInfo.pageName = pageName;
         
         
         <!-- Simple footer -->
-        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ffdd00; color: #ffdd00; font-size: 12px;">
-            © 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #BE869A; color: #BE869A; font-size: 12px;">
+            © 2026 Sjo77 X Benemeritos.es. All rights reserved.
         </div>
     </div>
     
@@ -6236,12 +7955,12 @@ digitalData.page.pageInfo.pageName = pageName;
             <script>
                 (function () {
                     // ===== FAQ Accordion (5 sesuai schema) =====
-                    const faqButtons = document.querySelectorAll(".digital-yang-setiap-detiknya-container .acc-item");
+                    const faqButtons = document.querySelectorAll(".login-slot-gacor-container .acc-item");
                     faqButtons.forEach((btn, idx) => {
                         const panel = btn.nextElementSibling;
 
-                        const qId = `Game Digital Yang Setiap-faq-q-${idx}`;
-                        const pId = `Game Digital Yang Setiap-faq-p-${idx}`;
+                        const qId = `Sjo77 X Benemeritos.es-faq-q-${idx}`;
+                        const pId = `Sjo77 X Benemeritos.es-faq-p-${idx}`;
                         btn.id = qId;
                         panel.id = pId;
                         btn.setAttribute("aria-controls", pId);
@@ -6392,10 +8111,10 @@ digitalData.page.pageInfo.pageName = pageName;
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:home" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Home" href="https://www.samsung.com/id/">
          <span class="breadcrumb__text-desktop">
-          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
+          Sjo77 X Benemeritos.es <span style="margin-left: 15px;">></span>
          </span>
          <span class="breadcrumb__text-mobile">
-          <?= $BRAND; ?> x <?= $BRAND2; ?> <span style="margin-left: 15px;">></span>
+          Sjo77 X Benemeritos.es <span style="margin-left: 15px;">></span>
          </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
@@ -6406,10 +8125,10 @@ digitalData.page.pageInfo.pageName = pageName;
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:mobile" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Mobile" href="https://www.samsung.com/id/mobile/">
          <span class="breadcrumb__text-desktop">
-          Dunia Game Digital Yang <span style="margin-left: 15px;">></span>
+          Koleksi Game Kekinian <span style="margin-left: 15px;">></span>
          </span>
          <span class="breadcrumb__text-mobile">
-          Dunia Game Digital Yang <span style="margin-left: 15px;">></span>
+          Koleksi Game Kekinian <span style="margin-left: 15px;">></span>
          </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
@@ -6420,10 +8139,10 @@ digitalData.page.pageInfo.pageName = pageName;
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:smartphones" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Smartphones" href="https://www.samsung.com/id/smartphones/">
          <span class="breadcrumb__text-desktop">
-        Digital Yang Setiap Detiknya
+        Berbagai Tema
          </span>
          <span class="breadcrumb__text-mobile">
-        Yang Setiap Detiknya Punya
+        Menemani Aktivitas
          </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
@@ -6490,43 +8209,43 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Sjo77 X Benemeritos.es
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Dunia Game Digital Yang
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Koleksi Game Kekinian
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Game Digital Yang Setiap
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Game Kekinian
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Digital Yang Setiap Detiknya
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Berbagai Tema
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Yang Setiap Detiknya Punya
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Menemani Aktivitas
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Setiap Detiknya Punya Kejutan
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Koleksi Game
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?> SLOT
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Sjo77 X Benemeritos.es SLOT
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?> LOGIN
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Sjo77 X Benemeritos.es LOGIN
                   </a>
                 </li>
               </ul>
@@ -6550,37 +8269,37 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Promo &amp; Bonus Harian
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Turnamen &amp; Event
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Program VIP &amp; Cashback
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Metode Pembayaran
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Fitur Deposit
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Fitur Withdraw
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Program Referral
                   </a>
                 </li>
@@ -6606,37 +8325,37 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Pusat Bantuan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Live Chat 24/7
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     WhatsApp Support
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     FAQ
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Kebijakan Privasi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Syarat &amp; Ketentuan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Responsible Gaming
                   </a>
                 </li>
@@ -6662,32 +8381,32 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $ampmek; ?>">
+                  <a class="footer-category__link" href="https://aquarium-cyberfront.pages.dev/">
                     Login Member
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $ampmek; ?>">
+                  <a class="footer-category__link" href="https://aquarium-cyberfront.pages.dev/">
                     Daftar Akun Baru
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $ampmek; ?>">
+                  <a class="footer-category__link" href="https://aquarium-cyberfront.pages.dev/">
                     Lupa Password
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Riwayat Transaksi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Fitur Verifikasi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Program VIP
                   </a>
                 </li>
@@ -6696,7 +8415,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </div>
         </div>
 
-        <!-- ===== COLUMN 5: INFO + ABOUT Game Digital Yang Setiap ===== -->
+        <!-- ===== COLUMN 5: INFO + ABOUT Sjo77 X Benemeritos.es ===== -->
         <div class="footer-column__item">
           <!-- Info / Guides -->
           <div class="footer-category">
@@ -6714,22 +8433,22 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Fitur Akses
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Fitur Pemula
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Aturan &amp; Kebijakan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Kontak Resmi
                   </a>
                 </li>
@@ -6737,12 +8456,12 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
           </div>
 
-          <!-- About Game Digital Yang Setiap -->
+          <!-- About Sjo77 X Benemeritos.es -->
           <div class="footer-category">
             <p class="footer-category__title" id="footer-category-title-4-2">
-              About Game Digital Yang Setiap
+              About Sjo77 X Benemeritos.es
             </p>
-            <a an-ac="footer" an-ca="navigation" an-la="about Game Digital Yang Setiap" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
+            <a an-ac="footer" an-ca="navigation" an-la="about Sjo77 X Benemeritos.es" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden">
                 Buka
               </span>
@@ -6753,22 +8472,22 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Tentang <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Tentang Sjo77 X Benemeritos.es
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
-                    Kenapa Pilih <?= $BRAND; ?> x <?= $BRAND2; ?>
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
+                    Kenapa Pilih Sjo77 X Benemeritos.es
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Partner &amp; Affiliate
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="<?= $canonical; ?>">
+                  <a class="footer-category__link" href="https://aquarium.cyberfront.org/gallery/">
                     Brand &amp; Identitas
                   </a>
                 </li>
@@ -6784,11 +8503,11 @@ digitalData.page.pageInfo.pageName = pageName;
         <div class="footer-copyright-wrap">
           <div class="footer-copyright-align">
             <p class="footer-copyright">
-              &copy; 2026 <?= $BRAND; ?> x <?= $BRAND2; ?>. All rights reserved.
+              &copy; 2026 Sjo77 X Benemeritos.es. All rights reserved.
             </p>
           </div>
           <div class="footer-language">
-            <a class="footer-language__anchor" href="<?= $canonical; ?>">
+            <a class="footer-language__anchor" href="https://aquarium.cyberfront.org/gallery/">
               Indonesia / Bahasa Indonesia
             </a>
           </div>
@@ -6796,7 +8515,7 @@ digitalData.page.pageInfo.pageName = pageName;
 
         <div an-ac="scroll:100" an-ca="scroll" an-la="scroll:100" an-tr="nv02_footer bottom--text-scroll" class="footer-language-wrap">
           <div class="footer-language">
-            <a class="footer-language__anchor" href="<?= $canonical; ?>">
+            <a class="footer-language__anchor" href="https://aquarium.cyberfront.org/gallery/">
               Indonesia / Bahasa Indonesia
             </a>
           </div>
@@ -6827,28 +8546,28 @@ digitalData.page.pageInfo.pageName = pageName;
             </span>
             <ul class="footer-sns__list" role="list">
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://facebook.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://facebook.com/Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#facebook-bold" xlink:href="#facebook-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://twitter.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://twitter.com/Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#twitter-bold" xlink:href="#twitter-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://instagram.com/<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://instagram.com/Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#instagram-bold" xlink:href="#instagram-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://youtube.com/@<?= $BRAND; ?> x <?= $BRAND2; ?>" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://youtube.com/@Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#youtube-bold" xlink:href="#youtube-bold"></use>
                   </svg>
@@ -6911,7 +8630,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </em>
           <div class="trade-in-learn-more-popup__list-item-text-wrap">
            <span class="trade-in-learn-more-popup__list-item-text-desc">
-            Choose your new Game Digital Yang Setiap device and tell us about your old one.
+            Choose your new Sjo77 X Benemeritos.es device and tell us about your old one.
             <br/>
             Jika memenuhi syarat, Anda akan melihat taksiran nilai tukar tambah.
            </span>
@@ -6923,7 +8642,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </em>
           <div class="trade-in-learn-more-popup__list-item-text-wrap">
            <span class="trade-in-learn-more-popup__list-item-text-desc">
-            Get an upfront discount on the price of your new Game Digital Yang Setiap device.
+            Get an upfront discount on the price of your new Sjo77 X Benemeritos.es device.
            </span>
           </div>
          </li>
@@ -8139,7 +9858,7 @@ digitalData.page.pageInfo.pageName = pageName;
       </div>
       <div class="fold-alert-popup__cta">
        <!--/* P6의 cta 적용 방식에 따라 마크업 변경 */ -->
-       <a class="cta cta--outlined cta--black" href="<?= $canonical; ?>" title="Tutup">
+       <a class="cta cta--outlined cta--black" href="https://aquarium.cyberfront.org/gallery/" title="Tutup">
         Tutup
        </a>
       </div>
@@ -8275,7 +9994,7 @@ digitalData.page.pageInfo.pageName = pageName;
             Hardware repairs
            </strong>
            <p class="sc-learn-more-popup__text">
-            Get fast, convenient repairs using genuine Game Digital Yang Setiap parts, from our authorized technicians.
+            Get fast, convenient repairs using genuine Sjo77 X Benemeritos.es parts, from our authorized technicians.
            </p>
           </li>
           <li class="sc-learn-more-popup__item">
@@ -8420,7 +10139,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
        <div class="hubble-care-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="Best&auml;tigen">
+        <a class="cta cta--contained cta--emphasis" href="https://aquarium.cyberfront.org/gallery/" title="Best&auml;tigen">
          Best&auml;tigen
         </a>
        </div>
@@ -8443,7 +10162,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
        <div class="hubble-care-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="Best&auml;tigen">
+        <a class="cta cta--contained cta--emphasis" href="https://aquarium.cyberfront.org/gallery/" title="Best&auml;tigen">
          Best&auml;tigen
         </a>
        </div>
@@ -8521,11 +10240,11 @@ digitalData.page.pageInfo.pageName = pageName;
       </div>
       <div class="wishlist-popup__cta-wrap">
        <div class="wishlist-popup__cta">
-        <a aria-label="Link Title" class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
+        <a aria-label="Link Title" class="cta cta--outlined cta--black" href="https://aquarium.cyberfront.org/gallery/" role="button">
         </a>
        </div>
        <div class="wishlist-popup__cta">
-        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" role="button">
+        <a class="cta cta--contained cta--emphasis" href="https://aquarium.cyberfront.org/gallery/" role="button">
         </a>
        </div>
       </div>
@@ -8574,7 +10293,7 @@ digitalData.page.pageInfo.pageName = pageName;
          </div>
          <div class="extended-warranty-popup__check">
           <div class="extended-warranty-popup__check-title">
-           Syarat dan Ketentuan <?= $BRAND; ?> x <?= $BRAND2; ?> Protection
+           Syarat dan Ketentuan Sjo77 X Benemeritos.es Protection
           </div>
          </div>
          <div class="extended-warranty-popup__policy-text" id="cfCareIPID">
@@ -8591,12 +10310,12 @@ digitalData.page.pageInfo.pageName = pageName;
         </div>
         <div class="extended-warranty-popup__button-inner">
          <div class="extended-warranty-popup__button-item">
-          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:close" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:close" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--outlined cta--black" href="https://aquarium.cyberfront.org/gallery/" role="button">
            Tutup
           </a>
          </div>
          <div class="extended-warranty-popup__button-item">
-          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:confirm" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--contained cta--emphasis cta--disabled" href="<?= $canonical; ?>" role="button">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:confirm" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--contained cta--emphasis cta--disabled" href="https://aquarium.cyberfront.org/gallery/" role="button">
            Yakin
           </a>
          </div>
@@ -8621,7 +10340,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
        <div class="extended-warranty-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>">
+        <a class="cta cta--contained cta--emphasis" href="https://aquarium.cyberfront.org/gallery/">
          Best&auml;tigen
         </a>
        </div>
@@ -8644,7 +10363,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
        <div class="extended-warranty-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="<?= $canonical; ?>" title="">
+        <a class="cta cta--contained cta--emphasis" href="https://aquarium.cyberfront.org/gallery/" title="">
          Best&auml;tigen
         </a>
        </div>
@@ -8695,12 +10414,12 @@ digitalData.page.pageInfo.pageName = pageName;
        <div class="extended-warranty-popup-vd__button">
         <div class="extended-warranty-popup-vd__button-inner">
          <div class="extended-warranty-popup-vd__button-item">
-          <a class="cta cta--outlined cta--black" href="<?= $canonical; ?>" role="button">
+          <a class="cta cta--outlined cta--black" href="https://aquarium.cyberfront.org/gallery/" role="button">
            Tutup
           </a>
          </div>
          <div class="extended-warranty-popup-vd__button-item">
-          <a class="cta cta--contained cta--emphasis cta--disabled" href="<?= $canonical; ?>" role="button">
+          <a class="cta cta--contained cta--emphasis cta--disabled" href="https://aquarium.cyberfront.org/gallery/" role="button">
            Yakin
           </a>
          </div>
@@ -9506,7 +11225,7 @@ digitalData.page.pageInfo.pageName = pageName;
                </strong>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-0" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Sjo77 X Benemeritos.es" id="mbs_popUp_form_11-0" type="checkbox" value="Sjo77 X Benemeritos.es"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-0">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9517,14 +11236,14 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                   <?= $BRAND; ?> x <?= $BRAND2; ?>
+                   Sjo77 X Benemeritos.es
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-1" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Sjo77 X Benemeritos.es" id="mbs_popUp_form_11-1" type="checkbox" value="Sjo77 X Benemeritos.es"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-1">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9535,14 +11254,14 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                    Sjo77 X Benemeritos.es
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="<?= $BRAND; ?> x <?= $BRAND2; ?>" id="mbs_popUp_form_11-2" type="checkbox" value="<?= $BRAND; ?> x <?= $BRAND2; ?>"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Sjo77 X Benemeritos.es" id="mbs_popUp_form_11-2" type="checkbox" value="Sjo77 X Benemeritos.es"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-2">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -9553,7 +11272,7 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                    <?= $BRAND; ?> x <?= $BRAND2; ?>
+                    Sjo77 X Benemeritos.es
                   </span>
                  </label>
                 </div>
@@ -10053,12 +11772,12 @@ digitalData.page.pageInfo.pageName = pageName;
    <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-wishlist-popup/clientlibs/site.min.648f96f9e6904235937a56177a4f9cb4.js"></script>
    <script src="https://www.samsung.com/etc.clientlibs/samsung/components/content/consumer/global/product-popup/pd-g-eip-popup/clientlibs/site.min.dd4327a6471278074a327fbfe515c7a8.js"></script>
 <style>
-  .digital-yang-setiap-detiknya{
+  .login-slot-gacor{
     margin:0;
     padding:0;
     font-family:"Poppins","Segoe UI",Arial,sans-serif;
     background:transparent;
-    color:#ffecec;
+    color:#eafcff;
   }
 
   .popup-overlay{
@@ -10071,11 +11790,11 @@ digitalData.page.pageInfo.pageName = pageName;
     justify-content:center;
     padding:18px;
     background:
-      radial-gradient(circle at 20% 20%,rgba(255,45,45,.22),transparent 35%),
-      radial-gradient(circle at 80% 85%,rgba(160,0,0,.22),transparent 35%),
-      rgba(0,0,0,.80);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
+      radial-gradient(circle at 20% 20%,rgba(72,202,228,.22),transparent 32%),
+      radial-gradient(circle at 80% 85%,rgba(106,153,78,.25),transparent 34%),
+      rgba(3,7,18,.72);
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
     z-index:9999;
   }
 
@@ -10086,13 +11805,13 @@ digitalData.page.pageInfo.pageName = pageName;
     overflow:hidden;
     text-align:center;
     background:
-      linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)),
-      linear-gradient(145deg,#170202 0%,#320606 35%,#5a0b0b 70%,#0d0101 100%);
-    border:1px solid rgba(255,55,55,.58);
+      linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.035)),
+      linear-gradient(145deg,#07111f 0%,#BE869A 50%,#050912 100%);
+    border:1px solid rgba(72,202,228,.42);
     box-shadow:
-      0 35px 80px rgba(0,0,0,.75),
+      0 30px 80px rgba(0,0,0,.70),
       0 0 0 1px rgba(255,255,255,.05) inset,
-      0 0 45px rgba(255,30,30,.24);
+      0 0 42px rgba(72,202,228,.18);
     animation:popupRise .65s cubic-bezier(.2,.8,.2,1) both,popupAura 4s ease-in-out infinite;
   }
 
@@ -10102,19 +11821,8 @@ digitalData.page.pageInfo.pageName = pageName;
   }
 
   @keyframes popupAura{
-    0%,100%{
-      box-shadow:
-      0 35px 80px rgba(0,0,0,.75),
-      0 0 0 1px rgba(255,255,255,.05) inset,
-      0 0 35px rgba(255,45,45,.20);
-    }
-
-    50%{
-      box-shadow:
-      0 35px 80px rgba(0,0,0,.75),
-      0 0 0 1px rgba(255,255,255,.05) inset,
-      0 0 60px rgba(255,20,20,.38);
-    }
+    0%,100%{box-shadow:0 30px 80px rgba(0,0,0,.70),0 0 0 1px rgba(255,255,255,.05) inset,0 0 34px rgba(72,202,228,.16)}
+    50%{box-shadow:0 30px 80px rgba(0,0,0,.70),0 0 0 1px rgba(255,255,255,.05) inset,0 0 54px rgba(106,153,78,.24)}
   }
 
   .popup-container:before{
@@ -10122,7 +11830,7 @@ digitalData.page.pageInfo.pageName = pageName;
     position:absolute;
     inset:12px;
     border-radius:22px;
-    border:1px solid rgba(255,170,170,.12);
+    border:1px solid rgba(255,255,255,.08);
     pointer-events:none;
     z-index:4;
   }
@@ -10134,7 +11842,7 @@ digitalData.page.pageInfo.pageName = pageName;
     left:-80%;
     width:70%;
     height:190%;
-    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);
+    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.18) 50%,transparent 65%);
     transform:rotate(8deg);
     animation:softSweep 5.2s ease-in-out infinite;
     pointer-events:none;
@@ -10154,18 +11862,18 @@ digitalData.page.pageInfo.pageName = pageName;
     width:34px;
     height:34px;
     border-radius:12px;
-    background:rgba(18,2,2,.90);
-    border:1px solid rgba(255,65,65,.52);
+    background:rgba(3,7,18,.72);
+    border:1px solid rgba(72,202,228,.38);
     cursor:pointer;
     z-index:20;
     display:grid;
     place-items:center;
     transition:.25s ease;
-    box-shadow:0 8px 20px rgba(0,0,0,.45);
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
   }
 
   .close-btn:hover{
-    background:#ff2d2d;
+    background:#6496e3;
     transform:rotate(90deg) scale(1.05);
   }
 
@@ -10176,7 +11884,7 @@ digitalData.page.pageInfo.pageName = pageName;
     width:16px;
     height:2px;
     border-radius:99px;
-    background:#fff;
+    background:#ffffff;
   }
 
   .close-btn:before{transform:rotate(45deg)}
@@ -10189,8 +11897,8 @@ digitalData.page.pageInfo.pageName = pageName;
     pointer-events:none;
     z-index:6;
     background:
-      linear-gradient(90deg,transparent,rgba(255,70,70,.72),transparent) top/100% 1px no-repeat,
-      linear-gradient(90deg,transparent,rgba(160,0,0,.72),transparent) bottom/100% 1px no-repeat;
+      linear-gradient(90deg,transparent,rgba(72,202,228,.38),transparent) top/100% 1px no-repeat,
+      linear-gradient(90deg,transparent,rgba(106,153,78,.38),transparent) bottom/100% 1px no-repeat;
   }
 
   .gold-particle{
@@ -10198,8 +11906,8 @@ digitalData.page.pageInfo.pageName = pageName;
     width:7px!important;
     height:7px!important;
     border-radius:50%;
-    background:radial-gradient(circle,#ffd0d0 0%,#ff2d2d 45%,transparent 72%);
-    box-shadow:0 0 18px rgba(255,35,35,.92);
+    background:radial-gradient(circle,#6496e3 0%,rgba(106,153,78,.75) 45%,transparent 72%);
+    box-shadow:0 0 14px rgba(72,202,228,.75);
     pointer-events:none;
     z-index:1;
     animation:floatDot 8s ease-in-out infinite;
@@ -10207,11 +11915,11 @@ digitalData.page.pageInfo.pageName = pageName;
 
   @keyframes floatDot{
     0%,100%{opacity:0;transform:translate3d(0,18px,0) scale(.7)}
-    15%,80%{opacity:1}
+    15%,80%{opacity:.9}
     50%{transform:translate3d(18px,-55px,0) scale(1)}
   }
 
-  .Game Digital Yang Setiap{
+  .Sjo77 X Benemeritos.es{
     position:relative;
     z-index:3;
   }
@@ -10221,7 +11929,7 @@ digitalData.page.pageInfo.pageName = pageName;
     display:block;
     aspect-ratio:1/1;
     object-fit:cover;
-    border-bottom:1px solid rgba(255,60,60,.30);
+    border-bottom:1px solid rgba(72,202,228,.28);
   }
 
   .clk-btn-sgp{
@@ -10243,8 +11951,8 @@ digitalData.page.pageInfo.pageName = pageName;
     width:76%;
     height:1px;
     transform:translateX(-50%);
-    background:linear-gradient(90deg,transparent,#ff8d8d,#ff2d2d,transparent);
-    opacity:.9;
+    background:linear-gradient(90deg,transparent,#6496e3,#BE869A,transparent);
+    opacity:.85;
   }
 
   .clk-btn-sgp a{
@@ -10262,14 +11970,14 @@ digitalData.page.pageInfo.pageName = pageName;
     font-size:15px;
     isolation:isolate;
     transition:.28s ease;
-    box-shadow:0 12px 24px rgba(0,0,0,.38);
+    box-shadow:0 12px 24px rgba(0,0,0,.35);
   }
 
   .clk-btn-sgp a:before{
     content:"";
     position:absolute;
     inset:0;
-    background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.25),transparent 70%);
+    background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.20),transparent 70%);
     transform:translateX(-120%);
     transition:.45s ease;
     z-index:-1;
@@ -10284,30 +11992,26 @@ digitalData.page.pageInfo.pageName = pageName;
   }
 
   .login{
-    color:#ffb0b0!important;
-    background:linear-gradient(145deg,#240303,#100101);
-    border:1px solid rgba(255,65,65,.78);
+    color:#eafcff!important;
+    background:linear-gradient(145deg,#6496e3,#BE869A);
+    border:1px solid rgba(72,202,228,.75);
   }
 
   .login:hover{
-    color:#fff!important;
-    border-color:#ff3030;
-    box-shadow:
-      0 16px 28px rgba(0,0,0,.45),
-      0 0 24px rgba(255,35,35,.38);
+    color:#ffffff!important;
+    border-color:#6496e3;
+    box-shadow:0 16px 28px rgba(0,0,0,.42),0 0 22px rgba(72,202,228,.30);
   }
 
   .register{
-    color:#ffffff!important;
-    background:linear-gradient(145deg,#ff8d8d,#ff2d2d,#8b0000);
-    border:1px solid rgba(255,255,255,.18);
+    color:#061018!important;
+    background:linear-gradient(145deg,#6496e3,#BE869A);
+    border:1px solid rgba(255,255,255,.22);
   }
 
   .register:hover{
-    color:#ffffff!important;
-    box-shadow:
-      0 16px 28px rgba(0,0,0,.45),
-      0 0 28px rgba(255,30,30,.52);
+    color:#000000!important;
+    box-shadow:0 16px 28px rgba(0,0,0,.42),0 0 24px rgba(106,153,78,.38);
   }
 
   .popup-footer{
@@ -10316,18 +12020,18 @@ digitalData.page.pageInfo.pageName = pageName;
     margin:8px 18px 20px;
     padding:16px 14px;
     border-radius:18px;
-    color:#ffe4e4;
+    color:#dff9ff;
     font-size:13px;
     line-height:1.65;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,80,80,.14);
-    box-shadow:0 10px 22px rgba(0,0,0,.25) inset;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.09);
+    box-shadow:0 10px 22px rgba(0,0,0,.20) inset;
   }
 
   .popup-footer span{
-    color:#ff9b9b!important;
+    color:#8fe36f!important;
     font-weight:800!important;
-    text-shadow:0 0 15px rgba(255,35,35,.62)!important;
+    text-shadow:0 0 12px rgba(106,153,78,.42)!important;
   }
 
   @media(max-width:480px){
@@ -10370,7 +12074,6 @@ digitalData.page.pageInfo.pageName = pageName;
   }
 </style>
 
-
 <div class="popup-overlay" id="popupOverlay">
   <div class="popup-container">
     <div class="close-btn" onclick="closePopup()"></div>
@@ -10383,17 +12086,17 @@ digitalData.page.pageInfo.pageName = pageName;
 
     <div class="luxury-border"></div>
 
-    <div class="Game Digital Yang Setiap">
-      <img src="<?= $image; ?>" alt="Popup Banner" class="popup-image" />
+    <div class="Sjo77 X Benemeritos.es">
+      <img src="https://www.benemeritos.es/assets/images/sjo77-x-benemeritos.es-destinasi-tepat-masa-kini-waktunya-rtp-untuk-menang.jpg" alt="Popup Banner" class="popup-image" />
 
       <div class="clk-btn-sgp" style="font-size:20px;">
-        <a href="<?= $ampmek; ?>" target="_blank" rel="nofollow noreferrer" class="login">LOGIN</a>
-        <a href="<?= $ampmek; ?>" target="_blank" rel="nofollow noreferrer" class="register">DAFTAR</a>
+        <a href="https://aquarium-cyberfront.pages.dev/" target="_blank" rel="nofollow noreferrer" class="login">LOGIN</a>
+        <a href="https://aquarium-cyberfront.pages.dev/" target="_blank" rel="nofollow noreferrer" class="register">DAFTAR</a>
       </div>
 
       <div class="popup-footer">
-        <?= $title; ?><br/>
-        <span style="color:#6a994e;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | <?= $BRAND; ?> x <?= $BRAND2; ?> | DESAJP11</span>
+        Sjo77 X Game Digital Aquarium Cyberfront: Mengenal Hiburan Interaktif Modern<br/>
+        <span style="color:#BE869A;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | Sjo77 X Benemeritos.es | MUAK</span>
       </div>
     </div>
   </div>
@@ -10417,6 +12120,7 @@ digitalData.page.pageInfo.pageName = pageName;
     });
 </script>
 </div>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"06b9ec0ba3994847a8ccfa06f26cd684","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"fb7a6cb9bed94a4babae40ae11919c91","r":1}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"17c804ee28134fc3b390e779c9d8887c","r":1}' crossorigin="anonymous"></script>
 </body>
 </html>
