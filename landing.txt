@@ -3,33 +3,33 @@
 <!DOCTYPE html>
 <html lang="id-ID">
 <head>
-<link href="https://teganalwataniah.com/why-us/" rel="preconnect"/>
+<link href="https://teganalwataniah.com/ceo/" rel="preconnect"/>
 <meta charset="utf-8"/>
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis</title>
-<meta name="title" content="SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis">
+<title>NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital</title>
+<meta name="title" content="NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://teganalwataniah.com/why-us/">
+<link rel="canonical" href="https://teganalwataniah.com/ceo/">
 <link rel="amphtml" href="https://teganalwataniah-whyus.pages.dev/">
 <link rel="alternate" hreflang="id-id" href="https://teganalwataniah-whyus.pages.dev/"/>
 <link rel="alternate" hreflang="id" href="https://teganalwataniah-whyus.pages.dev/"/>
-<meta name="publisher" content="Sjo77 X Benemeritos.es">
-<meta name="description" content="Melalui SJO77 x teganalwataniah.com, informasi mengenai game digital dapat menjadi referensi bagi pembaca yang ingin memahami perkembangan dunia gaming dan berbagai teknologi yang mendukungnya.">
-<meta name="keywords" content="Sjo77 X Benemeritos.es" />
+<meta name="publisher" content="NOBAR4D x TeganAlWataniah.com">
+<meta name="description" content="NOBAR4D x TeganAlWataniah.com menghadirkan pembahasan mengenai game mobile dan berbagai aspek yang berkaitan dengan perkembangan dunia gaming smartphone.">
+<meta name="keywords" content="NOBAR4D x TeganAlWataniah.com" />
 <meta name="sitecode" content="id">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis">
-<meta name="twitter:description" content="Melalui SJO77 x teganalwataniah.com, informasi mengenai game digital dapat menjadi referensi bagi pembaca yang ingin memahami perkembangan dunia gaming dan berbagai teknologi yang mendukungnya.">
-<meta name="twitter:url" content="https://teganalwataniah.com/why-us/">
+<meta name="twitter:title" content="NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital">
+<meta name="twitter:description" content="NOBAR4D x TeganAlWataniah.com menghadirkan pembahasan mengenai game mobile dan berbagai aspek yang berkaitan dengan perkembangan dunia gaming smartphone.">
+<meta name="twitter:url" content="https://teganalwataniah.com/ceo/">
 <meta name="twitter:image" content="https://www.benemeritos.es/assets/images/logo-sjo77-x-benemeritos.es.jpg">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Sjo77 X Benemeritos.es">
+<meta property="og:site_name" content="NOBAR4D x TeganAlWataniah.com">
 <meta property="og:locale" content="id_ID">
-<meta property="og:url" content="https://teganalwataniah.com/why-us/">
-<meta property="og:title" content="SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis">
-<meta property="og:description" content="Melalui SJO77 x teganalwataniah.com, informasi mengenai game digital dapat menjadi referensi bagi pembaca yang ingin memahami perkembangan dunia gaming dan berbagai teknologi yang mendukungnya.">
+<meta property="og:url" content="https://teganalwataniah.com/ceo/">
+<meta property="og:title" content="NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital">
+<meta property="og:description" content="NOBAR4D x TeganAlWataniah.com menghadirkan pembahasan mengenai game mobile dan berbagai aspek yang berkaitan dengan perkembangan dunia gaming smartphone.">
 <meta property="og:image" content="https://i.pinimg.com/1200x/dd/fd/d4/ddfdd4497a2bca9695bcd92f5479ef90.jpg">
 <link rel="icon" type="image/png" sizes="96x96" href="https://www.benemeritos.es/assets/images/icon-sjo77-x-benemeritos.es.jpg">
 <link rel="shortcut icon" href="https://www.benemeritos.es/assets/images/icon-sjo77-x-benemeritos.es.jpg">
@@ -694,13 +694,13 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "WebSite",
-      "@id": "https://teganalwataniah.com/why-us/",
-      "url": "https://teganalwataniah.com/why-us/",
-      "name": "Sjo77 X Benemeritos.es",
+      "@id": "https://teganalwataniah.com/ceo/",
+      "url": "https://teganalwataniah.com/ceo/",
+      "name": "NOBAR4D x TeganAlWataniah.com",
       "inLanguage": "id-ID",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://teganalwataniah.com/why-us/?q={search_term_string}",
+        "target": "https://teganalwataniah.com/ceo/?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     },
@@ -709,18 +709,18 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "Organization",
-      "@id": "https://teganalwataniah.com/why-us/",
-      "name": "Sjo77 X Benemeritos.es",
-      "url": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
+      "name": "NOBAR4D x TeganAlWataniah.com",
+      "url": "https://teganalwataniah.com/ceo/",
       "logo": {
         "@type": "ImageObject",
         "url": "https://www.benemeritos.es/assets/images/logo-sjo77-x-benemeritos.es.jpg"
       },
       "sameAs": [
-        "https://www.facebook.com/Sjo77 X Benemeritos.es",
-        "https://www.twitter.com/Sjo77 X Benemeritos.es",
-        "https://instagram.com/Sjo77 X Benemeritos.es",
-        "https://line.me/ti/p/Sjo77 X Benemeritos.es"
+        "https://www.facebook.com/NOBAR4D x TeganAlWataniah.com",
+        "https://www.twitter.com/NOBAR4D x TeganAlWataniah.com",
+        "https://instagram.com/NOBAR4D x TeganAlWataniah.com",
+        "https://line.me/ti/p/NOBAR4D x TeganAlWataniah.com"
       ]
     },
 
@@ -728,12 +728,12 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "WebPage",
-      "@id": "https://teganalwataniah.com/why-us/",
-      "url": "https://teganalwataniah.com/why-us/",
-      "name": "SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis",
-      "isPartOf": { "@id": "https://teganalwataniah.com/why-us/" },
-      "about": { "@id": "https://teganalwataniah.com/why-us/" },
-      "breadcrumb": { "@id": "https://teganalwataniah.com/why-us/" },
+      "@id": "https://teganalwataniah.com/ceo/",
+      "url": "https://teganalwataniah.com/ceo/",
+      "name": "NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital",
+      "isPartOf": { "@id": "https://teganalwataniah.com/ceo/" },
+      "about": { "@id": "https://teganalwataniah.com/ceo/" },
+      "breadcrumb": { "@id": "https://teganalwataniah.com/ceo/" },
       "inLanguage": "id-ID"
     },
 
@@ -741,9 +741,9 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "Article",
-      "@id": "https://teganalwataniah.com/why-us/",
-      "headline": "SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis",
-      "description": "Melalui SJO77 x teganalwataniah.com, informasi mengenai game digital dapat menjadi referensi bagi pembaca yang ingin memahami perkembangan dunia gaming dan berbagai teknologi yang mendukungnya.",
+      "@id": "https://teganalwataniah.com/ceo/",
+      "headline": "NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital",
+      "description": "NOBAR4D x TeganAlWataniah.com menghadirkan pembahasan mengenai game mobile dan berbagai aspek yang berkaitan dengan perkembangan dunia gaming smartphone.",
       "image": {
         "@type": "ImageObject",
         "url": "https://i.pinimg.com/1200x/dd/fd/d4/ddfdd4497a2bca9695bcd92f5479ef90.jpg"
@@ -754,8 +754,8 @@ digitalData.page.pageInfo.pageName = pageName;
         "@type": "Organization",
         "name": "MUAK"
       },
-      "publisher": { "@id": "https://teganalwataniah.com/why-us/" },
-      "mainEntityOfPage": { "@id": "https://teganalwataniah.com/why-us/" },
+      "publisher": { "@id": "https://teganalwataniah.com/ceo/" },
+      "mainEntityOfPage": { "@id": "https://teganalwataniah.com/ceo/" },
       "inLanguage": "id-ID"
     },
 
@@ -763,43 +763,43 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "BreadcrumbList",
-      "@id": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "Sjo77 X Benemeritos.es",
-          "item": "https://teganalwataniah.com/why-us/"
+          "name": "NOBAR4D x TeganAlWataniah.com",
+          "item": "https://teganalwataniah.com/ceo/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Koleksi Game Kekinian",
-          "item": "https://teganalwataniah.com/why-us/"
+          "item": "https://teganalwataniah.com/ceo/"
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": "Game Kekinian",
-          "item": "https://teganalwataniah.com/why-us/"
+          "item": "https://teganalwataniah.com/ceo/"
         },
         {
           "@type": "ListItem",
           "position": 4,
           "name": "Berbagai Tema",
-          "item": "https://teganalwataniah.com/why-us/"
+          "item": "https://teganalwataniah.com/ceo/"
         },
         {
           "@type": "ListItem",
           "position": 5,
           "name": "Menemani Aktivitas",
-          "item": "https://teganalwataniah.com/why-us/"
+          "item": "https://teganalwataniah.com/ceo/"
         },
         {
           "@type": "ListItem",
           "position": 6,
           "name": "Koleksi Game",
-          "item": "https://teganalwataniah.com/why-us/"
+          "item": "https://teganalwataniah.com/ceo/"
         }
       ]
     },
@@ -808,37 +808,37 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "FAQPage",
-      "@id": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
       "mainEntity": [
 
         {
           "@type": "Question",
-          "name": "Bagaimana Koleksi Game Kekinian Sjo77 X Benemeritos.es menghadirkan Berbagai Tema menarik?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Koleksi Game Kekinian Sjo77 X Benemeritos.es dirancang dengan Berbagai Tema yang terus diperbarui sehingga pengguna bisa menikmati pengalaman bermain yang segar untuk menemani aktivitas harian." }
+          "name": "Bagaimana Koleksi Game Kekinian NOBAR4D x TeganAlWataniah.com menghadirkan Berbagai Tema menarik?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Koleksi Game Kekinian NOBAR4D x TeganAlWataniah.com dirancang dengan Berbagai Tema yang terus diperbarui sehingga pengguna bisa menikmati pengalaman bermain yang segar untuk menemani aktivitas harian." }
         },
 
         {
           "@type": "Question",
-          "name": "Mengapa Sjo77 X Benemeritos.es cocok sebagai pilihan Koleksi Game Kekinian dengan Berbagai Tema?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sjo77 X Benemeritos.es menawarkan Koleksi Game Kekinian yang kaya akan Berbagai Tema, memastikan setiap sesi bermain tetap seru dan relevan untuk menemani aktivitas apa pun." }
+          "name": "Mengapa NOBAR4D x TeganAlWataniah.com cocok sebagai pilihan Koleksi Game Kekinian dengan Berbagai Tema?",
+          "acceptedAnswer": { "@type": "Answer", "text": "NOBAR4D x TeganAlWataniah.com menawarkan Koleksi Game Kekinian yang kaya akan Berbagai Tema, memastikan setiap sesi bermain tetap seru dan relevan untuk menemani aktivitas apa pun." }
         },
 
         {
           "@type": "Question",
-          "name": "Apa kelebihan tema dalam Koleksi Game Kekinian Sjo77 X Benemeritos.es untuk menemani aktivitas?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Dengan Koleksi Game Kekinian yang memiliki Berbagai Tema, Sjo77 X Benemeritos.es memberikan variasi yang membantu pengguna menemani aktivitas tanpa merasa bosan." }
+          "name": "Apa kelebihan tema dalam Koleksi Game Kekinian NOBAR4D x TeganAlWataniah.com untuk menemani aktivitas?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Dengan Koleksi Game Kekinian yang memiliki Berbagai Tema, NOBAR4D x TeganAlWataniah.com memberikan variasi yang membantu pengguna menemani aktivitas tanpa merasa bosan." }
         },
 
         {
           "@type": "Question",
-          "name": "Bagaimana Sjo77 X Benemeritos.es memastikan Koleksi Game Kekinian tetap update dengan Berbagai Tema?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sjo77 X Benemeritos.es secara rutin memperbarui Koleksi Game Kekinian agar Berbagai Tema selalu kekinian dan siap menemani aktivitas pengguna setiap saat." }
+          "name": "Bagaimana NOBAR4D x TeganAlWataniah.com memastikan Koleksi Game Kekinian tetap update dengan Berbagai Tema?",
+          "acceptedAnswer": { "@type": "Answer", "text": "NOBAR4D x TeganAlWataniah.com secara rutin memperbarui Koleksi Game Kekinian agar Berbagai Tema selalu kekinian dan siap menemani aktivitas pengguna setiap saat." }
         },
 
         {
           "@type": "Question",
-          "name": "Apakah Koleksi Game Kekinian Sjo77 X Benemeritos.es dengan Berbagai Tema mendukung aktivitas santai?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Ya, Koleksi Game Kekinian Sjo77 X Benemeritos.es yang dilengkapi Berbagai Tema menjadi solusi tepat untuk menemani aktivitas santai dengan gameplay yang menghibur." }
+          "name": "Apakah Koleksi Game Kekinian NOBAR4D x TeganAlWataniah.com dengan Berbagai Tema mendukung aktivitas santai?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Ya, Koleksi Game Kekinian NOBAR4D x TeganAlWataniah.com yang dilengkapi Berbagai Tema menjadi solusi tepat untuk menemani aktivitas santai dengan gameplay yang menghibur." }
         }
 
       ]
@@ -848,47 +848,47 @@ digitalData.page.pageInfo.pageName = pageName;
 
     {
       "@type": "Review",
-      "@id": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
       "author": { "@type": "Person", "name": "Koleksi Game Kekinian" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
       "reviewBody": "Koleksi game dari CUKONGBET dan CUKONG BET 88 ini punya banyak tema yang bikin main jadi lebih menyenangkan di sela-sela kesibukan.",
-      "itemReviewed": { "@id": "https://teganalwataniah.com/why-us/" }
+      "itemReviewed": { "@id": "https://teganalwataniah.com/ceo/" }
     },
 
     {
       "@type": "Review",
-      "@id": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
       "author": { "@type": "Person", "name": "Game Kekinian" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
       "reviewBody": "Tema-tema game yang ditawarkan cukup beragam dan sesuai tren, cocok buat yang ingin coba hal baru tanpa ribet.",
-      "itemReviewed": { "@id": "https://teganalwataniah.com/why-us/" }
+      "itemReviewed": { "@id": "https://teganalwataniah.com/ceo/" }
     },
 
     {
       "@type": "Review",
-      "@id": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
       "author": { "@type": "Person", "name": "Berbagai Tema" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
       "reviewBody": "Saya merasa game-game ini pas untuk mengisi waktu luang karena pilihan temanya luas dan tidak monoton.",
-      "itemReviewed": { "@id": "https://teganalwataniah.com/why-us/" }
+      "itemReviewed": { "@id": "https://teganalwataniah.com/ceo/" }
     },
 
     {
       "@type": "Review",
-      "@id": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
       "author": { "@type": "Person", "name": "Menemani Aktivitas" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
       "reviewBody": "Dengan berbagai tema kekinian, platform ini memberikan kesan yang segar dan relevan dengan aktivitas sehari-hari.",
-      "itemReviewed": { "@id": "https://teganalwataniah.com/why-us/" }
+      "itemReviewed": { "@id": "https://teganalwataniah.com/ceo/" }
     },
 
     {
       "@type": "Review",
-      "@id": "https://teganalwataniah.com/why-us/",
+      "@id": "https://teganalwataniah.com/ceo/",
       "author": { "@type": "Person", "name": "Koleksi Game" },
       "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
       "reviewBody": "Banyak game menarik yang bisa dipilih sesuai suasana hati, membuat pengalaman bermain terasa lebih santai dan menyenangkan.",
-      "itemReviewed": { "@id": "https://teganalwataniah.com/why-us/" }
+      "itemReviewed": { "@id": "https://teganalwataniah.com/ceo/" }
     }
 
   ]
@@ -916,329 +916,329 @@ digitalData.page.pageInfo.pageName = pageName;
 </head>
  <body>
  <div data-nosnippet="true" style="display: none">
-<a href="https://teganalwataniah.com/why-us/">sl888</a>
-<a href="https://teganalwataniah.com/why-us/">lebah777</a>
-<a href="https://teganalwataniah.com/why-us/">uus77</a>
-<a href="https://teganalwataniah.com/why-us/">rog77</a>
-<a href="https://teganalwataniah.com/why-us/">alexis77</a>
-<a href="https://teganalwataniah.com/why-us/">tambang88</a>
-<a href="https://teganalwataniah.com/why-us/">sutratoto</a>
-<a href="https://teganalwataniah.com/why-us/">km77</a>
-<a href="https://teganalwataniah.com/why-us/">ego77</a>
-<a href="https://teganalwataniah.com/why-us/">mamibet88</a>
-<a href="https://teganalwataniah.com/why-us/">angkasa77</a>
-<a href="https://teganalwataniah.com/why-us/">sensasi77</a>
-<a href="https://teganalwataniah.com/why-us/">biru77</a>
-<a href="https://teganalwataniah.com/why-us/">probet888</a>
-<a href="https://teganalwataniah.com/why-us/">ayowd</a>
-<a href="https://teganalwataniah.com/why-us/">bmw77</a>
-<a href="https://teganalwataniah.com/why-us/">mariatogel88</a>
-<a href="https://teganalwataniah.com/why-us/">dewa100</a>
-<a href="https://teganalwataniah.com/why-us/">ns1212</a>
-<a href="https://teganalwataniah.com/why-us/">cabe88</a>
-<a href="https://teganalwataniah.com/why-us/">soju888</a>
-<a href="https://teganalwataniah.com/why-us/">ns1221</a>
-<a href="https://teganalwataniah.com/why-us/">sultanwin89</a>
-<a href="https://teganalwataniah.com/why-us/">pulau888</a>
-<a href="https://teganalwataniah.com/why-us/">ide77</a>
-<a href="https://teganalwataniah.com/why-us/">asiacuan</a>
-<a href="https://teganalwataniah.com/why-us/">andara777</a>
-<a href="https://teganalwataniah.com/why-us/">polo88</a>
-<a href="https://teganalwataniah.com/why-us/">cukong77</a>
-<a href="https://teganalwataniah.com/why-us/">kawi77</a>
-<a href="https://teganalwataniah.com/why-us/">jkt88</a>
-<a href="https://teganalwataniah.com/why-us/">hao78</a>
-<a href="https://teganalwataniah.com/why-us/">ampera88</a>
-<a href="https://teganalwataniah.com/why-us/">dewi111</a>
-<a href="https://teganalwataniah.com/why-us/">paris888</a>
-<a href="https://teganalwataniah.com/why-us/">musang78</a>
-<a href="https://teganalwataniah.com/why-us/">hujantoto</a>
-<a href="https://teganalwataniah.com/why-us/">empire888</a>
-<a href="https://teganalwataniah.com/why-us/">na777</a>
-<a href="https://teganalwataniah.com/why-us/">nadimtogel</a>
-<a href="https://teganalwataniah.com/why-us/">rajapanda</a>
-<a href="https://teganalwataniah.com/why-us/">kingslot</a>
-<a href="https://teganalwataniah.com/why-us/">koplo777</a>
-<a href="https://teganalwataniah.com/why-us/">spy777</a>
-<a href="https://teganalwataniah.com/why-us/">fendi188</a>
-<a href="https://teganalwataniah.com/why-us/">padi77</a>
-<a href="https://teganalwataniah.com/why-us/">toto710</a>
-<a href="https://teganalwataniah.com/why-us/">fav777</a>
-<a href="https://teganalwataniah.com/why-us/">mawartoto88</a>
-<a href="https://teganalwataniah.com/why-us/">scatter88</a>
-<a href="https://teganalwataniah.com/why-us/">nusatoto</a>
-<a href="https://teganalwataniah.com/why-us/">mahjong222</a>
-<a href="https://teganalwataniah.com/why-us/">mahjong333</a>
-<a href="https://teganalwataniah.com/why-us/">betwin88</a>
-<a href="https://teganalwataniah.com/why-us/">jp6789</a>
-<a href="https://teganalwataniah.com/why-us/">winidn</a>
-<a href="https://teganalwataniah.com/why-us/">km777</a>
-<a href="https://teganalwataniah.com/why-us/">mpo1121</a>
-<a href="https://teganalwataniah.com/why-us/">prada4d</a>
-<a href="https://teganalwataniah.com/why-us/">lawu88</a>
-<a href="https://teganalwataniah.com/why-us/">dolantogel88</a>
-<a href="https://teganalwataniah.com/why-us/">fafa828</a>
-<a href="https://teganalwataniah.com/why-us/">kingzeus</a>
-<a href="https://teganalwataniah.com/why-us/">zonatoto</a>
-<a href="https://teganalwataniah.com/why-us/">asia2000</a>
-<a href="https://teganalwataniah.com/why-us/">bbo33</a>
-<a href="https://teganalwataniah.com/why-us/">super333</a>
-<a href="https://teganalwataniah.com/why-us/">sarang77</a>
-<a href="https://teganalwataniah.com/why-us/">gasing77</a>
-<a href="https://teganalwataniah.com/why-us/">viobet88</a>
-<a href="https://teganalwataniah.com/why-us/">surgawd</a>
-<a href="https://teganalwataniah.com/why-us/">baru01</a>
-<a href="https://teganalwataniah.com/why-us/">gurita32</a>
-<a href="https://teganalwataniah.com/why-us/">alexistoto88</a>
-<a href="https://teganalwataniah.com/why-us/">bromo777</a>
-<a href="https://teganalwataniah.com/why-us/">combo88</a>
-<a href="https://teganalwataniah.com/why-us/">muara77</a>
-<a href="https://teganalwataniah.com/why-us/">spbu77</a>
-<a href="https://teganalwataniah.com/why-us/">megawin228</a>
-<a href="https://teganalwataniah.com/why-us/">fokus77</a>
-<a href="https://teganalwataniah.com/why-us/">joker88slot</a>
-<a href="https://teganalwataniah.com/why-us/">armada88</a>
-<a href="https://teganalwataniah.com/why-us/">gengtoto88</a>
-<a href="https://teganalwataniah.com/why-us/">nadimtoto</a>
-<a href="https://teganalwataniah.com/why-us/">pns77</a>
-<a href="https://teganalwataniah.com/why-us/">mpo55</a>
-<a href="https://teganalwataniah.com/why-us/">jangkar128</a>
-<a href="https://teganalwataniah.com/why-us/">j2000m</a>
-<a href="https://teganalwataniah.com/why-us/">bank77</a>
-<a href="https://teganalwataniah.com/why-us/">dewanusa</a>
-<a href="https://teganalwataniah.com/why-us/">lampiontoto</a>
-<a href="https://teganalwataniah.com/why-us/">rajacabe</a>
-<a href="https://teganalwataniah.com/why-us/">abc333</a>
-<a href="https://teganalwataniah.com/why-us/">sambaltoto</a>
-<a href="https://teganalwataniah.com/why-us/">sjo77</a>
-<a href="https://teganalwataniah.com/why-us/">Benemeritos.es</a>
-<a href="https://teganalwataniah.com/why-us/">nabung777</a>
-<a href="https://teganalwataniah.com/why-us/">dewa135</a>
-<a href="https://teganalwataniah.com/why-us/">budaya77</a>
-<a href="https://teganalwataniah.com/why-us/">omo77</a>
-<a href="https://teganalwataniah.com/why-us/">goto777</a>
-<a href="https://teganalwataniah.com/why-us/">7777w</a>
-<a href="https://teganalwataniah.com/why-us/">naga200</a>
-<a href="https://teganalwataniah.com/why-us/">dayak77</a>
-<a href="https://teganalwataniah.com/why-us/">fb333</a>
-<a href="https://teganalwataniah.com/why-us/">sinartoto</a>
-<a href="https://teganalwataniah.com/why-us/">vip33</a>
-<a href="https://teganalwataniah.com/why-us/">vip55</a>
-<a href="https://teganalwataniah.com/why-us/">ufo77</a>
-<a href="https://teganalwataniah.com/why-us/">grandbet</a>
-<a href="https://teganalwataniah.com/why-us/">sandi-bet</a>
-<a href="https://teganalwataniah.com/why-us/">mega77</a>
-<a href="https://teganalwataniah.com/why-us/">megawin77</a>
-<a href="https://teganalwataniah.com/why-us/">waktu77</a>
-<a href="https://teganalwataniah.com/why-us/">sni77</a>
-<a href="https://teganalwataniah.com/why-us/">buru77</a>
-<a href="https://teganalwataniah.com/why-us/">vio777</a>
-<a href="https://teganalwataniah.com/why-us/">usd77</a>
-<a href="https://teganalwataniah.com/why-us/">ntc22</a>
-<a href="https://teganalwataniah.com/why-us/">indosatoto</a>
-<a href="https://teganalwataniah.com/why-us/">granat888</a>
-<a href="https://teganalwataniah.com/why-us/">qq1212</a>
-<a href="https://teganalwataniah.com/why-us/">qq121</a>
-<a href="https://teganalwataniah.com/why-us/">mpo121</a>
-<a href="https://teganalwataniah.com/why-us/">ligamax303</a>
-<a href="https://teganalwataniah.com/why-us/">rajahoki88</a>
-<a href="https://teganalwataniah.com/why-us/">ceri88</a>
-<a href="https://teganalwataniah.com/why-us/">artis777</a>
-<a href="https://teganalwataniah.com/why-us/">paham77</a>
-<a href="https://teganalwataniah.com/why-us/">ceria77</a>
-<a href="https://teganalwataniah.com/why-us/">ape777</a>
-<a href="https://teganalwataniah.com/why-us/">bpjs-slot</a>
-<a href="https://teganalwataniah.com/why-us/">kopi777</a>
-<a href="https://teganalwataniah.com/why-us/">bighoki55</a>
-<a href="https://teganalwataniah.com/why-us/">dewapg.com</a>
-<a href="https://teganalwataniah.com/why-us/">surgawin88</a>
-<a href="https://teganalwataniah.com/why-us/">galaxybet77</a>
-<a href="https://teganalwataniah.com/why-us/">dewapg</a>
-<a href="https://teganalwataniah.com/why-us/">dukun77</a>
-<a href="https://teganalwataniah.com/why-us/">koitoto88</a>
-<a href="https://teganalwataniah.com/why-us/">pusatjp68</a>
-<a href="https://teganalwataniah.com/why-us/">jktjkt</a>
-<a href="https://teganalwataniah.com/why-us/">jktplus</a>
-<a href="https://teganalwataniah.com/why-us/">raffiwd</a>
-<a href="https://teganalwataniah.com/why-us/">rafitoto</a>
-<a href="https://teganalwataniah.com/why-us/">rapi88</a>
-<a href="https://teganalwataniah.com/why-us/">rapi99</a>
-<a href="https://teganalwataniah.com/why-us/">raffi99</a>
-<a href="https://teganalwataniah.com/why-us/">rapi66</a>
-<a href="https://teganalwataniah.com/why-us/">rafiwd</a>
-<a href="https://teganalwataniah.com/why-us/">rafi66</a>
-<a href="https://teganalwataniah.com/why-us/">rapitoto</a>
-<a href="https://teganalwataniah.com/why-us/">rafi123</a>
-<a href="https://teganalwataniah.com/why-us/">raffi123</a>
-<a href="https://teganalwataniah.com/why-us/">cukong888</a>
-<a href="https://teganalwataniah.com/why-us/">jelas77</a>
-<a href="https://teganalwataniah.com/why-us/">bulantoto</a>
-<a href="https://teganalwataniah.com/why-us/">Mpo222</a>
-<a href="https://teganalwataniah.com/why-us/">Dewatogel88</a>
-<a href="https://teganalwataniah.com/why-us/">Perak77</a>
-<a href="https://teganalwataniah.com/why-us/">Wajik77</a>
-<a href="https://teganalwataniah.com/why-us/">Wajik88</a>
-<a href="https://teganalwataniah.com/why-us/">Mio88</a>
-<a href="https://teganalwataniah.com/why-us/">cog77</a>
-<a href="https://teganalwataniah.com/why-us/">koinslot</a>
-<a href="https://teganalwataniah.com/why-us/">sin88</a>
-<a href="https://teganalwataniah.com/why-us/">megawin338</a>
-<a href="https://teganalwataniah.com/why-us/">kasih77</a>
-<a href="https://teganalwataniah.com/why-us/">alexistogel77</a>
-<a href="https://teganalwataniah.com/why-us/">y88</a>
-<a href="https://teganalwataniah.com/why-us/">lexus88</a>
-<a href="https://teganalwataniah.com/why-us/">olo44d</a>
-<a href="https://teganalwataniah.com/why-us/">guci77</a>
-<a href="https://teganalwataniah.com/why-us/">betawi777</a>
-<a href="https://teganalwataniah.com/why-us/">kongbet</a>
-<a href="https://teganalwataniah.com/why-us/">dota888</a>
-<a href="https://teganalwataniah.com/why-us/">setia888</a>
-<a href="https://teganalwataniah.com/why-us/">lapakhoki</a>
-<a href="https://teganalwataniah.com/why-us/">kepowd55</a>
-<a href="https://teganalwataniah.com/why-us/">rafi69</a>
-<a href="https://teganalwataniah.com/why-us/">rafi78</a>
-<a href="https://teganalwataniah.com/why-us/">buku-mimpi-2d</a>
-<a href="https://teganalwataniah.com/why-us/">buku-mimpi-3d</a>
-<a href="https://teganalwataniah.com/why-us/">buku-mimpi-4d</a>
-<a href="https://teganalwataniah.com/why-us/">bdtoto21</a>
-<a href="https://teganalwataniah.com/why-us/">dewi888</a>
-<a href="https://teganalwataniah.com/why-us/">premium777</a>
-<a href="https://teganalwataniah.com/why-us/">paris777</a>
-<a href="https://teganalwataniah.com/why-us/">empire77</a>
-<a href="https://teganalwataniah.com/why-us/">x88</a>
-<a href="https://teganalwataniah.com/why-us/">inibet</a>
-<a href="https://teganalwataniah.com/why-us/">puma333</a>
-<a href="https://teganalwataniah.com/why-us/">rajaindo88</a>
-<a href="https://teganalwataniah.com/why-us/">arya888</a>
-<a href="https://teganalwataniah.com/why-us/">togelon88</a>
-<a href="https://teganalwataniah.com/why-us/">oyo77</a>
-<a href="https://teganalwataniah.com/why-us/">jajan-toto</a>
-<a href="https://teganalwataniah.com/why-us/">klik4d</a>
-<a href="https://teganalwataniah.com/why-us/">proasia73</a>
-<a href="https://teganalwataniah.com/why-us/">petik168</a>
-<a href="https://teganalwataniah.com/why-us/">badak78</a>
-<a href="https://teganalwataniah.com/why-us/">olxtopcer</a>
-<a href="https://teganalwataniah.com/why-us/">congtogel88</a>
-<a href="https://teganalwataniah.com/why-us/">balitoto</a>
-<a href="https://teganalwataniah.com/why-us/">modalhoki</a>
-<a href="https://teganalwataniah.com/why-us/">turbo61</a>
-<a href="https://teganalwataniah.com/why-us/">macan96</a>
-<a href="https://teganalwataniah.com/why-us/">vm77</a>
-<a href="https://teganalwataniah.com/why-us/">ceriabet88</a>
-<a href="https://teganalwataniah.com/why-us/">luna888</a>
-<a href="https://teganalwataniah.com/why-us/">luna333</a>
-<a href="https://teganalwataniah.com/why-us/">luna33</a>
-<a href="https://teganalwataniah.com/why-us/">luna88</a>
-<a href="https://teganalwataniah.com/why-us/">lunas333</a>
-<a href="https://teganalwataniah.com/why-us/">pisangbet77</a>
-<a href="https://teganalwataniah.com/why-us/">togel77</a>
-<a href="https://teganalwataniah.com/why-us/">honda77</a>
-<a href="https://teganalwataniah.com/why-us/">tokekwin88</a>
-<a href="https://teganalwataniah.com/why-us/">davo888</a>
-<a href="https://teganalwataniah.com/why-us/">Pemenang777</a>
-<a href="https://teganalwataniah.com/why-us/">Intan777</a>
-<a href="https://teganalwataniah.com/why-us/">prada555</a>
-<a href="https://teganalwataniah.com/why-us/">surga888</a>
-<a href="https://teganalwataniah.com/why-us/">alexistogel88</a>
-<a href="https://teganalwataniah.com/why-us/">alexistoto</a>
-<a href="https://teganalwataniah.com/why-us/">congtogel99</a>
-<a href="https://teganalwataniah.com/why-us/">protogel88</a>
-<a href="https://teganalwataniah.com/why-us/">totogacor88</a>
-<a href="https://teganalwataniah.com/why-us/">surga777</a>
-<a href="https://teganalwataniah.com/why-us/">jeboltoto</a>
-<a href="https://teganalwataniah.com/why-us/">aksara4d</a>
-<a href="https://teganalwataniah.com/why-us/">rajahoki88</a>
-<a href="https://teganalwataniah.com/why-us/">dorahoki88</a>
-<a href="https://teganalwataniah.com/why-us/">congtogel88</a>
-<a href="https://teganalwataniah.com/why-us/">kingmahazeus</a>
-<a href="https://teganalwataniah.com/why-us/">qq88</a>
-<a href="https://teganalwataniah.com/why-us/">aha4d</a>
-<a href="https://teganalwataniah.com/why-us/">surga111</a>
-<a href="https://teganalwataniah.com/why-us/">congtogel99</a>
-<a href="https://teganalwataniah.com/why-us/">koko500</a>
-<a href="https://teganalwataniah.com/why-us/">partaitogel88</a>
-<a href="https://teganalwataniah.com/why-us/">harta500</a>
-<a href="https://teganalwataniah.com/why-us/">rr999</a>
-<a href="https://teganalwataniah.com/why-us/">ojo89</a>
-<a href="https://teganalwataniah.com/why-us/">sultankoin</a>
-<a href="https://teganalwataniah.com/why-us/">btn4d</a>
-<a href="https://teganalwataniah.com/why-us/">omtogel88</a>
-<a href="https://teganalwataniah.com/why-us/">h89</a>
-<a href="https://teganalwataniah.com/why-us/">898a</a>
-<a href="https://teganalwataniah.com/why-us/">cukong88</a>
-<a href="https://teganalwataniah.com/why-us/">asiaslot</a>
-<a href="https://teganalwataniah.com/why-us/">sor77</a>
-<a href="https://teganalwataniah.com/why-us/">alexistogel77</a>
-<a href="https://teganalwataniah.com/why-us/">winbet365</a>
-<a href="https://teganalwataniah.com/why-us/">hotjp22</a>
-<a href="https://teganalwataniah.com/why-us/">mangasusu</a>
-<a href="https://teganalwataniah.com/why-us/">nagawin88</a>
-<a href="https://teganalwataniah.com/why-us/">mantra888</a>
-<a href="https://teganalwataniah.com/why-us/">quistoto22</a>
-<a href="https://teganalwataniah.com/why-us/">surga333</a>
-<a href="https://teganalwataniah.com/why-us/">kepritoto</a>
-<a href="https://teganalwataniah.com/why-us/">tampan303</a>
-<a href="https://teganalwataniah.com/why-us/">bni4d</a>
-<a href="https://teganalwataniah.com/why-us/">ligaciputra88</a>
-<a href="https://teganalwataniah.com/why-us/">surga555</a>
-<a href="https://teganalwataniah.com/why-us/">superbet88</a>
-<a href="https://teganalwataniah.com/why-us/">tuyul501</a>
-<a href="https://teganalwataniah.com/why-us/">hondatoto88</a>
-<a href="https://teganalwataniah.com/why-us/">dentogel</a>
-<a href="https://teganalwataniah.com/why-us/">gengtoto888</a>
-<a href="https://teganalwataniah.com/why-us/">kilat709</a>
-<a href="https://teganalwataniah.com/why-us/">gacor888</a>
-<a href="https://teganalwataniah.com/why-us/">jokerbet888</a>
-<a href="https://teganalwataniah.com/why-us/">nusa88</a>
-<a href="https://teganalwataniah.com/why-us/">ajo88</a>
-<a href="https://teganalwataniah.com/why-us/">yoktogel88</a>
-<a href="https://teganalwataniah.com/why-us/">mpo1212</a>
-<a href="https://teganalwataniah.com/why-us/">scatter888</a>
-<a href="https://teganalwataniah.com/why-us/">macantoto88</a>
-<a href="https://teganalwataniah.com/why-us/">protogel88</a>
-<a href="https://teganalwataniah.com/why-us/">h03</a>
-<a href="https://teganalwataniah.com/why-us/">v98</a>
-<a href="https://teganalwataniah.com/why-us/">prowin77</a>
-<a href="https://teganalwataniah.com/why-us/">jeboltogel88</a>
-<a href="https://teganalwataniah.com/why-us/">lunatogel88</a>
-<a href="https://teganalwataniah.com/why-us/">protogel88-slot</a>
-<a href="https://teganalwataniah.com/why-us/">qtgame</a>
-<a href="https://teganalwataniah.com/why-us/">apk898a</a>
-<a href="https://teganalwataniah.com/why-us/">livejp44</a>
-<a href="https://teganalwataniah.com/why-us/">mpo6000</a>
-<a href="https://teganalwataniah.com/why-us/">ggwin176</a>
-<a href="https://teganalwataniah.com/why-us/">danatoto88</a>
-<a href="https://teganalwataniah.com/why-us/">kingmpo77</a>
-<a href="https://teganalwataniah.com/why-us/">hiwin777</a>
-<a href="https://teganalwataniah.com/why-us/">lucky72</a>
-<a href="https://teganalwataniah.com/why-us/">jarwo123</a>
-<a href="https://teganalwataniah.com/why-us/">burung77</a>
-<a href="https://teganalwataniah.com/why-us/">robintoto</a>
-<a href="https://teganalwataniah.com/why-us/">asiantoto</a>
-<a href="https://teganalwataniah.com/why-us/">doujindesu</a>
-<a href="https://teganalwataniah.com/why-us/">deluna188</a>
-<a href="https://teganalwataniah.com/why-us/">goltogel88</a>
-<a href="https://teganalwataniah.com/why-us/">igm247</a>
-<a href="https://teganalwataniah.com/why-us/">f08</a>
-<a href="https://teganalwataniah.com/why-us/">idlix21</a>
-<a href="https://teganalwataniah.com/why-us/">qq777</a>
-<a href="https://teganalwataniah.com/why-us/">pk95</a>
-<a href="https://teganalwataniah.com/why-us/">ugbet</a>
-<a href="https://teganalwataniah.com/why-us/">777RT</a>
-<a href="https://teganalwataniah.com/why-us/">RK55</a>
-<a href="https://teganalwataniah.com/why-us/">RK88</a>
-<a href="https://teganalwataniah.com/why-us/">BOLA888</a>
-<a href="https://teganalwataniah.com/why-us/">AFAF</a>
-<a href="https://teganalwataniah.com/why-us/">99SL</a>
-<a href="https://teganalwataniah.com/why-us/">XXX777</a>
-<a href="https://teganalwataniah.com/why-us/">S9S9</a>
-<a href="https://teganalwataniah.com/why-us/">KOI789</a>
-<a href="https://teganalwataniah.com/why-us/">77RP</a>
-<a href="https://teganalwataniah.com/why-us/">55RP</a>
-<a href="https://teganalwataniah.com/why-us/">R99</a>
-<a href="https://teganalwataniah.com/why-us/">9N9N</a>
-<a href="https://teganalwataniah.com/why-us/">ST777</a>
-<a href="https://teganalwataniah.com/why-us/">TOTO888</a>
+<a href="https://teganalwataniah.com/ceo/">sl888</a>
+<a href="https://teganalwataniah.com/ceo/">lebah777</a>
+<a href="https://teganalwataniah.com/ceo/">uus77</a>
+<a href="https://teganalwataniah.com/ceo/">rog77</a>
+<a href="https://teganalwataniah.com/ceo/">alexis77</a>
+<a href="https://teganalwataniah.com/ceo/">tambang88</a>
+<a href="https://teganalwataniah.com/ceo/">sutratoto</a>
+<a href="https://teganalwataniah.com/ceo/">km77</a>
+<a href="https://teganalwataniah.com/ceo/">ego77</a>
+<a href="https://teganalwataniah.com/ceo/">mamibet88</a>
+<a href="https://teganalwataniah.com/ceo/">angkasa77</a>
+<a href="https://teganalwataniah.com/ceo/">sensasi77</a>
+<a href="https://teganalwataniah.com/ceo/">biru77</a>
+<a href="https://teganalwataniah.com/ceo/">probet888</a>
+<a href="https://teganalwataniah.com/ceo/">ayowd</a>
+<a href="https://teganalwataniah.com/ceo/">bmw77</a>
+<a href="https://teganalwataniah.com/ceo/">mariatogel88</a>
+<a href="https://teganalwataniah.com/ceo/">dewa100</a>
+<a href="https://teganalwataniah.com/ceo/">ns1212</a>
+<a href="https://teganalwataniah.com/ceo/">cabe88</a>
+<a href="https://teganalwataniah.com/ceo/">soju888</a>
+<a href="https://teganalwataniah.com/ceo/">ns1221</a>
+<a href="https://teganalwataniah.com/ceo/">sultanwin89</a>
+<a href="https://teganalwataniah.com/ceo/">pulau888</a>
+<a href="https://teganalwataniah.com/ceo/">ide77</a>
+<a href="https://teganalwataniah.com/ceo/">asiacuan</a>
+<a href="https://teganalwataniah.com/ceo/">andara777</a>
+<a href="https://teganalwataniah.com/ceo/">polo88</a>
+<a href="https://teganalwataniah.com/ceo/">cukong77</a>
+<a href="https://teganalwataniah.com/ceo/">kawi77</a>
+<a href="https://teganalwataniah.com/ceo/">jkt88</a>
+<a href="https://teganalwataniah.com/ceo/">hao78</a>
+<a href="https://teganalwataniah.com/ceo/">ampera88</a>
+<a href="https://teganalwataniah.com/ceo/">dewi111</a>
+<a href="https://teganalwataniah.com/ceo/">paris888</a>
+<a href="https://teganalwataniah.com/ceo/">musang78</a>
+<a href="https://teganalwataniah.com/ceo/">hujantoto</a>
+<a href="https://teganalwataniah.com/ceo/">empire888</a>
+<a href="https://teganalwataniah.com/ceo/">na777</a>
+<a href="https://teganalwataniah.com/ceo/">nadimtogel</a>
+<a href="https://teganalwataniah.com/ceo/">rajapanda</a>
+<a href="https://teganalwataniah.com/ceo/">kingslot</a>
+<a href="https://teganalwataniah.com/ceo/">koplo777</a>
+<a href="https://teganalwataniah.com/ceo/">spy777</a>
+<a href="https://teganalwataniah.com/ceo/">fendi188</a>
+<a href="https://teganalwataniah.com/ceo/">padi77</a>
+<a href="https://teganalwataniah.com/ceo/">toto710</a>
+<a href="https://teganalwataniah.com/ceo/">fav777</a>
+<a href="https://teganalwataniah.com/ceo/">mawartoto88</a>
+<a href="https://teganalwataniah.com/ceo/">scatter88</a>
+<a href="https://teganalwataniah.com/ceo/">nusatoto</a>
+<a href="https://teganalwataniah.com/ceo/">mahjong222</a>
+<a href="https://teganalwataniah.com/ceo/">mahjong333</a>
+<a href="https://teganalwataniah.com/ceo/">betwin88</a>
+<a href="https://teganalwataniah.com/ceo/">jp6789</a>
+<a href="https://teganalwataniah.com/ceo/">winidn</a>
+<a href="https://teganalwataniah.com/ceo/">km777</a>
+<a href="https://teganalwataniah.com/ceo/">mpo1121</a>
+<a href="https://teganalwataniah.com/ceo/">prada4d</a>
+<a href="https://teganalwataniah.com/ceo/">lawu88</a>
+<a href="https://teganalwataniah.com/ceo/">dolantogel88</a>
+<a href="https://teganalwataniah.com/ceo/">fafa828</a>
+<a href="https://teganalwataniah.com/ceo/">kingzeus</a>
+<a href="https://teganalwataniah.com/ceo/">zonatoto</a>
+<a href="https://teganalwataniah.com/ceo/">asia2000</a>
+<a href="https://teganalwataniah.com/ceo/">bbo33</a>
+<a href="https://teganalwataniah.com/ceo/">super333</a>
+<a href="https://teganalwataniah.com/ceo/">sarang77</a>
+<a href="https://teganalwataniah.com/ceo/">gasing77</a>
+<a href="https://teganalwataniah.com/ceo/">viobet88</a>
+<a href="https://teganalwataniah.com/ceo/">surgawd</a>
+<a href="https://teganalwataniah.com/ceo/">baru01</a>
+<a href="https://teganalwataniah.com/ceo/">gurita32</a>
+<a href="https://teganalwataniah.com/ceo/">alexistoto88</a>
+<a href="https://teganalwataniah.com/ceo/">bromo777</a>
+<a href="https://teganalwataniah.com/ceo/">combo88</a>
+<a href="https://teganalwataniah.com/ceo/">muara77</a>
+<a href="https://teganalwataniah.com/ceo/">spbu77</a>
+<a href="https://teganalwataniah.com/ceo/">megawin228</a>
+<a href="https://teganalwataniah.com/ceo/">fokus77</a>
+<a href="https://teganalwataniah.com/ceo/">joker88slot</a>
+<a href="https://teganalwataniah.com/ceo/">armada88</a>
+<a href="https://teganalwataniah.com/ceo/">gengtoto88</a>
+<a href="https://teganalwataniah.com/ceo/">nadimtoto</a>
+<a href="https://teganalwataniah.com/ceo/">pns77</a>
+<a href="https://teganalwataniah.com/ceo/">mpo55</a>
+<a href="https://teganalwataniah.com/ceo/">jangkar128</a>
+<a href="https://teganalwataniah.com/ceo/">j2000m</a>
+<a href="https://teganalwataniah.com/ceo/">bank77</a>
+<a href="https://teganalwataniah.com/ceo/">dewanusa</a>
+<a href="https://teganalwataniah.com/ceo/">lampiontoto</a>
+<a href="https://teganalwataniah.com/ceo/">rajacabe</a>
+<a href="https://teganalwataniah.com/ceo/">abc333</a>
+<a href="https://teganalwataniah.com/ceo/">sambaltoto</a>
+<a href="https://teganalwataniah.com/ceo/">sjo77</a>
+<a href="https://teganalwataniah.com/ceo/">Benemeritos.es</a>
+<a href="https://teganalwataniah.com/ceo/">nabung777</a>
+<a href="https://teganalwataniah.com/ceo/">dewa135</a>
+<a href="https://teganalwataniah.com/ceo/">budaya77</a>
+<a href="https://teganalwataniah.com/ceo/">omo77</a>
+<a href="https://teganalwataniah.com/ceo/">goto777</a>
+<a href="https://teganalwataniah.com/ceo/">7777w</a>
+<a href="https://teganalwataniah.com/ceo/">naga200</a>
+<a href="https://teganalwataniah.com/ceo/">dayak77</a>
+<a href="https://teganalwataniah.com/ceo/">fb333</a>
+<a href="https://teganalwataniah.com/ceo/">sinartoto</a>
+<a href="https://teganalwataniah.com/ceo/">vip33</a>
+<a href="https://teganalwataniah.com/ceo/">vip55</a>
+<a href="https://teganalwataniah.com/ceo/">ufo77</a>
+<a href="https://teganalwataniah.com/ceo/">grandbet</a>
+<a href="https://teganalwataniah.com/ceo/">sandi-bet</a>
+<a href="https://teganalwataniah.com/ceo/">mega77</a>
+<a href="https://teganalwataniah.com/ceo/">megawin77</a>
+<a href="https://teganalwataniah.com/ceo/">waktu77</a>
+<a href="https://teganalwataniah.com/ceo/">sni77</a>
+<a href="https://teganalwataniah.com/ceo/">buru77</a>
+<a href="https://teganalwataniah.com/ceo/">vio777</a>
+<a href="https://teganalwataniah.com/ceo/">usd77</a>
+<a href="https://teganalwataniah.com/ceo/">ntc22</a>
+<a href="https://teganalwataniah.com/ceo/">indosatoto</a>
+<a href="https://teganalwataniah.com/ceo/">granat888</a>
+<a href="https://teganalwataniah.com/ceo/">qq1212</a>
+<a href="https://teganalwataniah.com/ceo/">qq121</a>
+<a href="https://teganalwataniah.com/ceo/">mpo121</a>
+<a href="https://teganalwataniah.com/ceo/">ligamax303</a>
+<a href="https://teganalwataniah.com/ceo/">rajahoki88</a>
+<a href="https://teganalwataniah.com/ceo/">ceri88</a>
+<a href="https://teganalwataniah.com/ceo/">artis777</a>
+<a href="https://teganalwataniah.com/ceo/">paham77</a>
+<a href="https://teganalwataniah.com/ceo/">ceria77</a>
+<a href="https://teganalwataniah.com/ceo/">ape777</a>
+<a href="https://teganalwataniah.com/ceo/">bpjs-slot</a>
+<a href="https://teganalwataniah.com/ceo/">kopi777</a>
+<a href="https://teganalwataniah.com/ceo/">bighoki55</a>
+<a href="https://teganalwataniah.com/ceo/">dewapg.com</a>
+<a href="https://teganalwataniah.com/ceo/">surgawin88</a>
+<a href="https://teganalwataniah.com/ceo/">galaxybet77</a>
+<a href="https://teganalwataniah.com/ceo/">dewapg</a>
+<a href="https://teganalwataniah.com/ceo/">dukun77</a>
+<a href="https://teganalwataniah.com/ceo/">koitoto88</a>
+<a href="https://teganalwataniah.com/ceo/">pusatjp68</a>
+<a href="https://teganalwataniah.com/ceo/">jktjkt</a>
+<a href="https://teganalwataniah.com/ceo/">jktplus</a>
+<a href="https://teganalwataniah.com/ceo/">raffiwd</a>
+<a href="https://teganalwataniah.com/ceo/">rafitoto</a>
+<a href="https://teganalwataniah.com/ceo/">rapi88</a>
+<a href="https://teganalwataniah.com/ceo/">rapi99</a>
+<a href="https://teganalwataniah.com/ceo/">raffi99</a>
+<a href="https://teganalwataniah.com/ceo/">rapi66</a>
+<a href="https://teganalwataniah.com/ceo/">rafiwd</a>
+<a href="https://teganalwataniah.com/ceo/">rafi66</a>
+<a href="https://teganalwataniah.com/ceo/">rapitoto</a>
+<a href="https://teganalwataniah.com/ceo/">rafi123</a>
+<a href="https://teganalwataniah.com/ceo/">raffi123</a>
+<a href="https://teganalwataniah.com/ceo/">cukong888</a>
+<a href="https://teganalwataniah.com/ceo/">jelas77</a>
+<a href="https://teganalwataniah.com/ceo/">bulantoto</a>
+<a href="https://teganalwataniah.com/ceo/">Mpo222</a>
+<a href="https://teganalwataniah.com/ceo/">Dewatogel88</a>
+<a href="https://teganalwataniah.com/ceo/">Perak77</a>
+<a href="https://teganalwataniah.com/ceo/">Wajik77</a>
+<a href="https://teganalwataniah.com/ceo/">Wajik88</a>
+<a href="https://teganalwataniah.com/ceo/">Mio88</a>
+<a href="https://teganalwataniah.com/ceo/">cog77</a>
+<a href="https://teganalwataniah.com/ceo/">koinslot</a>
+<a href="https://teganalwataniah.com/ceo/">sin88</a>
+<a href="https://teganalwataniah.com/ceo/">megawin338</a>
+<a href="https://teganalwataniah.com/ceo/">kasih77</a>
+<a href="https://teganalwataniah.com/ceo/">alexistogel77</a>
+<a href="https://teganalwataniah.com/ceo/">y88</a>
+<a href="https://teganalwataniah.com/ceo/">lexus88</a>
+<a href="https://teganalwataniah.com/ceo/">olo44d</a>
+<a href="https://teganalwataniah.com/ceo/">guci77</a>
+<a href="https://teganalwataniah.com/ceo/">betawi777</a>
+<a href="https://teganalwataniah.com/ceo/">kongbet</a>
+<a href="https://teganalwataniah.com/ceo/">dota888</a>
+<a href="https://teganalwataniah.com/ceo/">setia888</a>
+<a href="https://teganalwataniah.com/ceo/">lapakhoki</a>
+<a href="https://teganalwataniah.com/ceo/">kepowd55</a>
+<a href="https://teganalwataniah.com/ceo/">rafi69</a>
+<a href="https://teganalwataniah.com/ceo/">rafi78</a>
+<a href="https://teganalwataniah.com/ceo/">buku-mimpi-2d</a>
+<a href="https://teganalwataniah.com/ceo/">buku-mimpi-3d</a>
+<a href="https://teganalwataniah.com/ceo/">buku-mimpi-4d</a>
+<a href="https://teganalwataniah.com/ceo/">bdtoto21</a>
+<a href="https://teganalwataniah.com/ceo/">dewi888</a>
+<a href="https://teganalwataniah.com/ceo/">premium777</a>
+<a href="https://teganalwataniah.com/ceo/">paris777</a>
+<a href="https://teganalwataniah.com/ceo/">empire77</a>
+<a href="https://teganalwataniah.com/ceo/">x88</a>
+<a href="https://teganalwataniah.com/ceo/">inibet</a>
+<a href="https://teganalwataniah.com/ceo/">puma333</a>
+<a href="https://teganalwataniah.com/ceo/">rajaindo88</a>
+<a href="https://teganalwataniah.com/ceo/">arya888</a>
+<a href="https://teganalwataniah.com/ceo/">togelon88</a>
+<a href="https://teganalwataniah.com/ceo/">oyo77</a>
+<a href="https://teganalwataniah.com/ceo/">jajan-toto</a>
+<a href="https://teganalwataniah.com/ceo/">klik4d</a>
+<a href="https://teganalwataniah.com/ceo/">proasia73</a>
+<a href="https://teganalwataniah.com/ceo/">petik168</a>
+<a href="https://teganalwataniah.com/ceo/">badak78</a>
+<a href="https://teganalwataniah.com/ceo/">olxtopcer</a>
+<a href="https://teganalwataniah.com/ceo/">congtogel88</a>
+<a href="https://teganalwataniah.com/ceo/">balitoto</a>
+<a href="https://teganalwataniah.com/ceo/">modalhoki</a>
+<a href="https://teganalwataniah.com/ceo/">turbo61</a>
+<a href="https://teganalwataniah.com/ceo/">macan96</a>
+<a href="https://teganalwataniah.com/ceo/">vm77</a>
+<a href="https://teganalwataniah.com/ceo/">ceriabet88</a>
+<a href="https://teganalwataniah.com/ceo/">luna888</a>
+<a href="https://teganalwataniah.com/ceo/">luna333</a>
+<a href="https://teganalwataniah.com/ceo/">luna33</a>
+<a href="https://teganalwataniah.com/ceo/">luna88</a>
+<a href="https://teganalwataniah.com/ceo/">lunas333</a>
+<a href="https://teganalwataniah.com/ceo/">pisangbet77</a>
+<a href="https://teganalwataniah.com/ceo/">togel77</a>
+<a href="https://teganalwataniah.com/ceo/">honda77</a>
+<a href="https://teganalwataniah.com/ceo/">tokekwin88</a>
+<a href="https://teganalwataniah.com/ceo/">davo888</a>
+<a href="https://teganalwataniah.com/ceo/">Pemenang777</a>
+<a href="https://teganalwataniah.com/ceo/">Intan777</a>
+<a href="https://teganalwataniah.com/ceo/">prada555</a>
+<a href="https://teganalwataniah.com/ceo/">surga888</a>
+<a href="https://teganalwataniah.com/ceo/">alexistogel88</a>
+<a href="https://teganalwataniah.com/ceo/">alexistoto</a>
+<a href="https://teganalwataniah.com/ceo/">congtogel99</a>
+<a href="https://teganalwataniah.com/ceo/">protogel88</a>
+<a href="https://teganalwataniah.com/ceo/">totogacor88</a>
+<a href="https://teganalwataniah.com/ceo/">surga777</a>
+<a href="https://teganalwataniah.com/ceo/">jeboltoto</a>
+<a href="https://teganalwataniah.com/ceo/">aksara4d</a>
+<a href="https://teganalwataniah.com/ceo/">rajahoki88</a>
+<a href="https://teganalwataniah.com/ceo/">dorahoki88</a>
+<a href="https://teganalwataniah.com/ceo/">congtogel88</a>
+<a href="https://teganalwataniah.com/ceo/">kingmahazeus</a>
+<a href="https://teganalwataniah.com/ceo/">qq88</a>
+<a href="https://teganalwataniah.com/ceo/">aha4d</a>
+<a href="https://teganalwataniah.com/ceo/">surga111</a>
+<a href="https://teganalwataniah.com/ceo/">congtogel99</a>
+<a href="https://teganalwataniah.com/ceo/">koko500</a>
+<a href="https://teganalwataniah.com/ceo/">partaitogel88</a>
+<a href="https://teganalwataniah.com/ceo/">harta500</a>
+<a href="https://teganalwataniah.com/ceo/">rr999</a>
+<a href="https://teganalwataniah.com/ceo/">ojo89</a>
+<a href="https://teganalwataniah.com/ceo/">sultankoin</a>
+<a href="https://teganalwataniah.com/ceo/">btn4d</a>
+<a href="https://teganalwataniah.com/ceo/">omtogel88</a>
+<a href="https://teganalwataniah.com/ceo/">h89</a>
+<a href="https://teganalwataniah.com/ceo/">898a</a>
+<a href="https://teganalwataniah.com/ceo/">cukong88</a>
+<a href="https://teganalwataniah.com/ceo/">asiaslot</a>
+<a href="https://teganalwataniah.com/ceo/">sor77</a>
+<a href="https://teganalwataniah.com/ceo/">alexistogel77</a>
+<a href="https://teganalwataniah.com/ceo/">winbet365</a>
+<a href="https://teganalwataniah.com/ceo/">hotjp22</a>
+<a href="https://teganalwataniah.com/ceo/">mangasusu</a>
+<a href="https://teganalwataniah.com/ceo/">nagawin88</a>
+<a href="https://teganalwataniah.com/ceo/">mantra888</a>
+<a href="https://teganalwataniah.com/ceo/">quistoto22</a>
+<a href="https://teganalwataniah.com/ceo/">surga333</a>
+<a href="https://teganalwataniah.com/ceo/">kepritoto</a>
+<a href="https://teganalwataniah.com/ceo/">tampan303</a>
+<a href="https://teganalwataniah.com/ceo/">bni4d</a>
+<a href="https://teganalwataniah.com/ceo/">ligaciputra88</a>
+<a href="https://teganalwataniah.com/ceo/">surga555</a>
+<a href="https://teganalwataniah.com/ceo/">superbet88</a>
+<a href="https://teganalwataniah.com/ceo/">tuyul501</a>
+<a href="https://teganalwataniah.com/ceo/">hondatoto88</a>
+<a href="https://teganalwataniah.com/ceo/">dentogel</a>
+<a href="https://teganalwataniah.com/ceo/">gengtoto888</a>
+<a href="https://teganalwataniah.com/ceo/">kilat709</a>
+<a href="https://teganalwataniah.com/ceo/">gacor888</a>
+<a href="https://teganalwataniah.com/ceo/">jokerbet888</a>
+<a href="https://teganalwataniah.com/ceo/">nusa88</a>
+<a href="https://teganalwataniah.com/ceo/">ajo88</a>
+<a href="https://teganalwataniah.com/ceo/">yoktogel88</a>
+<a href="https://teganalwataniah.com/ceo/">mpo1212</a>
+<a href="https://teganalwataniah.com/ceo/">scatter888</a>
+<a href="https://teganalwataniah.com/ceo/">macantoto88</a>
+<a href="https://teganalwataniah.com/ceo/">protogel88</a>
+<a href="https://teganalwataniah.com/ceo/">h03</a>
+<a href="https://teganalwataniah.com/ceo/">v98</a>
+<a href="https://teganalwataniah.com/ceo/">prowin77</a>
+<a href="https://teganalwataniah.com/ceo/">jeboltogel88</a>
+<a href="https://teganalwataniah.com/ceo/">lunatogel88</a>
+<a href="https://teganalwataniah.com/ceo/">protogel88-slot</a>
+<a href="https://teganalwataniah.com/ceo/">qtgame</a>
+<a href="https://teganalwataniah.com/ceo/">apk898a</a>
+<a href="https://teganalwataniah.com/ceo/">livejp44</a>
+<a href="https://teganalwataniah.com/ceo/">mpo6000</a>
+<a href="https://teganalwataniah.com/ceo/">ggwin176</a>
+<a href="https://teganalwataniah.com/ceo/">danatoto88</a>
+<a href="https://teganalwataniah.com/ceo/">kingmpo77</a>
+<a href="https://teganalwataniah.com/ceo/">hiwin777</a>
+<a href="https://teganalwataniah.com/ceo/">lucky72</a>
+<a href="https://teganalwataniah.com/ceo/">jarwo123</a>
+<a href="https://teganalwataniah.com/ceo/">burung77</a>
+<a href="https://teganalwataniah.com/ceo/">robintoto</a>
+<a href="https://teganalwataniah.com/ceo/">asiantoto</a>
+<a href="https://teganalwataniah.com/ceo/">doujindesu</a>
+<a href="https://teganalwataniah.com/ceo/">deluna188</a>
+<a href="https://teganalwataniah.com/ceo/">goltogel88</a>
+<a href="https://teganalwataniah.com/ceo/">igm247</a>
+<a href="https://teganalwataniah.com/ceo/">f08</a>
+<a href="https://teganalwataniah.com/ceo/">idlix21</a>
+<a href="https://teganalwataniah.com/ceo/">qq777</a>
+<a href="https://teganalwataniah.com/ceo/">pk95</a>
+<a href="https://teganalwataniah.com/ceo/">ugbet</a>
+<a href="https://teganalwataniah.com/ceo/">777RT</a>
+<a href="https://teganalwataniah.com/ceo/">RK55</a>
+<a href="https://teganalwataniah.com/ceo/">RK88</a>
+<a href="https://teganalwataniah.com/ceo/">BOLA888</a>
+<a href="https://teganalwataniah.com/ceo/">AFAF</a>
+<a href="https://teganalwataniah.com/ceo/">99SL</a>
+<a href="https://teganalwataniah.com/ceo/">XXX777</a>
+<a href="https://teganalwataniah.com/ceo/">S9S9</a>
+<a href="https://teganalwataniah.com/ceo/">KOI789</a>
+<a href="https://teganalwataniah.com/ceo/">77RP</a>
+<a href="https://teganalwataniah.com/ceo/">55RP</a>
+<a href="https://teganalwataniah.com/ceo/">R99</a>
+<a href="https://teganalwataniah.com/ceo/">9N9N</a>
+<a href="https://teganalwataniah.com/ceo/">ST777</a>
+<a href="https://teganalwataniah.com/ceo/">TOTO888</a>
 <a href="/">sarjanaslot</a>
 <a href="/">virtus77</a>
 <a href="/">gokutogel</a>
@@ -2840,7 +2840,7 @@ digitalData.page.pageInfo.pageName = pageName;
     <div class="nv00-gnb-v4__wrap">
      <div class="nv00-gnb-v4__inner">
       <div class="nv00-gnb-v4__header">
-       <a an-ac="gnb" an-ca="navigation" an-la="Sjo77 X Benemeritos.es" an-tr="nv00_gnb-product detail-l0-navigation2" aria-label="Sjo77 X Benemeritos.es" class="nv00-gnb-v4__logo" href="https://teganalwataniah.com/why-us/">
+       <a an-ac="gnb" an-ca="navigation" an-la="NOBAR4D x TeganAlWataniah.com" an-tr="nv00_gnb-product detail-l0-navigation2" aria-label="NOBAR4D x TeganAlWataniah.com" class="nv00-gnb-v4__logo" href="https://teganalwataniah.com/ceo/">
         <img src="https://www.benemeritos.es/assets/images/logo-sjo77-x-benemeritos.es.jpg" alt="" width="200" height="56"/>
        </a>
        <div class="nv00-gnb-v4__utility-list nv00-gnb-v4--mobile-only">
@@ -3128,9 +3128,9 @@ digitalData.page.pageInfo.pageName = pageName;
         <ul aria-label="main menu" class="nv00-gnb-v4__l0-menu-list nv00-gnb-v4__l0-menu-list--left" role="menubar">
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/why-us/" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="shop" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/ceo/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--pc-only">
-            Sjo77 X Benemeritos.es
+            NOBAR4D x TeganAlWataniah.com
             </span>
             <span class="nv00-gnb-v4__l0-menu-text nv00-gnb-v4--mobile-only">
              Explore Shop
@@ -3145,7 +3145,7 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/why-us/" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="mobile" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/ceo/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
              Game Kekinian
             </span>
@@ -3159,21 +3159,21 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/why-us/" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/ceo/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
              Berbagai Tema
             </span>
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="tv and av" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-             LINK Sjo77 X Benemeritos.es
+             LINK NOBAR4D x TeganAlWataniah.com
             </span>
            </button>
           </div>
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/why-us/" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="appliances" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/ceo/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
              Berbagai Tema
             </span>
@@ -3187,7 +3187,7 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/why-us/" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="monitors" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/ceo/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
              Menemani Aktivitas
             </span>
@@ -3201,14 +3201,14 @@ digitalData.page.pageInfo.pageName = pageName;
          </li>
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/why-us/" role="menuitem">
+           <a an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/ceo/" role="menuitem">
             <span class="nv00-gnb-v4__l0-menu-text">
              Koleksi Game
             </span>
            </a>
            <button an-ac="gnb" an-ca="navigation" an-la="wearables" an-tr="nv00_gnb-product detail-l0-navigation2" aria-expanded="false" aria-haspopup="true" class="nv00-gnb-v4__l0-menu-toggle-btn" role="menuitem">
             <span class="hidden">
-              Sjo77 X Benemeritos.es LOGIN
+              NOBAR4D x TeganAlWataniah.com LOGIN
             </span>
            </button>
           </div>
@@ -3234,7 +3234,7 @@ digitalData.page.pageInfo.pageName = pageName;
          
          <li class="nv00-gnb-v4__l0-menu">
           <div class="nv00-gnb-v4__l0-menu-title">
-           <a an-ac="gnb" an-ca="navigation" an-la="Sjo77 X Benemeritos.es DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="Sjo77 X Benemeritos.es Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/why-us/" role="menuitem" target="_blank">
+           <a an-ac="gnb" an-ca="navigation" an-la="NOBAR4D x TeganAlWataniah.com DAFTAR" an-tr="nv00_gnb-product detail-banner-navigation2" aria-label="NOBAR4D x TeganAlWataniah.com Daftar. Buka di Tab Baru" class="nv00-gnb-v4__l0-menu-link" data-js-action="l0MenuBtn" href="https://teganalwataniah.com/ceo/" role="menuitem" target="_blank">
             DAFTAR
            </a>
           </div>
@@ -3242,10 +3242,10 @@ digitalData.page.pageInfo.pageName = pageName;
          <!-- Non-Type Right Menu End -->
         </ul>
         <div class="nv00-gnb-v4__user-menu-list nv00-gnb-v4--mobile-only before-login">
-         <a data-linkinfo="https://teganalwataniah.com/why-us/" href="https://teganalwataniah.com/why-us/" role="menuitem">
+         <a data-linkinfo="https://teganalwataniah.com/ceo/" href="https://teganalwataniah.com/ceo/" role="menuitem">
           Login/Sign-Up
          </a>
-         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://teganalwataniah.com/why-us/" role="menuitem">
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://teganalwataniah.com/ceo/" role="menuitem">
           Receive up to 5% of your purchase back in points.
           <svg aria-hidden="true" class="icon" focusable="false">
            <use href="#next-regular" xlink:href="#next-regular">
@@ -3268,7 +3268,7 @@ digitalData.page.pageInfo.pageName = pageName;
            Buka Menu Saya
           </p>
          </a>
-         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://teganalwataniah.com/why-us/" role="menuitem">
+         <a an-ac="gnb" an-ca="account" an-la="rewards" an-tr="nv00_gnb-account-account" aria-label="Receive up to 5% of your purchase back in points. Samsung Rewards" class="nv00-gnb-v4__user-menu nv00-gnb-v4__user-menu--icon" href="https://teganalwataniah.com/ceo/" role="menuitem">
           Receive up to 5% of your purchase back in points.
           <svg aria-hidden="true" class="icon" focusable="false">
            <use href="#next-regular" xlink:href="#next-regular">
@@ -3318,14 +3318,14 @@ digitalData.page.pageInfo.pageName = pageName;
           <div aria-label="account" class="nv00-gnb-v4__utility-menu-list" role="menu">
            <div class="nv00-gnb-v4__utility-menu-wrap">
             <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--sign-in nv00-gnb-v4--pc-only"
-              href="https://teganalwataniah.com/why-us/"
+              href="https://teganalwataniah.com/ceo/"
               role="menuitem"
               target="_self"
               rel="noopener noreferrer"
-              onclick="event.stopImmediatePropagation(); event.preventDefault(); window.location.href='https://teganalwataniah.com/why-us/'; return false;">
+              onclick="event.stopImmediatePropagation(); event.preventDefault(); window.location.href='https://teganalwataniah.com/ceo/'; return false;">
               Login/Sign-Up
             </a>
-            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://teganalwataniah.com/why-us/" role="menuitem">
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://teganalwataniah.com/ceo/" role="menuitem">
              Receive up to 5% of your purchase back in points.
              <svg aria-hidden="true" class="icon" focusable="false">
               <use href="#next-regular" xlink:href="#next-regular">
@@ -3341,8 +3341,8 @@ digitalData.page.pageInfo.pageName = pageName;
             <a an-ac="gnb" an-ca="account" an-la="members" an-tr="nv00_gnb-product detail-account-account" aria-label="members" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://www.samsung.com/id/members/" role="menuitem">
              Members
             </a>
-            <a an-ac="gnb" an-ca="account" an-la="Sjo77 X Benemeritos.es" an-tr="nv00_gnb-product detail-account-account" aria-label="Sjo77 X Benemeritos.es" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://teganalwataniah.com/why-us/" role="menuitem">
-              Sjo77 X Benemeritos.es
+            <a an-ac="gnb" an-ca="account" an-la="NOBAR4D x TeganAlWataniah.com" an-tr="nv00_gnb-product detail-account-account" aria-label="NOBAR4D x TeganAlWataniah.com" class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu" href="https://teganalwataniah.com/ceo/" role="menuitem">
+              NOBAR4D x TeganAlWataniah.com
             </a>
            </div>
           </div>
@@ -3373,7 +3373,7 @@ digitalData.page.pageInfo.pageName = pageName;
              <p class="user-name">
              </p>
             </a>
-            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://teganalwataniah.com/why-us/" role="menuitem">
+            <a class="nv00-gnb-v4__utility-menu nv00-gnb-v4__utility-menu--with-icon nv00-gnb-v4--pc-only" href="https://teganalwataniah.com/ceo/" role="menuitem">
              Receive up to 5% of your purchase back in points.
              <svg aria-hidden="true" class="icon" focusable="false">
               <use href="#next-regular" xlink:href="#next-regular">
@@ -3890,7 +3890,7 @@ digitalData.page.pageInfo.pageName = pageName;
             </p>
             <div class="pd-buying-price__new-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPrice}}">
              <div class="pd-buying-price__new-price-inner">
-              SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis
+              NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital
              </div>
              <span class="pd-buying-price__monthly-price" data-sdf-test="{{priceAnchor.priceWrapper.info.totalPriceMonthly}}">
               {{priceAnchor.priceWrapper.info.totalPriceMonthly}}
@@ -3921,10 +3921,10 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
            </div>
            <div class="pdd39-anchor-nav__cta pd-buying-price__cta">
-            <a href="https://teganalwataniah.com/why-us/" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+            <a href="https://teganalwataniah.com/ceo/" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
              Masuk
             </a>
-            <a href="https://teganalwataniah.com/why-us/" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
+            <a href="https://teganalwataniah.com/ceo/" class="cta cta--contained cta--emphasis cta--2line add-special-tagging">
              Daftar
             </a>
            </div>
@@ -4426,7 +4426,7 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
            </div>
            <div class="pdd16-step-buying-v2__bottom-price__cta">
-            <a aria-label="Link Title" class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/why-us/">
+            <a aria-label="Link Title" class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/ceo/">
              Add to cart
             </a>
            </div>
@@ -4586,7 +4586,7 @@ digitalData.page.pageInfo.pageName = pageName;
              </li>
             </ul>
             <div class="pdd16-step-buying-v2__learn-more-cta">
-             <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="https://teganalwataniah.com/why-us/" target="_blank">
+             <a aria-label="Link Title" class="cta cta--underline cta--black cta--icon" href="https://teganalwataniah.com/ceo/" target="_blank">
               Product detail
               <svg aria-hidden="true" class="icon" focusable="false">
                <use href="#outlink-bold" xlink:href="#outlink-bold">
@@ -5476,7 +5476,7 @@ digitalData.page.pageInfo.pageName = pageName;
        <input id="apiChangePdpUrl" name="apiChangePdpUrl" type="hidden" value="/id/smartphones/galaxy-a/galaxy-a07-black-64gb-sm-a075fzkdxid/"/>
        <input id="apiChangeFamilyCode" name="apiChangeFamilyCode" type="hidden" value="561454"/>
        <input id="apiChangeDisplayName" name="apiChangeDisplayName" type="hidden" value="Galaxy A07"/>
-       <input id="apiChangePdJcrTitle" name="apiChangePdJcrTitle" type="hidden" value="SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis"/>
+       <input id="apiChangePdJcrTitle" name="apiChangePdJcrTitle" type="hidden" value="NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital"/>
        <input id="apiChangeWtbUseYn" name="apiChangeWtbUseYn" type="hidden" value="N"/>
        <input id="apiChangeStockStatus" name="apiChangeStockStatus" type="hidden" value=""/>
        <input id="ecomStoreType" name="ecomStoreType" type="hidden"/>
@@ -5513,7 +5513,7 @@ digitalData.page.pageInfo.pageName = pageName;
          <div class="wt-mt-xs-1 wt-mb-xs-1">
 
 <style>
-    .Sjo77 X Benemeritos.esng-card {
+    .NOBAR4D x TeganAlWataniah.comng-card {
             max-width: 750px;
             width: 100%;
             background: 355070;
@@ -5753,15 +5753,15 @@ digitalData.page.pageInfo.pageName = pageName;
             background: #6496e3;
         }
 </style>
-<div class="Sjo77 X Benemeritos.esng-card">
+<div class="NOBAR4D x TeganAlWataniah.comng-card">
         <!-- main title (atas sekali) -->
         <div class="hero-title">
-            <h1>SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis</h1>
+            <h1>NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital</h1>
         </div>
         <!-- Info Box -->
         <div class="info-container">
             <div class="info-head">
-                <h2>INFORMASI SITUS Sjo77 X Benemeritos.es</h2>
+                <h2>INFORMASI SITUS NOBAR4D x TeganAlWataniah.com</h2>
             </div>
             <div class="info-list">
                 <div class="info-row">
@@ -5976,12 +5976,12 @@ digitalData.page.pageInfo.pageName = pageName;
            </em>
            <p class="cost-box__price" data-total-price="1399000">
             <strong class="cost-box__price-now" style="font-size: 20px; text-align: justify;">
-             Melalui SJO77 x teganalwataniah.com, informasi mengenai game digital dapat menjadi referensi bagi pembaca yang ingin memahami perkembangan dunia gaming dan berbagai teknologi yang mendukungnya.
+             NOBAR4D x TeganAlWataniah.com menghadirkan pembahasan mengenai game mobile dan berbagai aspek yang berkaitan dengan perkembangan dunia gaming smartphone.
             </strong>
            </p>
            <div class="cost-box__cta-wrap">
             <span class="cost-box__cta">
-             <a href="https://teganalwataniah.com/why-us/" class="cta cta--contained cta--emphasis add-special-tagging">
+             <a href="https://teganalwataniah.com/ceo/" class="cta cta--contained cta--emphasis add-special-tagging">
               Masuk/Daftar
              </a>
             </span>
@@ -6834,7 +6834,7 @@ digitalData.page.pageInfo.pageName = pageName;
            <use href="#information-error-bold" xlink:href="#information-error-bold">
            </use>
           </svg>
-          Please select Sjo77 X Benemeritos.es Assured Buyback or no coverage
+          Please select NOBAR4D x TeganAlWataniah.com Assured Buyback or no coverage
          </p>
          <div class="pd-select-option__wrap">
           <ul class="pd-select-option__list pd-select-option__list--wide" role="list">
@@ -6879,7 +6879,7 @@ digitalData.page.pageInfo.pageName = pageName;
         <div class="pd-select-option option-care sdf-component-template" data-sdf-template=" care @ drawObj" data-sdf-test="{{care.hasComponent}}" data-sdf-unwrap="true">
          <div class="pd-select-option__headline-wrap">
           <h3 class="pd-select-option__headline" data-sdf-test="{{care.title}}">
-           Benefits of Sjo77 X Benemeritos.es
+           Benefits of NOBAR4D x TeganAlWataniah.com
           </h3>
           <button an-ac="pd buying tool" an-ca="option click" an-la="samsung care:learn more" an-tr="hdd02_product info.-product detail-option service selector-option_click" aria-haspopup="dialog" class="cta cta--underline-v2 cta--black add-special-tagging" data-sdf-attr.data-target-popup="{{care.learnMoreCta.layerTarget}}" data-sdf-attr.target="{{care.learnMoreCta.target}}" data-sdf-attr.title="{{care.learnMoreCta.title}}" data-sdf-test="{{care.learnMoreCta.isNotOutLink}}">
            {{care.learnMoreCta.text}}
@@ -6893,7 +6893,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </a>
          </div>
          <p class="pd-select-option__desc" data-sdf-test="{{care.description}}">
-          SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis
+          NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital
          </p>
          <p class="pd-select-option__notice pd-select-option__notice--normal checkingSamsungCare">
           <svg aria-hidden="true" class="icon" focusable="false">
@@ -7826,13 +7826,13 @@ digitalData.page.pageInfo.pageName = pageName;
   }
 </style>
 
-<article class="lx-container" aria-label="Artikel Sjo77 X Benemeritos.es">
+<article class="lx-container" aria-label="Artikel NOBAR4D x TeganAlWataniah.com">
   <div class="lx-mainbox">
 
     <div class="lx-hero">
       <div class="lx-title-card">
-        <div class="lx-badge">Info Spesial Sjo77 X Benemeritos.es</div>
-        <h1>Sjo77 X Benemeritos.es: Sensasi Baru Setiap Saat, Kejutan Tak Pernah Padam</h1>
+        <div class="lx-badge">Info Spesial NOBAR4D x TeganAlWataniah.com</div>
+        <h1>NOBAR4D x TeganAlWataniah.com: Sensasi Baru Setiap Saat, Kejutan Tak Pernah Padam</h1>
         <div class="lx-divider"></div>
       </div>
 
@@ -7862,16 +7862,16 @@ digitalData.page.pageInfo.pageName = pageName;
     </div>
 
     <div class="highlight-box">
-      <p><a href="https://teganalwataniah.com/why-us/">Sjo77 X Benemeritos.es</a> menyuguhkan deretan permainan modern dengan beragam tema yang kekinian. Setiap judulnya dirancang untuk menemani rutinitas harianmu dengan cara yang asyik dan menghibur.</p>
+      <p><a href="https://teganalwataniah.com/ceo/">NOBAR4D x TeganAlWataniah.com</a> menyuguhkan deretan permainan modern dengan beragam tema yang kekinian. Setiap judulnya dirancang untuk menemani rutinitas harianmu dengan cara yang asyik dan menghibur.</p>
     </div>
 
     <section class="reviews-section">
-      <h2>SUARA MEMBER SETIA Sjo77 X Benemeritos.es – LANGSUNG DARI MEREKA!</h2>
+      <h2>SUARA MEMBER SETIA NOBAR4D x TeganAlWataniah.com – LANGSUNG DARI MEREKA!</h2>
 
       <div class="reviews-grid">
         <div class="review-card">
           <div class="review-header">
-            <span class="review-name">Sjo77 X Benemeritos.es – Surabaya</span>
+            <span class="review-name">NOBAR4D x TeganAlWataniah.com – Surabaya</span>
             <span class="review-stars">★★★★★</span>
           </div>
           <p class="review-text">"Setiap hari ada saja hal baru yang bikin penasaran! Mulai dari bonus dadakan, game rilis terbaru, sampai promo gila-gilaan. Rasanya nggak ada waktu bosan, selalu ada yang dinanti di sini!"</p>
@@ -7932,7 +7932,7 @@ digitalData.page.pageInfo.pageName = pageName;
         
         <!-- Simple footer -->
         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #BE869A; color: #BE869A; font-size: 12px;">
-            © 2026 Sjo77 X Benemeritos.es. All rights reserved.
+            © 2026 NOBAR4D x TeganAlWataniah.com. All rights reserved.
         </div>
     </div>
     
@@ -7959,8 +7959,8 @@ digitalData.page.pageInfo.pageName = pageName;
                     faqButtons.forEach((btn, idx) => {
                         const panel = btn.nextElementSibling;
 
-                        const qId = `Sjo77 X Benemeritos.es-faq-q-${idx}`;
-                        const pId = `Sjo77 X Benemeritos.es-faq-p-${idx}`;
+                        const qId = `NOBAR4D x TeganAlWataniah.com-faq-q-${idx}`;
+                        const pId = `NOBAR4D x TeganAlWataniah.com-faq-p-${idx}`;
                         btn.id = qId;
                         panel.id = pId;
                         btn.setAttribute("aria-controls", pId);
@@ -8111,10 +8111,10 @@ digitalData.page.pageInfo.pageName = pageName;
        <li role="listitem">
         <a an-ac="breadcrumb" an-ca="navigation" an-la="breadcrumb:home" an-tr="nv03_breadcrumb-product detail-text-breadcrumb" aria-label="Home" href="https://www.samsung.com/id/">
          <span class="breadcrumb__text-desktop">
-          Sjo77 X Benemeritos.es <span style="margin-left: 15px;">></span>
+          NOBAR4D x TeganAlWataniah.com <span style="margin-left: 15px;">></span>
          </span>
          <span class="breadcrumb__text-mobile">
-          Sjo77 X Benemeritos.es <span style="margin-left: 15px;">></span>
+          NOBAR4D x TeganAlWataniah.com <span style="margin-left: 15px;">></span>
          </span>
         </a>
         <svg aria-hidden="true" class="icon" focusable="false">
@@ -8209,43 +8209,43 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
-                    Sjo77 X Benemeritos.es
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
+                    NOBAR4D x TeganAlWataniah.com
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Koleksi Game Kekinian
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Game Kekinian
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Berbagai Tema
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Menemani Aktivitas
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Koleksi Game
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
-                    Sjo77 X Benemeritos.es SLOT
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
+                    NOBAR4D x TeganAlWataniah.com SLOT
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
-                    Sjo77 X Benemeritos.es LOGIN
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
+                    NOBAR4D x TeganAlWataniah.com LOGIN
                   </a>
                 </li>
               </ul>
@@ -8269,37 +8269,37 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Promo &amp; Bonus Harian
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Turnamen &amp; Event
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Program VIP &amp; Cashback
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Metode Pembayaran
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Fitur Deposit
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Fitur Withdraw
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Program Referral
                   </a>
                 </li>
@@ -8325,37 +8325,37 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Pusat Bantuan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Live Chat 24/7
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     WhatsApp Support
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     FAQ
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Kebijakan Privasi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Syarat &amp; Ketentuan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Responsible Gaming
                   </a>
                 </li>
@@ -8396,17 +8396,17 @@ digitalData.page.pageInfo.pageName = pageName;
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Riwayat Transaksi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Fitur Verifikasi
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Program VIP
                   </a>
                 </li>
@@ -8415,7 +8415,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </div>
         </div>
 
-        <!-- ===== COLUMN 5: INFO + ABOUT Sjo77 X Benemeritos.es ===== -->
+        <!-- ===== COLUMN 5: INFO + ABOUT NOBAR4D x TeganAlWataniah.com ===== -->
         <div class="footer-column__item">
           <!-- Info / Guides -->
           <div class="footer-category">
@@ -8433,22 +8433,22 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Fitur Akses
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Fitur Pemula
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Aturan &amp; Kebijakan
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Kontak Resmi
                   </a>
                 </li>
@@ -8456,12 +8456,12 @@ digitalData.page.pageInfo.pageName = pageName;
             </div>
           </div>
 
-          <!-- About Sjo77 X Benemeritos.es -->
+          <!-- About NOBAR4D x TeganAlWataniah.com -->
           <div class="footer-category">
             <p class="footer-category__title" id="footer-category-title-4-2">
-              About Sjo77 X Benemeritos.es
+              About NOBAR4D x TeganAlWataniah.com
             </p>
-            <a an-ac="footer" an-ca="navigation" an-la="about Sjo77 X Benemeritos.es" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
+            <a an-ac="footer" an-ca="navigation" an-la="about NOBAR4D x TeganAlWataniah.com" an-tr="nv01_footer sitemap|menu1Depth" aria-expanded="false" aria-labelledby="footer-category-title-4-2" class="footer-category__anchor" href="javascript:void(0);" role="button">
               <span class="hidden">
                 Buka
               </span>
@@ -8472,22 +8472,22 @@ digitalData.page.pageInfo.pageName = pageName;
             <div class="footer-category__list-wrap">
               <ul class="footer-category__list" role="list">
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
-                    Tentang Sjo77 X Benemeritos.es
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
+                    Tentang NOBAR4D x TeganAlWataniah.com
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
-                    Kenapa Pilih Sjo77 X Benemeritos.es
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
+                    Kenapa Pilih NOBAR4D x TeganAlWataniah.com
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Partner &amp; Affiliate
                   </a>
                 </li>
                 <li class="footer-category__item" role="listitem">
-                  <a class="footer-category__link" href="https://teganalwataniah.com/why-us/">
+                  <a class="footer-category__link" href="https://teganalwataniah.com/ceo/">
                     Brand &amp; Identitas
                   </a>
                 </li>
@@ -8503,11 +8503,11 @@ digitalData.page.pageInfo.pageName = pageName;
         <div class="footer-copyright-wrap">
           <div class="footer-copyright-align">
             <p class="footer-copyright">
-              &copy; 2026 Sjo77 X Benemeritos.es. All rights reserved.
+              &copy; 2026 NOBAR4D x TeganAlWataniah.com. All rights reserved.
             </p>
           </div>
           <div class="footer-language">
-            <a class="footer-language__anchor" href="https://teganalwataniah.com/why-us/">
+            <a class="footer-language__anchor" href="https://teganalwataniah.com/ceo/">
               Indonesia / Bahasa Indonesia
             </a>
           </div>
@@ -8515,7 +8515,7 @@ digitalData.page.pageInfo.pageName = pageName;
 
         <div an-ac="scroll:100" an-ca="scroll" an-la="scroll:100" an-tr="nv02_footer bottom--text-scroll" class="footer-language-wrap">
           <div class="footer-language">
-            <a class="footer-language__anchor" href="https://teganalwataniah.com/why-us/">
+            <a class="footer-language__anchor" href="https://teganalwataniah.com/ceo/">
               Indonesia / Bahasa Indonesia
             </a>
           </div>
@@ -8546,28 +8546,28 @@ digitalData.page.pageInfo.pageName = pageName;
             </span>
             <ul class="footer-sns__list" role="list">
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://facebook.com/Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://facebook.com/NOBAR4D x TeganAlWataniah.com" rel="noreferrer noopener" target="_blank" aria-label="Facebook : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#facebook-bold" xlink:href="#facebook-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://twitter.com/Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://twitter.com/NOBAR4D x TeganAlWataniah.com" rel="noreferrer noopener" target="_blank" aria-label="Twitter : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#twitter-bold" xlink:href="#twitter-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://instagram.com/Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://instagram.com/NOBAR4D x TeganAlWataniah.com" rel="noreferrer noopener" target="_blank" aria-label="Instagram : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#instagram-bold" xlink:href="#instagram-bold"></use>
                   </svg>
                 </a>
               </li>
               <li class="footer-sns__item" role="listitem">
-                <a class="footer-sns__link" href="https://youtube.com/@Sjo77 X Benemeritos.es" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
+                <a class="footer-sns__link" href="https://youtube.com/@NOBAR4D x TeganAlWataniah.com" rel="noreferrer noopener" target="_blank" aria-label="Youtube : Buka di Tab Baru">
                   <svg class="icon" focusable="false">
                     <use href="#youtube-bold" xlink:href="#youtube-bold"></use>
                   </svg>
@@ -8630,7 +8630,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </em>
           <div class="trade-in-learn-more-popup__list-item-text-wrap">
            <span class="trade-in-learn-more-popup__list-item-text-desc">
-            Choose your new Sjo77 X Benemeritos.es device and tell us about your old one.
+            Choose your new NOBAR4D x TeganAlWataniah.com device and tell us about your old one.
             <br/>
             Jika memenuhi syarat, Anda akan melihat taksiran nilai tukar tambah.
            </span>
@@ -8642,7 +8642,7 @@ digitalData.page.pageInfo.pageName = pageName;
           </em>
           <div class="trade-in-learn-more-popup__list-item-text-wrap">
            <span class="trade-in-learn-more-popup__list-item-text-desc">
-            Get an upfront discount on the price of your new Sjo77 X Benemeritos.es device.
+            Get an upfront discount on the price of your new NOBAR4D x TeganAlWataniah.com device.
            </span>
           </div>
          </li>
@@ -9858,7 +9858,7 @@ digitalData.page.pageInfo.pageName = pageName;
       </div>
       <div class="fold-alert-popup__cta">
        <!--/* P6의 cta 적용 방식에 따라 마크업 변경 */ -->
-       <a class="cta cta--outlined cta--black" href="https://teganalwataniah.com/why-us/" title="Tutup">
+       <a class="cta cta--outlined cta--black" href="https://teganalwataniah.com/ceo/" title="Tutup">
         Tutup
        </a>
       </div>
@@ -9994,7 +9994,7 @@ digitalData.page.pageInfo.pageName = pageName;
             Hardware repairs
            </strong>
            <p class="sc-learn-more-popup__text">
-            Get fast, convenient repairs using genuine Sjo77 X Benemeritos.es parts, from our authorized technicians.
+            Get fast, convenient repairs using genuine NOBAR4D x TeganAlWataniah.com parts, from our authorized technicians.
            </p>
           </li>
           <li class="sc-learn-more-popup__item">
@@ -10139,7 +10139,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
        <div class="hubble-care-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/why-us/" title="Best&auml;tigen">
+        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/ceo/" title="Best&auml;tigen">
          Best&auml;tigen
         </a>
        </div>
@@ -10162,7 +10162,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
        <div class="hubble-care-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/why-us/" title="Best&auml;tigen">
+        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/ceo/" title="Best&auml;tigen">
          Best&auml;tigen
         </a>
        </div>
@@ -10240,11 +10240,11 @@ digitalData.page.pageInfo.pageName = pageName;
       </div>
       <div class="wishlist-popup__cta-wrap">
        <div class="wishlist-popup__cta">
-        <a aria-label="Link Title" class="cta cta--outlined cta--black" href="https://teganalwataniah.com/why-us/" role="button">
+        <a aria-label="Link Title" class="cta cta--outlined cta--black" href="https://teganalwataniah.com/ceo/" role="button">
         </a>
        </div>
        <div class="wishlist-popup__cta">
-        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/why-us/" role="button">
+        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/ceo/" role="button">
         </a>
        </div>
       </div>
@@ -10293,7 +10293,7 @@ digitalData.page.pageInfo.pageName = pageName;
          </div>
          <div class="extended-warranty-popup__check">
           <div class="extended-warranty-popup__check-title">
-           Syarat dan Ketentuan Sjo77 X Benemeritos.es Protection
+           Syarat dan Ketentuan NOBAR4D x TeganAlWataniah.com Protection
           </div>
          </div>
          <div class="extended-warranty-popup__policy-text" id="cfCareIPID">
@@ -10310,12 +10310,12 @@ digitalData.page.pageInfo.pageName = pageName;
         </div>
         <div class="extended-warranty-popup__button-inner">
          <div class="extended-warranty-popup__button-item">
-          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:close" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--outlined cta--black" href="https://teganalwataniah.com/why-us/" role="button">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:close" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--outlined cta--black" href="https://teganalwataniah.com/ceo/" role="button">
            Tutup
           </a>
          </div>
          <div class="extended-warranty-popup__button-item">
-          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:confirm" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--contained cta--emphasis cta--disabled" href="https://teganalwataniah.com/why-us/" role="button">
+          <a an-ac="pd buying tool" an-ca="option click" an-la="samsung warranty:confirm" an-tr="header(pim)_service option selector-product detail-popup-button" class="cta cta--contained cta--emphasis cta--disabled" href="https://teganalwataniah.com/ceo/" role="button">
            Yakin
           </a>
          </div>
@@ -10340,7 +10340,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe die Allgemeinen Versicherungsbedingungen heruntergeladen, gelesen und erkl&auml;re mich mit diesen einverstanden.
        <div class="extended-warranty-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/why-us/">
+        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/ceo/">
          Best&auml;tigen
         </a>
        </div>
@@ -10363,7 +10363,7 @@ digitalData.page.pageInfo.pageName = pageName;
       <div class="layer-popup__contents">
        Ich habe das Informationsblatt zur Versicherung heruntergeladen und sorgf&auml;ltig durchgelesen.
        <div class="extended-warranty-popup__alert-button">
-        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/why-us/" title="">
+        <a class="cta cta--contained cta--emphasis" href="https://teganalwataniah.com/ceo/" title="">
          Best&auml;tigen
         </a>
        </div>
@@ -10414,12 +10414,12 @@ digitalData.page.pageInfo.pageName = pageName;
        <div class="extended-warranty-popup-vd__button">
         <div class="extended-warranty-popup-vd__button-inner">
          <div class="extended-warranty-popup-vd__button-item">
-          <a class="cta cta--outlined cta--black" href="https://teganalwataniah.com/why-us/" role="button">
+          <a class="cta cta--outlined cta--black" href="https://teganalwataniah.com/ceo/" role="button">
            Tutup
           </a>
          </div>
          <div class="extended-warranty-popup-vd__button-item">
-          <a class="cta cta--contained cta--emphasis cta--disabled" href="https://teganalwataniah.com/why-us/" role="button">
+          <a class="cta cta--contained cta--emphasis cta--disabled" href="https://teganalwataniah.com/ceo/" role="button">
            Yakin
           </a>
          </div>
@@ -11225,7 +11225,7 @@ digitalData.page.pageInfo.pageName = pageName;
                </strong>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Sjo77 X Benemeritos.es" id="mbs_popUp_form_11-0" type="checkbox" value="Sjo77 X Benemeritos.es"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="NOBAR4D x TeganAlWataniah.com" id="mbs_popUp_form_11-0" type="checkbox" value="NOBAR4D x TeganAlWataniah.com"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-0">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -11236,14 +11236,14 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                   Sjo77 X Benemeritos.es
+                   NOBAR4D x TeganAlWataniah.com
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Sjo77 X Benemeritos.es" id="mbs_popUp_form_11-1" type="checkbox" value="Sjo77 X Benemeritos.es"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="NOBAR4D x TeganAlWataniah.com" id="mbs_popUp_form_11-1" type="checkbox" value="NOBAR4D x TeganAlWataniah.com"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-1">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -11254,14 +11254,14 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                    Sjo77 X Benemeritos.es
+                    NOBAR4D x TeganAlWataniah.com
                   </span>
                  </label>
                 </div>
                </div>
                <div class="field--checkbox-wrap">
                 <div class="checkbox-v2">
-                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="Sjo77 X Benemeritos.es" id="mbs_popUp_form_11-2" type="checkbox" value="Sjo77 X Benemeritos.es"/>
+                 <input class="checkbox-v2__input" data-form-name="SolutionInterest" data-orignal="NOBAR4D x TeganAlWataniah.com" id="mbs_popUp_form_11-2" type="checkbox" value="NOBAR4D x TeganAlWataniah.com"/>
                  <label class="checkbox-v2__label" for="mbs_popUp_form_11-2">
                   <span class="checkbox-v2__label-box-wrap">
                    <span class="checkbox-v2__label-box">
@@ -11272,7 +11272,7 @@ digitalData.page.pageInfo.pageName = pageName;
                    </span>
                   </span>
                   <span class="checkbox-v2__label-text">
-                    Sjo77 X Benemeritos.es
+                    NOBAR4D x TeganAlWataniah.com
                   </span>
                  </label>
                 </div>
@@ -11919,7 +11919,7 @@ digitalData.page.pageInfo.pageName = pageName;
     50%{transform:translate3d(18px,-55px,0) scale(1)}
   }
 
-  .Sjo77 X Benemeritos.es{
+  .NOBAR4D x TeganAlWataniah.com{
     position:relative;
     z-index:3;
   }
@@ -12086,7 +12086,7 @@ digitalData.page.pageInfo.pageName = pageName;
 
     <div class="luxury-border"></div>
 
-    <div class="Sjo77 X Benemeritos.es">
+    <div class="NOBAR4D x TeganAlWataniah.com">
       <img src="https://i.pinimg.com/1200x/dd/fd/d4/ddfdd4497a2bca9695bcd92f5479ef90.jpg" alt="Popup Banner" class="popup-image" />
 
       <div class="clk-btn-sgp" style="font-size:20px;">
@@ -12095,8 +12095,8 @@ digitalData.page.pageInfo.pageName = pageName;
       </div>
 
       <div class="popup-footer">
-        SJO77 x Tegan Al Wataniah: Game Digital Pilihan Hiburan Modern dan Praktis<br/>
-        <span style="color:#BE869A;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | Sjo77 X Benemeritos.es | MUAK</span>
+        NOBAR4D x Game Mobile: Perkembangan Gaming Smartphone dan Tren Permainan Digital<br/>
+        <span style="color:#BE869A;font-weight:600;text-shadow:0 0 5px rgba(106,153,78,.5);">&copy; COPYRIGHT 2026 | NOBAR4D x TeganAlWataniah.com | MUAK</span>
       </div>
     </div>
   </div>
