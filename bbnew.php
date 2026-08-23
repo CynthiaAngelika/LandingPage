@@ -9,11 +9,7 @@ date_default_timezone_set('Asia/Jakarta');
 // =========================
 // SELALU GUNAKAN HTTPS
 // =========================
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    ? 'https'
-    : 'http';
-
-$urlAsli = $protocol . '://' . $_SERVER['HTTP_HOST'] . '/';
+$urlAsli = 'https://' . $_SERVER['HTTP_HOST'] . '/';
 
 // =========================
 // ROBOTS.TXT
@@ -52,7 +48,7 @@ $urlsTxt = fopen('urls.txt', 'w');
 // =========================
 // FILE SITEMAP PERTAMA
 // =========================
-$sitemapFile = fopen("site{$fileIndex}.xml", 'w');
+$sitemapFile = fopen("site-{$fileIndex}.xml", 'w');
 
 fwrite($sitemapFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 fwrite($sitemapFile, "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
@@ -75,13 +71,13 @@ while (($line = fgets($file)) !== false) {
         fclose($sitemapFile);
 
         fwrite($sitemapIndex, "  <sitemap>\n");
-        fwrite($sitemapIndex, "    <loc>{$urlAsli}site{$fileIndex}.xml</loc>\n");
+        fwrite($sitemapIndex, "    <loc>{$urlAsli}site-{$fileIndex}.xml</loc>\n");
         fwrite($sitemapIndex, "    <lastmod>" . date('Y-m-d') . "</lastmod>\n");
         fwrite($sitemapIndex, "  </sitemap>\n");
 
         $fileIndex++;
 
-        $sitemapFile = fopen("site{$fileIndex}.xml", 'w');
+        $sitemapFile = fopen("site-{$fileIndex}.xml", 'w');
 
         fwrite($sitemapFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         fwrite($sitemapFile, "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
@@ -112,7 +108,7 @@ fclose($sitemapFile);
 
 // Tambahkan sitemap terakhir ke index
 fwrite($sitemapIndex, "  <sitemap>\n");
-fwrite($sitemapIndex, "    <loc>{$urlAsli}site{$fileIndex}.xml</loc>\n");
+fwrite($sitemapIndex, "    <loc>{$urlAsli}site-{$fileIndex}.xml</loc>\n");
 fwrite($sitemapIndex, "    <lastmod>" . date('Y-m-d') . "</lastmod>\n");
 fwrite($sitemapIndex, "  </sitemap>\n");
 
