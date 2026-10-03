@@ -84,7 +84,7 @@ while (($line = fgets($file)) !== false) {
     }
 
     // URL artikel
-    $urlArtikel = $urlAsli . '?ID_id=' . urlencode($judul);
+    $urlArtikel = $urlAsli . '?id=' . urlencode($judul);
 
     // Simpan ke urls.txt
     fwrite($urlsTxt, $urlArtikel . PHP_EOL);
